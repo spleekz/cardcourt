@@ -1,6 +1,9 @@
+import { observer } from 'mobx-react-lite'
 import React, { FC } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import { Header } from './components/Header'
+import { Cards } from './pages/Cards'
+import { useStore } from './stores/RootStore/RootStoreContext'
 
 const GlobalStyles = createGlobalStyle`
  body {
@@ -12,13 +15,16 @@ const GlobalStyles = createGlobalStyle`
 `
 const AppContainer = styled.div``
 
-export const App: FC = (): JSX.Element => {
+export const App: FC = observer((): JSX.Element => {
+  const { CardsStore } = useStore()
+
   return (
     <>
       <GlobalStyles />
       <AppContainer>
         <Header />
+        <Cards cardList={CardsStore.cards} />
       </AppContainer>
     </>
   )
-}
+})
