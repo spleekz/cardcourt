@@ -23,6 +23,13 @@ const CardTitle = styled.div`
 const CardAuthor = styled.div`
   font-size: 28px;
 `
+const CardWordsContainer = styled.div``
+const CardWordContainer = styled.div`
+  display: flex;
+  font-size: 30px;
+`
+const CardWord = styled.span``
+const Dash = styled.span``
 
 export const Cards: FC<ICardsProps> = ({ cardList }): JSX.Element => {
   return (
@@ -33,6 +40,17 @@ export const Cards: FC<ICardsProps> = ({ cardList }): JSX.Element => {
             <CardContainer key={card.id}>
               <CardTitle>{card.name}</CardTitle>
               <CardAuthor>{card.author}</CardAuthor>
+              <CardWordsContainer>
+                {card.wordList.map((word) => {
+                  return (
+                    <CardWordContainer key={word.id}>
+                      <CardWord>{word.en}</CardWord>
+                      <Dash>—</Dash>
+                      <CardWord>{word.ru}</CardWord>
+                    </CardWordContainer>
+                  )
+                })}
+              </CardWordsContainer>
             </CardContainer>
           )
         })}
