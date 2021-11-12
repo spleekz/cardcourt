@@ -48,5 +48,6 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.15",
     "@types/nanoid": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.3.1"
   }
 }
