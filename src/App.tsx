@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
   margin:0;
   padding:0;
   box-sizing:border-box;
+  background-color:#89a4ff;
 }
 `
 const AppContainer = styled.div``
