@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
+import { Header } from './components/Header'
 
 const GlobalStyles = createGlobalStyle`
  body {
@@ -15,7 +16,9 @@ export const App: FC = (): JSX.Element => {
   return (
     <>
       <GlobalStyles />
-      <AppContainer>cardcourt</AppContainer>
+      <AppContainer>
+        <Header />
+      </AppContainer>
     </>
   )
 }
