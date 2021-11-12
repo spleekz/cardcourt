@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid'
 interface IWordWithTranslate {
   ru: string
   en: string
+  id: string
 }
 export interface ICard {
   name: string
@@ -21,8 +22,8 @@ export class CardsStore implements ICardsStore {
       author: 'spleekz',
       id: nanoid(),
       wordList: [
-        { en: 'fever', ru: 'лихорадка' },
-        { en: 'love', ru: 'любовь' },
+        { en: 'fever', ru: 'лихорадка', id: nanoid() },
+        { en: 'love', ru: 'любовь', id: nanoid() },
       ],
     },
     {
@@ -30,10 +31,10 @@ export class CardsStore implements ICardsStore {
       author: 'spleekz',
       id: nanoid(),
       wordList: [
-        { en: 'almonds', ru: 'миндаль' },
-        { en: 'vibe', ru: 'вайб' },
-        { en: 'aesthetics', ru: 'эстетика' },
-        { en: 'appreciate', ru: 'ценить' },
+        { en: 'almonds', ru: 'миндаль', id: nanoid() },
+        { en: 'vibe', ru: 'вайб', id: nanoid() },
+        { en: 'aesthetics', ru: 'эстетика', id: nanoid() },
+        { en: 'appreciate', ru: 'ценить', id: nanoid() },
       ],
     },
   ]
