@@ -7,8 +7,8 @@ interface ICardListProps {
 }
 
 const CardListContainer = styled.div`
-  width: 100%;
   display: flex;
+  padding: 16px;
 `
 const CardContainer = styled.div`
   display: flex;
@@ -16,11 +16,12 @@ const CardContainer = styled.div`
   width: 320px;
   height: 500px;
   margin: 0 8px 0 8px;
-  background-color: #ffffff;
+  background-color: #aefff8;
+  border-radius: 16px;
+  overflow: hidden;
 `
 const CardHeading = styled.div`
   padding: 2px 15px;
-  background-color: red;
 `
 const CardTitle = styled.div`
   font-size: 40px;
@@ -31,9 +32,14 @@ const CardAuthor = styled.div`
   color: #000000a0;
 `
 const CardWords = styled.div`
-  flex: 1 0 auto;
+  min-height: 500px;
+  position: relative;
+  top: 0;
+  left: 0;
   margin-top: 10px;
-  background-color: green;
+  background-color: #f7f7f7;
+  padding: 4px 15px;
+  border-radius: 16px 16px 0 0;
 `
 const CardWordContainer = styled.div`
   display: flex;
