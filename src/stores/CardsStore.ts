@@ -16,6 +16,9 @@ export interface ICardsStore {
 }
 
 export class CardsStore implements ICardsStore {
+  constructor() {
+    makeAutoObservable(this)
+  }
   cards: Array<ICard> = [
     {
       name: 'Two first words',
