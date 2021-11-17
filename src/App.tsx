@@ -16,6 +16,13 @@ const GlobalStyles = createGlobalStyle`
   body {
     background-color:#89a4ff;
   }
+ html,body,body > #root {
+    min-height: 100vh;
+  }
+  a, a:hover, a:visited, a:active {
+  color: inherit;
+  text-decoration: none;
+ }
 `
 const AppContainer = styled.div``
 
