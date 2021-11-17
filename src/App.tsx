@@ -24,7 +24,12 @@ const GlobalStyles = createGlobalStyle`
   text-decoration: none;
  }
 `
-const AppContainer = styled.div``
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 0px 16px 6px 16px;
+`
 
 export const App: FC = observer((): JSX.Element => {
   const { CardsStore } = useStore()
