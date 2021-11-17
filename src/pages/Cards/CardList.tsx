@@ -1,10 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import { ICard } from '../../stores/CardsStore'
 
 interface ICardListProps {
-  cardList: Array<ICard>
+  cards: Array<ICard>
 }
 
 const CardListContainer = styled.div`
@@ -52,15 +52,11 @@ const CardWordContainer = styled.div`
 `
 const CardWord = styled.span``
 const Dash = styled.span``
-const CreateCardButton = styled.button``
 
-export const CardList: React.FC<ICardListProps> = ({ cardList }): JSX.Element => {
+export const CardList: React.FC<ICardListProps> = ({ cards }) => {
   return (
     <CardListContainer>
-      <Link to='/card/new'>
-        <CreateCardButton>Создать</CreateCardButton>
-      </Link>
-      {cardList.map((card) => {
+      {cards.map((card) => {
         return (
           <Link key={card.id} to={`/card/${card.id}`}>
             <CardContainer key={card.id} color={card.ui.headColor}>

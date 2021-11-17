@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useStore } from '../../stores/RootStore/RootStoreContext'
-import { CardList } from './CardList'
+import { CardsSection } from './CardsSection'
 
 const CardsPageContainer = styled.div`
   flex: 1 0 auto;
@@ -15,7 +15,7 @@ export const CardsPage: React.FC = (): JSX.Element => {
 
   return (
     <CardsPageContainer>
-      <CardList cardList={CardsStore.cards} />
+      <CardsSection cardList={CardsStore.cards} />
     </CardsPageContainer>
   )
 }
