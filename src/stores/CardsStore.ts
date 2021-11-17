@@ -19,11 +19,8 @@ export interface ICard {
   wordList: Array<IWordWithTranslate>
   ui: ICardUi
 }
-export interface ICardsStore {
-  cards: Array<ICard>
-}
 
-export class CardsStore implements ICardsStore {
+export class CardsStore {
   constructor() {
     makeAutoObservable(this)
   }
@@ -64,7 +61,7 @@ export class CardsStore implements ICardsStore {
       this.cards.forEach((card) => {
         if (card.id === this.currentCardId) {
           currentCard = card
-}
+        }
       })
       return currentCard
     } else {
@@ -75,3 +72,4 @@ export class CardsStore implements ICardsStore {
     this.currentCardId = cardId
   }
 }
+export type ICardsStore = InstanceType<typeof CardsStore>
