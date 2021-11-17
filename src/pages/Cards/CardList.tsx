@@ -52,10 +52,14 @@ const CardWordContainer = styled.div`
 `
 const CardWord = styled.span``
 const Dash = styled.span``
+const CreateCardButton = styled.button``
 
 export const CardList: React.FC<ICardListProps> = ({ cardList }): JSX.Element => {
   return (
     <CardListContainer>
+      <Link to='/card/new'>
+        <CreateCardButton>Создать</CreateCardButton>
+      </Link>
       {cardList.map((card) => {
         return (
           <Link key={card.id} to={`/card/${card.id}`}>
