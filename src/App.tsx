@@ -1,8 +1,11 @@
 import { observer } from 'mobx-react-lite'
 import React, { FC } from 'react'
+import { Route, Routes } from 'react-router'
 import styled, { createGlobalStyle } from 'styled-components'
 import { Header } from './components/Header'
 import { CardsPage } from './pages/Cards/CardsPage'
+import { useStore } from './stores/RootStore/RootStoreContext'
+import { Card } from './pages/Card/CardPage'
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -17,12 +20,17 @@ const GlobalStyles = createGlobalStyle`
 const AppContainer = styled.div``
 
 export const App: FC = observer((): JSX.Element => {
+  const { CardsStore } = useStore()
+
   return (
     <>
       <GlobalStyles />
       <AppContainer>
         <Header />
-        <CardsPage />
+        <Routes>
+          <Route path='/' element={<CardsPage />} />
+          <Route path='/card/:cardId' element={<Card card={CardsStore.currentCard} />} />
+        </Routes>
       </AppContainer>
     </>
   )
