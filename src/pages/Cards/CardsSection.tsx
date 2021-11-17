@@ -11,8 +11,13 @@ interface ICardListProps {
 const CardListContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
+  top: 0;
+  left: 0;
 `
 const CreateCardButton = styled.button`
+  position: absolute;
+  top: -30px;
   margin: 0px 0px 16px 8px;
 `
 
