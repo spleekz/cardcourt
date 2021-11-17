@@ -57,4 +57,21 @@ export class CardsStore implements ICardsStore {
       },
     },
   ]
+  currentCardId: string | null = null
+  get currentCard(): ICard | null {
+    if (this.currentCardId) {
+      let currentCard = null
+      this.cards.forEach((card) => {
+        if (card.id === this.currentCardId) {
+          currentCard = card
+}
+      })
+      return currentCard
+    } else {
+      return null
+    }
+  }
+  setCurrentCardId = (cardId: string): void => {
+    this.currentCardId = cardId
+  }
 }
