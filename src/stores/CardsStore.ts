@@ -31,7 +31,7 @@ export class CardsStore implements ICardsStore {
     {
       name: 'Two first words',
       author: 'spleekz',
-      id: nanoid(),
+      id: '1',
       wordList: [
         { en: 'fever', ru: 'лихорадка', id: nanoid() },
         { en: 'love', ru: 'любовь', id: nanoid() },
@@ -44,7 +44,7 @@ export class CardsStore implements ICardsStore {
     {
       name: 'dictation 1',
       author: 'spleekz',
-      id: nanoid(),
+      id: '2',
       wordList: [
         { en: 'almonds', ru: 'миндаль', id: nanoid() },
         { en: 'vibe', ru: 'вайб', id: nanoid() },
