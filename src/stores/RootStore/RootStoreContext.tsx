@@ -1,4 +1,4 @@
-import React, { createContext, FC, useContext } from 'react'
+import React, { createContext, useContext } from 'react'
 import { IRootStore, RootStore } from './RootStore'
 
 interface RootStoreProviderProps {
@@ -7,7 +7,7 @@ interface RootStoreProviderProps {
 
 const RootStoreContext = createContext<IRootStore>(new RootStore())
 
-export const RootStoreProvider: FC<RootStoreProviderProps> = ({ children }): JSX.Element => {
+export const RootStoreProvider: React.FC<RootStoreProviderProps> = ({ children }): JSX.Element => {
   const rootStore = new RootStore()
   return <RootStoreContext.Provider value={rootStore}>{children}</RootStoreContext.Provider>
 }

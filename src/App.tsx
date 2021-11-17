@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { FC } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router'
 import styled, { createGlobalStyle } from 'styled-components'
 import { Header } from './components/Header'
@@ -31,7 +31,7 @@ const AppContainer = styled.div`
   padding: 0px 16px 6px 16px;
 `
 
-export const App: FC = observer((): JSX.Element => {
+export const App: React.FC = observer((): JSX.Element => {
   const { CardsStore } = useStore()
 
   return (

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useStore } from '../../stores/RootStore/RootStoreContext'
 import { CardList } from './CardList'
@@ -10,7 +10,7 @@ const CardsPageContainer = styled.div`
   justify-content: center;
 `
 
-export const CardsPage: FC = (): JSX.Element => {
+export const CardsPage: React.FC = (): JSX.Element => {
   const { CardsStore } = useStore()
 
   return (

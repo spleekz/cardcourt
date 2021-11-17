@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router'
 import { ICard } from '../../stores/CardsStore'
@@ -11,7 +11,7 @@ interface ICardProps {
 
 const CardPageContainer = styled.div``
 
-export const Card: FC<ICardProps> = observer(({ card }): JSX.Element => {
+export const Card: React.FC<ICardProps> = observer(({ card }): JSX.Element => {
   const { CardsStore } = useStore()
   const { cardId } = useParams()
 

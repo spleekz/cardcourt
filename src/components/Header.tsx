@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const HeaderTitle = styled.span`
@@ -7,6 +7,6 @@ const HeaderTitle = styled.span`
   color: #ffffff;
 `
 
-export const Header: FC = (): JSX.Element => {
+export const Header: React.FC = (): JSX.Element => {
   return <HeaderTitle>cardcourt</HeaderTitle>
 }

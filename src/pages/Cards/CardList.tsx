@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { ICard } from '../../stores/CardsStore'
@@ -53,7 +53,7 @@ const CardWordContainer = styled.div`
 const CardWord = styled.span``
 const Dash = styled.span``
 
-export const CardList: FC<ICardListProps> = ({ cardList }): JSX.Element => {
+export const CardList: React.FC<ICardListProps> = ({ cardList }): JSX.Element => {
   return (
     <CardListContainer>
       {cardList.map((card) => {
