@@ -1,12 +1,13 @@
 import { makeAutoObservable } from 'mobx'
 import { nanoid } from 'nanoid'
-import { WithSet } from './entities/WithSet'
+import { IWithSet, WithSet } from './entities/WithSet'
 
-interface IWordWithTranslate {
+export interface IWordWithTranslate {
   ru: string
   en: string
   id: string
 }
+export type WordListType = Array<IWordWithTranslate>
 const headColors = ['#ffffff', '#ede4aa'] as const
 const wordListColors = ['#a4373a', '#9ee5ec'] as const
 interface ICardUi {
@@ -17,11 +18,16 @@ export interface ICard {
   name: string
   author: string
   id: string
-  wordList: Array<IWordWithTranslate>
+  wordList: WordListType
   ui: ICardUi
 }
+export interface ICardsStore {
+  cards: Array<ICard>
+  currentCardId: IWithSet<string | null>
+  currentCard: ICard | null
+}
 
-export class CardsStore {
+export class CardsStore implements ICardsStore {
   constructor() {
     makeAutoObservable(this)
   }
@@ -70,4 +76,3 @@ export class CardsStore {
     }
   }
 }
-export type ICardsStore = InstanceType<typeof CardsStore>
