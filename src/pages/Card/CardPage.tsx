@@ -17,8 +17,9 @@ export const Card: React.FC<ICardProps> = observer(({ card }): JSX.Element => {
 
   useEffect(() => {
     if (cardId) {
-      CardsStore.setCurrentCardId(cardId)
+      CardsStore.currentCardId.set(cardId)
     }
   }, [cardId])
+
   return <>{card && <CardPageContainer>{card.name}</CardPageContainer>}</>
 })

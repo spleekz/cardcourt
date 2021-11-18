@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { nanoid } from 'nanoid'
+import { WithSet } from './entities/WithSet'
 
 interface IWordWithTranslate {
   ru: string
@@ -54,12 +55,12 @@ export class CardsStore {
       },
     },
   ]
-  currentCardId: string | null = null
+  currentCardId = new WithSet<string | null>(null)
   get currentCard(): ICard | null {
     if (this.currentCardId) {
       let currentCard = null
       this.cards.forEach((card) => {
-        if (card.id === this.currentCardId) {
+        if (card.id === this.currentCardId.value) {
           currentCard = card
         }
       })
@@ -67,9 +68,6 @@ export class CardsStore {
     } else {
       return null
     }
-  }
-  setCurrentCardId = (cardId: string): void => {
-    this.currentCardId = cardId
   }
 }
 export type ICardsStore = InstanceType<typeof CardsStore>
