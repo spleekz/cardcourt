@@ -16,8 +16,10 @@ export const Card: React.FC<ICardProps> = observer(({ card }): JSX.Element => {
   const { cardId } = useParams()
 
   useEffect(() => {
+    if (!card) {
     if (cardId) {
       CardsStore.currentCardId.set(cardId)
+    }
     }
   }, [cardId])
 
