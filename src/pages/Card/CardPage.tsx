@@ -10,8 +10,12 @@ interface ICardProps {
   card: ICard | null
 }
 
-const CardPageContainer = styled.div``
-const ToCheckPageButton = styled.div``
+const CardPageContainer = styled.div`
+  font-size: 40px;
+`
+const ToCheckPageButton = styled.button`
+  font-size: 30px;
+`
 
 export const Card: React.FC<ICardProps> = observer(({ card }): JSX.Element => {
   const { CardsStore } = useStore()
