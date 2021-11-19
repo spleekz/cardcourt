@@ -6,7 +6,8 @@ import { Header } from './components/Header'
 import { CardsPage } from './pages/Cards/CardsPage'
 import { useStore } from './stores/RootStore/RootStoreContext'
 import { Card } from './pages/Card/CardPage'
-import { NewCardPage } from './pages/NewCard/NewCardPage';
+import { NewCardPage } from './pages/NewCard/NewCardPage'
+import { CheckPage } from './pages/Check/CheckPage'
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -43,7 +44,8 @@ export const App: React.FC = observer((): JSX.Element => {
         <Routes>
           <Route path='/' element={<CardsPage />} />
           <Route path='/card/:cardId' element={<Card card={CardsStore.currentCard} />} />
-          <Route path='card/new' element ={<NewCardPage />} />
+          <Route path='card/:cardId/check' element={<CheckPage />} />
+          <Route path='card/new' element={<NewCardPage />} />
         </Routes>
       </AppContainer>
     </>
