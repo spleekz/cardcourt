@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router'
 import { useStore } from '../../stores/RootStore/RootStoreContext'
 import { observer } from 'mobx-react-lite'
-import { ICheckStore } from '../../stores/CheckStore'
+import { ICheckStore, CheckStore } from '../../stores/CheckStore'
 import { PlayCheck } from './PlayCheck/PlayCheck'
 import { PrepareCheck } from './PrepareCheck/PrepareCheck'
+import { shuffle } from 'lodash'
+import { ResultCheck } from './Result/ResultCheck'
 
 const CheckPageContainer = styled.div``
+
+export const CheckStoreContext = createContext<ICheckStore>(new CheckStore())
 
 export const CheckPage: React.FC = observer((): JSX.Element => {
   const { CardsStore, createCheckStore } = useStore()
@@ -15,16 +19,28 @@ export const CheckPage: React.FC = observer((): JSX.Element => {
   const { cardId } = useParams()
 
   useEffect(() => {
-    if (!CardsStore.currentCard) {
-      if (cardId) {
+    if (cardId) {
+      if (CardsStore.currentCard) {
+        const shuffledWords = shuffle(CardsStore.currentCard!.wordList)
+        CheckStore.wordList.set(shuffledWords)
+      } else {
         CardsStore.currentCardId.set(cardId)
       }
     }
-  }, [cardId])
+  }, [cardId, CardsStore.currentCard])
 
   return (
-    <CheckPageContainer>
-      {CardsStore.currentCard && (CheckStore.checkMode.value ? <PlayCheck /> : <PrepareCheck />)}
-    </CheckPageContainer>
+    <CheckStoreContext.Provider value={CheckStore}>
+      <CheckPageContainer>
+        {CardsStore.currentCard &&
+          (CheckStore.checkMode.value === 'prepare' ? (
+            <PrepareCheck card={CardsStore.currentCard} />
+          ) : CheckStore.checkMode.value === 'play' ? (
+            <PlayCheck />
+          ) : (
+            <ResultCheck />
+          ))}
+      </CheckPageContainer>
+    </CheckStoreContext.Provider>
   )
 })
