@@ -4,7 +4,6 @@ import { WithSet, IWithSet } from './entities/WithSet'
 
 export type CheckLang = 'ru' | 'en'
 export interface ICheckConfig {
-  timeLeft: number
   userInputLang: CheckLang
 }
 export type CheckModeType = 'prepare' | 'play' | 'result'
@@ -12,7 +11,6 @@ export type CheckModeType = 'prepare' | 'play' | 'result'
 export interface ICheckStore {
   wordList: IWithSet<WordListType>
   userInputLang: CheckLang
-  timeLeft: number
   userInput: IWithSet<string>
   currentWordIndex: IWithSet<number>
   isCurrentWordBeforeLast: boolean
@@ -31,7 +29,6 @@ export class CheckStore implements ICheckStore {
   checkMode = new WithSet<CheckModeType>('prepare')
 
   userInputLang: CheckLang = 'en'
-  timeLeft = 60
 
   userInput = new WithSet<string>('')
   currentWordIndex = new WithSet<number>(0)
@@ -50,8 +47,7 @@ export class CheckStore implements ICheckStore {
     return this.currentWordIndex.value < this.wordList.value.length - 1
   }
 
-  setConfig = ({ timeLeft, userInputLang }: ICheckConfig): void => {
-    this.timeLeft = timeLeft
+  setConfig = ({ userInputLang }: ICheckConfig): void => {
     this.userInputLang = userInputLang
   }
 }
