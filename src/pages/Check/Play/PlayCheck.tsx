@@ -13,7 +13,7 @@ export const PlayCheck: React.FC = observer((): JSX.Element => {
 
   const goToNextWord = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.code === 'Enter') {
-      if (userInput.trim() === CheckStore.currentWord.ru) {
+      if (userInput.trim().toLowerCase() === CheckStore.currentWord.ru) {
         if (CheckStore.isCurrentWordBeforeLast) {
           CheckStore.currentWordIndex.set(CheckStore.currentWordIndex.value + 1)
           setUserInput('')
