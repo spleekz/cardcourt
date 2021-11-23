@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { ICheckConfig } from '../../../stores/CheckStore'
 import { observer } from 'mobx-react-lite'
 import { CheckStoreContext } from '../CheckPage'
 import { ICard } from '../../../stores/CardsStore'
@@ -13,6 +15,11 @@ const PrepareCheckContainer = styled.div`
 
 export const PrepareCheck: React.FC<IPrepareCheckProps> = observer(({ card }): JSX.Element => {
   const CheckStore = useContext(CheckStoreContext)
+
+  const { register, handleSubmit } = useForm<ICheckConfig>()
+  const setConfig: SubmitHandler<ICheckConfig> = (data) => {
+    console.log(data)
+  }
 
   return (
     <PrepareCheckContainer>

@@ -4,10 +4,10 @@ import { useParams } from 'react-router'
 import { useStore } from '../../stores/RootStore/RootStoreContext'
 import { observer } from 'mobx-react-lite'
 import { ICheckStore, CheckStore } from '../../stores/CheckStore'
-import { PlayCheck } from './PlayCheck/PlayCheck'
-import { PrepareCheck } from './PrepareCheck/PrepareCheck'
-import { shuffle } from 'lodash'
+import { PlayCheck } from './Play/PlayCheck'
+import { PrepareCheck } from './Prepare/PrepareCheck'
 import { ResultCheck } from './Result/ResultCheck'
+import { shuffle } from 'lodash'
 
 const CheckPageContainer = styled.div``
 
