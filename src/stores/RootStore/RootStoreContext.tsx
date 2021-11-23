@@ -7,7 +7,7 @@ interface RootStoreProviderProps {
 
 const RootStoreContext = createContext<IRootStore>(new RootStore())
 
-export const RootStoreProvider: React.FC<RootStoreProviderProps> = ({ children }): JSX.Element => {
+export const RootStoreProvider: React.FC<RootStoreProviderProps> = ({ children }) => {
   const rootStore = new RootStore()
   return <RootStoreContext.Provider value={rootStore}>{children}</RootStoreContext.Provider>
 }

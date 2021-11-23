@@ -21,7 +21,7 @@ const CreateCardButton = styled.button`
   margin: 0px 0px 16px 8px;
 `
 
-export const CardCourt: React.FC<ICardListProps> = ({ cardList }): JSX.Element => {
+export const CardCourt: React.FC<ICardListProps> = ({ cardList }) => {
   return (
     <CardListContainer>
       <Link to='/card/new'>

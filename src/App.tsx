@@ -33,7 +33,7 @@ const AppContainer = styled.div`
   padding: 0px 16px 6px 16px;
 `
 
-export const App: React.FC = observer((): JSX.Element => {
+export const App: React.FC = observer(() => {
   const { CardsStore } = useStore()
 
   return (

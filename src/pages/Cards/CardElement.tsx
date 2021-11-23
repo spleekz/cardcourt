@@ -59,7 +59,7 @@ const PlaceForCursor = styled.div`
   height: 215px;
 `
 
-export const CardElement: React.FC<ICardProps> = observer(({ card }): JSX.Element => {
+export const CardElement: React.FC<ICardProps> = observer(({ card }) => {
   const [cardWordsPosition, setCardWordsPosition] = useState<number>(0)
 
   return (

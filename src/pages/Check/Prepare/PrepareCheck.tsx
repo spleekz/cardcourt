@@ -13,7 +13,7 @@ const PrepareCheckContainer = styled.div`
   font-size: 30px;
 `
 
-export const PrepareCheck: React.FC<IPrepareCheckProps> = observer(({ card }): JSX.Element => {
+export const PrepareCheck: React.FC<IPrepareCheckProps> = observer(({ card }) => {
   const CheckStore = useContext(CheckStoreContext)
 
   const { register, handleSubmit } = useForm<ICheckConfig>()

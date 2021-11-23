@@ -17,7 +17,7 @@ const ToCheckPageButton = styled.button`
   font-size: 30px;
 `
 
-export const Card: React.FC<ICardProps> = observer(({ card }): JSX.Element => {
+export const Card: React.FC<ICardProps> = observer(({ card }) => {
   const { CardsStore } = useStore()
   const { cardId } = useParams()
 

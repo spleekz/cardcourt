@@ -10,7 +10,7 @@ const CardsPageContainer = styled.div`
   justify-content: center;
 `
 
-export const CardsPage: React.FC = (): JSX.Element => {
+export const CardsPage: React.FC = () => {
   const { CardsStore } = useStore()
 
   return (

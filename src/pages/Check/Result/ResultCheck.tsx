@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { CheckStoreContext } from '../CheckPage'
 import { useStore } from '../../../stores/RootStore/RootStoreContext'
 
-export const ResultCheck: React.FC = observer((): JSX.Element => {
+export const ResultCheck: React.FC = observer(() => {
   const { CardsStore } = useStore()
   const CheckStore = useContext(CheckStoreContext)
 

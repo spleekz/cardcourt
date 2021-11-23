@@ -1,5 +1,5 @@
 import React from 'react'
 
-export const NewCardPage: React.FC = (): JSX.Element => {
+export const NewCardPage: React.FC = () => {
   return <>createNewCard</>
 }

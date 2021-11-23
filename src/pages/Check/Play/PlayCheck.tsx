@@ -7,7 +7,7 @@ const PlayCheckContainer = styled.div`
   font-size: 30px;
 `
 
-export const PlayCheck: React.FC = observer((): JSX.Element => {
+export const PlayCheck: React.FC = observer(() => {
   const CheckStore = useContext(CheckStoreContext)
   const [userInput, setUserInput] = useState<string>('')
 

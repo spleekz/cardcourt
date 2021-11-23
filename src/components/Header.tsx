@@ -7,6 +7,6 @@ const HeaderTitle = styled.span`
   color: #ffffff;
 `
 
-export const Header: React.FC = (): JSX.Element => {
+export const Header: React.FC = () => {
   return <HeaderTitle>cardcourt</HeaderTitle>
 }

@@ -13,7 +13,7 @@ const CheckPageContainer = styled.div``
 
 export const CheckStoreContext = createContext<ICheckStore>(new CheckStore())
 
-export const CheckPage: React.FC = observer((): JSX.Element => {
+export const CheckPage: React.FC = observer(() => {
   const { CardsStore, createCheckStore } = useStore()
   const [CheckStore] = useState<ICheckStore>(createCheckStore)
   const { cardId } = useParams()
