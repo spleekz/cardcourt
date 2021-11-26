@@ -50,7 +50,7 @@ export const NewCardForm: React.FC = () => {
     <NewCardFormContainer>
       <form onSubmit={handleSubmit(createNewCard)}>
         <CardTitleInput
-          {...register('cardName')}
+          {...(register('cardName'), { required: true })}
           placeholder='Введите название карточки'
         ></CardTitleInput>
         <NewCardAuthor>spleekz</NewCardAuthor>
