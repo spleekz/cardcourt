@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { ICard } from '../../stores/CardsStore'
@@ -33,16 +33,19 @@ const CardAuthor = styled.div`
   font-size: 25px;
   color: #000000a0;
 `
-const CardWords = styled.div<{ color: string; positionTop: number }>`
+const CardWords = styled.div<{ color: string }>`
   min-height: 502px;
   position: relative;
-  top: ${(props) => props.positionTop + 'px'};
+  top: 0;
   left: 0;
   margin-top: 10px;
   background-color: ${(props) => props.color};
   padding: 4px 15px;
   border-radius: 16px 16px 0 0;
   transition: 0.4s;
+  :hover {
+    top: -90px;
+  }
 `
 const CardWordContainer = styled.div`
   display: flex;
@@ -50,30 +53,16 @@ const CardWordContainer = styled.div`
 `
 const CardWord = styled.span``
 const Dash = styled.span``
-const PlaceForCursor = styled.div`
-  position: absolute;
-  top: 100px;
-  left: 15px;
-  z-index: 1000;
-  width: 90%;
-  height: 215px;
-`
 
 export const CardElement: React.FC<ICardProps> = observer(({ card }) => {
-  const [cardWordsPosition, setCardWordsPosition] = useState<number>(0)
-
   return (
     <Link key={card.id} to={`/card/${card.id}`}>
       <CardContainer key={card.id} color={card.ui.headColor}>
-        <PlaceForCursor
-          onMouseEnter={() => setCardWordsPosition(-90)}
-          onMouseLeave={() => setCardWordsPosition(0)}
-        />
         <CardHeading color={card.ui.headColor}>
           <CardTitle>{card.name}</CardTitle>
           <CardAuthor>{card.author}</CardAuthor>
         </CardHeading>
-        <CardWords color={card.ui.wordListColor} positionTop={cardWordsPosition}>
+        <CardWords color={card.ui.wordListColor}>
           {card.wordList.map((word) => {
             return (
               <CardWordContainer key={word.id}>
