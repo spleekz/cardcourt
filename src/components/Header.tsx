@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const HeaderTitle = styled.span`
@@ -8,5 +9,9 @@ const HeaderTitle = styled.span`
 `
 
 export const Header: React.FC = () => {
-  return <HeaderTitle>cardcourt</HeaderTitle>
+  return (
+    <Link to='/'>
+      <HeaderTitle>cardcourt</HeaderTitle>
+    </Link>
+  )
 }
