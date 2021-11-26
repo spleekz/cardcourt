@@ -32,11 +32,12 @@ const DeleteWordPairButton = styled.button``
 const SubmitButton = styled.button``
 
 interface ICardForm {
+  cardName: string
   wordInputs: Array<IWordWithTranslate>
 }
 
 export const NewCardForm: React.FC = () => {
-  const { register, control, handleSubmit } = useForm()
+  const { register, control, handleSubmit } = useForm<ICardForm>()
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'wordInputs',
@@ -48,7 +49,10 @@ export const NewCardForm: React.FC = () => {
   return (
     <NewCardFormContainer>
       <form onSubmit={handleSubmit(createNewCard)}>
-        <CardTitleInput placeholder='Введите название карточки'></CardTitleInput>
+        <CardTitleInput
+          {...register('cardName')}
+          placeholder='Введите название карточки'
+        ></CardTitleInput>
         <NewCardAuthor>spleekz</NewCardAuthor>
         <NewCardWordsContainer>
           <NewCardWordsTitle>Список слов</NewCardWordsTitle>
