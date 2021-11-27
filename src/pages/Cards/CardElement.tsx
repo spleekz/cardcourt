@@ -8,7 +8,7 @@ interface ICardProps {
   card: ICard
 }
 
-const CardContainer = styled.div<{ color: string }>`
+export const CardContainer = styled.div<{ color: string }>`
   display: flex;
   flex-direction: column;
   position: relative;
@@ -21,19 +21,19 @@ const CardContainer = styled.div<{ color: string }>`
   border-radius: 16px;
   overflow: hidden;
 `
-const CardHeading = styled.div<{ color: string }>`
+export const CardHeading = styled.div<{ color: string }>`
   padding: 2px 15px;
   background-color: ${(props) => props.color};
 `
-const CardTitle = styled.div`
+const CardName = styled.div`
   font-size: 40px;
   font-weight: bold;
 `
-const CardAuthor = styled.div`
+export const CardAuthor = styled.div`
   font-size: 25px;
   color: #000000a0;
 `
-const CardWords = styled.div<{ color: string }>`
+export const CardWords = styled.div<{ color: string; isHover: boolean }>`
   min-height: 502px;
   position: relative;
   top: 0;
@@ -44,7 +44,7 @@ const CardWords = styled.div<{ color: string }>`
   border-radius: 16px 16px 0 0;
   transition: 0.4s;
   :hover {
-    top: -90px;
+    top: ${(props) => props.isHover && '-90px'};
   }
 `
 const CardWordContainer = styled.div`
@@ -59,10 +59,10 @@ export const CardElement: React.FC<ICardProps> = observer(({ card }) => {
     <Link key={card.id} to={`/card/${card.id}`}>
       <CardContainer key={card.id} color={card.ui.headColor}>
         <CardHeading color={card.ui.headColor}>
-          <CardTitle>{card.name}</CardTitle>
+          <CardName>{card.name}</CardName>
           <CardAuthor>{card.author}</CardAuthor>
         </CardHeading>
-        <CardWords color={card.ui.wordListColor}>
+        <CardWords color={card.ui.wordListColor} isHover>
           {card.wordList.map((word) => {
             return (
               <CardWordContainer key={word.id}>
