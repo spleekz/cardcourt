@@ -25,6 +25,14 @@ const GlobalStyles = createGlobalStyle`
   color: inherit;
   text-decoration: none;
  }
+ button {
+   cursor:pointer;
+ }
+ input,button {
+   outline: none;
+   border:0;
+ }
+
 `
 const AppContainer = styled.div`
   display: flex;
