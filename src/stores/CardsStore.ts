@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { nanoid } from 'nanoid'
 import { IWithSet, WithSet } from './entities/WithSet'
+import { makePersistable } from 'mobx-persist-store'
 
 export interface IWordWithTranslate {
   ru: string
@@ -30,6 +31,7 @@ export interface ICardsStore {
 export class CardsStore implements ICardsStore {
   constructor() {
     makeAutoObservable(this)
+    makePersistable(this, { name: 'CardsStore', properties: ['cards'], storage: window.localStorage })
   }
   cards: Array<ICard> = [
     {
