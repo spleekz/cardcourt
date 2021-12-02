@@ -3,6 +3,7 @@ import { UseFormRegister } from 'react-hook-form'
 import styled from 'styled-components'
 import { ICard } from '../../stores/CardsStore'
 import { Lang } from '../../stores/CheckStore'
+import isEnglish from 'is-english'
 
 interface IFormWordInput {
   register: UseFormRegister<ICard>
@@ -39,6 +40,12 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, register, 
   const [isInputOnHover, setIsInputOnHover] = useState<boolean>(false)
   const [isInputEmpty, setIsInputEmpty] = useState<boolean>(true)
 
+  const validateInputLanguage = (value: string): boolean => {
+    if (lang === 'en') {
+      return isEnglish(value)
+    } else return !isEnglish(value)
+  }
+
   const onInputBlur = (): void => {
     setIsInputOnFocus(false)
     if (inputValue === '') {
@@ -52,6 +59,7 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, register, 
     <WordInput
       {...register(`wordList.${index}.${lang}` as const, {
         required: true,
+        validate: (v) => validateInputLanguage(v),
       })}
       lang={lang}
       placeholder={lang === 'en' ? 'Слово на английском' : 'Перевод'}
