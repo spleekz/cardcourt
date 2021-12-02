@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { ICard } from '../../stores/CardsStore'
 import { observer } from 'mobx-react-lite'
+import { WordList } from '../../components/WordList'
 
 interface ICardProps {
   card: ICard
@@ -47,12 +48,6 @@ export const CardWords = styled.div<{ color: string; isHover: boolean }>`
     top: ${(props) => props.isHover && '-90px'};
   }
 `
-const CardWordContainer = styled.div`
-  display: flex;
-  font-size: 30px;
-`
-const CardWord = styled.span``
-const Dash = styled.span``
 
 export const CardElement: React.FC<ICardProps> = observer(({ card }) => {
   return (
@@ -63,15 +58,7 @@ export const CardElement: React.FC<ICardProps> = observer(({ card }) => {
           <CardAuthor>{card.author}</CardAuthor>
         </CardHeading>
         <CardWords color={card.ui.wordListColor} isHover>
-          {card.wordList.map((word) => {
-            return (
-              <CardWordContainer key={word.id}>
-                <CardWord>{word.en}</CardWord>
-                <Dash>—</Dash>
-                <CardWord>{word.ru}</CardWord>
-              </CardWordContainer>
-            )
-          })}
+          <WordList card={card} />
         </CardWords>
       </CardContainer>
     </Link>

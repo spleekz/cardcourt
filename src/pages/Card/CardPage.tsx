@@ -5,6 +5,7 @@ import { ICard } from '../../stores/CardsStore'
 import { useStore } from '../../stores/RootStore/RootStoreContext'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
+import { WordList } from '../../components/WordList'
 
 interface ICardProps {
   card: ICard | null
@@ -37,6 +38,7 @@ export const Card: React.FC<ICardProps> = observer(({ card }) => {
           <Link to={`check`}>
             <ToCheckPageButton>Начать проверку</ToCheckPageButton>
           </Link>
+          <WordList card={card} />
         </CardPageContainer>
       )}
     </>
