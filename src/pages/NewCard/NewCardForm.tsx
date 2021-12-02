@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form'
-import { IWordWithTranslate } from '../../stores/CardsStore'
+import { IWordWithTranslate, ICard } from '../../stores/CardsStore'
 import { CardContainer, CardAuthor, CardWords, CardHeading } from '../Cards/CardElement'
-import { XIcon } from '../../svg/XIcon'
+import { nanoid } from 'nanoid'
+import { useStore } from '../../stores/RootStore/RootStoreContext'
+import { FormWordPair } from './FormWordPair'
 
 const NewCardFormContainer = styled(CardContainer)`
   width: 500px;
@@ -35,27 +37,11 @@ const NewCardWordsContainer = styled(CardWords)`
   overflow-y: auto;
 `
 const NewCardWords = styled.div``
-const FormWordPairContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`
-const FormWordPair = styled.div`
-  width: 93%;
-  display: flex;
-  justify-content: space-between;
-`
-const FormWordPairInput = styled.input`
-  width: 48%;
-  padding: 3px;
-  font-size: 20px;
-  ::placeholder {
-    font-size: 18px;
-  }
-`
+
 const AddWordPairButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin: 15px 0;
 `
 const AddWordPairButton = styled.button`
   width: 50%;
@@ -64,20 +50,7 @@ const AddWordPairButton = styled.button`
   font-weight: bold;
   border-radius: 5px;
 `
-const DeleteWordPairButton = styled.button`
-  background-color: transparent;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  margin-left: 5px;
-  svg {
-    width: 25px;
-    height: 25px;
-    position: absolute;
-  }
-`
+
 const SubmitButton = styled.button`
   width: 100%;
   background-color: pink;
@@ -87,34 +60,32 @@ const SubmitButton = styled.button`
   position: relative;
   z-index: 1000;
 `
-const Dash = styled.span`
-  align-self: center;
-  margin: 0 5px;
-`
-
-interface ICardForm {
-  cardName: string
-  wordInputs: Array<IWordWithTranslate>
-}
 
 export const NewCardForm: React.FC = () => {
-  const { register, control, handleSubmit } = useForm<ICardForm>({
+  const { CardsStore } = useStore()
+  const { register, control, handleSubmit, watch } = useForm<ICard>({
     defaultValues: {
-      wordInputs: [{ en: '', ru: '' }],
+      wordList: [{ en: '', ru: '' } as IWordWithTranslate],
     },
   })
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'wordInputs',
+    name: 'wordList',
   })
 
-  const deleteWordPair = (index: number): void => {
-    if (fields.length !== 1) {
-      remove(index)
+  const watchedFields = watch('wordList')
+
+  const createNewCard: SubmitHandler<ICard> = (card) => {
+    card.id = '3'
+    card.author = 'spleekz'
+    card.ui = {
+      headColor: 'pink',
+      wordListColor: 'aqua',
     }
-  }
-  const createNewCard: SubmitHandler<ICardForm> = (data) => {
-    alert(JSON.stringify(data, null, 2))
+    card.wordList.forEach((word) => {
+      word.id = nanoid()
+    })
+    CardsStore.addCard(card)
   }
 
   return (
@@ -122,7 +93,7 @@ export const NewCardForm: React.FC = () => {
       <CardForm onSubmit={handleSubmit(createNewCard)}>
         <NewCardHeading color='pink'>
           <CardNameInput
-            {...register(`cardName` as const, { required: true })}
+            {...register(`name` as const, { required: true })}
             placeholder='Введите название карточки'
             maxLength={27}
           />
@@ -130,24 +101,15 @@ export const NewCardForm: React.FC = () => {
         </NewCardHeading>
         <NewCardWordsContainer color='aqua' isHover={false}>
           <NewCardWords>
-            {fields.map((wordInput, index) => {
+            {fields.map((words, index) => {
               return (
-                <FormWordPairContainer key={wordInput.id}>
-                  <FormWordPair>
-                    <FormWordPairInput
-                      {...register(`wordInputs.${index}.en` as const, { required: true })}
-                      placeholder='Слово на английском'
-                    />
-                    <Dash>—</Dash>
-                    <FormWordPairInput
-                      {...register(`wordInputs.${index}.ru` as const, { required: true })}
-                      placeholder='Перевод'
-                    />
-                  </FormWordPair>
-                  <DeleteWordPairButton onClick={() => deleteWordPair(index)}>
-                    <XIcon />
-                  </DeleteWordPairButton>
-                </FormWordPairContainer>
+                <FormWordPair
+                  key={words.id}
+                  register={register}
+                  remove={remove}
+                  fields={watchedFields}
+                  index={index}
+                />
               )
             })}
           </NewCardWords>
