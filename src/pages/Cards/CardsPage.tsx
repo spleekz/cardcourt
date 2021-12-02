@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite'
 import React from 'react'
 import styled from 'styled-components'
 import { useStore } from '../../stores/RootStore/RootStoreContext'
@@ -10,7 +11,7 @@ const CardsPageContainer = styled.div`
   justify-content: center;
 `
 
-export const CardsPage: React.FC = () => {
+export const CardsPage: React.FC = observer(() => {
   const { CardsStore } = useStore()
 
   return (
@@ -18,4 +19,4 @@ export const CardsPage: React.FC = () => {
       <CardCourt cardList={CardsStore.cards} />
     </CardsPageContainer>
   )
-}
+})
