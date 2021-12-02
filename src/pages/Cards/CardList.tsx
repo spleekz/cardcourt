@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite'
 import React from 'react'
 import styled from 'styled-components'
 import { ICard } from '../../stores/CardsStore'
@@ -11,7 +12,7 @@ const CardListContainer = styled.div`
   display: flex;
 `
 
-export const CardList: React.FC<ICardListProps> = ({ cards }) => {
+export const CardList: React.FC<ICardListProps> = observer(({ cards }) => {
   return (
     <CardListContainer>
       {cards.map((card) => {
@@ -19,4 +20,4 @@ export const CardList: React.FC<ICardListProps> = ({ cards }) => {
       })}
     </CardListContainer>
   )
-}
+})
