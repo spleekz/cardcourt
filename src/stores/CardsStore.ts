@@ -9,8 +9,8 @@ export interface IWordWithTranslate {
   id: string
 }
 export type WordListType = Array<IWordWithTranslate>
-const headColors = ['#ffffff', '#ede4aa'] as const
-const wordListColors = ['#a4373a', '#9ee5ec'] as const
+const headColors = ['#ffffff', '#ede4aa', 'pink'] as const
+const wordListColors = ['#a4373a', '#9ee5ec', 'aqua'] as const
 interface ICardUi {
   headColor: typeof headColors[number]
   wordListColor: typeof wordListColors[number]
