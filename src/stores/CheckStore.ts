@@ -2,15 +2,15 @@ import { makeAutoObservable } from 'mobx'
 import { IWordWithTranslate, WordListType } from './CardsStore'
 import { WithSet, IWithSet } from './entities/WithSet'
 
-export type CheckLang = 'ru' | 'en'
+export type Lang = 'ru' | 'en'
 export interface ICheckConfig {
-  userInputLang: CheckLang
+  userInputLang: Lang
 }
 export type CheckModeType = 'prepare' | 'play' | 'result'
 
 export interface ICheckStore {
   wordList: IWithSet<WordListType>
-  userInputLang: CheckLang
+  userInputLang: Lang
   userInput: IWithSet<string>
   currentWordIndex: IWithSet<number>
   isCurrentWordBeforeLast: boolean
@@ -28,7 +28,7 @@ export class CheckStore implements ICheckStore {
   wordList = new WithSet<WordListType>([] as WordListType)
   checkMode = new WithSet<CheckModeType>('prepare')
 
-  userInputLang: CheckLang = 'en'
+  userInputLang: Lang = 'en'
 
   userInput = new WithSet<string>('')
   currentWordIndex = new WithSet<number>(0)
