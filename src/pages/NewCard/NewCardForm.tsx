@@ -113,8 +113,10 @@ export const NewCardForm: React.FC = () => {
               )
             })}
           </NewCardWords>
-          <AddWordPairButtonContainer>
-            <AddWordPairButton onClick={() => append({ en: '', ru: '' })}>+</AddWordPairButton>
+          <AddWordPairButtonContainer ref={anchorRef}>
+            <AddWordPairButton type='button' onClick={() => append({ en: '', ru: '' })}>
+              +
+            </AddWordPairButton>
           </AddWordPairButtonContainer>
         </NewCardWordsContainer>
         <SubmitButton type='submit'>Создать карточку</SubmitButton>

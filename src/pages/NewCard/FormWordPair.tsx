@@ -55,7 +55,7 @@ export const FormWordPair: React.FC<IFormWordPair> = ({ register, remove, fields
         <Dash>—</Dash>
         <FormWordInput inputValue={fields[index].ru} register={register} index={index} lang='ru' />
       </FormWordPairBlock>
-      <DeleteWordPairButton onClick={() => deleteWordPair(index)}>
+      <DeleteWordPairButton type='button' onClick={() => deleteWordPair(index)}>
         <XIcon />
       </DeleteWordPairButton>
     </FormWordPairContainer>
