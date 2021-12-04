@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form'
 import { IWordWithTranslate, ICard } from '../../stores/CardsStore'
@@ -29,9 +29,7 @@ const CardNameInput = styled.input`
 `
 const NewCardAuthor = styled(CardAuthor)``
 const NewCardWordsContainer = styled(CardWords)`
-  min-height: initial;
-  max-height: 650px;
-  flex: 1 0 auto;
+  height: 650px;
   padding: 10px 15px;
   border-radius: 16px;
   overflow-y: auto;
@@ -75,6 +73,8 @@ export const NewCardForm: React.FC = () => {
 
   const watchedFields = watch('wordList')
 
+  const anchorRef = useRef<HTMLDivElement>(null)
+
   const createNewCard: SubmitHandler<ICard> = (card) => {
     card.id = '3'
     card.author = 'spleekz'
@@ -87,6 +87,10 @@ export const NewCardForm: React.FC = () => {
     })
     CardsStore.addCard(card)
   }
+
+  useEffect(() => {
+    anchorRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [fields])
 
   return (
     <NewCardFormContainer color='pink'>
