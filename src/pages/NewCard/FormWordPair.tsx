@@ -1,12 +1,11 @@
 import React from 'react'
-import { FieldArrayWithId, UseFormRegister } from 'react-hook-form'
+import { FieldArrayWithId } from 'react-hook-form'
 import styled from 'styled-components'
 import { ICard } from '../../stores/CardsStore'
 import { XIcon } from '../../svg/XIcon'
 import { FormWordInput } from './FormWordInput'
 
 interface IFormWordPair {
-  register: UseFormRegister<ICard>
   remove: (index?: number | number[] | undefined) => void
   fields: FieldArrayWithId<ICard, 'wordList', 'id'>[]
   index: number
@@ -41,7 +40,7 @@ const Dash = styled.span`
   margin: 0 5px;
 `
 
-export const FormWordPair: React.FC<IFormWordPair> = ({ register, remove, fields, index }) => {
+export const FormWordPair: React.FC<IFormWordPair> = ({ remove, fields, index }) => {
   const deleteWordPair = (index: number): void => {
     if (fields.length !== 1) {
       remove(index)
@@ -51,9 +50,9 @@ export const FormWordPair: React.FC<IFormWordPair> = ({ register, remove, fields
   return (
     <FormWordPairContainer>
       <FormWordPairBlock>
-        <FormWordInput inputValue={fields[index].en} register={register} index={index} lang='en' />
+        <FormWordInput inputValue={fields[index].en} index={index} lang='en' />
         <Dash>—</Dash>
-        <FormWordInput inputValue={fields[index].ru} register={register} index={index} lang='ru' />
+        <FormWordInput inputValue={fields[index].ru} index={index} lang='ru' />
       </FormWordPairBlock>
       <DeleteWordPairButton type='button' onClick={() => deleteWordPair(index)}>
         <XIcon />

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form'
+import { useForm, useFieldArray, SubmitHandler, FormProvider } from 'react-hook-form'
 import { IWordWithTranslate, ICard } from '../../stores/CardsStore'
 import { CardContainer, CardAuthor, CardWords, CardHeading } from '../Cards/CardElement'
 import { nanoid } from 'nanoid'
@@ -61,17 +61,17 @@ const SubmitButton = styled.button`
 
 export const NewCardForm: React.FC = () => {
   const { CardsStore } = useStore()
-  const { register, control, handleSubmit, watch } = useForm<ICard>({
+  const methods = useForm<ICard>({
     defaultValues: {
       wordList: [{ en: '', ru: '' } as IWordWithTranslate],
     },
   })
   const { fields, append, remove } = useFieldArray({
-    control,
+    control: methods.control,
     name: 'wordList',
   })
 
-  const watchedFields = watch('wordList')
+  const watchedFields = methods.watch('wordList')
 
   const anchorRef = useRef<HTMLDivElement>(null)
 
@@ -94,37 +94,33 @@ export const NewCardForm: React.FC = () => {
 
   return (
     <NewCardFormContainer color='pink'>
-      <CardForm onSubmit={handleSubmit(createNewCard)}>
-        <NewCardHeading color='pink'>
-          <CardNameInput
-            {...register(`name` as const, { required: true })}
-            placeholder='Введите название карточки'
-            maxLength={27}
-          />
-          <NewCardAuthor>spleekz</NewCardAuthor>
-        </NewCardHeading>
-        <NewCardWordsContainer color='aqua' isHover={false}>
-          <NewCardWords>
-            {fields.map((words, index) => {
-              return (
-                <FormWordPair
-                  key={words.id}
-                  register={register}
-                  remove={remove}
-                  fields={watchedFields}
-                  index={index}
-                />
-              )
-            })}
-          </NewCardWords>
-          <AddWordPairButtonContainer ref={anchorRef}>
-            <AddWordPairButton type='button' onClick={() => append({ en: '', ru: '' })}>
-              +
-            </AddWordPairButton>
-          </AddWordPairButtonContainer>
-        </NewCardWordsContainer>
-        <SubmitButton type='submit'>Создать карточку</SubmitButton>
-      </CardForm>
+      <FormProvider {...methods}>
+        <CardForm onSubmit={methods.handleSubmit(createNewCard)}>
+          <NewCardHeading color='pink'>
+            <CardNameInput
+              {...methods.register(`name` as const, { required: true })}
+              placeholder='Введите название карточки'
+              maxLength={27}
+            />
+            <NewCardAuthor>spleekz</NewCardAuthor>
+          </NewCardHeading>
+          <NewCardWordsContainer color='aqua' isHover={false}>
+            <NewCardWords>
+              {fields.map((words, index) => {
+                return (
+                  <FormWordPair key={words.id} remove={remove} fields={watchedFields} index={index} />
+                )
+              })}
+            </NewCardWords>
+            <AddWordPairButtonContainer ref={anchorRef}>
+              <AddWordPairButton type='button' onClick={() => append({ en: '', ru: '' })}>
+                +
+              </AddWordPairButton>
+            </AddWordPairButtonContainer>
+          </NewCardWordsContainer>
+          <SubmitButton type='submit'>Создать карточку</SubmitButton>
+        </CardForm>
+      </FormProvider>
     </NewCardFormContainer>
   )
 }

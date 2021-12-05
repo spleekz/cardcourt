@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { UseFormRegister } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import styled from 'styled-components'
-import { ICard } from '../../stores/CardsStore'
 import { Lang } from '../../stores/CheckStore'
 import isEnglish from 'is-english'
 
 interface IFormWordInput {
-  register: UseFormRegister<ICard>
   inputValue: string
   index: number
   lang: Lang
@@ -35,7 +33,9 @@ const WordInput = styled.input<IWordInputProps>`
   }
 `
 
-export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, register, index, lang }) => {
+export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, lang }) => {
+  const { register } = useFormContext()
+
   const [isInputOnFocus, setIsInputOnFocus] = useState<boolean>(false)
   const [isInputOnHover, setIsInputOnHover] = useState<boolean>(false)
   const [isInputEmpty, setIsInputEmpty] = useState<boolean>(true)
@@ -48,7 +48,7 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, register, 
 
   const onInputBlur = (): void => {
     setIsInputOnFocus(false)
-    if (inputValue === '') {
+    if (inputValue.trim() === '') {
       setIsInputEmpty(true)
     } else {
       setIsInputEmpty(false)
