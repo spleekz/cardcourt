@@ -17,7 +17,7 @@ export interface ICheckStore {
   currentWord: IWordWithTranslate
   isCurrentWordCorrect: boolean
   checkMode: IWithSet<CheckModeType>
-  setConfig: (config: ICheckConfig) => void
+  setConfig(config: ICheckConfig): void
 }
 
 export class CheckStore implements ICheckStore {
@@ -47,7 +47,7 @@ export class CheckStore implements ICheckStore {
     return this.currentWordIndex.value < this.wordList.value.length - 1
   }
 
-  setConfig = ({ userInputLang }: ICheckConfig): void => {
+  setConfig({ userInputLang }: ICheckConfig): void {
     this.userInputLang = userInputLang
   }
 }

@@ -26,7 +26,7 @@ export interface ICardsStore {
   cards: Array<ICard>
   currentCardId: IWithSet<string | null>
   currentCard: ICard | null
-  addCard: (card: ICard) => void
+  addCard(card: ICard): void
 }
 
 export class CardsStore implements ICardsStore {
@@ -66,7 +66,7 @@ export class CardsStore implements ICardsStore {
   ]
   currentCardId = new WithSet<string | null>(null)
 
-  addCard = (card: ICard): void => {
+  addCard(card: ICard): void {
     this.cards.push(card)
   }
 

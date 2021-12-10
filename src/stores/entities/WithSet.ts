@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 
 export interface IWithSet<T> {
   value: T
-  set: (value: T) => void
+  set(value: T): void
 }
 
 export class WithSet<T> implements IWithSet<T> {
@@ -11,7 +11,8 @@ export class WithSet<T> implements IWithSet<T> {
     makeAutoObservable(this)
     this.value = property
   }
-  set = (value: T): void => {
+
+  set(value: T): void {
     this.value = value
   }
 }

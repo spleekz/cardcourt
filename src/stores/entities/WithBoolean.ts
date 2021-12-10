@@ -2,8 +2,8 @@ import { makeAutoObservable } from 'mobx'
 
 export interface IWithBoolean {
   value: boolean
-  set: (value: boolean) => void
-  toggle: () => void
+  set(value: boolean): void
+  toggle(): void
 }
 
 export class WithBoolean implements IWithBoolean {
@@ -13,10 +13,10 @@ export class WithBoolean implements IWithBoolean {
     this.value = value
   }
 
-  set = (value: boolean): void => {
+  set(value: boolean): void {
     this.value = value
   }
-  toggle = (): void => {
+  toggle(): void {
     this.value = !this.value
   }
 }
