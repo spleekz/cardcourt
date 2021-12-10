@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { ICard } from '../../stores/CardsStore'
+import { ICard } from '../../../stores/CardsStore'
 import { observer } from 'mobx-react-lite'
-import { WordList } from '../../components/WordList'
+import { WordList } from '../../WordList'
 
-interface ICardProps {
+export interface ICardElementProps {
   card: ICard
 }
 
@@ -49,7 +49,7 @@ export const CardWords = styled.div<{ color: string; isHover: boolean }>`
   }
 `
 
-export const CardElement: React.FC<ICardProps> = observer(({ card }) => {
+export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
   return (
     <Link key={card.id} to={`/card/${card.id}`}>
       <CardContainer key={card.id} color={card.ui.headColor}>

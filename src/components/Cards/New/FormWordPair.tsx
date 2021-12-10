@@ -1,8 +1,8 @@
 import React from 'react'
 import { FieldArrayWithId } from 'react-hook-form'
 import styled from 'styled-components'
-import { ICard } from '../../stores/CardsStore'
-import { XIcon } from '../../svg/XIcon'
+import { ICard } from '../../../stores/CardsStore'
+import { XIcon } from '../../../svg/XIcon'
 import { FormWordInput } from './FormWordInput'
 
 interface IFormWordPair {

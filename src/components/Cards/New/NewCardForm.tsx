@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useForm, useFieldArray, SubmitHandler, FormProvider } from 'react-hook-form'
-import { IWordWithTranslate, ICard } from '../../stores/CardsStore'
-import { CardContainer, CardAuthor, CardWords, CardHeading } from '../Cards/CardElement'
+import { IWordWithTranslate, ICard } from '../../../stores/CardsStore'
+import { CardContainer, CardAuthor, CardWords, CardHeading } from '../Element/CardElement'
 import { nanoid } from 'nanoid'
-import { useStore } from '../../stores/RootStore/RootStoreContext'
+import { useStore } from '../../../stores/RootStore/RootStoreContext'
 import { FormWordPair } from './FormWordPair'
 
 const NewCardFormContainer = styled(CardContainer)`

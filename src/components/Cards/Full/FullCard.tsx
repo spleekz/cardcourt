@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router'
-import { ICard } from '../../stores/CardsStore'
-import { useStore } from '../../stores/RootStore/RootStoreContext'
+import { ICard } from '../../../stores/CardsStore'
+import { useStore } from '../../../stores/RootStore/RootStoreContext'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
-import { WordList } from '../../components/WordList'
+import { WordList } from '../../WordList'
 
-interface ICardProps {
+export interface IFullCardProps {
   card: ICard | null
 }
 
@@ -18,7 +18,7 @@ const ToCheckPageButton = styled.button`
   font-size: 30px;
 `
 
-export const Card: React.FC<ICardProps> = observer(({ card }) => {
+export const FullCard: React.FC<IFullCardProps> = observer(({ card }) => {
   const { CardsStore } = useStore()
   const { cardId } = useParams()
 

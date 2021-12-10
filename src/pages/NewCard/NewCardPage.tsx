@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { NewCardForm } from './NewCardForm'
+import { Card } from '../../components/Cards/Card'
 
 const NewCardPageContainer = styled.div`
   flex: 1 0 auto;
@@ -12,7 +12,7 @@ const NewCardPageContainer = styled.div`
 export const NewCardPage: React.FC = () => {
   return (
     <NewCardPageContainer>
-      <NewCardForm />
+      <Card type='new' />
     </NewCardPageContainer>
   )
 }
