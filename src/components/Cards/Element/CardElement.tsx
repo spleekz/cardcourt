@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { ICard } from '../../../stores/CardsStore'
 import { observer } from 'mobx-react-lite'
 import { WordList } from '../../WordList'
+import { useStore } from '../../../stores/RootStore/RootStoreContext'
 
 export interface ICardElementProps {
   card: ICard
@@ -48,8 +49,21 @@ export const CardWords = styled.div<{ color: string; isHover: boolean }>`
     top: ${(props) => props.isHover && '-90px'};
   }
 `
+const DeleteButton = styled.button`
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  font-size: 28px;
+`
 
 export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
+  const { CardsStore } = useStore()
+
+  const deleteCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string): void => {
+    e.preventDefault()
+    CardsStore.deleteCard(id)
+  }
+
   return (
     <Link key={card.id} to={`/card/${card.id}`}>
       <CardContainer key={card.id} color={card.ui.headColor}>
@@ -60,6 +74,7 @@ export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
         <CardWords color={card.ui.wordListColor} isHover>
           <WordList card={card} />
         </CardWords>
+        <DeleteButton onClick={(e) => deleteCard(e, card.id)}>Удалить</DeleteButton>
       </CardContainer>
     </Link>
   )
