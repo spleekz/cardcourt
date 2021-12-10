@@ -23,10 +23,8 @@ export const FullCard: React.FC<IFullCardProps> = observer(({ card }) => {
   const { cardId } = useParams()
 
   useEffect(() => {
-    if (!card) {
-      if (cardId) {
-        CardsStore.currentCardId.set(cardId)
-      }
+    if (cardId) {
+      CardsStore.currentCardId.set(cardId)
     }
   }, [cardId])
 
