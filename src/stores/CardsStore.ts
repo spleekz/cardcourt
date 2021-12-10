@@ -27,6 +27,7 @@ export interface ICardsStore {
   currentCardId: IWithSet<string | null>
   currentCard: ICard | null
   addCard(card: ICard): void
+  deleteCard(id: string): void
 }
 
 export class CardsStore implements ICardsStore {
@@ -68,6 +69,9 @@ export class CardsStore implements ICardsStore {
 
   addCard(card: ICard): void {
     this.cards.push(card)
+  }
+  deleteCard(id: string): void {
+    this.cards = this.cards.filter((card) => card.id !== id)
   }
 
   get currentCard(): ICard | null {
