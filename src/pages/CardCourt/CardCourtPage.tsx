@@ -11,7 +11,7 @@ const CardsPageContainer = styled.div`
   justify-content: center;
 `
 
-export const CardsPage: React.FC = observer(() => {
+export const CardCourtPage: React.FC = observer(() => {
   const { CardsStore } = useStore()
 
   return (

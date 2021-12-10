@@ -3,7 +3,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router'
 import styled, { createGlobalStyle } from 'styled-components'
 import { Header } from './components/Header'
-import { CardsPage } from './pages/Cards/CardsPage'
+import { CardCourtPage } from './pages/CardCourt/CardCourtPage'
 import { useStore } from './stores/RootStore/RootStoreContext'
 import { NewCardPage } from './pages/NewCard/NewCardPage'
 import { CheckPage } from './pages/Check/CheckPage'
@@ -50,7 +50,7 @@ export const App: React.FC = observer(() => {
       <AppContainer>
         <Header />
         <Routes>
-          <Route path='/' element={<CardsPage />} />
+          <Route path='/' element={<CardCourtPage />} />
           <Route path='/card/:cardId' element={<Card type='full' card={CardsStore.currentCard} />} />
           <Route path='card/:cardId/check' element={<CheckPage />} />
           <Route path='card/new' element={<NewCardPage />} />
