@@ -76,7 +76,7 @@ export const NewCardForm: React.FC = () => {
   const anchorRef = useRef<HTMLDivElement>(null)
 
   const createNewCard: SubmitHandler<ICard> = (card) => {
-    card.id = '3'
+    card.id = `${new Date().getTime()}`
     card.author = 'spleekz'
     card.ui = {
       headColor: 'pink',
