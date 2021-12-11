@@ -14,7 +14,9 @@ const CardWordBlock = styled.span`
   padding: 6px;
   background: #ffffff;
 `
-const CardWord = styled.span``
+const CardWord = styled.span`
+  user-select: none;
+`
 const Dash = styled.span``
 
 export const WordList: React.FC<{ card: ICard }> = ({ card }) => {
