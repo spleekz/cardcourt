@@ -4,19 +4,22 @@ import styled from 'styled-components'
 import { CheckStoreContext } from '../CheckPage'
 
 const PlayCheckContainer = styled.div`
-  font-size: 30px;
+  font-size: 40px;
+`
+const UserInput = styled.input`
+  font-size: 40px;
 `
 
 export const PlayCheck: React.FC = observer(() => {
   const CheckStore = useContext(CheckStoreContext)
-  const [userInput, setUserInput] = useState<string>('')
+  const [userInputValue, setUserInputValue] = useState<string>('')
 
   const goToNextWord = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.code === 'Enter') {
-      if (userInput.trim().toLowerCase() === CheckStore.currentWord.ru) {
+      if (userInputValue.trim().toLowerCase() === CheckStore.currentWord.en) {
         if (CheckStore.isCurrentWordBeforeLast) {
           CheckStore.currentWordIndex.set(CheckStore.currentWordIndex.value + 1)
-          setUserInput('')
+          setUserInputValue('')
         } else {
           CheckStore.checkMode.set('result')
           CheckStore.currentWordIndex.set(0)
@@ -27,10 +30,10 @@ export const PlayCheck: React.FC = observer(() => {
 
   return (
     <PlayCheckContainer>
-      {CheckStore.currentWord.en}
-      <input
-        value={userInput}
-        onChange={(e) => setUserInput(e.target.value)}
+      {CheckStore.currentWord.ru} -{' '}
+      <UserInput
+        value={userInputValue}
+        onChange={(e) => setUserInputValue(e.target.value)}
         onKeyPress={goToNextWord}
       />
     </PlayCheckContainer>
