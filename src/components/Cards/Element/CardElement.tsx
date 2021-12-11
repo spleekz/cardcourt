@@ -5,6 +5,7 @@ import { ICard } from '../../../stores/CardsStore'
 import { observer } from 'mobx-react-lite'
 import { WordList } from '../../WordList'
 import { useStore } from '../../../stores/RootStore/RootStoreContext'
+import { PencilIcon } from '../../../svg/PencilIcon'
 
 export interface ICardElementProps {
   card: ICard
@@ -67,6 +68,9 @@ export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
   return (
     <Link key={card.id} to={`/card/${card.id}`}>
       <CardContainer key={card.id} color={card.ui.headColor}>
+        <Link to={`/card/${card.id}/edit`}>
+          <PencilIcon />
+        </Link>
         <CardHeading color={card.ui.headColor}>
           <CardName>{card.name}</CardName>
           <CardAuthor>{card.author}</CardAuthor>

@@ -51,9 +51,10 @@ export const App: React.FC = observer(() => {
         <Header />
         <Routes>
           <Route path='/' element={<CardCourtPage />} />
+          <Route path='card/new' element={<NewCardPage />} />
           <Route path='/card/:cardId' element={<Card type='full' card={CardsStore.currentCard} />} />
           <Route path='card/:cardId/check' element={<CheckPage />} />
-          <Route path='card/new' element={<NewCardPage />} />
+          <Route path='card/:cardId/edit' element={<Card type='edit' />} />
         </Routes>
       </AppContainer>
     </>
