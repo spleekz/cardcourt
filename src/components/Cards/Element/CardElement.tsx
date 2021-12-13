@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ICard } from '../../../stores/CardsStore'
 import { observer } from 'mobx-react-lite'
 import { WordList } from '../../WordList'
@@ -50,6 +50,7 @@ export const CardWords = styled.div<{ color: string; isHover: boolean }>`
     top: ${(props) => props.isHover && '-90px'};
   }
 `
+const EditButton = styled.button``
 const DeleteButton = styled.button`
   position: absolute;
   bottom: 0px;
@@ -59,18 +60,23 @@ const DeleteButton = styled.button`
 
 export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
   const { CardsStore } = useStore()
+  const navigate = useNavigate()
 
   const deleteCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string): void => {
     e.preventDefault()
     CardsStore.deleteCard(id)
   }
+  const goToEditCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    e.preventDefault()
+    navigate(`/card/${card.id}/edit`)
+  }
 
   return (
     <Link key={card.id} to={`/card/${card.id}`}>
       <CardContainer key={card.id} color={card.ui.headColor}>
-        <Link to={`/card/${card.id}/edit`}>
+        <EditButton onClick={(e) => goToEditCard(e)}>
           <PencilIcon />
-        </Link>
+        </EditButton>
         <CardHeading color={card.ui.headColor}>
           <CardName>{card.name}</CardName>
           <CardAuthor>{card.author}</CardAuthor>
