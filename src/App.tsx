@@ -4,7 +4,6 @@ import { Route, Routes } from 'react-router'
 import styled, { createGlobalStyle } from 'styled-components'
 import { Header } from './components/Header'
 import { CardCourtPage } from './pages/CardCourt/CardCourtPage'
-import { useStore } from './stores/RootStore/RootStoreContext'
 import { NewCardPage } from './pages/NewCard/NewCardPage'
 import { CheckPage } from './pages/Check/CheckPage'
 import { Card } from './components/Cards/Card'
@@ -42,8 +41,6 @@ const AppContainer = styled.div`
 `
 
 export const App: React.FC = observer(() => {
-  const { CardsStore } = useStore()
-
   return (
     <>
       <GlobalStyles />
@@ -52,7 +49,7 @@ export const App: React.FC = observer(() => {
         <Routes>
           <Route path='/' element={<CardCourtPage />} />
           <Route path='card/new' element={<NewCardPage />} />
-          <Route path='/card/:cardId' element={<Card type='full' card={CardsStore.currentCard} />} />
+          <Route path='/card/:cardId' element={<Card type='full' />} />
           <Route path='card/:cardId/check' element={<CheckPage />} />
           <Route path='card/:cardId/edit' element={<Card type='edit' />} />
         </Routes>

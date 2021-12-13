@@ -1,5 +1,5 @@
 import React from 'react'
-import { FullCard, IFullCardProps } from './Full/FullCard'
+import { FullCard } from './Full/FullCard'
 import { NewCardForm } from './New/NewCardForm'
 import { CardElement, ICardElementProps } from './Element/CardElement'
 import { EditCard } from './Edit/EditCard'
@@ -14,7 +14,6 @@ interface INewCard extends IGeneralCard {
 }
 interface IFullCard extends IGeneralCard {
   type: 'full'
-  card: IFullCardProps['card']
 }
 interface IElementCard extends IGeneralCard {
   type: 'element'
@@ -35,7 +34,7 @@ export function Card(
   if (props.type === 'new') {
     return <NewCardForm />
   } else if (props.type === 'full') {
-    return <FullCard card={props.card} />
+    return <FullCard />
   } else if (props.type === 'element') {
     return <CardElement card={props.card} />
   } else if (props.type === 'edit') {

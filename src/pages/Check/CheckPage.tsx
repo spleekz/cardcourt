@@ -8,6 +8,7 @@ import { PlayCheck } from './Play/PlayCheck'
 import { PrepareCheck } from './Prepare/PrepareCheck'
 import { ResultCheck } from './Result/ResultCheck'
 import { shuffle } from 'lodash'
+import { useCard } from '../../hooks/useCard'
 
 const CheckPageContainer = styled.div``
 
@@ -19,22 +20,20 @@ export const CheckPage: React.FC = observer(() => {
   const { cardId } = useParams()
 
   useEffect(() => {
-    if (cardId) {
-      if (CardsStore.currentCard) {
-        const shuffledWords = shuffle(CardsStore.currentCard!.wordList)
-        CheckStore.wordList.set(shuffledWords)
-      } else {
-        CardsStore.currentCardId.set(cardId)
-      }
+    if (CardsStore.currentCard) {
+      const shuffledWords = shuffle(CardsStore.currentCard!.wordList)
+      CheckStore.wordList.set(shuffledWords)
     }
-  }, [cardId, CardsStore.currentCard])
+  }, [CardsStore.currentCard])
+
+  const card = useCard(cardId)
 
   return (
     <CheckStoreContext.Provider value={CheckStore}>
       <CheckPageContainer>
-        {CardsStore.currentCard &&
+        {card &&
           (CheckStore.checkMode.value === 'prepare' ? (
-            <PrepareCheck card={CardsStore.currentCard} />
+            <PrepareCheck card={card} />
           ) : CheckStore.checkMode.value === 'play' ? (
             <PlayCheck />
           ) : (
