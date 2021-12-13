@@ -8,7 +8,7 @@ export interface IWithSet<T> {
 export class WithSet<T> implements IWithSet<T> {
   value: T
   constructor(property: T) {
-    makeAutoObservable(this)
+    makeAutoObservable(this, {}, { autoBind: true })
     this.value = property
   }
 
