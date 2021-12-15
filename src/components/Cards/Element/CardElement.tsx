@@ -59,12 +59,12 @@ const DeleteButton = styled.button`
 `
 
 export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
-  const { CardsStore } = useStore()
+  const { cardsStore } = useStore()
   const navigate = useNavigate()
 
   const deleteCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string): void => {
     e.preventDefault()
-    CardsStore.deleteCard(id)
+    cardsStore.deleteCard(id)
   }
   const goToEditCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     e.preventDefault()

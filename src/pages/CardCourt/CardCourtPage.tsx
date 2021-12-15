@@ -12,11 +12,11 @@ const CardsPageContainer = styled.div`
 `
 
 export const CardCourtPage: React.FC = observer(() => {
-  const { CardsStore } = useStore()
+  const { cardsStore } = useStore()
 
   return (
     <CardsPageContainer>
-      <CardCourt cardList={CardsStore.cards} />
+      <CardCourt cardList={cardsStore.cards} />
     </CardsPageContainer>
   )
 })

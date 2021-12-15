@@ -60,7 +60,7 @@ const SubmitButton = styled.button`
 `
 
 export const NewCardForm: React.FC = () => {
-  const { CardsStore } = useStore()
+  const { cardsStore } = useStore()
   const methods = useForm<ICard>({
     defaultValues: {
       wordList: [{ en: '', ru: '' } as IWordWithTranslate],
@@ -85,7 +85,7 @@ export const NewCardForm: React.FC = () => {
     card.wordList.forEach((word) => {
       word.id = nanoid()
     })
-    CardsStore.addCard(card)
+    cardsStore.addCard(card)
   }
 
   useEffect(() => {

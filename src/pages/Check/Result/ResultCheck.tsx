@@ -5,7 +5,7 @@ import { CheckStoreContext } from '../CheckPage'
 import { useStore } from '../../../stores/RootStore/RootStoreContext'
 
 export const ResultCheck: React.FC = observer(() => {
-  const { CardsStore } = useStore()
+  const { cardsStore } = useStore()
   const CheckStore = useContext(CheckStoreContext)
 
   return (
@@ -13,7 +13,7 @@ export const ResultCheck: React.FC = observer(() => {
       <Link to={'/'}>
         <button>На Card Court</button>
       </Link>
-      <Link to={`/card/${CardsStore.currentCard?.id}`}>
+      <Link to={`/card/${cardsStore.currentCard!.id}`}>
         <button>На карточку</button>
       </Link>
       <button onClick={() => CheckStore.checkMode.set('prepare')}>Повторить проверку</button>

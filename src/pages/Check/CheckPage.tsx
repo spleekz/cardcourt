@@ -15,16 +15,16 @@ const CheckPageContainer = styled.div``
 export const CheckStoreContext = createContext<ICheckStore>(new CheckStore())
 
 export const CheckPage: React.FC = observer(() => {
-  const { CardsStore, createCheckStore } = useStore()
+  const { cardsStore, createCheckStore } = useStore()
   const [CheckStore] = useState<ICheckStore>(createCheckStore)
   const { cardId } = useParams()
 
   useEffect(() => {
-    if (CardsStore.currentCard) {
-      const shuffledWords = shuffle(CardsStore.currentCard!.wordList)
+    if (cardsStore.currentCard) {
+      const shuffledWords = shuffle(cardsStore.currentCard!.wordList)
       CheckStore.wordList.set(shuffledWords)
     }
-  }, [CardsStore.currentCard])
+  }, [cardsStore.currentCard])
 
   const card = useCard(cardId)
 
