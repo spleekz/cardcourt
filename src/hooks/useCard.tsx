@@ -11,5 +11,9 @@ export const useCard = (cardId: string | undefined): ICard | null | undefined =>
     }
   }, [cardId])
 
+  useEffect(() => {
+    return () => cardsStore.currentCardId.set(null)
+  }, [])
+
   return cardsStore.currentCard
 }
