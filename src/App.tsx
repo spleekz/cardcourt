@@ -9,6 +9,24 @@ import { CheckPage } from './pages/check/page'
 import { Card } from './components/cards/card'
 import { EditCardPage } from './pages/edit-card/page'
 
+export const App: React.FC = observer(() => {
+  return (
+    <>
+      <GlobalStyles />
+      <AppContainer>
+        <Header />
+        <Routes>
+          <Route path='/' element={<CardCourtPage />} />
+          <Route path='card/new' element={<NewCardPage />} />
+          <Route path='/card/:cardId' element={<Card type='full' />} />
+          <Route path='card/:cardId/check' element={<CheckPage />} />
+          <Route path='card/:cardId/edit' element={<EditCardPage />} />
+        </Routes>
+      </AppContainer>
+    </>
+  )
+})
+
 const GlobalStyles = createGlobalStyle`
   * {
     margin:0;
@@ -40,21 +58,3 @@ const AppContainer = styled.div`
   min-height: 100vh;
   padding: 0px 16px 6px 16px;
 `
-
-export const App: React.FC = observer(() => {
-  return (
-    <>
-      <GlobalStyles />
-      <AppContainer>
-        <Header />
-        <Routes>
-          <Route path='/' element={<CardCourtPage />} />
-          <Route path='card/new' element={<NewCardPage />} />
-          <Route path='/card/:cardId' element={<Card type='full' />} />
-          <Route path='card/:cardId/check' element={<CheckPage />} />
-          <Route path='card/:cardId/edit' element={<EditCardPage />} />
-        </Routes>
-      </AppContainer>
-    </>
-  )
-})

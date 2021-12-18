@@ -17,23 +17,6 @@ interface IWordInputProps {
   lang: Lang
 }
 
-const WordInput = styled.input<IWordInputProps>`
-  width: 48%;
-  padding: 6px 3px;
-  font-size: 20px;
-  transition: all 0.33s;
-  text-align: ${(props) => props.lang === 'en' && !props.isOnFocus && 'right'};
-  cursor: ${(props) => props.isOnHover && !props.isOnFocus && !props.isEmpty && 'pointer'};
-  box-shadow: ${(props) =>
-    (props.isEmpty || props.isOnHover || props.isOnFocus) && '0px 0px 11px 0px rgba(34, 60, 80, 0.2)'};
-  background-color: ${(props) =>
-    props.isEmpty ? '#ffffff' : props.isOnFocus ? '#ffffff' : props.isOnHover ? '#e7ffff' : 'aqua'};
-  ::placeholder {
-    text-align: left;
-    font-size: 18px;
-  }
-`
-
 export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, isEditCard, index, lang }) => {
   const { register } = useFormContext()
 
@@ -74,3 +57,20 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, isEditCard
     />
   )
 }
+
+const WordInput = styled.input<IWordInputProps>`
+  width: 48%;
+  padding: 6px 3px;
+  font-size: 20px;
+  transition: all 0.33s;
+  text-align: ${(props) => props.lang === 'en' && !props.isOnFocus && 'right'};
+  cursor: ${(props) => props.isOnHover && !props.isOnFocus && !props.isEmpty && 'pointer'};
+  box-shadow: ${(props) =>
+    (props.isEmpty || props.isOnHover || props.isOnFocus) && '0px 0px 11px 0px rgba(34, 60, 80, 0.2)'};
+  background-color: ${(props) =>
+    props.isEmpty ? '#ffffff' : props.isOnFocus ? '#ffffff' : props.isOnHover ? '#e7ffff' : 'aqua'};
+  ::placeholder {
+    text-align: left;
+    font-size: 18px;
+  }
+`

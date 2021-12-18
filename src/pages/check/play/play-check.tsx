@@ -3,13 +3,6 @@ import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { CheckStoreContext } from '../page'
 
-const PlayCheckContainer = styled.div`
-  font-size: 40px;
-`
-const UserInput = styled.input`
-  font-size: 40px;
-`
-
 export const PlayCheck: React.FC = observer(() => {
   const CheckStore = useContext(CheckStoreContext)
   const [userInputValue, setUserInputValue] = useState<string>('')
@@ -39,3 +32,10 @@ export const PlayCheck: React.FC = observer(() => {
     </PlayCheckContainer>
   )
 })
+
+const PlayCheckContainer = styled.div`
+  font-size: 40px;
+`
+const UserInput = styled.input`
+  font-size: 40px;
+`

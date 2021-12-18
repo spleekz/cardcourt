@@ -5,13 +5,6 @@ import styled from 'styled-components'
 import { Card } from '../../components/cards/card'
 import { useCard } from '../../hooks/use-card'
 
-const EditCardPageContainer = styled.div`
-  flex: 1 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
 export const EditCardPage: React.FC = observer(() => {
   const { cardId } = useParams()
 
@@ -19,3 +12,10 @@ export const EditCardPage: React.FC = observer(() => {
 
   return <EditCardPageContainer>{card && <Card type='form' card={card} />}</EditCardPageContainer>
 })
+
+const EditCardPageContainer = styled.div`
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`

@@ -11,6 +11,38 @@ export interface ICardElementProps {
   card: ICard
 }
 
+export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
+  const { cardsStore } = useStore()
+  const navigate = useNavigate()
+
+  const deleteCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string): void => {
+    e.preventDefault()
+    cardsStore.deleteCard(id)
+  }
+  const goToEditCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    e.preventDefault()
+    navigate(`/card/${card.id}/edit`)
+  }
+
+  return (
+    <Link key={card.id} to={`/card/${card.id}`}>
+      <CardContainer key={card.id} color={card.ui.headColor}>
+        <EditButton onClick={(e) => goToEditCard(e)}>
+          <PencilIcon />
+        </EditButton>
+        <CardHeading color={card.ui.headColor}>
+          <CardName>{card.name}</CardName>
+          <CardAuthor>{card.author}</CardAuthor>
+        </CardHeading>
+        <CardWords color={card.ui.wordListColor} isHover>
+          <WordList card={card} />
+        </CardWords>
+        <DeleteButton onClick={(e) => deleteCard(e, card.id)}>Удалить</DeleteButton>
+      </CardContainer>
+    </Link>
+  )
+})
+
 export const CardContainer = styled.div<{ color: string }>`
   display: flex;
   flex-direction: column;
@@ -57,35 +89,3 @@ const DeleteButton = styled.button`
   width: 100%;
   font-size: 28px;
 `
-
-export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
-  const { cardsStore } = useStore()
-  const navigate = useNavigate()
-
-  const deleteCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string): void => {
-    e.preventDefault()
-    cardsStore.deleteCard(id)
-  }
-  const goToEditCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-    e.preventDefault()
-    navigate(`/card/${card.id}/edit`)
-  }
-
-  return (
-    <Link key={card.id} to={`/card/${card.id}`}>
-      <CardContainer key={card.id} color={card.ui.headColor}>
-        <EditButton onClick={(e) => goToEditCard(e)}>
-          <PencilIcon />
-        </EditButton>
-        <CardHeading color={card.ui.headColor}>
-          <CardName>{card.name}</CardName>
-          <CardAuthor>{card.author}</CardAuthor>
-        </CardHeading>
-        <CardWords color={card.ui.wordListColor} isHover>
-          <WordList card={card} />
-        </CardWords>
-        <DeleteButton onClick={(e) => deleteCard(e, card.id)}>Удалить</DeleteButton>
-      </CardContainer>
-    </Link>
-  )
-})

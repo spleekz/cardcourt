@@ -8,10 +8,6 @@ interface ICardListProps {
   cards: Array<ICard>
 }
 
-const CardListContainer = styled.div`
-  display: flex;
-`
-
 export const CardList: React.FC<ICardListProps> = observer(({ cards }) => {
   return (
     <CardListContainer>
@@ -21,3 +17,7 @@ export const CardList: React.FC<ICardListProps> = observer(({ cards }) => {
     </CardListContainer>
   )
 })
+
+const CardListContainer = styled.div`
+  display: flex;
+`

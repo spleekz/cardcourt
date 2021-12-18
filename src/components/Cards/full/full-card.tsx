@@ -6,13 +6,6 @@ import { Link } from 'react-router-dom'
 import { WordList } from '../../word-list'
 import { useCard } from '../../../hooks/use-card'
 
-const CardPageContainer = styled.div`
-  font-size: 40px;
-`
-const ToCheckPageButton = styled.button`
-  font-size: 30px;
-`
-
 export const FullCard: React.FC = observer(() => {
   const { cardId } = useParams()
 
@@ -32,3 +25,10 @@ export const FullCard: React.FC = observer(() => {
     </>
   )
 })
+
+const CardPageContainer = styled.div`
+  font-size: 40px;
+`
+const ToCheckPageButton = styled.button`
+  font-size: 30px;
+`

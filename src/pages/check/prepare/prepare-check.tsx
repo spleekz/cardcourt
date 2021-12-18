@@ -7,9 +7,6 @@ import { ICard } from '../../../stores/cards-store'
 interface IPrepareCheckProps {
   card: ICard
 }
-const PrepareCheckContainer = styled.div`
-  font-size: 30px;
-`
 
 export const PrepareCheck: React.FC<IPrepareCheckProps> = observer(({ card }) => {
   const CheckStore = useContext(CheckStoreContext)
@@ -21,3 +18,7 @@ export const PrepareCheck: React.FC<IPrepareCheckProps> = observer(({ card }) =>
     </PrepareCheckContainer>
   )
 })
+
+const PrepareCheckContainer = styled.div`
+  font-size: 30px;
+`

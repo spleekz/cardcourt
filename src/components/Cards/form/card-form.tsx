@@ -12,56 +12,6 @@ interface ICardFormProps {
   card?: ICard
 }
 
-const CardFormContainer = styled(CardContainer)`
-  width: 500px;
-  height: 780px;
-`
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`
-const FormCardHeading = styled(CardHeading)`
-  padding: 15px 15px 0 15px;
-`
-const CardNameInput = styled.input`
-  background-color: transparent;
-  border: 0;
-  outline: none;
-  width: 100%;
-  font-weight: bold;
-  font-size: 32px;
-`
-const FormCardAuthor = styled(CardAuthor)``
-const FormCardWordsContainer = styled(CardWords)`
-  height: 650px;
-  padding: 0px 15px 10px 15px;
-  border-radius: 16px;
-  overflow-y: auto;
-`
-const FormCardWords = styled.div``
-const AddWordPairButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 15px 0 0 0;
-`
-const AddWordPairButton = styled.button`
-  width: 50%;
-  background-color: pink;
-  font-size: 25px;
-  font-weight: bold;
-  border-radius: 5px;
-`
-const SubmitButton = styled.button`
-  width: 100%;
-  background-color: pink;
-  font-size: 28px;
-  padding: 4px;
-  font-weight: bold;
-  position: relative;
-  z-index: 1000;
-`
-
 export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
   const { cardsStore } = useStore()
 
@@ -160,3 +110,53 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
     </CardFormContainer>
   )
 })
+
+const CardFormContainer = styled(CardContainer)`
+  width: 500px;
+  height: 780px;
+`
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
+const FormCardHeading = styled(CardHeading)`
+  padding: 15px 15px 0 15px;
+`
+const CardNameInput = styled.input`
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  width: 100%;
+  font-weight: bold;
+  font-size: 32px;
+`
+const FormCardAuthor = styled(CardAuthor)``
+const FormCardWordsContainer = styled(CardWords)`
+  height: 650px;
+  padding: 0px 15px 10px 15px;
+  border-radius: 16px;
+  overflow-y: auto;
+`
+const FormCardWords = styled.div``
+const AddWordPairButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 15px 0 0 0;
+`
+const AddWordPairButton = styled.button`
+  width: 50%;
+  background-color: pink;
+  font-size: 25px;
+  font-weight: bold;
+  border-radius: 5px;
+`
+const SubmitButton = styled.button`
+  width: 100%;
+  background-color: pink;
+  font-size: 28px;
+  padding: 4px;
+  font-weight: bold;
+  position: relative;
+  z-index: 1000;
+`

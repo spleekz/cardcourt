@@ -8,6 +8,17 @@ interface ICardListProps {
   cardList: Array<ICard>
 }
 
+export const CardCourt: React.FC<ICardListProps> = ({ cardList }) => {
+  return (
+    <CardListContainer>
+      <Link to='/card/new'>
+        <CreateCardButton>Создать</CreateCardButton>
+      </Link>
+      <CardList cards={cardList} />
+    </CardListContainer>
+  )
+}
+
 const CardListContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,14 +31,3 @@ const CreateCardButton = styled.button`
   top: -30px;
   margin: 0px 0px 16px 8px;
 `
-
-export const CardCourt: React.FC<ICardListProps> = ({ cardList }) => {
-  return (
-    <CardListContainer>
-      <Link to='/card/new'>
-        <CreateCardButton>Создать</CreateCardButton>
-      </Link>
-      <CardList cards={cardList} />
-    </CardListContainer>
-  )
-}

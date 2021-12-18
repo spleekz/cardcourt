@@ -10,8 +10,6 @@ import { CheckResult } from './result/check-result'
 import { shuffle } from 'lodash'
 import { useCard } from '../../hooks/use-card'
 
-const CheckPageContainer = styled.div``
-
 export const CheckStoreContext = createContext<ICheckStore>(new CheckStore())
 
 export const CheckPage: React.FC = observer(() => {
@@ -43,3 +41,5 @@ export const CheckPage: React.FC = observer(() => {
     </CheckStoreContext.Provider>
   )
 })
+
+const CheckPageContainer = styled.div``

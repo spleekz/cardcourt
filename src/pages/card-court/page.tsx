@@ -4,13 +4,6 @@ import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
 import { CardCourt } from './court'
 
-const CardsPageContainer = styled.div`
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
-
 export const CardCourtPage: React.FC = observer(() => {
   const { cardsStore } = useStore()
 
@@ -20,3 +13,10 @@ export const CardCourtPage: React.FC = observer(() => {
     </CardsPageContainer>
   )
 })
+
+const CardsPageContainer = styled.div`
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
