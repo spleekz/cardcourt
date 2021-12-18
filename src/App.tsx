@@ -7,6 +7,7 @@ import { CardCourtPage } from './pages/CardCourt/CardCourtPage'
 import { NewCardPage } from './pages/NewCard/NewCardPage'
 import { CheckPage } from './pages/Check/CheckPage'
 import { Card } from './components/Cards/Card'
+import { EditCardPage } from './pages/EditCard/EditCardPage'
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -51,7 +52,7 @@ export const App: React.FC = observer(() => {
           <Route path='card/new' element={<NewCardPage />} />
           <Route path='/card/:cardId' element={<Card type='full' />} />
           <Route path='card/:cardId/check' element={<CheckPage />} />
-          <Route path='card/:cardId/edit' element={<Card type='edit' />} />
+          <Route path='card/:cardId/edit' element={<EditCardPage />} />
         </Routes>
       </AppContainer>
     </>

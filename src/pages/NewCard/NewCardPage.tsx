@@ -12,7 +12,7 @@ const NewCardPageContainer = styled.div`
 export const NewCardPage: React.FC = () => {
   return (
     <NewCardPageContainer>
-      <Card type='new' />
+      <Card type='form' />
     </NewCardPageContainer>
   )
 }

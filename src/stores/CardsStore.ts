@@ -28,6 +28,7 @@ export interface ICardsStore {
   currentCard: ICard | null
   addCard(card: ICard): void
   deleteCard(id: string): void
+  updateCard(id: string, card: ICard): void
 }
 
 export class CardsStore implements ICardsStore {
@@ -72,6 +73,16 @@ export class CardsStore implements ICardsStore {
   }
   deleteCard(id: string): void {
     this.cards = this.cards.filter((card) => card.id !== id)
+  }
+  updateCard(id: string, editedCard: ICard): void {
+    this.cards = this.cards.map((card) => {
+      if (card.id === id) {
+        return { ...card, ...editedCard }
+      } else
+        return {
+          ...card,
+        }
+    })
   }
 
   get currentCard(): ICard | null {

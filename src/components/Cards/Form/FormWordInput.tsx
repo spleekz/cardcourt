@@ -6,6 +6,7 @@ import isEnglish from 'is-english'
 
 interface IFormWordInput {
   inputValue: string
+  isEditCard: boolean
   index: number
   lang: Lang
 }
@@ -33,12 +34,12 @@ const WordInput = styled.input<IWordInputProps>`
   }
 `
 
-export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, lang }) => {
+export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, isEditCard, index, lang }) => {
   const { register } = useFormContext()
 
   const [isInputOnFocus, setIsInputOnFocus] = useState<boolean>(false)
   const [isInputOnHover, setIsInputOnHover] = useState<boolean>(false)
-  const [isInputEmpty, setIsInputEmpty] = useState<boolean>(true)
+  const [isInputEmpty, setIsInputEmpty] = useState<boolean>(!isEditCard)
 
   const validateInputLanguage = (value: string): boolean => {
     if (lang === 'en') {
