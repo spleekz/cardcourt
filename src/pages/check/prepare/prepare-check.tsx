@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { CheckStoreContext } from '../CheckPage'
-import { ICard } from '../../../stores/CardsStore'
+import { CheckStoreContext } from '../page'
+import { ICard } from '../../../stores/cards-store'
 
 interface IPrepareCheckProps {
   card: ICard

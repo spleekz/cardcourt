@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { useParams } from 'react-router'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
-import { WordList } from '../../WordList'
-import { useCard } from '../../../hooks/useCard'
+import { WordList } from '../../word-list'
+import { useCard } from '../../../hooks/use-card'
 
 const CardPageContainer = styled.div`
   font-size: 40px;

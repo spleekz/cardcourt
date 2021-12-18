@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { nanoid } from 'nanoid'
-import { IWithSet, WithSet } from './entities/WithSet'
+import { IWithSet, WithSet } from './entities/with-set'
 import { makePersistable } from 'mobx-persist-store'
 
 export interface IWordWithTranslate {

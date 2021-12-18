@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ICard } from '../stores/CardsStore'
+import { ICard } from '../stores/cards-store'
 
 const CardWordContainer = styled.div`
   display: flex;

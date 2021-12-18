@@ -1,14 +1,14 @@
 import React, { createContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router'
-import { useStore } from '../../stores/RootStore/RootStoreContext'
+import { useStore } from '../../stores/root-store/context'
 import { observer } from 'mobx-react-lite'
-import { ICheckStore, CheckStore } from '../../stores/CheckStore'
-import { PlayCheck } from './Play/PlayCheck'
-import { PrepareCheck } from './Prepare/PrepareCheck'
-import { ResultCheck } from './Result/ResultCheck'
+import { ICheckStore, CheckStore } from '../../stores/check-store'
+import { PlayCheck } from './play/play-check'
+import { PrepareCheck } from './prepare/prepare-check'
+import { CheckResult } from './result/check-result'
 import { shuffle } from 'lodash'
-import { useCard } from '../../hooks/useCard'
+import { useCard } from '../../hooks/use-card'
 
 const CheckPageContainer = styled.div``
 
@@ -37,7 +37,7 @@ export const CheckPage: React.FC = observer(() => {
           ) : CheckStore.checkMode.value === 'play' ? (
             <PlayCheck />
           ) : (
-            <ResultCheck />
+            <CheckResult />
           ))}
       </CheckPageContainer>
     </CheckStoreContext.Provider>

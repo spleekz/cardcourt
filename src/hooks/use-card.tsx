@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { ICard } from '../stores/CardsStore'
-import { useStore } from '../stores/RootStore/RootStoreContext'
+import { ICard } from '../stores/cards-store'
+import { useStore } from '../stores/root-store/context'
 
 export const useCard = (cardId: string | undefined): ICard | null | undefined => {
   const { cardsStore } = useStore()

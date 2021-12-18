@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
-import { ICard } from '../../../stores/CardsStore'
+import { ICard } from '../../../stores/cards-store'
 import { observer } from 'mobx-react-lite'
-import { WordList } from '../../WordList'
-import { useStore } from '../../../stores/RootStore/RootStoreContext'
-import { PencilIcon } from '../../../svg/PencilIcon'
+import { WordList } from '../../word-list'
+import { useStore } from '../../../stores/root-store/context'
+import { PencilIcon } from '../../../svg/pencil-icon'
 
 export interface ICardElementProps {
   card: ICard

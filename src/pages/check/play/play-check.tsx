@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
-import { CheckStoreContext } from '../CheckPage'
+import { CheckStoreContext } from '../page'
 
 const PlayCheckContainer = styled.div`
   font-size: 40px;

@@ -1,11 +1,11 @@
 import React, { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { ICard } from '../../../stores/CardsStore'
-import { useStore } from '../../../stores/RootStore/RootStoreContext'
-import { CardAuthor, CardContainer, CardHeading, CardWords } from '../Element/CardElement'
+import { ICard } from '../../../stores/cards-store'
+import { useStore } from '../../../stores/root-store/context'
+import { CardAuthor, CardContainer, CardHeading, CardWords } from '../element/element'
 import { useForm, FormProvider, useFieldArray, SubmitHandler } from 'react-hook-form'
 import { nanoid } from 'nanoid'
-import { FormWordPair } from './FormWordPair'
+import { FormWordPair } from './word-pair'
 import { observer } from 'mobx-react-lite'
 
 interface ICardFormProps {

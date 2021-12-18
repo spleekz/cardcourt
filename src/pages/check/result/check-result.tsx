@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { CheckStoreContext } from '../CheckPage'
-import { useStore } from '../../../stores/RootStore/RootStoreContext'
+import { CheckStoreContext } from '../page'
+import { useStore } from '../../../stores/root-store/context'
 
-export const ResultCheck: React.FC = observer(() => {
+export const CheckResult: React.FC = observer(() => {
   const { cardsStore } = useStore()
   const CheckStore = useContext(CheckStoreContext)
 

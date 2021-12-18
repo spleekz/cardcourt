@@ -1,8 +1,8 @@
 import React from 'react'
-import { FullCard } from './Full/FullCard'
-import { CardElement, ICardElementProps } from './Element/CardElement'
-import { CardForm } from './Form/CardForm'
-import { ICard } from '../../stores/CardsStore'
+import { FullCard } from './full/full-card'
+import { CardElement, ICardElementProps } from './element/element'
+import { CardForm } from './form/card-form'
+import { ICard } from '../../stores/cards-store'
 
 type CardType = 'form' | 'full' | 'element'
 

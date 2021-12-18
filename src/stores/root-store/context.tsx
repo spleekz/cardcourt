@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react'
-import { IRootStore, RootStore } from './RootStore'
+import { IRootStore, RootStore } from './store'
 
 interface RootStoreProviderProps {
   children: React.ReactNode

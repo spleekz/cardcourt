@@ -2,12 +2,12 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { Route, Routes } from 'react-router'
 import styled, { createGlobalStyle } from 'styled-components'
-import { Header } from './components/Header'
-import { CardCourtPage } from './pages/CardCourt/CardCourtPage'
-import { NewCardPage } from './pages/NewCard/NewCardPage'
-import { CheckPage } from './pages/Check/CheckPage'
-import { Card } from './components/Cards/Card'
-import { EditCardPage } from './pages/EditCard/EditCardPage'
+import { Header } from './components/header'
+import { CardCourtPage } from './pages/card-court/page'
+import { NewCardPage } from './pages/new-card/page'
+import { CheckPage } from './pages/check/page'
+import { Card } from './components/cards/card'
+import { EditCardPage } from './pages/edit-card/page'
 
 const GlobalStyles = createGlobalStyle`
   * {

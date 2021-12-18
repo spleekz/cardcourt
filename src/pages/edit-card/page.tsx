@@ -2,8 +2,8 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { Card } from '../../components/Cards/Card'
-import { useCard } from '../../hooks/useCard'
+import { Card } from '../../components/cards/card'
+import { useCard } from '../../hooks/use-card'
 
 const EditCardPageContainer = styled.div`
   flex: 1 0 auto;

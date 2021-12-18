@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
-import { IWordWithTranslate, WordListType } from './CardsStore'
-import { WithSet, IWithSet } from './entities/WithSet'
+import { IWordWithTranslate, WordListType } from './cards-store'
+import { WithSet, IWithSet } from './entities/with-set'
 
 export type Lang = 'ru' | 'en'
 export interface ICheckConfig {

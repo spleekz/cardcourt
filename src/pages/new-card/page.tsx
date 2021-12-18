@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Card } from '../../components/Cards/Card'
+import { Card } from '../../components/cards/card'
 
 const NewCardPageContainer = styled.div`
   flex: 1 0 auto;

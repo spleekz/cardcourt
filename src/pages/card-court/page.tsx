@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import styled from 'styled-components'
-import { useStore } from '../../stores/RootStore/RootStoreContext'
-import { CardCourt } from './CardCourt'
+import { useStore } from '../../stores/root-store/context'
+import { CardCourt } from './court'
 
 const CardsPageContainer = styled.div`
   flex: 1 0 auto;

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { ICard } from '../../stores/CardsStore'
-import { CardList } from './CardList'
+import { ICard } from '../../stores/cards-store'
+import { CardList } from './card-list'
 
 interface ICardListProps {
   cardList: Array<ICard>

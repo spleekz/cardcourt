@@ -1,5 +1,5 @@
-import { CardsStore, ICardsStore } from '../CardsStore'
-import { ICheckStore, CheckStore } from '../CheckStore'
+import { CardsStore, ICardsStore } from '../cards-store'
+import { ICheckStore, CheckStore } from '../check-store'
 
 export interface IRootStore {
   cardsStore: ICardsStore
