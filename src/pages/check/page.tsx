@@ -13,18 +13,19 @@ import { useCard } from '../../hooks/use-card'
 export const CheckStoreContext = createContext<ICheckStore>(new CheckStore())
 
 export const CheckPage: React.FC = observer(() => {
-  const { cardsStore, createCheckStore } = useStore()
+  const { createCheckStore } = useStore()
   const [CheckStore] = useState<ICheckStore>(createCheckStore)
+
   const { cardId } = useParams()
 
+  const card = useCard(cardId)
+
   useEffect(() => {
-    if (cardsStore.currentCard) {
-      const shuffledWords = shuffle(cardsStore.currentCard!.wordList)
+    if (card) {
+      const shuffledWords = shuffle(card.wordList)
       CheckStore.wordList.set(shuffledWords)
     }
-  }, [cardsStore.currentCard])
-
-  const card = useCard(cardId)
+  }, [card])
 
   return (
     <CheckStoreContext.Provider value={CheckStore}>
