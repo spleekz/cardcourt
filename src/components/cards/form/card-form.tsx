@@ -5,8 +5,9 @@ import { useStore } from '../../../stores/root-store/context'
 import { CardAuthor, CardContainer, CardHeading, CardWords } from '../element/element'
 import { useForm, FormProvider, useFieldArray, SubmitHandler } from 'react-hook-form'
 import { nanoid } from 'nanoid'
-import { FormWordPair } from './word-pair'
+import { FormWordPair } from './form-components/word-pair'
 import { observer } from 'mobx-react-lite'
+import { usePopupContext } from '../../../app'
 
 interface ICardFormProps {
   card?: ICard
@@ -14,6 +15,7 @@ interface ICardFormProps {
 
 export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
   const { cardsStore } = useStore()
+  const { cardDone } = usePopupContext()
 
   const isEditCard = card !== undefined
 
@@ -30,7 +32,6 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
     control: methods.control,
     name: 'wordList',
   })
-
   const watchedFields = methods.watch('wordList')
 
   const addNewWordPair = (): void => {
@@ -39,20 +40,26 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
       anchorRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, 0)
   }
+
   const createNewCard: SubmitHandler<ICard> = (card) => {
-    card.id = `${new Date().getTime()}`
-    card.author = 'spleekz'
-    card.ui = {
-      headColor: 'pink',
-      wordListColor: 'aqua',
+    {
+      card.id = nanoid(3)
+      card.author = 'spleekz'
+      card.ui = {
+        headColor: 'pink',
+        wordListColor: 'aqua',
+      }
+      card.wordList.forEach((word) => {
+        word.id = nanoid()
+      })
     }
-    card.wordList.forEach((word) => {
-      word.id = nanoid()
-    })
     cardsStore.addCard(card)
+    cardDone.set(true)
   }
+
   const updateCard: SubmitHandler<ICard> = (editedCard) => {
     cardsStore.updateCard(card!.id, editedCard)
+    cardDone.set(true)
   }
 
   useLayoutEffect(() => {
@@ -62,6 +69,7 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
         topRef.current?.scrollIntoView({ behavior: 'smooth' })
       }, 400)
     }
+    return () => cardDone.set(false)
   }, [])
 
   return (

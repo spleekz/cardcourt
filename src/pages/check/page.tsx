@@ -9,10 +9,13 @@ import { PrepareCheck } from './prepare/prepare-check'
 import { CheckResult } from './result/check-result'
 import { shuffle } from 'lodash'
 import { useCard } from '../../hooks/use-card'
+import { usePage } from '../../hooks/use-page'
 
 export const CheckStoreContext = createContext<ICheckStore>(new CheckStore())
 
 export const CheckPage: React.FC = observer(() => {
+  usePage()
+
   const { createCheckStore } = useStore()
   const [CheckStore] = useState<ICheckStore>(createCheckStore)
 

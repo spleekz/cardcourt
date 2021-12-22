@@ -3,8 +3,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
 import { CardCourt } from './court'
+import { usePage } from '../../hooks/use-page'
 
 export const CardCourtPage: React.FC = observer(() => {
+  usePage()
+
   const { cardsStore } = useStore()
 
   return (

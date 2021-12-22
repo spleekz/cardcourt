@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import styled from 'styled-components'
-import { Lang } from '../../../stores/check-store'
+import { Lang } from '../../../../stores/check-store'
 import isEnglish from 'is-english'
 
 interface IFormWordInput {

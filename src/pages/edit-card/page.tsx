@@ -4,8 +4,11 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Card } from '../../components/cards/card'
 import { useCard } from '../../hooks/use-card'
+import { usePage } from '../../hooks/use-page'
 
 export const EditCardPage: React.FC = observer(() => {
+  usePage()
+
   const { cardId } = useParams()
 
   const card = useCard(cardId)
