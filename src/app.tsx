@@ -88,5 +88,5 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding: 0px 16px 6px 16px;
+  padding: 0 30px 0 30px;
 `
