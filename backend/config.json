@@ -1,5 +1,0 @@
-{
-  "port": 4400,
-  "uri": "mongodb+srv://spleekz:73202566REFERgot%%mongo4@cluster0.pjrcg.mongodb.net/Cluster0?retryWrites=true&w=majority",
-  "secret":"cc-secret-cc"
-}
