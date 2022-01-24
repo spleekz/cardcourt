@@ -2,7 +2,7 @@ import React from 'react'
 import { FullCard } from './full/full-card'
 import { CardElement, ICardElementProps } from './element/element'
 import { CardForm } from './form/card-form'
-import { ICard } from '../../stores/cards-store'
+import { Card } from '../../api/api'
 
 type CardType = 'form' | 'full' | 'element'
 
@@ -11,7 +11,7 @@ interface IGeneralCard {
 }
 interface IFormCard extends IGeneralCard {
   type: 'form'
-  card?: ICard
+  card?: Card
 }
 interface IFullCard extends IGeneralCard {
   type: 'full'
@@ -21,11 +21,11 @@ interface IElementCard extends IGeneralCard {
   card: ICardElementProps['card']
 }
 
-export function Card(props: React.PropsWithChildren<IFormCard>): React.ReactElement | null
-export function Card(props: React.PropsWithChildren<IFullCard>): React.ReactElement | null
-export function Card(props: React.PropsWithChildren<IElementCard>): React.ReactElement | null
+export function CardRef(props: React.PropsWithChildren<IFormCard>): React.ReactElement | null
+export function CardRef(props: React.PropsWithChildren<IFullCard>): React.ReactElement | null
+export function CardRef(props: React.PropsWithChildren<IElementCard>): React.ReactElement | null
 
-export function Card(props: IFormCard | IFullCard | IElementCard): React.ReactElement | null {
+export function CardRef(props: IFormCard | IFullCard | IElementCard): React.ReactElement | null {
   if (props.type === 'form') {
     if (props.card) {
       return <CardForm card={props.card} />

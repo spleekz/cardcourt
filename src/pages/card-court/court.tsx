@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { ICard } from '../../stores/cards-store'
 import { CardList } from './card-list'
+import { Card } from '../../api/api'
 
 interface ICardListProps {
-  cardList: Array<ICard>
+  cardList: Array<Card>
 }
 
 export const CardCourt: React.FC<ICardListProps> = ({ cardList }) => {

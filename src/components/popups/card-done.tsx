@@ -24,7 +24,7 @@ export const CardDonePopup: React.FC<Props> = ({ isOpened, title }) => {
                 <p>👈</p>
               </RedirectButton>
             </NavLink>
-            <NavLink to={`/card/${cardsStore.currentCardId.value}`}>
+            <NavLink to={`/card/${cardsStore.cardId.value}`}>
               <RedirectButton>
                 на карточку!<p>👉</p>
               </RedirectButton>

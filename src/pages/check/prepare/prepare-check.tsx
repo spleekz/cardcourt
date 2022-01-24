@@ -2,10 +2,10 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { CheckStoreContext } from '../page'
-import { ICard } from '../../../stores/cards-store'
+import { Card } from '../../../api/api'
 
 interface IPrepareCheckProps {
-  card: ICard
+  card: Card
 }
 
 export const PrepareCheck: React.FC<IPrepareCheckProps> = observer(({ card }) => {

@@ -1,14 +1,13 @@
 import React from 'react'
-import { FieldArrayWithId } from 'react-hook-form'
 import styled from 'styled-components'
-import { ICard } from '../../../../stores/cards-store'
+import { SendedCardWords } from '../../../../api/api'
 import { XIcon } from '../../../../svg/x-icon'
 import { FormWordInput } from './word-input'
 
 interface IFormWordPair {
   remove: (index?: number | number[] | undefined) => void
   isEditCard: boolean
-  fields: FieldArrayWithId<ICard, 'wordList', 'id'>[]
+  fields: SendedCardWords
   index: number
 }
 

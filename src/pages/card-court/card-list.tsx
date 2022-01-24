@@ -1,18 +1,18 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import styled from 'styled-components'
-import { ICard } from '../../stores/cards-store'
-import { Card } from '../../components/cards/card'
+import { CardRef } from '../../components/cards/card-ref'
+import { Card } from '../../api/api'
 
 interface ICardListProps {
-  cards: Array<ICard>
+  cards: Array<Card>
 }
 
 export const CardList: React.FC<ICardListProps> = observer(({ cards }) => {
   return (
     <CardListContainer>
       {cards.map((card) => {
-        return <Card type='element' card={card} key={card.id} />
+        return <CardRef type='element' card={card} key={card._id} />
       })}
     </CardListContainer>
   )

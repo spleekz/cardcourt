@@ -13,7 +13,7 @@ export const CheckResult: React.FC = observer(() => {
       <Link to={'/'}>
         <button>На Card Court</button>
       </Link>
-      <Link to={`/card/${cardsStore.currentCard!.id}`}>
+      <Link to={`/card/${cardsStore.card!._id}`}>
         <button>На карточку</button>
       </Link>
       <button onClick={() => CheckStore.checkMode.set('prepare')}>Повторить проверку</button>

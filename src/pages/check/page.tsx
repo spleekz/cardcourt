@@ -14,7 +14,7 @@ import { usePage } from '../../hooks/use-page'
 export const CheckStoreContext = createContext<ICheckStore>(new CheckStore())
 
 export const CheckPage: React.FC = observer(() => {
-  usePage()
+  usePage(false)
 
   const { createCheckStore } = useStore()
   const [CheckStore] = useState<ICheckStore>(createCheckStore)
@@ -25,7 +25,7 @@ export const CheckPage: React.FC = observer(() => {
 
   useEffect(() => {
     if (card) {
-      const shuffledWords = shuffle(card.wordList)
+      const shuffledWords = shuffle(card.words)
       CheckStore.wordList.set(shuffledWords)
     }
   }, [card])

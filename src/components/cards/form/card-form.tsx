@@ -1,20 +1,19 @@
 import React, { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { ICard } from '../../../stores/cards-store'
+import { Card, SendedCard, UpdatedCard } from '../../../api/api'
 import { useStore } from '../../../stores/root-store/context'
 import { CardAuthor, CardContainer, CardHeading, CardWords } from '../element/element'
 import { useForm, FormProvider, useFieldArray, SubmitHandler } from 'react-hook-form'
-import { nanoid } from 'nanoid'
 import { FormWordPair } from './form-components/word-pair'
 import { observer } from 'mobx-react-lite'
 import { usePopupContext } from '../../../app'
 
 interface ICardFormProps {
-  card?: ICard
+  card?: Card
 }
 
 export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
-  const { cardsStore } = useStore()
+  const { authStore, cardsStore } = useStore()
   const { cardDone } = usePopupContext()
 
   const isEditCard = card !== undefined
@@ -22,17 +21,17 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
   const anchorRef = useRef<HTMLDivElement>(null)
   const topRef = useRef<HTMLDivElement>(null)
 
-  const methods = useForm<ICard>({
+  const methods = useForm<SendedCard>({
     defaultValues: {
       name: isEditCard ? card.name : '',
-      wordList: isEditCard ? card.wordList : [{ en: '', ru: '' }],
+      words: isEditCard ? card.words : [{ en: '', ru: '' }],
     },
   })
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove } = useFieldArray<SendedCard, 'words', 'id'>({
     control: methods.control,
-    name: 'wordList',
+    name: 'words',
   })
-  const watchedFields = methods.watch('wordList')
+  const watchedFields = methods.watch('words')
 
   const addNewWordPair = (): void => {
     append({ en: '', ru: '' })
@@ -41,24 +40,23 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
     }, 0)
   }
 
-  const createNewCard: SubmitHandler<ICard> = (card) => {
-    {
-      card.id = nanoid(3)
-      card.author = 'spleekz'
-      card.ui = {
-        headColor: 'pink',
-        wordListColor: 'aqua',
-      }
-      card.wordList.forEach((word) => {
-        word.id = nanoid()
-      })
+  const createNewCard: SubmitHandler<SendedCard> = (card) => {
+    card.ui = {
+      headColor: 'pink',
+      bodyColor: 'aqua',
     }
     cardsStore.addCard(card)
     cardDone.set(true)
   }
 
-  const updateCard: SubmitHandler<ICard> = (editedCard) => {
-    cardsStore.updateCard(card!.id, editedCard)
+  const updateCard: SubmitHandler<SendedCard> = (updatableFields) => {
+    const fullUpdatedCard: UpdatedCard = {
+      ...updatableFields,
+      ui: card!.ui,
+      _id: card!._id,
+    }
+
+    cardsStore.updateCard(fullUpdatedCard)
     cardDone.set(true)
   }
 
@@ -82,7 +80,7 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
               placeholder='Введите название карточки'
               maxLength={27}
             />
-            <FormCardAuthor>spleekz</FormCardAuthor>
+            <FormCardAuthor>{card?.author || authStore.me?.name}</FormCardAuthor>
           </FormCardHeading>
           <FormCardWordsContainer color='aqua' isHover={false}>
             <div

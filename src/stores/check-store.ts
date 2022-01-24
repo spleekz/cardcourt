@@ -1,20 +1,21 @@
 import { makeAutoObservable } from 'mobx'
-import { IWordWithTranslate, WordListType } from './cards-store'
+import { CardWord, CardWords } from '../api/api'
 import { WithSet, IWithSet } from './entities/with-set'
 
 export type Lang = 'ru' | 'en'
+
 export interface ICheckConfig {
   userInputLang: Lang
 }
 export type CheckModeType = 'prepare' | 'play' | 'result'
 
 export interface ICheckStore {
-  wordList: IWithSet<WordListType>
+  wordList: IWithSet<CardWords>
   userInputLang: Lang
   userInput: IWithSet<string>
   currentWordIndex: IWithSet<number>
   isCurrentWordBeforeLast: boolean
-  currentWord: IWordWithTranslate
+  currentWord: CardWord
   isCurrentWordCorrect: boolean
   checkMode: IWithSet<CheckModeType>
   setConfig(config: ICheckConfig): void
@@ -25,7 +26,7 @@ export class CheckStore implements ICheckStore {
     makeAutoObservable(this)
   }
 
-  wordList = new WithSet<WordListType>([] as WordListType)
+  wordList = new WithSet<CardWords>([] as CardWords)
   checkMode = new WithSet<CheckModeType>('prepare')
 
   userInputLang: Lang = 'en'
@@ -33,7 +34,7 @@ export class CheckStore implements ICheckStore {
   userInput = new WithSet<string>('')
   currentWordIndex = new WithSet<number>(0)
 
-  get currentWord(): IWordWithTranslate {
+  get currentWord(): CardWord {
     return this.wordList.value[this.currentWordIndex.value]
   }
   get isCurrentWordCorrect(): boolean {

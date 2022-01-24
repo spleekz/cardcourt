@@ -1,18 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
-import { ICard } from '../../../stores/cards-store'
+import { Card } from '../../../api/api'
 import { observer } from 'mobx-react-lite'
 import { WordList } from '../../word-list'
 import { useStore } from '../../../stores/root-store/context'
 import { PencilIcon } from '../../../svg/pencil-icon'
 
 export interface ICardElementProps {
-  card: ICard
+  card: Card
 }
 
 export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
   const { cardsStore } = useStore()
+
   const navigate = useNavigate()
 
   const deleteCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string): void => {
@@ -21,12 +22,12 @@ export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
   }
   const goToEditCard = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     e.preventDefault()
-    navigate(`/card/${card.id}/edit`)
+    navigate(`/card/${card._id}/edit`)
   }
 
   return (
-    <Link key={card.id} to={`/card/${card.id}`}>
-      <CardContainer key={card.id} color={card.ui.headColor}>
+    <Link key={card._id} to={`/card/${card._id}`}>
+      <CardContainer key={card._id} color={card.ui.headColor}>
         <EditButton onClick={(e) => goToEditCard(e)}>
           <PencilIcon />
         </EditButton>
@@ -34,10 +35,10 @@ export const CardElement: React.FC<ICardElementProps> = observer(({ card }) => {
           <CardName>{card.name}</CardName>
           <CardAuthor>{card.author}</CardAuthor>
         </CardHeading>
-        <CardWords color={card.ui.wordListColor} isHover>
+        <CardWords color={card.ui.bodyColor} isHover>
           <WordList card={card} />
         </CardWords>
-        <DeleteButton onClick={(e) => deleteCard(e, card.id)}>Удалить</DeleteButton>
+        <DeleteButton onClick={(e) => deleteCard(e, card._id)}>Удалить</DeleteButton>
       </CardContainer>
     </Link>
   )

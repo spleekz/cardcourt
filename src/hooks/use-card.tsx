@@ -1,19 +1,19 @@
 import { useEffect } from 'react'
-import { ICard } from '../stores/cards-store'
+import { Card } from '../api/api'
 import { useStore } from '../stores/root-store/context'
 
-export const useCard = (cardId: string | undefined): ICard | null | undefined => {
+export const useCard = (cardId: string | undefined): Card | null | undefined => {
   const { cardsStore } = useStore()
 
   useEffect(() => {
     if (cardId) {
-      cardsStore.currentCardId.set(cardId)
+      cardsStore.cardId.set(cardId)
     }
   }, [cardId])
 
   useEffect(() => {
-    return () => cardsStore.currentCardId.set(null)
+    return () => cardsStore.cardId.set(null)
   }, [])
 
-  return cardsStore.currentCard
+  return cardsStore.card
 }

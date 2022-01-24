@@ -2,18 +2,18 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { Card } from '../../components/cards/card'
+import { CardRef } from '../../components/cards/card-ref'
 import { useCard } from '../../hooks/use-card'
 import { usePage } from '../../hooks/use-page'
 
 export const EditCardPage: React.FC = observer(() => {
-  usePage()
+  usePage(true)
 
   const { cardId } = useParams()
 
   const card = useCard(cardId)
 
-  return <EditCardPageContainer>{card && <Card type='form' card={card} />}</EditCardPageContainer>
+  return <EditCardPageContainer>{card && <CardRef type='form' card={card} />}</EditCardPageContainer>
 })
 
 const EditCardPageContainer = styled.div`

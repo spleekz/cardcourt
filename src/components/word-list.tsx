@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ICard } from '../stores/cards-store'
+import { Card } from '../api/api'
 
 const Dash = styled.span``
 
-export const WordList: React.FC<{ card: ICard }> = ({ card }) => {
+export const WordList: React.FC<{ card: Card }> = ({ card }) => {
   return (
     <>
-      {card.wordList.map((word) => {
+      {card.words.map((word) => {
         return (
-          <CardWordContainer key={word.id}>
+          <CardWordContainer key={word._id}>
             <CardWordBlock>
               <CardWord>{word.en}</CardWord>
               <Dash>—</Dash>

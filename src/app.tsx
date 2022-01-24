@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite'
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router'
 import styled, { createGlobalStyle } from 'styled-components'
-import { Header } from './components/header'
+import { Header } from './components/header/header'
 import { CardCourtPage } from './pages/card-court/page'
 import { NewCardPage } from './pages/new-card/page'
 import { CheckPage } from './pages/check/page'
@@ -25,7 +25,7 @@ export const PopupsContext = createContext<Popups>({} as Popups)
 export const usePopupContext = (): Popups => useContext(PopupsContext)
 
 export const App: React.FC = observer(() => {
-  const { appStore } = useStore()
+  const { authStore, appStore } = useStore()
 
   const [isCardDonePopup, setIsCardDonePopup] = useState<boolean>(false)
   const isAnyPopupOpened = isCardDonePopup
@@ -36,6 +36,12 @@ export const App: React.FC = observer(() => {
       set: setIsCardDonePopup,
     },
   }
+
+  useEffect(() => {
+    if (authStore.token) {
+      authStore.loadMe()
+    }
+  }, [authStore.token])
 
   return (
     <PopupsContext.Provider value={PopupsForContext}>

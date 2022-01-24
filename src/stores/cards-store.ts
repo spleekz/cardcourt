@@ -1,86 +1,48 @@
 import { makeAutoObservable } from 'mobx'
-import { nanoid } from 'nanoid'
+import { Card, SendedCard, UpdatedCard } from '../api/api'
 import { IWithSet, WithSet } from './entities/with-set'
-import { makePersistable } from 'mobx-persist-store'
+import { api } from '../api'
 
-export interface IWordWithTranslate {
-  ru: string
-  en: string
-  id: string
-}
-
-export type WordListType = Array<IWordWithTranslate>
-
-const headColors = ['#ffffff', '#ede4aa', 'pink'] as const
-
-const wordListColors = ['#a4373a', '#9ee5ec', 'aqua'] as const
-
-interface ICardUI {
-  headColor: typeof headColors[number]
-  wordListColor: typeof wordListColors[number]
-}
-export interface ICard {
-  name: string
-  author: string
-  id: string
-  wordList: WordListType
-  ui: ICardUI
-}
 export interface ICardsStore {
-  cards: Array<ICard>
-  currentCardId: IWithSet<string | null>
-  currentCard: ICard | null
-  addCard(card: ICard): void
-  deleteCard(id: string): void
-  updateCard(id: string, card: ICard): void
+  cards: Array<Card>
+  cardId: IWithSet<string | null>
+  card: Card | null
+  addCard(card: SendedCard): void
+  deleteCard(_id: string): void
+  updateCard(updatedCard: UpdatedCard): void
+  loadCards(): void
 }
 
 export class CardsStore implements ICardsStore {
   constructor() {
     makeAutoObservable(this)
-    // makePersistable(this, { name: 'CardsStore', properties: ['cards'], storage: window.localStorage })
   }
-  cards: Array<ICard> = [
-    {
-      name: 'dictation 1',
-      author: 'spleekz',
-      id: '2',
-      wordList: [
-        { en: 'almonds', ru: 'миндаль', id: nanoid() },
-        { en: 'vibe', ru: 'вайб', id: nanoid() },
-        { en: 'aesthetics', ru: 'эстетика', id: nanoid() },
-        { en: 'appreciate', ru: 'ценить', id: nanoid() },
-      ],
-      ui: {
-        headColor: '#ede4aa',
-        wordListColor: '#9ee5ec',
-      },
-    },
-  ]
-  currentCardId = new WithSet<string | null>(null)
+  cards: Array<Card> = []
 
-  addCard(card: ICard): void {
-    this.cards.push(card)
+  cardId: IWithSet<string | null> = new WithSet<string | null>(null)
+
+  addCard(card: SendedCard): void {
+    api.card.createCard(card)
   }
-  deleteCard(id: string): void {
-    this.cards = this.cards.filter((card) => card.id !== id)
+  deleteCard(_id: string): void {
+    api.card.deleteCard({ _id })
   }
-  updateCard(id: string, editedCard: ICard): void {
-    this.cards = this.cards.map((card) => {
-      if (card.id === id) {
-        return { ...card, ...editedCard }
-      } else
-        return {
-          ...card,
-        }
+  updateCard(updatedCard: UpdatedCard): void {
+    api.card.updateCard(updatedCard)
+  }
+  loadCards(): void {
+    api.cards.getCards().then((res) => {
+      if (res.ok) {
+        this.cards = res.data
+      }
     })
   }
 
-  get currentCard(): ICard | null {
-    if (this.currentCardId) {
+  get card(): Card | null {
+    if (this.cardId) {
       let currentCard = null
       this.cards.forEach((card) => {
-        if (card.id === this.currentCardId.value) {
+        if (card._id === this.cardId.value) {
           currentCard = card
         }
       })

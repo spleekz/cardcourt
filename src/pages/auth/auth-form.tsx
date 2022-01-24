@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useStore } from '../../stores/root-store/context'
-import { useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
+import { useNavigate } from 'react-router-dom'
 
 interface AuthFormValues {
   name: string
@@ -15,19 +15,18 @@ export const AuthForm: React.FC = observer(() => {
   const { register, handleSubmit } = useForm<AuthFormValues>()
   const navigate = useNavigate()
 
-  const loginUser: SubmitHandler<AuthFormValues> = ({ name, password }) => {
-    console.log(name, password)
-  }
-  const registerUser: SubmitHandler<AuthFormValues> = ({ name, password }) => {
-    authStore.registerUser(name, password)
-  }
-
-  useEffect(() => {
-    if (authStore.isRedirecting) {
+  const loginUser: SubmitHandler<AuthFormValues> = async ({ name, password }) => {
+    await authStore.loginUser(name, password)
+    if (authStore.token) {
       navigate('/')
-      authStore.setIsRedirecting(false)
     }
-  }, [authStore.isRedirecting])
+  }
+  const registerUser: SubmitHandler<AuthFormValues> = async ({ name, password }) => {
+    await authStore.registerUser(name, password)
+    if (authStore.token) {
+      navigate('/')
+    }
+  }
 
   return (
     <FormContainer>
