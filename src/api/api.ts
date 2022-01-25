@@ -200,6 +200,22 @@ export namespace Card {
     export type RequestHeaders = {};
     export type ResponseBody = MessageResponse;
   }
+  /**
+   * No description
+   * @tags cards
+   * @name GetCard
+   * @summary Получить информацию о карточке по id
+   * @request GET:/card/{cardId}
+   * @response `200` `Card` Информация о карточке
+   * @response `default` `MessageResponse` Ошибка
+   */
+  export namespace GetCard {
+    export type RequestParams = { cardId: string };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Card;
+  }
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -561,6 +577,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags cards
+     * @name GetCard
+     * @summary Получить информацию о карточке по id
+     * @request GET:/card/{cardId}
+     * @response `200` `Card` Информация о карточке
+     * @response `default` `MessageResponse` Ошибка
+     */
+    getCard: (cardId: string, params: RequestParams = {}) =>
+      this.request<Card, MessageResponse>({
+        path: `/card/${cardId}`,
+        method: "GET",
         format: "json",
         ...params,
       }),

@@ -10,6 +10,9 @@ export interface ICardsStore {
   addCard(card: SendedCard): void
   deleteCard(_id: string): void
   updateCard(updatedCard: UpdatedCard): void
+  requestForCard(): void
+  setCardById(id: string): void
+  setCard(card: Card | null): void
   loadCards(): void
 }
 
@@ -38,17 +41,28 @@ export class CardsStore implements ICardsStore {
     })
   }
 
-  get card(): Card | null {
-    if (this.cardId) {
-      let currentCard = null
-      this.cards.forEach((card) => {
-        if (card._id === this.cardId.value) {
-          currentCard = card
+  card: Card | null = null
+
+  requestForCard(): void {
+    if (this.cardId.value) {
+      api.card.getCard(this.cardId.value).then((res) => {
+        if (res.ok) {
+          this.setCard(res.data)
         }
       })
-      return currentCard
     } else {
-      return null
+      this.setCard(null)
     }
+  }
+  setCardById(id: string): void {
+    this.cards.forEach((card) => {
+      if (card._id === id) {
+        this.setCard(card)
+      }
+    })
+  }
+
+  setCard(card: Card | null): void {
+    this.card = card
   }
 }
