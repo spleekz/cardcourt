@@ -1,10 +1,10 @@
 import { makeAutoObservable } from 'mobx'
-import { IWithSet, WithSet } from './entities/with-set'
 
 export type Page = 'main' | 'card' | 'new' | 'edit' | 'check' | 'auth'
 
 export interface IAppStore {
-  page: IWithSet<Page>
+  page: Page
+  setPage(page: Page): void
 }
 
 export class AppStore implements IAppStore {
@@ -12,5 +12,8 @@ export class AppStore implements IAppStore {
     makeAutoObservable(this)
   }
 
-  page: IWithSet<Page> = new WithSet('main')
+  page: Page = 'main'
+  setPage(page: Page): void {
+    this.page = page
+  }
 }

@@ -7,7 +7,7 @@ export const useCard = (cardId: string | undefined): Card | null | undefined => 
 
   useEffect(() => {
     if (cardId) {
-      cardsStore.cardId.set(cardId)
+      cardsStore.setCardId(cardId)
       if (!cardsStore.cards.some((card) => card._id === cardId)) {
         cardsStore.requestForCard()
       } else {
@@ -17,7 +17,7 @@ export const useCard = (cardId: string | undefined): Card | null | undefined => 
   }, [cardId])
 
   useEffect(() => {
-    return () => cardsStore.cardId.set(null)
+    return () => cardsStore.setCardId(null)
   }, [])
 
   return cardsStore.card

@@ -14,7 +14,7 @@ export const PrepareCheck: React.FC<IPrepareCheckProps> = observer(({ card }) =>
   return (
     <PrepareCheckContainer>
       Prepare Check for CARD {card.name}
-      <button onClick={() => CheckStore.checkMode.set('play')}>Начать</button>
+      <button onClick={() => CheckStore.setCheckMode('play')}>Начать</button>
     </PrepareCheckContainer>
   )
 })

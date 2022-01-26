@@ -49,7 +49,7 @@ export const App: React.FC = observer(() => {
       <AppContainer>
         <CardDonePopup
           isOpened={isCardDonePopup}
-          title={appStore.page.value === 'new' ? 'Карточка создана!' : 'Карточка обновлена!'}
+          title={appStore.page === 'new' ? 'Карточка создана!' : 'Карточка обновлена!'}
         />
         <Header />
         <PageContainer>

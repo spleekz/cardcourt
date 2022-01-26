@@ -16,7 +16,7 @@ export const CheckResult: React.FC = observer(() => {
       <Link to={`/card/${cardsStore.card!._id}`}>
         <button>На карточку</button>
       </Link>
-      <button onClick={() => CheckStore.checkMode.set('prepare')}>Повторить проверку</button>
+      <button onClick={() => CheckStore.setCheckMode('prepare')}>Повторить проверку</button>
     </div>
   )
 })

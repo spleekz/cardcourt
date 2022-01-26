@@ -10,12 +10,12 @@ export const PlayCheck: React.FC = observer(() => {
   const goToNextWord = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.code === 'Enter') {
       if (userInputValue.trim().toLowerCase() === CheckStore.currentWord.en.toLowerCase()) {
-        if (CheckStore.isCurrentWordBeforeLast) {
-          CheckStore.currentWordIndex.set(CheckStore.currentWordIndex.value + 1)
+        if (!CheckStore.isCurrentWordLast) {
+          CheckStore.updateCurrentWordIndex()
           setUserInputValue('')
         } else {
-          CheckStore.checkMode.set('result')
-          CheckStore.currentWordIndex.set(0)
+          CheckStore.setCheckMode('result')
+          CheckStore.setCurrentWordIndex(0)
         }
       }
     }

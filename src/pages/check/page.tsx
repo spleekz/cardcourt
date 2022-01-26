@@ -25,7 +25,7 @@ export const CheckPage: React.FC = registerPage(
     useEffect(() => {
       if (card) {
         const shuffledWords = shuffle(card.words)
-        CheckStore.wordList.set(shuffledWords)
+        CheckStore.setWordList(shuffledWords)
       }
     }, [card])
 
@@ -33,9 +33,9 @@ export const CheckPage: React.FC = registerPage(
       <CheckStoreContext.Provider value={CheckStore}>
         <CheckPageContainer>
           {card &&
-            (CheckStore.checkMode.value === 'prepare' ? (
+            (CheckStore.checkMode === 'prepare' ? (
               <PrepareCheck card={card} />
-            ) : CheckStore.checkMode.value === 'play' ? (
+            ) : CheckStore.checkMode === 'play' ? (
               <PlayCheck />
             ) : (
               <CheckResult />

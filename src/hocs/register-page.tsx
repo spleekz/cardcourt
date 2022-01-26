@@ -17,7 +17,7 @@ export function registerPage<Props>(
 
     useEffect(() => {
       if (page) {
-        appStore.page.set(page as Page)
+        appStore.setPage(page as Page)
       }
     }, [pathname])
 
