@@ -27,7 +27,7 @@ export function registerPage<Props>(
           authStore.token ? (
             <WrappedComponent {...props} />
           ) : (
-            <Navigate to={'/auth'} />
+            <Navigate to={'/auth'} state={{ prevPath: location.pathname }} />
           )
         ) : (
           <WrappedComponent {...props} />

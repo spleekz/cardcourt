@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useStore } from '../../stores/root-store/context'
 import { observer } from 'mobx-react-lite'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface AuthFormValues {
   name: string
@@ -14,18 +14,27 @@ export const AuthForm: React.FC = observer(() => {
   const { authStore } = useStore()
   const { register, handleSubmit } = useForm<AuthFormValues>()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const redirect = (): void => {
+    if (authStore.token) {
+      if (location.state) {
+        if (location.state.prevPath) {
+          navigate(location.state.prevPath)
+        }
+      } else {
+        navigate('/')
+      }
+    }
+  }
 
   const loginUser: SubmitHandler<AuthFormValues> = async ({ name, password }) => {
     await authStore.loginUser(name, password)
-    if (authStore.token) {
-      navigate(-1)
-    }
+    redirect()
   }
   const registerUser: SubmitHandler<AuthFormValues> = async ({ name, password }) => {
     await authStore.registerUser(name, password)
-    if (authStore.token) {
-      navigate(-1)
-    }
+    redirect()
   }
 
   return (
