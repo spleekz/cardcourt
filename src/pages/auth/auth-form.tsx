@@ -18,13 +18,13 @@ export const AuthForm: React.FC = observer(() => {
   const loginUser: SubmitHandler<AuthFormValues> = async ({ name, password }) => {
     await authStore.loginUser(name, password)
     if (authStore.token) {
-      navigate('/')
+      navigate(-1)
     }
   }
   const registerUser: SubmitHandler<AuthFormValues> = async ({ name, password }) => {
     await authStore.registerUser(name, password)
     if (authStore.token) {
-      navigate('/')
+      navigate(-1)
     }
   }
 
