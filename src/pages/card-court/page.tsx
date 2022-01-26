@@ -3,23 +3,23 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
 import { CardCourt } from './court'
-import { usePage } from '../../hooks/use-page'
+import { registerPage } from '../../hocs/register-page'
 
-export const CardCourtPage: React.FC = observer(() => {
-  usePage(false)
+export const CardCourtPage: React.FC = registerPage(
+  observer(() => {
+    const { cardsStore } = useStore()
 
-  const { cardsStore } = useStore()
+    useEffect(() => {
+      cardsStore.loadCards()
+    }, [])
 
-  useEffect(() => {
-    cardsStore.loadCards()
-  }, [])
-
-  return (
-    <CardsPageContainer>
-      <CardCourt cardList={cardsStore.cards} />
-    </CardsPageContainer>
-  )
-})
+    return (
+      <CardsPageContainer>
+        <CardCourt cardList={cardsStore.cards} />
+      </CardsPageContainer>
+    )
+  })
+)
 
 const CardsPageContainer = styled.div`
   flex: 1 0 auto;

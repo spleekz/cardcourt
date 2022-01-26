@@ -2,16 +2,18 @@ import React from 'react'
 import styled from 'styled-components'
 import { CardRef } from '../../components/cards/card-ref'
 import { observer } from 'mobx-react-lite'
-import { usePage } from '../../hooks/use-page'
+import { registerPage } from '../../hocs/register-page'
 
-export const CardPage: React.FC = observer(() => {
-  usePage(false,true)
-
-  return (
-    <CardPageContainer>
-      <CardRef type='full' />
-    </CardPageContainer>
-  )
-})
+export const CardPage: React.FC = registerPage(
+  observer(() => {
+    return (
+      <CardPageContainer>
+        <CardRef type='full' />
+      </CardPageContainer>
+    )
+  }),
+  false,
+  true
+)
 
 const CardPageContainer = styled.div``

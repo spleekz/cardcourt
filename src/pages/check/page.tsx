@@ -9,41 +9,41 @@ import { PrepareCheck } from './prepare/prepare-check'
 import { CheckResult } from './result/check-result'
 import { shuffle } from 'lodash'
 import { useCard } from '../../hooks/use-card'
-import { usePage } from '../../hooks/use-page'
+import { registerPage } from '../../hocs/register-page'
 
 export const CheckStoreContext = createContext<ICheckStore>(new CheckStore())
 
-export const CheckPage: React.FC = observer(() => {
-  usePage(false)
+export const CheckPage: React.FC = registerPage(
+  observer(() => {
+    const { createCheckStore } = useStore()
+    const [CheckStore] = useState<ICheckStore>(createCheckStore)
 
-  const { createCheckStore } = useStore()
-  const [CheckStore] = useState<ICheckStore>(createCheckStore)
+    const { cardId } = useParams()
 
-  const { cardId } = useParams()
+    const card = useCard(cardId)
 
-  const card = useCard(cardId)
+    useEffect(() => {
+      if (card) {
+        const shuffledWords = shuffle(card.words)
+        CheckStore.wordList.set(shuffledWords)
+      }
+    }, [card])
 
-  useEffect(() => {
-    if (card) {
-      const shuffledWords = shuffle(card.words)
-      CheckStore.wordList.set(shuffledWords)
-    }
-  }, [card])
-
-  return (
-    <CheckStoreContext.Provider value={CheckStore}>
-      <CheckPageContainer>
-        {card &&
-          (CheckStore.checkMode.value === 'prepare' ? (
-            <PrepareCheck card={card} />
-          ) : CheckStore.checkMode.value === 'play' ? (
-            <PlayCheck />
-          ) : (
-            <CheckResult />
-          ))}
-      </CheckPageContainer>
-    </CheckStoreContext.Provider>
-  )
-})
+    return (
+      <CheckStoreContext.Provider value={CheckStore}>
+        <CheckPageContainer>
+          {card &&
+            (CheckStore.checkMode.value === 'prepare' ? (
+              <PrepareCheck card={card} />
+            ) : CheckStore.checkMode.value === 'play' ? (
+              <PlayCheck />
+            ) : (
+              <CheckResult />
+            ))}
+        </CheckPageContainer>
+      </CheckStoreContext.Provider>
+    )
+  })
+)
 
 const CheckPageContainer = styled.div``
