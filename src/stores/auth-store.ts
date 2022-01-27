@@ -19,7 +19,7 @@ export interface IAuthStore {
 export class AuthStore implements IAuthStore {
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true })
-    makePersistable(this, { name: 'AuthStore', properties: ['token'], storage: window.localStorage })
+    makePersistable(this, { name: 'authStore', properties: ['token'], storage: window.localStorage })
   }
 
   token: string | null = null

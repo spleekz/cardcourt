@@ -3,6 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 import { useStore } from '../stores/root-store/context'
 import { withoutSlash } from '../lib/strings'
 import { Page } from '../stores/app-store'
+import { observer } from 'mobx-react-lite'
 
 export function registerPage<Props>(
   WrappedComponent: React.FC<Props>,
@@ -10,10 +11,11 @@ export function registerPage<Props>(
   isRootPath = false
 ): React.FC<Props> {
   const Component: React.FC<Props> = (props) => {
-    const { authStore, appStore } = useStore()
+    const { appStore } = useStore()
     const { pathname } = useLocation()
-
     const page = withoutSlash(pathname, isRootPath) || 'main'
+    const tokenFromStorage = (JSON.parse(localStorage.getItem('authStore')!) as { token: string })
+      .token
 
     useEffect(() => {
       if (page) {
@@ -24,7 +26,7 @@ export function registerPage<Props>(
     return (
       <>
         {isProtected ? (
-          authStore.token ? (
+          tokenFromStorage ? (
             <WrappedComponent {...props} />
           ) : (
             <Navigate to={'/auth'} state={{ prevPath: location.pathname }} />
@@ -35,5 +37,5 @@ export function registerPage<Props>(
       </>
     )
   }
-  return Component
+  return observer(Component)
 }
