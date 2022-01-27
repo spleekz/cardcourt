@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Navigate, useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useStore } from '../stores/root-store/context'
 import { withoutSlash } from '../lib/strings'
 import { Page } from '../stores/app-store'
@@ -11,9 +11,12 @@ export function registerPage<Props>(
   isRootPath = false
 ): React.FC<Props> {
   const Component: React.FC<Props> = (props) => {
-    const { appStore } = useStore()
+    const { appStore, authStore } = useStore()
     const { pathname } = useLocation()
+    const navigate = useNavigate()
+
     const page = withoutSlash(pathname, isRootPath) || 'main'
+
     const tokenFromStorage = (JSON.parse(localStorage.getItem('authStore')!) as { token: string })
       .token
 
@@ -22,6 +25,18 @@ export function registerPage<Props>(
         appStore.setPage(page as Page)
       }
     }, [pathname])
+
+    const [isFirstEffectRun, setIsFirstEffectRun] = useState(true)
+    useEffect(() => {
+      if (!isFirstEffectRun) {
+        if (isProtected) {
+          if (!tokenFromStorage) {
+            navigate('/auth')
+          }
+        }
+      }
+      setIsFirstEffectRun(false)
+    }, [authStore.token])
 
     return (
       <>
