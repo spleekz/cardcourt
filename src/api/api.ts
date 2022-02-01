@@ -73,6 +73,11 @@ export type UpdatedCard = Id & EditedCardFields;
 
 export type Cards = Card[];
 
+export interface GetCardsParams {
+  /** Поисковые слова */
+  search?: string;
+}
+
 export namespace Register {
   /**
    * No description
@@ -135,14 +140,14 @@ export namespace Cards {
    * No description
    * @tags cards
    * @name GetCards
-   * @summary Получить список всех публичных карточек
+   * @summary Получить список всех публичных карточек содержащих поисковые слова (по умолчанию - все карточки)
    * @request GET:/cards
    * @response `200` `Cards` Список карточек
    * @response `default` `MessageResponse` Ошибка
    */
   export namespace GetCards {
     export type RequestParams = {};
-    export type RequestQuery = {};
+    export type RequestQuery = { search?: string };
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = Cards;
@@ -502,15 +507,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags cards
      * @name GetCards
-     * @summary Получить список всех публичных карточек
+     * @summary Получить список всех публичных карточек содержащих поисковые слова (по умолчанию - все карточки)
      * @request GET:/cards
      * @response `200` `Cards` Список карточек
      * @response `default` `MessageResponse` Ошибка
      */
-    getCards: (params: RequestParams = {}) =>
+    getCards: (query: GetCardsParams, params: RequestParams = {}) =>
       this.request<Cards, MessageResponse>({
         path: `/cards`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),

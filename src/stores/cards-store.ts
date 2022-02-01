@@ -1,10 +1,13 @@
-import { makeAutoObservable } from 'mobx'
+import { autorun, makeAutoObservable } from 'mobx'
 import { Card, SendedCard, UpdatedCard } from '../api/api'
 import { api } from '../api'
 
 export interface ICardsStore {
   cards: Array<Card>
-  loadCards(): void
+  loadCards(search: string): void
+
+  search: string
+  setSearch(value: string): void
 
   cardId: string | null
   setCardId(id: string | null): void
@@ -21,15 +24,21 @@ export interface ICardsStore {
 export class CardsStore implements ICardsStore {
   constructor() {
     makeAutoObservable(this)
+    autorun(() => this.loadCards(this.search))
   }
 
   cards: Array<Card> = []
-  loadCards(): void {
-    api.cards.getCards().then((res) => {
+  loadCards(search: string): void {
+    api.cards.getCards({ search }).then((res) => {
       if (res.ok) {
         this.cards = res.data
       }
     })
+  }
+
+  search = ''
+  setSearch(value: string): void {
+    this.search = value
   }
 
   cardId: string | null = null

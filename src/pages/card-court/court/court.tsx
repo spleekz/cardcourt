@@ -1,30 +1,28 @@
 import React from 'react'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { CardList } from './card-list'
-import { Card } from '../../api/api'
+import { useStore } from '../../../stores/root-store/context'
 
-interface ICardListProps {
-  cardList: Array<Card>
-}
+export const Court: React.FC = observer(() => {
+  const { cardsStore } = useStore()
 
-export const CardCourt: React.FC<ICardListProps> = ({ cardList }) => {
   return (
     <CardListContainer>
       <Link to='/card/new'>
         <CreateCardButton>Создать</CreateCardButton>
       </Link>
-      <CardList cards={cardList} />
+      <CardList cards={cardsStore.cards} />
     </CardListContainer>
   )
-}
+})
 
 const CardListContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   position: relative;
-  top: 0;
-  left: 0;
 `
 const CreateCardButton = styled.button`
   position: absolute;

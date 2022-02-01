@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import styled from 'styled-components'
-import { CardRef } from '../../components/cards/card-ref'
-import { Card } from '../../api/api'
+import { CardRef } from '../../../components/cards/card-ref'
+import { Card } from '../../../api/api'
 
 interface ICardListProps {
   cards: Array<Card>

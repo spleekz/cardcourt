@@ -1,21 +1,16 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { useStore } from '../../stores/root-store/context'
-import { CardCourt } from './court'
 import { registerPage } from '../../hocs/register-page'
+import { Search } from './search'
+import { Court } from './court/court'
 
 export const CardCourtPage: React.FC = registerPage(
   observer(() => {
-    const { cardsStore } = useStore()
-
-    useEffect(() => {
-      cardsStore.loadCards()
-    }, [])
-
     return (
       <CardsPageContainer>
-        <CardCourt cardList={cardsStore.cards} />
+        <Search />
+        <Court />
       </CardsPageContainer>
     )
   })
@@ -23,6 +18,8 @@ export const CardCourtPage: React.FC = registerPage(
 
 const CardsPageContainer = styled.div`
   flex: 1 0 auto;
+  position: relative;
+  top: 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
