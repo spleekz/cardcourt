@@ -73,9 +73,20 @@ export type UpdatedCard = Id & EditedCardFields;
 
 export type Cards = Card[];
 
+export interface CardsResponse {
+  cards: Cards;
+  pageCount: number;
+}
+
 export interface GetCardsParams {
-  /** Поисковые слова */
+  /** Поисковый запрос */
   search?: string;
+
+  /** Размер одной страницы (по умолчанию - 5) */
+  pageSize?: number;
+
+  /** Номер страницы, размером pageSize (по умолчанию - 1) */
+  page?: number;
 }
 
 export namespace Register {
@@ -140,17 +151,17 @@ export namespace Cards {
    * No description
    * @tags cards
    * @name GetCards
-   * @summary Получить список всех публичных карточек содержащих поисковые слова (по умолчанию - все карточки)
+   * @summary Получить список всех публичных карточек содержащих поисковый запрос
    * @request GET:/cards
-   * @response `200` `Cards` Список карточек
+   * @response `200` `CardsResponse` Список карточек
    * @response `default` `MessageResponse` Ошибка
    */
   export namespace GetCards {
     export type RequestParams = {};
-    export type RequestQuery = { search?: string };
+    export type RequestQuery = { search?: string; pageSize?: number; page?: number };
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = Cards;
+    export type ResponseBody = CardsResponse;
   }
 }
 
@@ -507,13 +518,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags cards
      * @name GetCards
-     * @summary Получить список всех публичных карточек содержащих поисковые слова (по умолчанию - все карточки)
+     * @summary Получить список всех публичных карточек содержащих поисковый запрос
      * @request GET:/cards
-     * @response `200` `Cards` Список карточек
+     * @response `200` `CardsResponse` Список карточек
      * @response `default` `MessageResponse` Ошибка
      */
     getCards: (query: GetCardsParams, params: RequestParams = {}) =>
-      this.request<Cards, MessageResponse>({
+      this.request<CardsResponse, MessageResponse>({
         path: `/cards`,
         method: "GET",
         query: query,

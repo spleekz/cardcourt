@@ -1,10 +1,13 @@
-import { autorun, makeAutoObservable } from 'mobx'
-import { Card, SendedCard, UpdatedCard } from '../api/api'
+import { makeAutoObservable } from 'mobx'
+import { Card, Cards, SendedCard, UpdatedCard } from '../api/api'
 import { api } from '../api'
 
 export interface ICardsStore {
-  cards: Array<Card>
-  loadCards(search: string): void
+  cards: Cards
+  setCards(cards: Cards): void
+  pushCards(cards: Cards): void
+  loadCards(search?: string, page?: number, pageSize?: number): void
+  loadMoreCards(): void
 
   search: string
   setSearch(value: string): void
@@ -19,19 +22,42 @@ export interface ICardsStore {
   requestForCard(): void
   setCard(card: Card | null): void
   setCardById(id: string): void
+
+  page: number
+  setPage(page: number): void
+  setNextPage(): void
+  setPrevPage(): void
+
+  pageCount: number
+  setPageCount(pageCount: number): void
 }
 
 export class CardsStore implements ICardsStore {
   constructor() {
     makeAutoObservable(this)
-    autorun(() => this.loadCards(this.search))
   }
 
-  cards: Array<Card> = []
-  loadCards(search: string): void {
-    api.cards.getCards({ search }).then((res) => {
+  cards: Cards = []
+  setCards(cards: Cards): void {
+    this.cards = cards
+  }
+  pushCards(cards: Cards): void {
+    this.setCards([...this.cards, ...cards])
+  }
+  loadCards(search?: string, page?: number, pageSize?: number): void {
+    api.cards.getCards({ search, page, pageSize }).then((res) => {
       if (res.ok) {
-        this.cards = res.data
+        this.setPageCount(res.data.pageCount)
+        this.setCards(res.data.cards)
+      }
+    })
+  }
+  loadMoreCards(): void {
+    this.setNextPage()
+    api.cards.getCards({ search: this.search, page: this.page }).then((res) => {
+      if (res.ok) {
+        this.setPageCount(res.data.pageCount)
+        this.pushCards(res.data.cards)
       }
     })
   }
@@ -76,5 +102,21 @@ export class CardsStore implements ICardsStore {
         this.setCard(card)
       }
     })
+  }
+
+  page = 1
+  setPage(page: number): void {
+    this.page = page
+  }
+  setNextPage(): void {
+    this.page++
+  }
+  setPrevPage(): void {
+    this.page--
+  }
+
+  pageCount = 0
+  setPageCount(pageCount: number): void {
+    this.pageCount = pageCount
   }
 }
