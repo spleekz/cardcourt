@@ -79,14 +79,17 @@ export interface CardsResponse {
 }
 
 export interface GetCardsParams {
-  /** Поисковый запрос */
-  search?: string;
+  /** Номер страницы, размером pageSize (по умолчанию - 1) */
+  page?: number;
+
+  /** Количество страниц, которое нужно загрузить, начиная с page включительно */
+  pagesToLoad?: number;
 
   /** Размер одной страницы (по умолчанию - 5) */
   pageSize?: number;
 
-  /** Номер страницы, размером pageSize (по умолчанию - 1) */
-  page?: number;
+  /** Поисковый запрос */
+  search?: string;
 }
 
 export namespace Register {
@@ -151,14 +154,14 @@ export namespace Cards {
    * No description
    * @tags cards
    * @name GetCards
-   * @summary Получить список всех публичных карточек содержащих поисковый запрос
+   * @summary Начиная со страницы page включительно, загрузить pagesToLoad страниц, имеющих размер pageSize и удовлетворяющих поисковому запросу search
    * @request GET:/cards
    * @response `200` `CardsResponse` Список карточек
    * @response `default` `MessageResponse` Ошибка
    */
   export namespace GetCards {
     export type RequestParams = {};
-    export type RequestQuery = { search?: string; pageSize?: number; page?: number };
+    export type RequestQuery = { page?: number; pagesToLoad?: number; pageSize?: number; search?: string };
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = CardsResponse;
@@ -518,7 +521,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags cards
      * @name GetCards
-     * @summary Получить список всех публичных карточек содержащих поисковый запрос
+     * @summary Начиная со страницы page включительно, загрузить pagesToLoad страниц, имеющих размер pageSize и удовлетворяющих поисковому запросу search
      * @request GET:/cards
      * @response `200` `CardsResponse` Список карточек
      * @response `default` `MessageResponse` Ошибка

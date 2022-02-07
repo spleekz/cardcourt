@@ -15,13 +15,15 @@ export const Court: React.FC = observer(() => {
     setPosition((current) => current - 1682)
   }
   const nextPage = (): void => {
-    cardsStore.loadMoreCards()
+    cardsStore.setNextPage()
+    if (!cardsStore.pageWasVisited && cardsStore.notLastPage) {
+      cardsStore.loadMoreCards()
+    }
     setPosition((current) => current + 1682)
   }
 
   useEffect(() => {
-    cardsStore.setPage(1)
-    cardsStore.loadCards(cardsStore.search)
+    cardsStore.loadCards(1, 2)
   }, [cardsStore.search])
 
   return (

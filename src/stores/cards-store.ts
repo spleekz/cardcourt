@@ -6,8 +6,8 @@ export interface ICardsStore {
   cards: Cards
   setCards(cards: Cards): void
   pushCards(cards: Cards): void
-  loadCards(search?: string, page?: number, pageSize?: number): void
-  loadMoreCards(): void
+  loadCards(page?: number, pagesToLoad?: number, pageSize?: number, search?: string): void
+  loadMoreCards(page?: number, pagesToLoad?: number, pageSize?: number, search?: string): void
 
   search: string
   setSearch(value: string): void
@@ -23,6 +23,11 @@ export interface ICardsStore {
   setCard(card: Card | null): void
   setCardById(id: string): void
 
+  // pagination
+
+  pageSize: number
+  setPageSize(size: number): void
+
   page: number
   setPage(page: number): void
   setNextPage(): void
@@ -30,6 +35,12 @@ export interface ICardsStore {
 
   pageCount: number
   setPageCount(pageCount: number): void
+
+  maxLoadedPage: number
+  setMaxLoadedPage(page: number): void
+
+  notLastPage: boolean
+  pageWasVisited: boolean
 }
 
 export class CardsStore implements ICardsStore {
@@ -44,18 +55,24 @@ export class CardsStore implements ICardsStore {
   pushCards(cards: Cards): void {
     this.setCards([...this.cards, ...cards])
   }
-  loadCards(search?: string, page?: number, pageSize?: number): void {
-    api.cards.getCards({ search, page, pageSize }).then((res) => {
+  loadCards(page = 1, pagesToLoad = 1, pageSize = this.pageSize, search = this.search): void {
+    api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
+        this.setMaxLoadedPage(pagesToLoad)
         this.setPageCount(res.data.pageCount)
         this.setCards(res.data.cards)
       }
     })
   }
-  loadMoreCards(): void {
-    this.setNextPage()
-    api.cards.getCards({ search: this.search, page: this.page }).then((res) => {
+  loadMoreCards(
+    page = this.page + 1,
+    pagesToLoad = 1,
+    pageSize = this.pageSize,
+    search = this.search
+  ): void {
+    api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
+        this.setMaxLoadedPage(page)
         this.setPageCount(res.data.pageCount)
         this.pushCards(res.data.cards)
       }
@@ -104,6 +121,13 @@ export class CardsStore implements ICardsStore {
     })
   }
 
+  //!PAGINATION
+
+  pageSize = 5
+  setPageSize(size: number): void {
+    this.pageSize = size
+  }
+
   page = 1
   setPage(page: number): void {
     this.page = page
@@ -118,5 +142,17 @@ export class CardsStore implements ICardsStore {
   pageCount = 0
   setPageCount(pageCount: number): void {
     this.pageCount = pageCount
+  }
+
+  maxLoadedPage = 0
+  setMaxLoadedPage(page: number): void {
+    this.maxLoadedPage = page
+  }
+
+  get notLastPage(): boolean {
+    return this.page < this.pageCount
+  }
+  get pageWasVisited(): boolean {
+    return this.page < this.maxLoadedPage
   }
 }
