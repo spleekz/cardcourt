@@ -3,14 +3,21 @@ import { Card, Cards, SendedCard, UpdatedCard } from '../api/api'
 import { api } from '../api'
 import { ICardsPaginationStore } from './cards-pagination-store'
 
+interface LoadCardsOptions {
+  page?: number
+  pagesToLoad?: number
+  pageSize?: number
+  search?: string
+}
+
 export interface ICardsStore {
   pagination: ICardsPaginationStore
 
   cards: Cards
   setCards(cards: Cards): void
   pushCards(cards: Cards): void
-  loadCards(page?: number, pagesToLoad?: number, pageSize?: number, search?: string): void
-  loadMoreCards(page?: number, pagesToLoad?: number, pageSize?: number, search?: string): void
+  loadCards(options?: LoadCardsOptions): void
+  loadMoreCards(options?: LoadCardsOptions): void
 
   search: string
   setSearch(value: string): void
@@ -42,12 +49,12 @@ export class CardsStore implements ICardsStore {
   pushCards(cards: Cards): void {
     this.setCards([...this.cards, ...cards])
   }
-  loadCards(
+  loadCards({
     page = 1,
     pagesToLoad = 1,
     pageSize = this.pagination.pageSize,
-    search = this.search
-  ): void {
+    search = this.search,
+  }: LoadCardsOptions = {}): void {
     api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
         this.pagination.setMaxLoadedPage(pagesToLoad)
@@ -56,12 +63,12 @@ export class CardsStore implements ICardsStore {
       }
     })
   }
-  loadMoreCards(
+  loadMoreCards({
     page = this.pagination.page + 1,
     pagesToLoad = 1,
     pageSize = this.pagination.pageSize,
-    search = this.search
-  ): void {
+    search = this.search,
+  }: LoadCardsOptions = {}): void {
     api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
         this.pagination.setMaxLoadedPage(page)

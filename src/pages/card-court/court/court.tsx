@@ -9,7 +9,7 @@ export const Court: React.FC = observer(() => {
   const { cardsStore } = useStore()
 
   useEffect(() => {
-    cardsStore.loadCards(1, 2)
+    cardsStore.loadCards({ pagesToLoad: 2 })
   }, [cardsStore.search])
 
   return (
