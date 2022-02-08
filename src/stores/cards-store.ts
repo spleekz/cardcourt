@@ -1,8 +1,11 @@
 import { makeAutoObservable } from 'mobx'
 import { Card, Cards, SendedCard, UpdatedCard } from '../api/api'
 import { api } from '../api'
+import { ICardsPaginationStore } from './cards-pagination-store'
 
 export interface ICardsStore {
+  pagination: ICardsPaginationStore
+
   cards: Cards
   setCards(cards: Cards): void
   pushCards(cards: Cards): void
@@ -22,30 +25,14 @@ export interface ICardsStore {
   requestForCard(): void
   setCard(card: Card | null): void
   setCardById(id: string): void
-
-  // pagination
-
-  pageSize: number
-  setPageSize(size: number): void
-
-  page: number
-  setPage(page: number): void
-  setNextPage(): void
-  setPrevPage(): void
-
-  pageCount: number
-  setPageCount(pageCount: number): void
-
-  maxLoadedPage: number
-  setMaxLoadedPage(page: number): void
-
-  notLastPage: boolean
-  pageWasVisited: boolean
 }
 
 export class CardsStore implements ICardsStore {
-  constructor() {
+  pagination: ICardsPaginationStore
+
+  constructor(cardsPaginationStore: ICardsPaginationStore) {
     makeAutoObservable(this)
+    this.pagination = cardsPaginationStore
   }
 
   cards: Cards = []
@@ -55,25 +42,30 @@ export class CardsStore implements ICardsStore {
   pushCards(cards: Cards): void {
     this.setCards([...this.cards, ...cards])
   }
-  loadCards(page = 1, pagesToLoad = 1, pageSize = this.pageSize, search = this.search): void {
+  loadCards(
+    page = 1,
+    pagesToLoad = 1,
+    pageSize = this.pagination.pageSize,
+    search = this.search
+  ): void {
     api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
-        this.setMaxLoadedPage(pagesToLoad)
-        this.setPageCount(res.data.pageCount)
+        this.pagination.setMaxLoadedPage(pagesToLoad)
+        this.pagination.setPageCount(res.data.pageCount)
         this.setCards(res.data.cards)
       }
     })
   }
   loadMoreCards(
-    page = this.page + 1,
+    page = this.pagination.page + 1,
     pagesToLoad = 1,
-    pageSize = this.pageSize,
+    pageSize = this.pagination.pageSize,
     search = this.search
   ): void {
     api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
-        this.setMaxLoadedPage(page)
-        this.setPageCount(res.data.pageCount)
+        this.pagination.setMaxLoadedPage(page)
+        this.pagination.setPageCount(res.data.pageCount)
         this.pushCards(res.data.cards)
       }
     })
@@ -119,40 +111,5 @@ export class CardsStore implements ICardsStore {
         this.setCard(card)
       }
     })
-  }
-
-  //!PAGINATION
-
-  pageSize = 5
-  setPageSize(size: number): void {
-    this.pageSize = size
-  }
-
-  page = 1
-  setPage(page: number): void {
-    this.page = page
-  }
-  setNextPage(): void {
-    this.page++
-  }
-  setPrevPage(): void {
-    this.page--
-  }
-
-  pageCount = 0
-  setPageCount(pageCount: number): void {
-    this.pageCount = pageCount
-  }
-
-  maxLoadedPage = 0
-  setMaxLoadedPage(page: number): void {
-    this.maxLoadedPage = page
-  }
-
-  get notLastPage(): boolean {
-    return this.page < this.pageCount
-  }
-  get pageWasVisited(): boolean {
-    return this.page < this.maxLoadedPage
   }
 }

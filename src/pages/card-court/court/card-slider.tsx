@@ -10,17 +10,17 @@ interface CardSliderProps {
 }
 
 export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
-  const { cardsStore } = useStore()
+  const { cardsStore, cardsPaginationStore } = useStore()
 
   const [position, setPosition] = useState<number>(0)
 
   const prevPage = (): void => {
-    cardsStore.setPrevPage()
+    cardsPaginationStore.setPrevPage()
     setPosition((current) => current - 1682)
   }
   const nextPage = (): void => {
-    cardsStore.setNextPage()
-    if (!cardsStore.pageWasVisited && cardsStore.notLastPage) {
+    cardsPaginationStore.setNextPage()
+    if (!cardsPaginationStore.pageWasVisited && cardsPaginationStore.notLastPage) {
       cardsStore.loadMoreCards()
     }
     setPosition((current) => current + 1682)
@@ -28,8 +28,8 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
 
   return (
     <SliderContainer>
-      {cardsStore.pageCount > 1 && (
-        <SliderButton onClick={prevPage} disabled={cardsStore.page <= 1}>
+      {cardsPaginationStore.pageCount > 1 && (
+        <SliderButton onClick={prevPage} disabled={cardsPaginationStore.page <= 1}>
           Назад
         </SliderButton>
       )}
@@ -40,8 +40,11 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
           })}
         </SliderLine>
       </SliderWindow>
-      {cardsStore.pageCount > 1 && (
-        <SliderButton onClick={nextPage} disabled={cardsStore.page === cardsStore.pageCount}>
+      {cardsPaginationStore.pageCount > 1 && (
+        <SliderButton
+          onClick={nextPage}
+          disabled={cardsPaginationStore.page === cardsPaginationStore.pageCount}
+        >
           Вперёд
         </SliderButton>
       )}
