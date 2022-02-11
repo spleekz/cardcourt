@@ -12,7 +12,7 @@ export const NewCardPage: React.FC = registerPage(
       </NewCardPageContainer>
     )
   }),
-  true
+  { isProtected: true }
 )
 
 const NewCardPageContainer = styled.div`

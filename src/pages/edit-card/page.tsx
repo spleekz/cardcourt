@@ -14,7 +14,7 @@ export const EditCardPage: React.FC = registerPage(
 
     return <EditCardPageContainer>{card && <CardRef type='form' card={card} />}</EditCardPageContainer>
   }),
-  true
+  { isProtected: true }
 )
 
 const EditCardPageContainer = styled.div`

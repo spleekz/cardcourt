@@ -5,10 +5,14 @@ import { withoutSlash } from '../lib/strings'
 import { Page } from '../stores/app-store'
 import { observer } from 'mobx-react-lite'
 
+interface RegisterPageOptions {
+  isProtected?: boolean
+  isRootPath?: boolean
+}
+
 export function registerPage<Props>(
   WrappedComponent: React.FC<Props>,
-  isProtected = false,
-  isRootPath = false
+  { isProtected = false, isRootPath = false }: RegisterPageOptions = {}
 ): React.FC<Props> {
   const Component: React.FC<Props> = (props) => {
     const { appStore, authStore } = useStore()

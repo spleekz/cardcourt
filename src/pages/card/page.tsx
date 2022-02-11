@@ -12,8 +12,7 @@ export const CardPage: React.FC = registerPage(
       </CardPageContainer>
     )
   }),
-  false,
-  true
+  {isRootPath:true}
 )
 
 const CardPageContainer = styled.div``
