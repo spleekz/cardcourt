@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { CardRef } from '../../../components/cards/card-ref'
 import { Card } from '../../../api/api'
@@ -11,12 +11,20 @@ interface CardSliderProps {
 
 export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
   const { cardsStore, cardsPaginationStore } = useStore()
+  const [sliderWidth, setSliderWidth] = useState<number>(0)
 
   const [position, setPosition] = useState<number>(0)
 
+  const sliderWindowRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (sliderWindowRef.current) {
+      setSliderWidth(sliderWindowRef.current.clientWidth)
+    }
+  }, [sliderWindowRef.current])
+
   const prevPage = (): void => {
     cardsPaginationStore.setPrevPage()
-    setPosition((current) => current - 1680)
+    setPosition((current) => current - sliderWidth)
   }
   const nextPage = (): void => {
     cardsPaginationStore.setNextPage()
@@ -26,7 +34,7 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
         cardsStore.loadMoreCards({ pagesToLoad: 2 })
       }
     }
-    setPosition((current) => current + 1680)
+    setPosition((current) => current + sliderWidth)
   }
 
   return (
@@ -36,7 +44,7 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
           Назад
         </SliderButton>
       )}
-      <SliderWindow>
+      <SliderWindow ref={sliderWindowRef}>
         <SliderLine position={position}>
           {cards.map((card) => {
             return <CardRef type='element' card={card} key={card._id} />
