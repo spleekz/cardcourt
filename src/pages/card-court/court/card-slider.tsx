@@ -23,7 +23,7 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
     if (!cardsPaginationStore.pageWasVisited) {
       cardsPaginationStore.updateMaxVisitedPage()
       if (!cardsPaginationStore.allPagesAreLoaded) {
-        cardsStore.loadMoreCards()
+        cardsStore.loadMoreCards({ pagesToLoad: 2 })
       }
     }
     setPosition((current) => current + 1682)
