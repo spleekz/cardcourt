@@ -75,6 +75,7 @@ export type Cards = Card[];
 
 export interface CardsResponse {
   cards: Cards;
+  pagesLoaded: number;
   pageCount: number;
 }
 

@@ -57,21 +57,25 @@ export class CardsStore implements ICardsStore {
   }: LoadCardsOptions = {}): void {
     api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
-        this.pagination.setMaxLoadedPage(pagesToLoad)
+        if (page + pagesToLoad - 1 > this.pagination.maxLoadedPage) {
+          this.pagination.setMaxLoadedPage(res.data.pagesLoaded)
+        }
         this.pagination.setPageCount(res.data.pageCount)
         this.setCards(res.data.cards)
       }
     })
   }
   loadMoreCards({
-    page = this.pagination.page + 1,
+    page = this.pagination.maxLoadedPage + 1,
     pagesToLoad = 1,
     pageSize = this.pagination.pageSize,
     search = this.search,
   }: LoadCardsOptions = {}): void {
     api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
-        this.pagination.setMaxLoadedPage(page)
+        if (page + res.data.pagesLoaded - 1 > this.pagination.maxLoadedPage) {
+          this.pagination.setMaxLoadedPage(page + res.data.pagesLoaded - 1)
+        }
         this.pagination.setPageCount(res.data.pageCount)
         this.pushCards(res.data.cards)
       }

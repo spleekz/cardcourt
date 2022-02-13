@@ -15,8 +15,12 @@ export interface ICardsPaginationStore {
   maxLoadedPage: number
   setMaxLoadedPage(page: number): void
 
-  notLastPage: boolean
+  maxVisitedPage: number
+  updateMaxVisitedPage(): void
+  checkIfMaxVisitedPage(): void
+
   pageWasVisited: boolean
+  allPagesAreLoaded: boolean
 }
 
 export class CardsPaginationStore implements ICardsPaginationStore {
@@ -50,10 +54,20 @@ export class CardsPaginationStore implements ICardsPaginationStore {
     this.maxLoadedPage = page
   }
 
-  get notLastPage(): boolean {
-    return this.page < this.pageCount
+  maxVisitedPage = 1
+  updateMaxVisitedPage(): void {
+    this.maxVisitedPage++
   }
+  checkIfMaxVisitedPage(): void {
+    if (this.page > this.maxVisitedPage) {
+      this.updateMaxVisitedPage()
+    }
+  }
+
   get pageWasVisited(): boolean {
-    return this.page < this.maxLoadedPage
+    return this.page <= this.maxVisitedPage
+  }
+  get allPagesAreLoaded(): boolean {
+    return this.maxLoadedPage === this.pageCount
   }
 }

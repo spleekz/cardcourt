@@ -20,8 +20,11 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
   }
   const nextPage = (): void => {
     cardsPaginationStore.setNextPage()
-    if (!cardsPaginationStore.pageWasVisited && cardsPaginationStore.notLastPage) {
-      cardsStore.loadMoreCards()
+    if (!cardsPaginationStore.pageWasVisited) {
+      cardsPaginationStore.updateMaxVisitedPage()
+      if (!cardsPaginationStore.allPagesAreLoaded) {
+        cardsStore.loadMoreCards()
+      }
     }
     setPosition((current) => current + 1682)
   }
