@@ -16,7 +16,7 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
 
   const prevPage = (): void => {
     cardsPaginationStore.setPrevPage()
-    setPosition((current) => current - 1682)
+    setPosition((current) => current - 1680)
   }
   const nextPage = (): void => {
     cardsPaginationStore.setNextPage()
@@ -26,7 +26,7 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
         cardsStore.loadMoreCards({ pagesToLoad: 2 })
       }
     }
-    setPosition((current) => current + 1682)
+    setPosition((current) => current + 1680)
   }
 
   return (
@@ -61,7 +61,7 @@ const SliderContainer = styled.div`
 
 const SliderWindow = styled.div`
   position: relative;
-  width: 1682px;
+  width: 1680px;
   height: 500px;
   overflow: hidden;
 `
@@ -71,4 +71,6 @@ const SliderLine = styled.div<{ position: number }>`
   transform: ${(props) => `translateX(-${props.position}px)`};
   transition: 0.48s;
 `
-const SliderButton = styled.button``
+const SliderButton = styled.button`
+  margin: 0 8px 0 8px;
+`
