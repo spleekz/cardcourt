@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
-export interface ICardsPaginationStore {
+export interface ICardsSliderStore {
   pageSize: number
   setPageSize(size: number): void
 
@@ -23,7 +23,7 @@ export interface ICardsPaginationStore {
   allPagesAreLoaded: boolean
 }
 
-export class CardsPaginationStore implements ICardsPaginationStore {
+export class CardsSliderStore implements ICardsSliderStore {
   constructor() {
     makeAutoObservable(this)
   }

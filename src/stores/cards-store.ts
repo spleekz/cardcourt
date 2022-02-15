@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { Card, Cards, SendedCard, UpdatedCard } from '../api/api'
 import { api } from '../api'
-import { ICardsPaginationStore } from './cards-pagination-store'
+import { ICardsSliderStore } from './cards-slider-store'
 
 interface LoadCardsOptions {
   page?: number
@@ -11,7 +11,7 @@ interface LoadCardsOptions {
 }
 
 export interface ICardsStore {
-  pagination: ICardsPaginationStore
+  slider: ICardsSliderStore
 
   cards: Cards
   setCards(cards: Cards): void
@@ -35,11 +35,11 @@ export interface ICardsStore {
 }
 
 export class CardsStore implements ICardsStore {
-  pagination: ICardsPaginationStore
+  slider: ICardsSliderStore
 
-  constructor(cardsPaginationStore: ICardsPaginationStore) {
+  constructor(cardsSliderStore: ICardsSliderStore) {
     makeAutoObservable(this)
-    this.pagination = cardsPaginationStore
+    this.slider = cardsSliderStore
   }
 
   cards: Cards = []
@@ -52,31 +52,31 @@ export class CardsStore implements ICardsStore {
   loadCards({
     page = 1,
     pagesToLoad = 1,
-    pageSize = this.pagination.pageSize,
+    pageSize = this.slider.pageSize,
     search = this.search,
   }: LoadCardsOptions = {}): void {
     api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
-        if (page + pagesToLoad - 1 > this.pagination.maxLoadedPage) {
-          this.pagination.setMaxLoadedPage(res.data.pagesLoaded)
+        if (page + pagesToLoad - 1 > this.slider.maxLoadedPage) {
+          this.slider.setMaxLoadedPage(res.data.pagesLoaded)
         }
-        this.pagination.setPageCount(res.data.pageCount)
+        this.slider.setPageCount(res.data.pageCount)
         this.setCards(res.data.cards)
       }
     })
   }
   loadMoreCards({
-    page = this.pagination.maxLoadedPage + 1,
+    page = this.slider.maxLoadedPage + 1,
     pagesToLoad = 1,
-    pageSize = this.pagination.pageSize,
+    pageSize = this.slider.pageSize,
     search = this.search,
   }: LoadCardsOptions = {}): void {
     api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
-        if (page + res.data.pagesLoaded - 1 > this.pagination.maxLoadedPage) {
-          this.pagination.setMaxLoadedPage(page + res.data.pagesLoaded - 1)
+        if (page + res.data.pagesLoaded - 1 > this.slider.maxLoadedPage) {
+          this.slider.setMaxLoadedPage(page + res.data.pagesLoaded - 1)
         }
-        this.pagination.setPageCount(res.data.pageCount)
+        this.slider.setPageCount(res.data.pageCount)
         this.pushCards(res.data.cards)
       }
     })

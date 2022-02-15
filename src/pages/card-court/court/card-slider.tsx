@@ -10,7 +10,7 @@ interface CardSliderProps {
 }
 
 export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
-  const { cardsStore, cardsPaginationStore } = useStore()
+  const { cardsStore, cardsSliderStore } = useStore()
   const [sliderWidth, setSliderWidth] = useState<number>(0)
 
   const [position, setPosition] = useState<number>(0)
@@ -23,24 +23,28 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
   }, [sliderWindowRef.current])
 
   const prevPage = (): void => {
-    cardsPaginationStore.setPrevPage()
+    cardsSliderStore.setPrevPage()
     setPosition((current) => current - sliderWidth)
   }
   const nextPage = (): void => {
-    cardsPaginationStore.setNextPage()
-    if (!cardsPaginationStore.pageWasVisited) {
-      cardsPaginationStore.updateMaxVisitedPage()
-      if (!cardsPaginationStore.allPagesAreLoaded) {
+    cardsSliderStore.setNextPage()
+    if (!cardsSliderStore.pageWasVisited) {
+      cardsSliderStore.updateMaxVisitedPage()
+      if (!cardsSliderStore.allPagesAreLoaded) {
         cardsStore.loadMoreCards({ pagesToLoad: 2 })
       }
     }
     setPosition((current) => current + sliderWidth)
   }
 
+  useEffect(() => {
+    setPosition((cardsSliderStore.page - 1) * 1680)
+  }, [])
+
   return (
     <SliderContainer>
-      {cardsPaginationStore.pageCount > 1 && (
-        <SliderButton onClick={prevPage} disabled={cardsPaginationStore.page <= 1}>
+      {cardsSliderStore.pageCount > 1 && (
+        <SliderButton onClick={prevPage} disabled={cardsSliderStore.page <= 1}>
           Назад
         </SliderButton>
       )}
@@ -51,10 +55,10 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
           })}
         </SliderLine>
       </SliderWindow>
-      {cardsPaginationStore.pageCount > 1 && (
+      {cardsSliderStore.pageCount > 1 && (
         <SliderButton
           onClick={nextPage}
-          disabled={cardsPaginationStore.page === cardsPaginationStore.pageCount}
+          disabled={cardsSliderStore.page === cardsSliderStore.pageCount}
         >
           Вперёд
         </SliderButton>
