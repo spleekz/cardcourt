@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { CardRef } from '../../../components/cards/card-ref'
 import { Card } from '../../../api/api'
@@ -11,20 +11,17 @@ interface CardSliderProps {
 
 export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
   const { cardsStore, cardsSliderStore } = useStore()
-  const [sliderWidth, setSliderWidth] = useState<number>(0)
-
-  const [position, setPosition] = useState<number>(0)
 
   const sliderWindowRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (sliderWindowRef.current) {
-      setSliderWidth(sliderWindowRef.current.clientWidth)
+      cardsSliderStore.setPixelsToSlide(sliderWindowRef.current.clientWidth)
     }
   }, [sliderWindowRef.current])
 
   const prevPage = (): void => {
     cardsSliderStore.setPrevPage()
-    setPosition((current) => current - sliderWidth)
+    cardsSliderStore.setSliderPositionBack()
   }
   const nextPage = (): void => {
     cardsSliderStore.setNextPage()
@@ -34,11 +31,11 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
         cardsStore.loadMoreCards({ pagesToLoad: 2 })
       }
     }
-    setPosition((current) => current + sliderWidth)
+    cardsSliderStore.setSliderPositionForward()
   }
 
   useEffect(() => {
-    setPosition((cardsSliderStore.page - 1) * 1680)
+    cardsSliderStore.setSliderPosition((cardsSliderStore.page - 1) * cardsSliderStore.pixelsToSlide)
   }, [])
 
   return (
@@ -49,7 +46,7 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
         </SliderButton>
       )}
       <SliderWindow ref={sliderWindowRef}>
-        <SliderLine position={position}>
+        <SliderLine position={cardsSliderStore.sliderPosition}>
           {cards.map((card) => {
             return <CardRef type='element' card={card} key={card._id} />
           })}

@@ -1,6 +1,14 @@
 import { makeAutoObservable } from 'mobx'
 
 export interface ICardsSliderStore {
+  sliderPosition: number
+  setSliderPosition(position: number): void
+  setSliderPositionForward(): void
+  setSliderPositionBack(): void
+
+  pixelsToSlide: number
+  setPixelsToSlide(value: number): void
+
   pageSize: number
   setPageSize(size: number): void
 
@@ -26,6 +34,22 @@ export interface ICardsSliderStore {
 export class CardsSliderStore implements ICardsSliderStore {
   constructor() {
     makeAutoObservable(this)
+  }
+
+  pixelsToSlide = 1680
+  setPixelsToSlide(value: number): void {
+    this.pixelsToSlide = value
+  }
+
+  sliderPosition = 0
+  setSliderPosition(position: number): void {
+    this.sliderPosition = position
+  }
+  setSliderPositionForward(): void {
+    this.sliderPosition = this.sliderPosition + this.pixelsToSlide
+  }
+  setSliderPositionBack(): void {
+    this.sliderPosition = this.sliderPosition - this.pixelsToSlide
   }
 
   pageSize = 5
