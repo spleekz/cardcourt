@@ -1,7 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { Card, Cards, SendedCard, UpdatedCard } from '../api/api'
 import { api } from '../api'
-import { ICardsSliderStore } from './cards-slider-store'
 
 interface LoadCardsOptions {
   page?: number
@@ -10,17 +9,19 @@ interface LoadCardsOptions {
   search?: string
 }
 
-export interface ICardsStore {
-  slider: ICardsSliderStore
+interface InfoAboutLoading {
+  lastLoadedPage: number
+}
+interface InfoAboutFirstCardsLoading extends InfoAboutLoading {
+  pageCount: number
+}
 
+export interface ICardsStore {
   cards: Cards
   setCards(cards: Cards): void
   pushCards(cards: Cards): void
-  loadCards(options?: LoadCardsOptions): void
-  loadMoreCards(options?: LoadCardsOptions): void
-
-  search: string
-  setSearch(value: string): void
+  loadCards(options?: LoadCardsOptions): Promise<InfoAboutFirstCardsLoading>
+  loadMoreCards(options?: LoadCardsOptions): Promise<InfoAboutLoading>
 
   cardId: string | null
   setCardId(id: string | null): void
@@ -35,11 +36,8 @@ export interface ICardsStore {
 }
 
 export class CardsStore implements ICardsStore {
-  slider: ICardsSliderStore
-
-  constructor(cardsSliderStore: ICardsSliderStore) {
+  constructor() {
     makeAutoObservable(this)
-    this.slider = cardsSliderStore
   }
 
   cards: Cards = []
@@ -52,39 +50,33 @@ export class CardsStore implements ICardsStore {
   loadCards({
     page = 1,
     pagesToLoad = 1,
-    pageSize = this.slider.pageSize,
-    search = this.search,
-  }: LoadCardsOptions = {}): void {
-    api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
+    pageSize = 5,
+    search = '',
+  }: LoadCardsOptions = {}): Promise<InfoAboutFirstCardsLoading> {
+    return api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
-        if (page + pagesToLoad - 1 > this.slider.maxLoadedPage) {
-          this.slider.setMaxLoadedPage(res.data.pagesLoaded)
-        }
-        this.slider.setPageCount(res.data.pageCount)
         this.setCards(res.data.cards)
+      }
+      return {
+        lastLoadedPage: page + res.data.pagesLoaded - 1 || 0,
+        pageCount: res.data.pageCount,
       }
     })
   }
   loadMoreCards({
-    page = this.slider.maxLoadedPage + 1,
+    page = 1,
     pagesToLoad = 1,
-    pageSize = this.slider.pageSize,
-    search = this.search,
-  }: LoadCardsOptions = {}): void {
-    api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
+    pageSize = 5,
+    search = '',
+  }: LoadCardsOptions = {}): Promise<InfoAboutLoading> {
+    return api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
       if (res.ok) {
-        if (page + res.data.pagesLoaded - 1 > this.slider.maxLoadedPage) {
-          this.slider.setMaxLoadedPage(page + res.data.pagesLoaded - 1)
-        }
-        this.slider.setPageCount(res.data.pageCount)
         this.pushCards(res.data.cards)
       }
+      return {
+        lastLoadedPage: page + res.data.pagesLoaded - 1 || 0,
+      }
     })
-  }
-
-  search = ''
-  setSearch(value: string): void {
-    this.search = value
   }
 
   cardId: string | null = null

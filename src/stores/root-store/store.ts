@@ -14,8 +14,8 @@ export interface IRootStore {
 
 export class RootStore implements IRootStore {
   appStore = new AppStore()
-  cardsSliderStore = new CardsSliderStore()
-  cardsStore = new CardsStore(this.cardsSliderStore)
+  cardsStore = new CardsStore()
+  cardsSliderStore = new CardsSliderStore(this.cardsStore)
   authStore = new AuthStore()
   createCheckStore = (): ICheckStore => {
     return new CheckStore()

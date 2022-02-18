@@ -6,11 +6,11 @@ import { CardSlider } from './card-slider'
 import { useStore } from '../../../stores/root-store/context'
 
 export const Court: React.FC = observer(() => {
-  const { cardsStore } = useStore()
+  const { cardsStore, cardsSliderStore } = useStore()
 
   useEffect(() => {
-    cardsStore.loadCards({ pagesToLoad: 3 })
-  }, [cardsStore.search])
+    cardsSliderStore.initializeSlider()
+  }, [cardsSliderStore.search])
 
   return (
     <CardListContainer>

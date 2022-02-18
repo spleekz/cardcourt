@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
 
 export const Search: React.FC = observer(() => {
-  const { cardsStore } = useStore()
+  const { cardsSliderStore } = useStore()
 
   const setSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    cardsStore.setSearch(e.target.value)
+    cardsSliderStore.setSearch(e.target.value)
   }
   const debouncedSetSearch = debounce(setSearch, 350)
 

@@ -1,6 +1,12 @@
 import { makeAutoObservable } from 'mobx'
+import { ICardsStore } from './cards-store'
 
 export interface ICardsSliderStore {
+  cardsStore: ICardsStore
+
+  search: string
+  setSearch(value: string): void
+
   sliderPosition: number
   setSliderPosition(position: number): void
   setSliderPositionForward(): void
@@ -29,11 +35,23 @@ export interface ICardsSliderStore {
 
   pageWasVisited: boolean
   allPagesAreLoaded: boolean
+
+  initializeSlider(): void
+  slideRigth(): void
+  slideLeft(): void
 }
 
 export class CardsSliderStore implements ICardsSliderStore {
-  constructor() {
-    makeAutoObservable(this)
+  cardsStore: ICardsStore
+
+  constructor(cardsStore: ICardsStore) {
+    this.cardsStore = cardsStore
+    makeAutoObservable(this, {}, { autoBind: true })
+  }
+
+  search = ''
+  setSearch(value: string): void {
+    this.search = value
   }
 
   pixelsToSlide = 1680
@@ -93,5 +111,35 @@ export class CardsSliderStore implements ICardsSliderStore {
   }
   get allPagesAreLoaded(): boolean {
     return this.maxLoadedPage === this.pageCount
+  }
+
+  initializeSlider(): void {
+    this.cardsStore.loadCards({ pagesToLoad: 3 }).then(({ lastLoadedPage, pageCount }) => {
+      this.setMaxLoadedPage(lastLoadedPage)
+      this.setPageCount(pageCount)
+    })
+  }
+  slideRigth(): void {
+    this.setNextPage()
+    if (!this.pageWasVisited) {
+      this.updateMaxVisitedPage()
+      if (!this.allPagesAreLoaded) {
+        this.cardsStore
+          .loadMoreCards({
+            page: this.maxLoadedPage + 1,
+            pagesToLoad: 2,
+            pageSize: this.pageSize,
+            search: this.search,
+          })
+          .then(({ lastLoadedPage }) => {
+            this.setMaxLoadedPage(lastLoadedPage)
+          })
+      }
+    }
+    this.setSliderPositionForward()
+  }
+  slideLeft(): void {
+    this.setPrevPage()
+    this.setSliderPositionBack()
   }
 }

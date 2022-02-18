@@ -2,15 +2,15 @@ import { observer } from 'mobx-react-lite'
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { CardRef } from '../../../components/cards/card-ref'
-import { Card } from '../../../api/api'
+import { Cards } from '../../../api/api'
 import { useStore } from '../../../stores/root-store/context'
 
 interface CardSliderProps {
-  cards: Array<Card>
+  cards: Cards
 }
 
 export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
-  const { cardsStore, cardsSliderStore } = useStore()
+  const { cardsSliderStore } = useStore()
 
   const sliderWindowRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -19,21 +19,6 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
     }
   }, [sliderWindowRef.current])
 
-  const prevPage = (): void => {
-    cardsSliderStore.setPrevPage()
-    cardsSliderStore.setSliderPositionBack()
-  }
-  const nextPage = (): void => {
-    cardsSliderStore.setNextPage()
-    if (!cardsSliderStore.pageWasVisited) {
-      cardsSliderStore.updateMaxVisitedPage()
-      if (!cardsSliderStore.allPagesAreLoaded) {
-        cardsStore.loadMoreCards({ pagesToLoad: 2 })
-      }
-    }
-    cardsSliderStore.setSliderPositionForward()
-  }
-
   useEffect(() => {
     cardsSliderStore.setSliderPosition((cardsSliderStore.page - 1) * cardsSliderStore.pixelsToSlide)
   }, [])
@@ -41,7 +26,7 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
   return (
     <SliderContainer>
       {cardsSliderStore.pageCount > 1 && (
-        <SliderButton onClick={prevPage} disabled={cardsSliderStore.page <= 1}>
+        <SliderButton onClick={cardsSliderStore.slideLeft} disabled={cardsSliderStore.page <= 1}>
           Назад
         </SliderButton>
       )}
@@ -54,7 +39,7 @@ export const CardSlider: React.FC<CardSliderProps> = observer(({ cards }) => {
       </SliderWindow>
       {cardsSliderStore.pageCount > 1 && (
         <SliderButton
-          onClick={nextPage}
+          onClick={cardsSliderStore.slideRigth}
           disabled={cardsSliderStore.page === cardsSliderStore.pageCount}
         >
           Вперёд
