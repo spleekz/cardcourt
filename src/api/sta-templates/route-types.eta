@@ -8,10 +8,6 @@ const dataContracts = config.modular ? _.map(modelTypes, "name") : [];
 import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
 <% } %>
 
-<%
-/* TODO: outOfModule, combined should be attributes of route, which will allow to avoid duplication of code */
-%>
-
 <% routes.outOfModule && routes.outOfModule.forEach(({ routes = [] }) => { %>
     <% routes.forEach((route) => { %>
         <%~ includeFile('@base/route-type.eta', { ...it, route }) %>
