@@ -4,6 +4,8 @@ import { ICardsStore } from './cards-store'
 export interface ICardsSliderStore {
   cardsStore: ICardsStore
 
+  reset(): void
+
   search: string
   setSearch(value: string): void
 
@@ -47,6 +49,14 @@ export class CardsSliderStore implements ICardsSliderStore {
   constructor(cardsStore: ICardsStore) {
     this.cardsStore = cardsStore
     makeAutoObservable(this, {}, { autoBind: true })
+  }
+
+  reset(): void {
+    this.sliderPosition = 0
+    this.page = 1
+    this.pageCount = 0
+    this.maxLoadedPage = 0
+    this.maxVisitedPage = 1
   }
 
   search = ''
@@ -114,10 +124,13 @@ export class CardsSliderStore implements ICardsSliderStore {
   }
 
   initializeSlider(): void {
-    this.cardsStore.loadCards({ pagesToLoad: 3 }).then(({ lastLoadedPage, pageCount }) => {
-      this.setMaxLoadedPage(lastLoadedPage)
-      this.setPageCount(pageCount)
-    })
+    this.reset()
+    this.cardsStore
+      .loadCards({ page: 1, pagesToLoad: 3, pageSize: this.pageSize, search: this.search })
+      .then(({ lastLoadedPage, pageCount }) => {
+        this.setMaxLoadedPage(lastLoadedPage)
+        this.setPageCount(pageCount)
+      })
   }
   slideRigth(): void {
     this.setNextPage()

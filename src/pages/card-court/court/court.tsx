@@ -9,8 +9,10 @@ export const Court: React.FC = observer(() => {
   const { cardsStore, cardsSliderStore } = useStore()
 
   useEffect(() => {
-    cardsSliderStore.initializeSlider()
-  }, [cardsSliderStore.search])
+    if (!cardsStore.cards.length) {
+      cardsSliderStore.initializeSlider()
+    }
+  }, [])
 
   return (
     <CardListContainer>

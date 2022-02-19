@@ -9,6 +9,7 @@ export const Search: React.FC = observer(() => {
 
   const setSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
     cardsSliderStore.setSearch(e.target.value)
+    cardsSliderStore.initializeSlider()
   }
   const debouncedSetSearch = debounce(setSearch, 350)
 
