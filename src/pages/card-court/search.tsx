@@ -7,15 +7,16 @@ import { useStore } from '../../stores/root-store/context'
 export const Search: React.FC = observer(() => {
   const { cardsSliderStore } = useStore()
 
+  const debouncedInitializeSlider = debounce(cardsSliderStore.initializeSlider, 350)
+
   const setSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
     cardsSliderStore.setSearch(e.target.value)
-    cardsSliderStore.initializeSlider()
+    debouncedInitializeSlider()
   }
-  const debouncedSetSearch = debounce(setSearch, 350)
 
   return (
     <Container>
-      <Input onChange={debouncedSetSearch} />
+      <Input value={cardsSliderStore.search} onChange={setSearch} />
       <Button>карточки</Button>
       <Button>авторы</Button>
     </Container>
