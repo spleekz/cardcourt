@@ -1,13 +1,15 @@
-import debounce from 'lodash.debounce'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
+import { useDebouncedCallback } from 'use-debounce'
 
 export const Search: React.FC = observer(() => {
   const { cardsSliderStore } = useStore()
 
-  const debouncedInitializeSlider = debounce(cardsSliderStore.initializeSlider, 350)
+  const debouncedInitializeSlider = useDebouncedCallback(() => {
+    cardsSliderStore.initializeSlider()
+  }, 350)
 
   const setSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
     cardsSliderStore.setSearch(e.target.value)
