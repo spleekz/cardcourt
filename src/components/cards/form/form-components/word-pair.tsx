@@ -9,9 +9,16 @@ interface IFormWordPair {
   isEditCard: boolean
   fields: SendedCardWords
   index: number
+  color: string
 }
 
-export const FormWordPair: React.FC<IFormWordPair> = ({ remove, fields, index, isEditCard }) => {
+export const FormWordPair: React.FC<IFormWordPair> = ({
+  remove,
+  fields,
+  index,
+  isEditCard,
+  color,
+}) => {
   const deleteWordPair = (index: number): void => {
     if (fields.length !== 1) {
       remove(index)
@@ -21,9 +28,21 @@ export const FormWordPair: React.FC<IFormWordPair> = ({ remove, fields, index, i
   return (
     <FormWordPairContainer>
       <FormWordPairBlock>
-        <FormWordInput inputValue={fields[index].en} index={index} lang='en' isEditCard={isEditCard} />
+        <FormWordInput
+          color={color}
+          inputValue={fields[index].en}
+          index={index}
+          lang='en'
+          isEditCard={isEditCard}
+        />
         <Dash>—</Dash>
-        <FormWordInput inputValue={fields[index].ru} index={index} lang='ru' isEditCard={isEditCard} />
+        <FormWordInput
+          color={color}
+          inputValue={fields[index].ru}
+          index={index}
+          lang='ru'
+          isEditCard={isEditCard}
+        />
       </FormWordPairBlock>
       <DeleteWordPairButton type='button' onClick={() => deleteWordPair(index)}>
         <XIcon />

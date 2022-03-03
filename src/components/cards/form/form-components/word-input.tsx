@@ -9,15 +9,15 @@ interface IFormWordInput {
   isEditCard: boolean
   index: number
   lang: Lang
+  color: string
 }
-interface IWordInputProps {
-  isOnFocus: boolean
-  isOnHover: boolean
-  isEmpty: boolean
-  lang: Lang
-}
-
-export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, isEditCard, index, lang }) => {
+export const FormWordInput: React.FC<IFormWordInput> = ({
+  inputValue,
+  isEditCard,
+  index,
+  color,
+  lang,
+}) => {
   const { register } = useFormContext()
 
   const [isInputOnFocus, setIsInputOnFocus] = useState<boolean>(false)
@@ -51,6 +51,7 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, isEditCard
       onBlur={onInputBlur}
       onMouseEnter={() => setIsInputOnHover(true)}
       onMouseLeave={() => setIsInputOnHover(false)}
+      color={color}
       isOnFocus={isInputOnFocus}
       isOnHover={isInputOnHover}
       isEmpty={isInputEmpty}
@@ -58,17 +59,31 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, isEditCard
   )
 }
 
+interface IWordInputProps {
+  isOnFocus: boolean
+  isOnHover: boolean
+  isEmpty: boolean
+  lang: Lang
+  color: string
+}
+
 const WordInput = styled.input<IWordInputProps>`
   width: 48%;
   padding: 6px 3px;
-  font-size: 20px;
+  font-size: 26px;
   transition: all 0.33s;
   text-align: ${(props) => props.lang === 'en' && !props.isOnFocus && 'right'};
   cursor: ${(props) => props.isOnHover && !props.isOnFocus && !props.isEmpty && 'pointer'};
   box-shadow: ${(props) =>
     (props.isEmpty || props.isOnHover || props.isOnFocus) && '0px 0px 11px 0px rgba(34, 60, 80, 0.2)'};
   background-color: ${(props) =>
-    props.isEmpty ? '#ffffff' : props.isOnFocus ? '#ffffff' : props.isOnHover ? '#e7ffff' : 'aqua'};
+    props.isEmpty
+      ? '#ffffff'
+      : props.isOnFocus
+      ? '#ffffff'
+      : props.isOnHover
+      ? '#ffffff'
+      : props.color};
   ::placeholder {
     text-align: left;
     font-size: 18px;

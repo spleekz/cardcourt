@@ -30,9 +30,7 @@ const CardWordContainer = styled.div`
 const CardWordBlock = styled.span`
   font-size: 32px;
   font-weight: bold;
-  border-radius: 12px;
   padding: 6px;
-  background: #ffffff;
 `
 const CardWord = styled.span`
   user-select: none;

@@ -2,11 +2,12 @@ import React, { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Card, SendedCard, UpdatedCard } from '../../../api/api'
 import { useStore } from '../../../stores/root-store/context'
-import { CardAuthor, CardContainer, CardHeading, CardWords } from '../element/element'
+import { CardAuthor, CardContainer, CardHead, CardWords } from '../element/element'
 import { useForm, FormProvider, useFieldArray, SubmitHandler } from 'react-hook-form'
 import { FormWordPair } from './form-components/word-pair'
 import { observer } from 'mobx-react-lite'
 import { usePopupContext } from '../../../app'
+import { getCardWidthByHeight } from '../../../lib/cards'
 
 interface ICardFormProps {
   card?: Card
@@ -46,6 +47,8 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
       bodyColor: 'aqua',
     }
     cardsStore.addCard(card)
+    console.log(JSON.stringify(card))
+
     cardDone.set(true)
   }
 
@@ -55,7 +58,6 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
       ui: card!.ui,
       _id: card!._id,
     }
-
     cardsStore.updateCard(fullUpdatedCard)
     cardDone.set(true)
   }
@@ -70,19 +72,26 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
     return () => cardDone.set(false)
   }, [])
 
+  const cardFormHeight = 780
+  const cardFormWidth = getCardWidthByHeight(cardFormHeight)
+
   return (
-    <CardFormContainer color='pink'>
+    <CardFormContainer
+      color={card?.ui.headColor || 'pink'}
+      height={cardFormHeight}
+      width={cardFormWidth}
+    >
       <FormProvider {...methods}>
         <Form onSubmit={methods.handleSubmit(isEditCard ? updateCard : createNewCard)}>
-          <FormCardHeading color='pink'>
+          <FormCardHeading color={card?.ui.headColor || 'pink'}>
             <CardNameInput
               {...methods.register(`name` as const, { required: true })}
               placeholder='Введите название карточки'
               maxLength={27}
             />
-            <FormCardAuthor>{card?.author || authStore.me?.name}</FormCardAuthor>
+            <FormCardAuthor>{card?.author.name || authStore.me?.name}</FormCardAuthor>
           </FormCardHeading>
-          <FormCardWordsContainer color='aqua' isHover={false}>
+          <FormCardWordsContainer color={card?.ui.bodyColor || 'aqua'}>
             <div
               ref={topRef}
               style={{
@@ -98,17 +107,22 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
                     fields={watchedFields}
                     isEditCard={isEditCard}
                     index={index}
+                    color={card?.ui.bodyColor || 'aqua'}
                   />
                 )
               })}
             </FormCardWords>
             <AddWordPairButtonContainer ref={anchorRef}>
-              <AddWordPairButton type='button' onClick={addNewWordPair}>
+              <AddWordPairButton
+                color={card?.ui.headColor || 'pink'}
+                type='button'
+                onClick={addNewWordPair}
+              >
                 +
               </AddWordPairButton>
             </AddWordPairButtonContainer>
           </FormCardWordsContainer>
-          <SubmitButton type='submit'>
+          <SubmitButton color={card?.ui.headColor || 'pink'} type='submit'>
             {isEditCard ? 'Обновить карточку' : 'Создать карточку'}
           </SubmitButton>
         </Form>
@@ -117,17 +131,14 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
   )
 })
 
-const CardFormContainer = styled(CardContainer)`
-  width: 500px;
-  height: 780px;
-`
+const CardFormContainer = styled(CardContainer)``
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   height: 100%;
 `
 
-const FormCardHeading = styled(CardHeading)`
+const FormCardHeading = styled(CardHead)`
   padding: 15px 15px 0 15px;
 `
 const CardNameInput = styled.input`
@@ -151,16 +162,16 @@ const AddWordPairButtonContainer = styled.div`
   justify-content: center;
   margin: 15px 0 0 0;
 `
-const AddWordPairButton = styled.button`
+const AddWordPairButton = styled.button<{ color: string }>`
   width: 50%;
-  background-color: pink;
+  background-color: ${(props) => props.color};
   font-size: 25px;
   font-weight: bold;
   border-radius: 5px;
 `
-const SubmitButton = styled.button`
+const SubmitButton = styled.button<{ color: string }>`
   width: 100%;
-  background-color: pink;
+  background-color: ${(props) => props.color};
   font-size: 28px;
   padding: 4px;
   font-weight: bold;
