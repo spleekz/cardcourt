@@ -11,6 +11,7 @@ import { CardDonePopup } from './components/popups/card-done'
 import { useStore } from './stores/root-store/context'
 import { CardPage } from './pages/card/page'
 import { AuthPage } from './pages/auth/page'
+import { UserPage } from './pages/user/page'
 import { ICardsSliderStore } from './stores/cards-slider-store'
 
 interface Popup {
@@ -79,6 +80,7 @@ export const App: React.FC = observer(() => {
             <Route path='/card/:cardId' element={<CardPage />} />
             <Route path='card/:cardId/check' element={<CheckPage />} />
             <Route path='card/:cardId/edit' element={<EditCardPage />} />
+              <Route path='user/:userName' element={<UserPage />} />
           </Routes>
         </PageContainer>
       </AppContainer>
