@@ -11,6 +11,7 @@ import { CardDonePopup } from './components/popups/card-done'
 import { useStore } from './stores/root-store/context'
 import { CardPage } from './pages/card/page'
 import { AuthPage } from './pages/auth/page'
+import { ICardsSliderStore } from './stores/cards-slider-store'
 
 interface Popup {
   value: boolean
@@ -24,8 +25,25 @@ interface Popups {
 export const PopupsContext = createContext<Popups>({} as Popups)
 export const usePopupContext = (): Popups => useContext(PopupsContext)
 
+export const MainSliderContext = createContext<ICardsSliderStore>({} as ICardsSliderStore)
+export const useMainSlider = (): ICardsSliderStore => useContext(MainSliderContext)
+
 export const App: React.FC = observer(() => {
-  const { authStore, appStore } = useStore()
+  const { authStore, appStore, createCardsSliderStore } = useStore()
+  const [mainSlider] = useState<ICardsSliderStore>(() =>
+    createCardsSliderStore({
+      cardWidth: 320,
+      cardHeight: 500,
+      cardsToShow: 5,
+      cardsToSlide: 5,
+      loadCardsConfig: {
+        pagesToLoad: 2,
+      },
+      loadMoreCardsConfig: {
+        pagesToLoad: 2,
+      },
+    })
+  )
 
   const [isCardDonePopup, setIsCardDonePopup] = useState<boolean>(false)
   const isAnyPopupOpened = isCardDonePopup
@@ -44,6 +62,7 @@ export const App: React.FC = observer(() => {
   }, [authStore.token])
 
   return (
+    <MainSliderContext.Provider value={mainSlider}>
     <PopupsContext.Provider value={PopupsForContext}>
       <GlobalStyles isPopup={isAnyPopupOpened} />
       <AppContainer>
@@ -64,6 +83,7 @@ export const App: React.FC = observer(() => {
         </PageContainer>
       </AppContainer>
     </PopupsContext.Provider>
+    </MainSliderContext.Provider>
   )
 })
 

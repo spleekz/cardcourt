@@ -31,7 +31,20 @@ export interface LoginUser {
   password: string;
 }
 
-export type FullUser = LoginUser & Id;
+export type FullUser = RegisterUser & PublicUser;
+
+export interface PublicUserInfo {
+  name: string;
+}
+
+export interface PublicUserFeatures {
+  publicCards: Cards;
+}
+
+export interface PublicUser {
+  publicUserInfo: PublicUserInfo;
+  publicUserFeatures: PublicUserFeatures;
+}
 
 export interface Me {
   name: string;
@@ -40,6 +53,11 @@ export interface Me {
 export interface CardUI {
   headColor: string;
   bodyColor: string;
+}
+
+export interface CardAuthor {
+  name: string;
+  _id: string;
 }
 
 export interface EditedCardFields {
@@ -65,7 +83,7 @@ export interface SendedCard {
   ui: CardUI;
 }
 
-export type Card = { author: string; words: CardWords } & SendedCard & Id;
+export type Card = { author: CardAuthor; words: CardWords } & SendedCard & Id;
 
 export type DeletedCard = Id;
 
@@ -91,6 +109,9 @@ export interface GetCardsParams {
 
   /** Поисковый запрос */
   search?: string;
+
+  /** Имя автора карточек */
+  by?: string;
 }
 
 export namespace Register {
@@ -155,14 +176,14 @@ export namespace Cards {
    * No description
    * @tags cards
    * @name GetCards
-   * @summary Начиная со страницы page включительно, загрузить pagesToLoad страниц, имеющих размер pageSize и удовлетворяющих поисковому запросу search
+   * @summary Начиная со страницы page включительно, загрузить pagesToLoad страниц, имеющих размер pageSize и удовлетворяющих поисковому запросу search и автору by
    * @request GET:/cards
    * @response `200` `CardsResponse` Список карточек
    * @response `default` `MessageResponse` Ошибка
    */
   export namespace GetCards {
     export type RequestParams = {};
-    export type RequestQuery = { page?: number; pagesToLoad?: number; pageSize?: number; search?: string };
+    export type RequestQuery = { page?: number; pagesToLoad?: number; pageSize?: number; search?: string; by?: string };
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = CardsResponse;
@@ -235,6 +256,25 @@ export namespace Card {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = Card;
+  }
+}
+
+export namespace UserInfo {
+  /**
+   * No description
+   * @tags users
+   * @name GetUserInfo
+   * @summary Получить публичную информацию о пользователе
+   * @request GET:/userInfo/{userName}
+   * @response `200` `PublicUserInfo` Информация о пользователе
+   * @response `default` `MessageResponse` Ошибка
+   */
+  export namespace GetUserInfo {
+    export type RequestParams = { userName: string };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = PublicUserInfo;
   }
 }
 
@@ -522,7 +562,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags cards
      * @name GetCards
-     * @summary Начиная со страницы page включительно, загрузить pagesToLoad страниц, имеющих размер pageSize и удовлетворяющих поисковому запросу search
+     * @summary Начиная со страницы page включительно, загрузить pagesToLoad страниц, имеющих размер pageSize и удовлетворяющих поисковому запросу search и автору by
      * @request GET:/cards
      * @response `200` `CardsResponse` Список карточек
      * @response `default` `MessageResponse` Ошибка
@@ -615,6 +655,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getCard: (cardId: string, params: RequestParams = {}) =>
       this.request<Card, MessageResponse>({
         path: `/card/${cardId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
+  userInfo = {
+    /**
+     * No description
+     *
+     * @tags users
+     * @name GetUserInfo
+     * @summary Получить публичную информацию о пользователе
+     * @request GET:/userInfo/{userName}
+     * @response `200` `PublicUserInfo` Информация о пользователе
+     * @response `default` `MessageResponse` Ошибка
+     */
+    getUserInfo: (userName: string, params: RequestParams = {}) =>
+      this.request<PublicUserInfo, MessageResponse>({
+        path: `/userInfo/${userName}`,
         method: "GET",
         format: "json",
         ...params,

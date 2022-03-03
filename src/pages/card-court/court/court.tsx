@@ -2,15 +2,17 @@ import React, { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { CardSlider } from './card-slider'
+import { CardSlider } from '../../../components/card-slider'
 import { useStore } from '../../../stores/root-store/context'
+import { useMainSlider } from '../../../app'
 
 export const Court: React.FC = observer(() => {
-  const { cardsStore, cardsSliderStore } = useStore()
+  const { cardsStore } = useStore()
+  const mainSlider = useMainSlider()
 
   useEffect(() => {
     if (!cardsStore.cards.length) {
-      cardsSliderStore.initializeSlider()
+      mainSlider.initializeSlider()
     }
   }, [])
 
@@ -19,7 +21,7 @@ export const Court: React.FC = observer(() => {
       <Link to='/card/new'>
         <CreateCardButton>Создать</CreateCardButton>
       </Link>
-      <CardSlider cards={cardsStore.cards} />
+      <CardSlider slider={mainSlider} />
     </CardListContainer>
   )
 })

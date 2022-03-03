@@ -1,27 +1,17 @@
 import { makeAutoObservable } from 'mobx'
 import { Card, Cards, SendedCard, UpdatedCard } from '../api/api'
 import { api } from '../api'
+import cardConfig from './card-config.json'
 
-interface LoadCardsOptions {
-  page?: number
-  pagesToLoad?: number
-  pageSize?: number
-  search?: string
-}
-
-interface InfoAboutLoading {
-  lastLoadedPage: number
-}
-interface InfoAboutFirstCardsLoading extends InfoAboutLoading {
-  pageCount: number
+interface CardSize {
+  width: number
+  height: number
 }
 
 export interface ICardsStore {
+  defaultCardSize: CardSize
+//TODO:Не стоит хранить все карточки
   cards: Cards
-  setCards(cards: Cards): void
-  pushCards(cards: Cards): void
-  loadCards(options?: LoadCardsOptions): Promise<InfoAboutFirstCardsLoading>
-  loadMoreCards(options?: LoadCardsOptions): Promise<InfoAboutLoading>
 
   cardId: string | null
   setCardId(id: string | null): void
@@ -40,43 +30,17 @@ export class CardsStore implements ICardsStore {
     makeAutoObservable(this)
   }
 
+  defaultCardSize: CardSize = {
+    width: cardConfig.width,
+    height: cardConfig.height,
+  }
+
   cards: Cards = []
   setCards(cards: Cards): void {
     this.cards = cards
   }
   pushCards(cards: Cards): void {
     this.setCards([...this.cards, ...cards])
-  }
-  loadCards({
-    page = 1,
-    pagesToLoad = 1,
-    pageSize = 5,
-    search = '',
-  }: LoadCardsOptions = {}): Promise<InfoAboutFirstCardsLoading> {
-    return api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
-      if (res.ok) {
-        this.setCards(res.data.cards)
-      }
-      return {
-        lastLoadedPage: page + res.data.pagesLoaded - 1 || 0,
-        pageCount: res.data.pageCount,
-      }
-    })
-  }
-  loadMoreCards({
-    page = 1,
-    pagesToLoad = 1,
-    pageSize = 5,
-    search = '',
-  }: LoadCardsOptions = {}): Promise<InfoAboutLoading> {
-    return api.cards.getCards({ page, pagesToLoad, pageSize, search }).then((res) => {
-      if (res.ok) {
-        this.pushCards(res.data.cards)
-      }
-      return {
-        lastLoadedPage: page + res.data.pagesLoaded - 1 || 0,
-      }
-    })
   }
 
   cardId: string | null = null

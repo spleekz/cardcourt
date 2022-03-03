@@ -1,24 +1,24 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import styled from 'styled-components'
-import { useStore } from '../../stores/root-store/context'
 import { useDebouncedCallback } from 'use-debounce'
+import { useMainSlider } from '../../app'
 
 export const Search: React.FC = observer(() => {
-  const { cardsSliderStore } = useStore()
+  const mainSlider = useMainSlider()
 
   const debouncedInitializeSlider = useDebouncedCallback(() => {
-    cardsSliderStore.initializeSlider()
+    mainSlider.initializeSlider()
   }, 350)
 
   const setSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    cardsSliderStore.setSearch(e.target.value)
+    mainSlider.setSearch(e.target.value)
     debouncedInitializeSlider()
   }
 
   return (
     <Container>
-      <Input value={cardsSliderStore.search} onChange={setSearch} />
+      <Input value={mainSlider.search} onChange={setSearch} />
       <Button>карточки</Button>
       <Button>авторы</Button>
     </Container>
