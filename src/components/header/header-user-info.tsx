@@ -1,17 +1,39 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
 import { Avatar } from '../avatar'
+import { UserInfoPopover } from './user-info-popover'
 
 export const HeaderUserInfo: React.FC = observer(() => {
-  const { authStore } = useStore()
+  const { authStore, appStore } = useStore()
+  const [isUserPopover, setIsUserPopover] = useState(false)
+
+  useEffect(() => {
+    if (!authStore.token) {
+      setIsUserPopover(false)
+    }
+  }, [authStore.token])
+
+  useEffect(() => {
+    setIsUserPopover(false)
+  }, [appStore.page])
 
   return (
     <Container>
-      <LogoutButton onClick={authStore.logout}>Выйти</LogoutButton>
-      <Name>{authStore.me ? authStore.me.name : 'Вход не выполнен'}</Name>
-      <Avatar size={48} />
+      {authStore.token ? (
+        <UserBlock tabIndex={1} onBlur={() => setIsUserPopover(false)}>
+          <AvatarBlock onClick={() => setIsUserPopover(!isUserPopover)}>
+            <Avatar size={48} />
+          </AvatarBlock>
+          {isUserPopover && <UserInfoPopover />}
+        </UserBlock>
+      ) : (
+        <>
+          Вы не авторизованы! <Link to='/auth'>Авторизация</Link>
+        </>
+      )}
     </Container>
   )
 })
@@ -19,16 +41,16 @@ export const HeaderUserInfo: React.FC = observer(() => {
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  position: relative;
 `
-const LogoutButton = styled.button`
-  align-self: center;
-  font-size: 21px;
-  background-color: transparent;
-  margin-right: 8px;
+const UserBlock = styled.div`
+  display: flex;
 `
-const Name = styled.div`
+const AvatarBlock = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
-  font-size: 28px;
-  margin-right: 12px;
+  :hover {
+    cursor: pointer;
+  }
 `
