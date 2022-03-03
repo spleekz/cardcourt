@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
-export type Page = 'main' | 'card' | 'new' | 'edit' | 'check' | 'auth'
+export type Page = 'main' | 'card' | 'new' | 'edit' | 'check' | 'auth' | 'user'
 
 export interface IAppStore {
   page: Page
