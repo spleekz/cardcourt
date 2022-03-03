@@ -5,11 +5,24 @@ import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import { WordList } from '../../word-list'
 import { useCard } from '../../../hooks/use-card'
+import { useStore } from '../../../stores/root-store/context'
+import { useNavigate } from 'react-router-dom'
+import { PencilIcon } from '../../../svg/pencil-icon'
 
 export const FullCard: React.FC = observer(() => {
+  const { cardsStore } = useStore()
+
   const { cardId } = useParams()
+  const navigate = useNavigate()
 
   const card = useCard(cardId)
+
+  const goToEditCard = (): void => {
+    navigate(`/card/${card!._id}/edit`)
+  }
+  const deleteCard = (id: string): void => {
+    cardsStore.deleteCard(id)
+  }
 
   return (
     <>
@@ -19,6 +32,10 @@ export const FullCard: React.FC = observer(() => {
           <Link to={`check`}>
             <ToCheckPageButton>Начать проверку</ToCheckPageButton>
           </Link>
+          <EditButton onClick={goToEditCard}>
+            <PencilIcon />
+          </EditButton>
+          <DeleteButton onClick={() => deleteCard(card._id)}>Удалить</DeleteButton>
           <WordList card={card} />
         </CardPageContainer>
       )}
@@ -32,3 +49,5 @@ const CardPageContainer = styled.div`
 const ToCheckPageButton = styled.button`
   font-size: 30px;
 `
+const EditButton = styled.button``
+const DeleteButton = styled.button``
