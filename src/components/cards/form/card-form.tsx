@@ -47,8 +47,6 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
       bodyColor: 'aqua',
     }
     cardsStore.addCard(card)
-    console.log(JSON.stringify(card))
-
     cardDone.set(true)
   }
 
