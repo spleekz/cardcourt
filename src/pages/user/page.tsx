@@ -21,7 +21,7 @@ export const UserPage: React.FC = registerPage(
       }
     }, [userName])
 
-    const cardWidthForSlider = 220
+    const cardWidthForSlider = 340
     const cardHeightForSlider = getCardHeightByWidth(cardWidthForSlider)
 
     let userSliderConfig: SliderConfig
@@ -53,12 +53,14 @@ export const UserPage: React.FC = registerPage(
                 <SubscribeButton>Подписаться</SubscribeButton>
               </UserInfo>
             </AvatarBlock>
-            <UserFeatures>
-              <UserCardsBlock>
+            <UserFeaturesContainer>
+              <FeatureList>
+                <Feature>
                 <FeatureTitle>Карточки пользователя</FeatureTitle>
                 {userSliderConfig! && <CardSlider newSliderConfig={userSliderConfig} />}
-              </UserCardsBlock>
-            </UserFeatures>
+                </Feature>
+              </FeatureList>
+            </UserFeaturesContainer>
           </>
         )}
       </Container>
@@ -69,12 +71,16 @@ export const UserPage: React.FC = registerPage(
 
 const Container = styled.div`
   display: flex;
-  padding: 0 50px;
+  flex: 1 0 auto;
+  position: relative;
 `
 const AvatarBlock = styled.div`
+  margin-right: 65px;
   position: relative;
-  top: 75px;
-  margin-right: 50px;
+  align-self: flex-start;
+  top: 60px;
+  left: 25px;
+  display: inline-block;
 `
 const UserInfo = styled.div`
   margin-top: -10px; ;
@@ -83,10 +89,28 @@ const UserName = styled.div`
   text-align: left;
   font-size: 48px;
   font-weight: bold;
-  color: #fff;
+  margin-top: -4px;
+  color: #ffffff;
 `
-const UserFeatures = styled.div``
-const UserCardsBlock = styled.div``
+const SubscribeButton = styled.button`
+  margin-top: 10px;
+  width: 100%;
+  font-size: 28px;
+  border-radius: 6px;
+`
+const UserFeaturesContainer = styled.div`
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const FeatureList = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const Feature = styled.div`
+  display: inline-block;
+`
 const FeatureTitle = styled.div`
   padding: 10px;
   margin-bottom: 10px;
@@ -96,10 +120,4 @@ const FeatureTitle = styled.div`
   text-align: center;
   color: #5c5c5c;
   background-color: #ffffff;
-`
-const SubscribeButton = styled.button`
-  margin-top: 10px;
-  width: 100%;
-  font-size: 28px;
-  border-radius: 6px;
 `
