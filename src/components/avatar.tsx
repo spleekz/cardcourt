@@ -19,5 +19,4 @@ const AvatarImage = styled.img<{ size: number }>`
   object-fit: cover;
   border-radius: 50%;
   align-self: center;
-  background-color: ${(props) => !props.src && '#ff0000'};
 `
