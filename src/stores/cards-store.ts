@@ -10,7 +10,7 @@ interface CardSize {
 
 export interface ICardsStore {
   defaultCardSize: CardSize
-//TODO:Не стоит хранить все карточки
+
   cards: Cards
 
   cardId: string | null
