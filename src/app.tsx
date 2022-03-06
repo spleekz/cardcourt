@@ -64,27 +64,27 @@ export const App: React.FC = observer(() => {
 
   return (
     <MainSliderContext.Provider value={mainSlider}>
-    <PopupsContext.Provider value={PopupsForContext}>
-      <GlobalStyles isPopup={isAnyPopupOpened} />
-      <AppContainer>
-        <CardDonePopup
-          isOpened={isCardDonePopup}
-          title={appStore.page === 'new' ? 'Карточка создана!' : 'Карточка обновлена!'}
-        />
-        <Header />
-        <PageContainer>
-          <Routes>
-            <Route path='/' element={<CardCourtPage />} />
-            <Route path='/auth' element={<AuthPage />} />
-            <Route path='card/new' element={<NewCardPage />} />
-            <Route path='/card/:cardId' element={<CardPage />} />
-            <Route path='card/:cardId/check' element={<CheckPage />} />
-            <Route path='card/:cardId/edit' element={<EditCardPage />} />
+      <PopupsContext.Provider value={PopupsForContext}>
+        <GlobalStyles isPopup={isAnyPopupOpened} />
+        <AppContainer>
+          <CardDonePopup
+            isOpened={isCardDonePopup}
+            title={appStore.page === 'new' ? 'Карточка создана!' : 'Карточка обновлена!'}
+          />
+          <Header />
+          <PageContainer>
+            <Routes>
+              <Route path='/' element={<CardCourtPage />} />
+              <Route path='/auth' element={<AuthPage />} />
+              <Route path='card/new' element={<NewCardPage />} />
+              <Route path='/card/:cardId' element={<CardPage />} />
+              <Route path='card/:cardId/check' element={<CheckPage />} />
+              <Route path='card/:cardId/edit' element={<EditCardPage />} />
               <Route path='user/:userName' element={<UserPage />} />
-          </Routes>
-        </PageContainer>
-      </AppContainer>
-    </PopupsContext.Provider>
+            </Routes>
+          </PageContainer>
+        </AppContainer>
+      </PopupsContext.Provider>
     </MainSliderContext.Provider>
   )
 })
@@ -114,7 +114,6 @@ const GlobalStyles = createGlobalStyle<{ isPopup: boolean }>`
    outline: none;
    border:0;
  }
-
 `
 const AppContainer = styled.div`
   display: flex;
@@ -126,5 +125,4 @@ const PageContainer = styled.div`
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 `
