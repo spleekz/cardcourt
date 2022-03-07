@@ -3,14 +3,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { CardRef } from './cards/card-ref'
 import { useStore } from '../stores/root-store/context'
-import { ICardsSliderStore, SliderConfig } from '../stores/cards-slider-store'
+import { ICardsSlider, SliderConfig } from '../stores/cards-slider-store'
 
 interface NewSliderConfig {
   newSliderConfig: SliderConfig
 }
 
 interface Slider {
-  slider: ICardsSliderStore
+  slider: ICardsSlider
 }
 
 function CardSliderComponent(
@@ -23,7 +23,7 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
 
   const isNewSlider = !('slider' in props)
 
-  const [slider] = useState<ICardsSliderStore>(
+  const [slider] = useState<ICardsSlider>(
     !isNewSlider ? props.slider : () => createCardsSliderStore(props.newSliderConfig)
   )
 

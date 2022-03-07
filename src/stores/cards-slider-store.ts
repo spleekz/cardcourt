@@ -29,7 +29,7 @@ export interface SliderConfig {
   loadMoreCardsConfig: LoadCardsOptions
 }
 
-export interface ICardsSliderStore {
+export interface ICardsSlider {
   cardsStore: ICardsStore
 
   cards: Cards
@@ -80,7 +80,7 @@ export interface ICardsSliderStore {
   slideLeft(): void
 }
 
-export class CardsSliderStore implements ICardsSliderStore {
+export class CardsSliderStore implements ICardsSlider {
   cardsStore: ICardsStore
 
   cardsToShow: number
