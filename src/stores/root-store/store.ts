@@ -20,7 +20,7 @@ export class RootStore implements IRootStore {
   cardsStore = new CardsStore()
   usersStore = new UsersStore()
   createCardsSliderStore = (config: SliderConfig): ICardsSlider => {
-    return new CardsSliderStore(this.cardsStore, config)
+    return new CardsSliderStore(config)
   }
   createCheckStore = (): ICheckStore => {
     return new CheckStore()

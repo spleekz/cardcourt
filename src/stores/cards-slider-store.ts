@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx'
 import { Cards } from '../api/api'
-import { ICardsStore } from './cards-store'
 import { api } from '../api'
 
 interface LoadCardsOptions {
@@ -30,8 +29,6 @@ export interface SliderConfig {
 }
 
 export interface ICardsSlider {
-  cardsStore: ICardsStore
-
   cards: Cards
   setCards(cards: Cards): void
   pushCards(cards: Cards): void
@@ -81,8 +78,6 @@ export interface ICardsSlider {
 }
 
 export class CardsSliderStore implements ICardsSlider {
-  cardsStore: ICardsStore
-
   cardsToShow: number
   cardsToSlide: number
   cardWidth: number
@@ -91,9 +86,7 @@ export class CardsSliderStore implements ICardsSlider {
   loadCardsConfig: LoadCardsOptions
   loadMoreCardsConfig: LoadCardsOptions
 
-  constructor(cardsStore: ICardsStore, config: SliderConfig) {
-    this.cardsStore = cardsStore
-
+  constructor( config: SliderConfig) {
     this.cardsToSlide = config.cardsToSlide
     this.cardsToShow = config.cardsToShow
     this.cardWidth = config.cardWidth
