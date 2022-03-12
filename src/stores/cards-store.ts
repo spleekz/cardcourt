@@ -12,6 +12,8 @@ export interface ICardsStore {
   defaultCardSize: CardSize
 
   cards: Cards
+  setCards(cards: Cards): void
+  pushCards(cards: Cards): void
 
   cardId: string | null
   setCardId(id: string | null): void
@@ -40,7 +42,7 @@ export class CardsStore implements ICardsStore {
     this.cards = cards
   }
   pushCards(cards: Cards): void {
-    this.setCards([...this.cards, ...cards])
+    this.cards.push.apply(this.cards, cards)
   }
 
   cardId: string | null = null
