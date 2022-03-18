@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { CardRef } from './cards/card-ref'
 import { useStore } from '../stores/root-store/context'
 import { ICardsSlider, SliderConfig } from '../stores/cards-slider-store'
-
 interface NewSliderConfig {
   newSliderConfig: SliderConfig
 }
@@ -19,32 +18,34 @@ function CardSliderComponent(
 function CardSliderComponent(props: React.PropsWithChildren<Slider>): React.ReactElement | null
 
 function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElement | null {
-  const { cardsStore, createCardsSliderStore } = useStore()
+  const { createCardsSliderStore } = useStore()
 
   const isNewSlider = !('slider' in props)
 
-  const [slider] = useState<ICardsSlider>(
+  const [slider, setSlider] = useState<ICardsSlider>(
     !isNewSlider ? props.slider : () => createCardsSliderStore(props.newSliderConfig)
   )
 
   const sliderWindowRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    slider.setSliderPosition((slider.page - 1) * slider.pixelsToSlide)
-  }, [])
-
-  useEffect(() => {
-    if (isNewSlider) {
+    if (!isNewSlider) {
+      setSlider(props.slider)
+      slider.setSliderPosition((props.slider.page - 1) * slider.pixelsToSlide)
+    }
+    //Если нет карточек - инициализируем слайдер
+    //Если карточки есть - слайдер уже инициализирован
+    if (slider.cards.length === 0) {
       slider.initializeSlider()
     }
-  }, [])
+  }, [props])
 
   return (
     <SliderContainer>
-      {cardsStore.cards.length > 0 && slider.pageCount === 1 ? null : (
-        <SliderButton onClick={slider.slideLeft} disabled={slider.page <= 1}>
+      {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
+        <LeftSliderButton onClick={slider.slideLeft} disabled={slider.page <= 1}>
           Назад
-        </SliderButton>
+        </LeftSliderButton>
       )}
       <SliderWindow
         ref={sliderWindowRef}
@@ -66,14 +67,14 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
           })}
         </SliderLine>
       </SliderWindow>
-      {cardsStore.cards.length > 0 && slider.pageCount === 1 ? null : (
-        <SliderButton onClick={slider.slideRigth} disabled={slider.page === slider.pageCount}>
+      {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
+        <RightSliderButton onClick={slider.slideRigth} disabled={slider.page === slider.pageCount}>
           Вперёд
-        </SliderButton>
+        </RightSliderButton>
       )}
-      <PageCounter>
+      {/* <PageCounter>
         {slider.page} / {slider.pageCount}
-      </PageCounter>
+      </PageCounter> */}
     </SliderContainer>
   )
 }
@@ -96,7 +97,10 @@ const SliderLine = styled.div<{ position: number }>`
   transform: ${(props) => `translateX(-${props.position}px)`};
   transition: 0.48s ease-out;
 `
-const SliderButton = styled.button`
-  margin: 0 8px 0 8px;
+const SliderButton = styled.button``
+const LeftSliderButton = styled(SliderButton)`
+  margin-right: 8px;
 `
-const PageCounter = styled.div``
+const RightSliderButton = styled(SliderButton)`
+  margin-left: 8px;
+`

@@ -1,20 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { CardSlider } from '../../../components/card-slider'
-import { useStore } from '../../../stores/root-store/context'
 import { useMainSlider } from '../../../app'
 
 export const Court: React.FC = observer(() => {
-  const { cardsStore } = useStore()
   const mainSlider = useMainSlider()
-
-  useEffect(() => {
-    if (!cardsStore.cards.length) {
-      mainSlider.initializeSlider()
-    }
-  }, [])
 
   return (
     <CardListContainer>

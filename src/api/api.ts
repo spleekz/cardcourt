@@ -93,7 +93,7 @@ export type Cards = Card[];
 
 export interface CardsResponse {
   cards: Cards;
-  pagesLoaded: number;
+  maxLoadedPage: number;
   pageCount: number;
 }
 

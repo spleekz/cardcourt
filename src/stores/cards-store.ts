@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { Card, Cards, SendedCard, UpdatedCard } from '../api/api'
 import { api } from '../api'
 import cardConfig from './card-config.json'
+import { ActionToUpdateCards } from './utility-types'
 
 interface CardSize {
   width: number
@@ -12,8 +13,8 @@ export interface ICardsStore {
   defaultCardSize: CardSize
 
   cards: Cards
-  setCards(cards: Cards): void
-  pushCards(cards: Cards): void
+  setCards: ActionToUpdateCards
+  pushCards: ActionToUpdateCards
 
   cardId: string | null
   setCardId(id: string | null): void
@@ -29,7 +30,7 @@ export interface ICardsStore {
 
 export class CardsStore implements ICardsStore {
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this, {}, { autoBind: true })
   }
 
   defaultCardSize: CardSize = {
@@ -38,10 +39,12 @@ export class CardsStore implements ICardsStore {
   }
 
   cards: Cards = []
-  setCards(cards: Cards): void {
-    this.cards = cards
+  setCards: ActionToUpdateCards = (cards) => {
+    const prevCards = this.cards
+    prevCards.length = 0
+    prevCards.push.apply(prevCards, cards)
   }
-  pushCards(cards: Cards): void {
+  pushCards: ActionToUpdateCards = (cards) => {
     this.cards.push.apply(this.cards, cards)
   }
 

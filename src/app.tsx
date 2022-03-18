@@ -30,18 +30,26 @@ export const MainSliderContext = createContext<ICardsSlider>({} as ICardsSlider)
 export const useMainSlider = (): ICardsSlider => useContext(MainSliderContext)
 
 export const App: React.FC = observer(() => {
-  const { authStore, appStore, createCardsSliderStore } = useStore()
+  const { cardsStore, authStore, appStore, createCardsSliderStore } = useStore()
+
   const [mainSlider] = useState<ICardsSlider>(() =>
     createCardsSliderStore({
+      cards: cardsStore.cards,
       cardWidth: 320,
       cardHeight: 500,
       cardsToShow: 5,
       cardsToSlide: 5,
       loadCardsConfig: {
+        params: {
         pagesToLoad: 2,
+        },
+        actionToUpdateCards: cardsStore.setCards,
       },
       loadMoreCardsConfig: {
+        params: {
         pagesToLoad: 2,
+        },
+        actionToUpdateCards: cardsStore.pushCards,
       },
     })
   )

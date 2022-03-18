@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { registerPage } from '../../hocs/register-page'
@@ -7,40 +7,58 @@ import { useStore } from '../../stores/root-store/context'
 import { Avatar } from '../../components/avatar'
 import { CardSlider } from '../../components/card-slider'
 import { getCardHeightByWidth } from '../../lib/cards'
-import { SliderConfig } from '../../stores/cards-slider-store'
+import { SliderConfig, ICardsSlider } from '../../stores/cards-slider-store'
 
 export const UserPage: React.FC = registerPage(
   observer(() => {
-    const { usersStore } = useStore()
-
+    const { usersStore, createCardsSliderStore } = useStore()
     const { userName } = useParams() as { userName: string }
+    const [userCardsSlider, setUserCardsSlider] = useState<ICardsSlider | null>(null)
 
+    //Загружаем информацию о пользователе
     useEffect(() => {
       if (userName) {
         usersStore.loadUserPublicInfo(userName)
       }
     }, [userName])
 
+    //Загружаем карточки пользователя
+    useEffect(() => {
+      if (usersStore.user.publicInfo?.name) {
+        usersStore.loadUserCards()
+      }
+    }, [usersStore.user.publicInfo?.name])
+
     const cardWidthForSlider = 340
     const cardHeightForSlider = getCardHeightByWidth(cardWidthForSlider)
 
-    let userSliderConfig: SliderConfig
-    if (usersStore.user.publicUserInfo !== undefined) {
-      userSliderConfig = {
-        cardsToSlide: 3,
-        cardsToShow: 3,
-        cardWidth: cardWidthForSlider,
-        cardHeight: cardHeightForSlider,
-        loadCardsConfig: {
-          pagesToLoad: 2,
-          by: usersStore.user.publicUserInfo.name,
-        },
-        loadMoreCardsConfig: {
-          pagesToLoad: 2,
-          by: usersStore.user.publicUserInfo.name,
-        },
+    //Если загрузили инфу и карточки пользователя - создаем слайдер
+    useEffect(() => {
+      if (usersStore.user.publicInfo?.name && usersStore.user.publicFeatures) {
+        const userCardsSliderConfig: SliderConfig = {
+          cards: usersStore.user.publicFeatures.cards,
+          cardsToSlide: 3,
+          cardsToShow: 3,
+          cardWidth: cardWidthForSlider,
+          cardHeight: cardHeightForSlider,
+          loadCardsConfig: {
+            params: {
+              pagesToLoad: 2,
+              by: usersStore.user.publicInfo.name,
+            },
+            actionToUpdateCards: usersStore.setUserCards,
+          },
+          loadMoreCardsConfig: {
+            params: {
+              pagesToLoad: 2,
+              by: usersStore.user.publicInfo.name,
+            },
+            actionToUpdateCards: usersStore.pushUserCards,
+          },
+        }
+        setUserCardsSlider(() => createCardsSliderStore(userCardsSliderConfig))
       }
-    }
+    }, [usersStore.user.publicInfo?.name, usersStore.user.publicFeatures])
 
     return (
       <Container>
@@ -49,16 +67,13 @@ export const UserPage: React.FC = registerPage(
             <AvatarBlock>
               <Avatar size={480} />
               <UserInfo>
-                <UserName>{usersStore.user.publicUserInfo?.name}</UserName>
+                <UserName>{usersStore.user.publicInfo?.name}</UserName>
                 <SubscribeButton>Подписаться</SubscribeButton>
               </UserInfo>
             </AvatarBlock>
             <UserFeaturesContainer>
               <FeatureList>
-                <Feature>
-                <FeatureTitle>Карточки пользователя</FeatureTitle>
-                {userSliderConfig! && <CardSlider newSliderConfig={userSliderConfig} />}
-                </Feature>
+                <Feature>{userCardsSlider && <CardSlider slider={userCardsSlider} />}</Feature>
               </FeatureList>
             </UserFeaturesContainer>
           </>
@@ -110,14 +125,4 @@ const FeatureList = styled.div`
 `
 const Feature = styled.div`
   display: inline-block;
-`
-const FeatureTitle = styled.div`
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  font-size: 28px;
-  font-weight: bold;
-  text-align: center;
-  color: #5c5c5c;
-  background-color: #ffffff;
 `
