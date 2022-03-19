@@ -17,6 +17,10 @@ export const UserPage: React.FC = registerPage(
     const { userName } = useParams() as { userName: string }
     const [userCardsSlider, setUserCardsSlider] = useState<ICardsSlider | null>(null)
 
+    useEffect(() => {
+      return () => usersStore.setUser(null)
+    }, [])
+
     //Загружаем информацию о пользователе
     useEffect(() => {
       if (userName) {
