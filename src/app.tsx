@@ -41,13 +41,13 @@ export const App: React.FC = observer(() => {
       cardsToSlide: 5,
       loadCardsConfig: {
         params: {
-        pagesToLoad: 2,
+          pagesToLoad: 2,
         },
         actionToUpdateCards: cardsStore.setCards,
       },
       loadMoreCardsConfig: {
         params: {
-        pagesToLoad: 2,
+          pagesToLoad: 2,
         },
         actionToUpdateCards: cardsStore.pushCards,
       },
@@ -105,7 +105,7 @@ const GlobalStyles = createGlobalStyle<{ isPopup: boolean }>`
   }
   body {
     font-family: 'Open Sans', sans-serif;
-    background-color:#89a4ff;
+    background-color:#617eae;
     overflow: ${(props) => props.isPopup && 'hidden'};
   }
  html,body,body > #root {
