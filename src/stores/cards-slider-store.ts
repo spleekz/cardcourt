@@ -68,7 +68,7 @@ export interface ICardsSlider {
   loadMoreCards(config: LoadCardsConfig): Promise<CardsResponse>
 
   reset(): void
-  initializeSlider(): void
+  resetAndFillWithCards(): void
   slideRigth(): void
   slideLeft(): void
 }
@@ -101,7 +101,7 @@ export class CardsSliderStore implements ICardsSlider {
   search = ''
   setSearch(value: string): void {
     this.search = value
-    this.initializeSlider()
+    this.resetAndFillWithCards()
   }
 
   sliderPosition = 0
@@ -207,7 +207,7 @@ export class CardsSliderStore implements ICardsSlider {
     this.maxLoadedPage = 0
     this.maxVisitedPage = 1
   }
-  initializeSlider(): void {
+  resetAndFillWithCards(): void {
     this.reset()
     this.loadCards(this.loadCardsConfig)
   }

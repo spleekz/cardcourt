@@ -36,7 +36,7 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
     //Если нет карточек - инициализируем слайдер
     //Если карточки есть - слайдер уже инициализирован
     if (slider.cards.length === 0) {
-      slider.initializeSlider()
+      slider.resetAndFillWithCards()
     }
   }, [props])
 
