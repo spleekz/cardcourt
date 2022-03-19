@@ -22,17 +22,13 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
 
   const isNewSlider = !('slider' in props)
 
-  const [slider, setSlider] = useState<ICardsSlider>(
+  const [slider] = useState<ICardsSlider>(
     !isNewSlider ? props.slider : () => createCardsSliderStore(props.newSliderConfig)
   )
 
   const sliderWindowRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!isNewSlider) {
-      setSlider(props.slider)
-      slider.setSliderPosition((props.slider.page - 1) * slider.pixelsToSlide)
-    }
     //Если нет карточек - инициализируем слайдер
     //Если карточки есть - слайдер уже инициализирован
     if (slider.cards.length === 0) {
