@@ -76,6 +76,7 @@ export interface ICardsSlider {
 //! Стор
 export class CardsSliderStore implements ICardsSlider {
   cards: Cards
+  maxLoadedPage: number
   cardsToShow: number
   cardsToSlide: number
   cardWidth: number
@@ -94,6 +95,8 @@ export class CardsSliderStore implements ICardsSlider {
     this.cardsToShow = config.cardsToShow
     this.cardWidth = config.cardWidth
     this.cardHeight = config.cardHeight
+
+    this.maxLoadedPage = this.cards.length / this.cardsToShow
 
     makeAutoObservable(this, {}, { autoBind: true })
   }
@@ -139,7 +142,6 @@ export class CardsSliderStore implements ICardsSlider {
     this.pageCount = pageCount
   }
 
-  maxLoadedPage = 0
   setMaxLoadedPage(page: number): void {
     this.maxLoadedPage = page
   }
