@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { SendedCardWords } from '../../../../api/api'
-import { XIcon } from '../../../../svg/x-icon'
+import { XIcon } from '../../../icons/x-icon'
 import { FormWordInput } from './word-input'
 
 interface IFormWordPair {

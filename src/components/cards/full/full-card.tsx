@@ -7,7 +7,7 @@ import { WordList } from '../../word-list'
 import { useCard } from '../../../hooks/use-card'
 import { useStore } from '../../../stores/root-store/context'
 import { useNavigate } from 'react-router-dom'
-import { PencilIcon } from '../../../svg/pencil-icon'
+import { PencilIcon } from '../../icons/pencil-icon'
 
 export const FullCard: React.FC = observer(() => {
   const { cardsStore } = useStore()
