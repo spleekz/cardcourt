@@ -12,7 +12,7 @@ export type FnToCallAfterRequest = (response: CardsResponse) => void
 
 export interface GetCardsConfig {
   params: GetCardsParams
-  fnToCall: FnToCallAfterRequest
+  fnToCall?: FnToCallAfterRequest
 }
 
 type GetCardsFn = (config: GetCardsConfig) => Promise<CardsResponse>
@@ -20,7 +20,7 @@ type GetCardsFn = (config: GetCardsConfig) => Promise<CardsResponse>
 export const getCards: GetCardsFn = ({ params = {}, fnToCall }) => {
   const { page = 1, pagesToLoad = 1, pageSize = 5, search = '', by = '' } = params
   return api.cards.getCards({ page, pagesToLoad, pageSize, search, by }).then((res) => {
-    if (res.ok) {
+    if (res.ok && fnToCall) {
       fnToCall(res.data)
     }
     return {
