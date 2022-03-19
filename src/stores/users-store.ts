@@ -15,7 +15,7 @@ interface User {
 
 export interface IUsersStore {
   user: User | null
-  setUser(user: User): void
+  setUser(user: User | null): void
 
   loadUserInfo(name: string): Promise<PublicUserInfo>
 
@@ -32,7 +32,7 @@ export class UsersStore implements IUsersStore {
   }
 
   user: User | null = null
-  setUser(user: User): void {
+  setUser(user: User | null): void {
     this.user = user
   }
 
