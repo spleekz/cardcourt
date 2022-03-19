@@ -34,7 +34,7 @@ export const UserPage: React.FC = registerPage(
 
     //Если загрузили инфу и карточки пользователя - создаем слайдер
     useEffect(() => {
-      if (usersStore.user.publicInfo?.name && usersStore.user.publicFeatures) {
+      if (usersStore.user.publicInfo?.name && usersStore.user.publicFeatures.cards.length) {
         const userCardsSliderConfig: SliderConfig = {
           cards: usersStore.user.publicFeatures.cards,
           cardsToSlide: 3,
@@ -58,11 +58,11 @@ export const UserPage: React.FC = registerPage(
         }
         setUserCardsSlider(() => createCardsSliderStore(userCardsSliderConfig))
       }
-    }, [usersStore.user.publicInfo?.name, usersStore.user.publicFeatures])
+    }, [usersStore.user.publicInfo?.name, usersStore.user.publicFeatures.cards.length])
 
     return (
       <Container>
-        {usersStore.isCurrentUser && (
+        {usersStore.user.publicInfo?.name && usersStore.user.publicFeatures.cards.length ? (
           <>
             <AvatarBlock>
               <Avatar size={480} />
