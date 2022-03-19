@@ -1,77 +1,71 @@
-import { api, getCards, FnToCallAfterRequest } from '../api'
+import { api, getCards } from '../api'
 import { makeAutoObservable } from 'mobx'
 import { PublicUserInfo } from '../../../backend/api/api-types'
 import { ActionToUpdateCards } from './utility-types'
 import { Cards, GetCardsParams, CardsResponse } from '../api/api'
 
 interface User {
-  publicInfo: {
-    name: string | null
+  info: {
+    name: string
   }
-  publicFeatures: {
-    cards: Cards
+  cards: {
+    created: Cards
   }
 }
 
 export interface IUsersStore {
-  user: User
-  setPublicUserInfo(publicUserInfo: PublicUserInfo): void
-  loadUserPublicInfo(name: string): void
+  user: User | null
+  setUser(user: User): void
 
-  loadUserCards: () => Promise<CardsResponse>
+  loadUserInfo(name: string): Promise<PublicUserInfo>
 
+  loadUserCards(name?: string): Promise<CardsResponse>
   setUserCards: ActionToUpdateCards
   pushUserCards: ActionToUpdateCards
 
-  isCurrentUser: boolean
+  loadUser(name: string): Promise<void>
 }
 
 export class UsersStore implements IUsersStore {
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this, {}, { autoBind: true })
   }
 
-  user: User = {
-    publicInfo: {
-      name: null,
-    },
-    publicFeatures: {
-      cards: [],
-    },
+  user: User | null = null
+  setUser(user: User): void {
+    this.user = user
   }
-  setPublicUserInfo(publicUserInfo: PublicUserInfo): void {
-    this.user.publicInfo = publicUserInfo
-  }
-  loadUserPublicInfo(name: string): void {
-    api.userInfo.getUserInfo(name).then((res) => {
-      if (res.ok) {
-        this.setPublicUserInfo(res.data)
-      }
+
+  loadUserInfo(name: string): Promise<PublicUserInfo> {
+    return api.userInfo.getUserInfo(name).then((res) => {
+      return res.data
     })
   }
 
-  loadUserCards(): Promise<CardsResponse> {
+  loadUserCards(name?: string): Promise<CardsResponse> {
     const params: GetCardsParams = {
       pagesToLoad: 2,
       pageSize: 3,
-      by: this.user.publicInfo.name!,
+      by: name || this.user?.info.name,
     }
-    const fnToCall: FnToCallAfterRequest = (data) => {
-      this.setUserCards(data.cards)
-    }
-    return getCards({ params, fnToCall })
+    return getCards({ params })
   }
-
   setUserCards: ActionToUpdateCards = (cards) => {
-    const prevCards = this.user.publicFeatures.cards
+    const prevCards = this.user!.cards.created
     prevCards.length = 0
     prevCards.push.apply(prevCards, cards)
   }
   pushUserCards: ActionToUpdateCards = (cards) => {
-    this.user.publicFeatures!.cards.push.apply(this.user.publicFeatures!.cards, cards)
+    this.user!.cards.created.push.apply(this.user!.cards!.created, cards)
   }
 
-  get isCurrentUser(): boolean {
-    return this.user.publicInfo !== undefined || this.user.publicFeatures !== undefined
+  //Одним экшеном грузим инфу и карточки
+  async loadUser(name: string): Promise<void> {
+    const info = await this.loadUserInfo(name)
+    const loadCardsResponse = await this.loadUserCards(name)
+
+    const user: User = { info, cards: { created: loadCardsResponse.cards } }
+
+    this.setUser(user)
   }
 }

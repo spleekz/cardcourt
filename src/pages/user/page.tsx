@@ -12,31 +12,26 @@ import { SliderConfig, ICardsSlider } from '../../stores/cards-slider-store'
 export const UserPage: React.FC = registerPage(
   observer(() => {
     const { usersStore, createCardsSliderStore } = useStore()
+    const user = usersStore.user
+
     const { userName } = useParams() as { userName: string }
     const [userCardsSlider, setUserCardsSlider] = useState<ICardsSlider | null>(null)
 
     //Загружаем информацию о пользователе
     useEffect(() => {
       if (userName) {
-        usersStore.loadUserPublicInfo(userName)
+        usersStore.loadUser(userName)
       }
     }, [userName])
-
-    //Загружаем карточки пользователя
-    useEffect(() => {
-      if (usersStore.user.publicInfo?.name) {
-        usersStore.loadUserCards()
-      }
-    }, [usersStore.user.publicInfo?.name])
 
     const cardWidthForSlider = 340
     const cardHeightForSlider = getCardHeightByWidth(cardWidthForSlider)
 
     //Если загрузили инфу и карточки пользователя - создаем слайдер
     useEffect(() => {
-      if (usersStore.user.publicInfo?.name && usersStore.user.publicFeatures.cards.length) {
+      if (user) {
         const userCardsSliderConfig: SliderConfig = {
-          cards: usersStore.user.publicFeatures.cards,
+          cards: user.cards.created,
           cardsToSlide: 3,
           cardsToShow: 3,
           cardWidth: cardWidthForSlider,
@@ -44,30 +39,30 @@ export const UserPage: React.FC = registerPage(
           loadCardsConfig: {
             params: {
               pagesToLoad: 2,
-              by: usersStore.user.publicInfo.name,
+              by: user.info.name,
             },
             actionToUpdateCards: usersStore.setUserCards,
           },
           loadMoreCardsConfig: {
             params: {
               pagesToLoad: 2,
-              by: usersStore.user.publicInfo.name,
+              by: user.info.name,
             },
             actionToUpdateCards: usersStore.pushUserCards,
           },
         }
         setUserCardsSlider(() => createCardsSliderStore(userCardsSliderConfig))
       }
-    }, [usersStore.user.publicInfo?.name, usersStore.user.publicFeatures.cards.length])
+    }, [user])
 
     return (
       <Container>
-        {usersStore.user.publicInfo?.name && usersStore.user.publicFeatures.cards.length ? (
+        {user ? (
           <>
             <AvatarBlock>
               <Avatar size={480} />
               <UserInfo>
-                <UserName>{usersStore.user.publicInfo?.name}</UserName>
+                <UserName>{user.info.name}</UserName>
                 <SubscribeButton>Подписаться</SubscribeButton>
               </UserInfo>
             </AvatarBlock>
@@ -77,7 +72,7 @@ export const UserPage: React.FC = registerPage(
               </FeatureList>
             </UserFeaturesContainer>
           </>
-        )}
+        ) : null}
       </Container>
     )
   }),
