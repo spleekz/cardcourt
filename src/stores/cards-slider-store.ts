@@ -101,6 +101,7 @@ export class CardsSliderStore implements ICardsSlider {
   search = ''
   setSearch(value: string): void {
     this.search = value
+    this.initializeSlider()
   }
 
   sliderPosition = 0

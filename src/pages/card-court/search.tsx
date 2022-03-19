@@ -1,26 +1,30 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useDebouncedCallback } from 'use-debounce'
 import { useMainSlider } from '../../app'
+import { SearchIcon } from '../../components/icons/search-icon'
 
 export const Search: React.FC = observer(() => {
   const mainSlider = useMainSlider()
 
-  const debouncedInitializeSlider = useDebouncedCallback(() => {
-    mainSlider.initializeSlider()
-  }, 350)
+  const [search, setSearch] = useState<string>('')
 
-  const setSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    mainSlider.setSearch(e.target.value)
-    debouncedInitializeSlider()
+  const setSearchToSlider = (): void => {
+    mainSlider.setSearch(search)
+  }
+
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      setSearchToSlider()
+    }
   }
 
   return (
     <Container>
-      <Input value={mainSlider.search} onChange={setSearch} />
-      <Button>карточки</Button>
-      <Button>авторы</Button>
+      <Input value={search} onChange={(e) => setSearch(e.target.value)} onKeyPress={handleEnter} />
+      <SearchButton onClick={setSearchToSlider}>
+        <SearchIcon />
+      </SearchButton>
     </Container>
   )
 })
@@ -38,7 +42,6 @@ const Container = styled.div`
 const Input = styled.input`
   font-size: 40px;
 `
-const Button = styled.button`
-  width: 110px;
-  height: 50px; ;
+const SearchButton = styled.button`
+  width: 56px;
 `
