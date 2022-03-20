@@ -68,9 +68,6 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
           Вперёд
         </RightSliderButton>
       )}
-      {/* <PageCounter>
-        {slider.page} / {slider.pageCount}
-      </PageCounter> */}
     </SliderContainer>
   )
 }
