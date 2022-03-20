@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { CardRef } from './cards/card-ref'
 import { useStore } from '../stores/root-store/context'
@@ -27,14 +27,6 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
   )
 
   const sliderWindowRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    //Если нет карточек - инициализируем слайдер
-    //Если карточки есть - слайдер уже инициализирован
-    if (slider.cards.length === 0) {
-      slider.resetAndFillWithCards()
-    }
-  }, [props])
 
   return (
     <SliderContainer>

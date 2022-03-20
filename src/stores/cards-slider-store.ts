@@ -105,6 +105,9 @@ export class CardsSliderStore implements ICardsSlider {
     this.maxLoadedPage = this.cards.length / this.cardsToShow
 
     makeAutoObservable(this, {}, { autoBind: true })
+    if (!this.cards.length) {
+      this.loadCards(this.loadCardsConfig)
+    }
   }
 
   search = ''
