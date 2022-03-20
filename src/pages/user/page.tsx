@@ -8,6 +8,7 @@ import { Avatar } from '../../components/avatar'
 import { CardSlider } from '../../components/card-slider'
 import { getCardHeightByWidth } from '../../lib/cards'
 import { SliderConfig, ICardsSlider } from '../../stores/cards-slider-store'
+import { Preloader } from '../../components/icons/preloader'
 
 export const UserPage: React.FC = registerPage(
   observer(() => {
@@ -59,24 +60,24 @@ export const UserPage: React.FC = registerPage(
       }
     }, [user])
 
+    if (!user) {
+      return <Preloader />
+    }
+
     return (
       <Container>
-        {user ? (
-          <>
-            <AvatarBlock>
-              <Avatar size={480} />
-              <UserInfo>
-                <UserName>{user.info.name}</UserName>
-                <SubscribeButton>Подписаться</SubscribeButton>
-              </UserInfo>
-            </AvatarBlock>
-            <UserFeaturesContainer>
-              <FeatureList>
-                <Feature>{userCardsSlider && <CardSlider slider={userCardsSlider} />}</Feature>
-              </FeatureList>
-            </UserFeaturesContainer>
-          </>
-        ) : null}
+        <AvatarBlock>
+          <Avatar size={480} />
+          <UserInfo>
+            <UserName>{user.info.name}</UserName>
+            <SubscribeButton>Подписаться</SubscribeButton>
+          </UserInfo>
+        </AvatarBlock>
+        <UserFeaturesContainer>
+          <FeatureList>
+            <Feature>{userCardsSlider && <CardSlider slider={userCardsSlider} />}</Feature>
+          </FeatureList>
+        </UserFeaturesContainer>
       </Container>
     )
   }),

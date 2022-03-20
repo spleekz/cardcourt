@@ -4,9 +4,17 @@ import styled from 'styled-components'
 import { registerPage } from '../../hocs/register-page'
 import { Search } from './search'
 import { Court } from './court/court'
+import { useMainSlider } from '../../app'
+import { Preloader } from '../../components/icons/preloader'
 
 export const CardCourtPage: React.FC = registerPage(
   observer(() => {
+    const mainSlider = useMainSlider()
+
+    if (mainSlider.isLoading.value) {
+      return <Preloader />
+    }
+
     return (
       <CardsPageContainer>
         <Search />
