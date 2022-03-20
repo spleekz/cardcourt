@@ -1,9 +1,14 @@
 import { makeAutoObservable } from 'mobx'
 import { Cards, GetCardsParams, CardsResponse } from '../api/api'
 import { FnToCallAfterRequest, getCards } from '../api'
+import { WithBoolean } from './entities/with-boolean'
 import { ActionToUpdateCards } from './utility-types'
 
 interface LoadCardsConfig {
+  params: GetCardsParams
+  fnWithUpdatingCards: FnToCallAfterRequest
+}
+interface SliderLoadCardsConfig {
   params: GetCardsParams
   actionToUpdateCards: ActionToUpdateCards
 }
@@ -13,8 +18,8 @@ export interface SliderConfig {
   cards: Cards
 
   //Конфиги для загрузки карточек
-  loadCardsConfig: LoadCardsConfig
-  loadMoreCardsConfig: LoadCardsConfig
+  loadCardsConfig: SliderLoadCardsConfig
+  loadMoreCardsConfig: SliderLoadCardsConfig
 
   //Визуальные параметры
   cardsToSlide: number
@@ -64,8 +69,9 @@ export interface ICardsSlider {
   getCardForSlider(config: LoadCardsConfig): Promise<CardsResponse>
 
   //Реализации запросов за карточками
-  loadCards(config: LoadCardsConfig): Promise<CardsResponse>
-  loadMoreCards(config: LoadCardsConfig): Promise<CardsResponse>
+  isLoading: WithBoolean
+  loadCards(config: SliderLoadCardsConfig): Promise<CardsResponse>
+  loadMoreCards(config: SliderLoadCardsConfig): Promise<CardsResponse>
 
   reset(): void
   resetAndFillWithCards(): void
@@ -82,8 +88,8 @@ export class CardsSliderStore implements ICardsSlider {
   cardWidth: number
   cardHeight: number
 
-  loadCardsConfig: LoadCardsConfig
-  loadMoreCardsConfig: LoadCardsConfig
+  loadCardsConfig: SliderLoadCardsConfig
+  loadMoreCardsConfig: SliderLoadCardsConfig
 
   constructor(config: SliderConfig) {
     this.cards = config.cards
@@ -159,16 +165,18 @@ export class CardsSliderStore implements ICardsSlider {
   }
 
   //!Функции слайдера
-  getCardForSlider({ params, actionToUpdateCards }: LoadCardsConfig): Promise<CardsResponse> {
+  getCardForSlider({ params, fnWithUpdatingCards }: LoadCardsConfig): Promise<CardsResponse> {
     const fnToCall: FnToCallAfterRequest = (data) => {
-      actionToUpdateCards(data.cards)
+      fnWithUpdatingCards(data)
       this.setMaxLoadedPage(data.maxLoadedPage)
       this.setPageCount(data.pageCount)
     }
     return getCards({ params, fnToCall })
   }
 
-  loadCards({ params = {}, actionToUpdateCards }: LoadCardsConfig): Promise<CardsResponse> {
+  isLoading: WithBoolean = new WithBoolean(false)
+  loadCards({ params = {}, actionToUpdateCards }: SliderLoadCardsConfig): Promise<CardsResponse> {
+    this.isLoading.set(true)
     const {
       page = 1,
       pagesToLoad = 1,
@@ -177,15 +185,18 @@ export class CardsSliderStore implements ICardsSlider {
       by = '',
     } = params
 
-    const loadCardsconfig = {
+    const loadCardsСonfig: LoadCardsConfig = {
       params: { page, pagesToLoad, pageSize, search, by },
-      actionToUpdateCards,
+      fnWithUpdatingCards: (data) => {
+        this.isLoading.set(false)
+        actionToUpdateCards(data.cards)
+      },
     }
 
-    return this.getCardForSlider(loadCardsconfig)
+    return this.getCardForSlider(loadCardsСonfig)
   }
 
-  loadMoreCards({ params = {}, actionToUpdateCards }: LoadCardsConfig): Promise<CardsResponse> {
+  loadMoreCards({ params = {}, actionToUpdateCards }: SliderLoadCardsConfig): Promise<CardsResponse> {
     const {
       page = this.maxLoadedPage + 1,
       pagesToLoad = 2,
@@ -194,9 +205,9 @@ export class CardsSliderStore implements ICardsSlider {
       by = '',
     } = params
 
-    const loadMoreCardsConfig = {
+    const loadMoreCardsConfig: LoadCardsConfig = {
       params: { page, pagesToLoad, pageSize, search, by },
-      actionToUpdateCards,
+      fnWithUpdatingCards: (data) => actionToUpdateCards(data.cards),
     }
 
     return this.getCardForSlider(loadMoreCardsConfig)
