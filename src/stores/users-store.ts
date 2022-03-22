@@ -23,7 +23,7 @@ export interface IUsersStore {
   setUserCards: ActionToUpdateCards
   pushUserCards: ActionToUpdateCards
 
-  loadUser(name: string): Promise<void>
+  loadUser(name: string): void
 }
 
 export class UsersStore implements IUsersStore {
@@ -60,12 +60,14 @@ export class UsersStore implements IUsersStore {
   }
 
   //Одним экшеном грузим инфу и карточки
-  async loadUser(name: string): Promise<void> {
-    const info = await this.loadUserInfo(name)
-    const loadCardsResponse = await this.loadUserCards(name)
+  loadUser(name: string): void {
+    const loadInfoPromise = this.loadUserInfo(name)
+    const loadCardsPromise = this.loadUserCards(name)
 
-    const user: User = { info, cards: { created: loadCardsResponse.cards } }
+    Promise.all([loadInfoPromise, loadCardsPromise]).then(([infoResponse, cardsResponse]) => {
+      const user: User = { info: infoResponse, cards: { created: cardsResponse.cards } }
 
-    this.setUser(user)
+      this.setUser(user)
+    })
   }
 }
