@@ -70,8 +70,8 @@ export interface ICardsSlider {
 
   //Реализации запросов за карточками
   isLoading: WithBoolean
-  loadCards(config: SliderLoadCardsConfig): Promise<CardsResponse>
-  loadMoreCards(config: SliderLoadCardsConfig): Promise<CardsResponse>
+  loadCards(): Promise<CardsResponse>
+  loadMoreCards(): Promise<CardsResponse>
 
   reset(): void
   resetAndFillWithCards(): void
@@ -105,8 +105,9 @@ export class CardsSliderStore implements ICardsSlider {
     this.maxLoadedPage = this.cards.length / this.cardsToShow
 
     makeAutoObservable(this, {}, { autoBind: true })
+
     if (!this.cards.length) {
-      this.loadCards(this.loadCardsConfig)
+      this.loadCards()
     }
   }
 
@@ -177,19 +178,14 @@ export class CardsSliderStore implements ICardsSlider {
     return getCards({ params, fnToCall })
   }
 
-  isLoading: WithBoolean = new WithBoolean(false)
-  loadCards({ params = {}, actionToUpdateCards }: SliderLoadCardsConfig): Promise<CardsResponse> {
+  isLoading: WithBoolean = new WithBoolean(true)
+  loadCards(): Promise<CardsResponse> {
     this.isLoading.set(true)
-    const {
-      page = 1,
-      pagesToLoad = 1,
-      pageSize = this.cardsToShow,
-      search = this.search,
-      by = '',
-    } = params
+
+    const { params, actionToUpdateCards } = this.loadCardsConfig
 
     const loadCardsСonfig: LoadCardsConfig = {
-      params: { page, pagesToLoad, pageSize, search, by },
+      params,
       fnWithUpdatingCards: (data) => {
         this.isLoading.set(false)
         actionToUpdateCards(data.cards)
@@ -199,17 +195,11 @@ export class CardsSliderStore implements ICardsSlider {
     return this.getCardForSlider(loadCardsСonfig)
   }
 
-  loadMoreCards({ params = {}, actionToUpdateCards }: SliderLoadCardsConfig): Promise<CardsResponse> {
-    const {
-      page = this.maxLoadedPage + 1,
-      pagesToLoad = 2,
-      pageSize = this.cardsToShow,
-      search = this.search,
-      by = '',
-    } = params
+  loadMoreCards(): Promise<CardsResponse> {
+    const { params, actionToUpdateCards } = this.loadMoreCardsConfig
 
     const loadMoreCardsConfig: LoadCardsConfig = {
-      params: { page, pagesToLoad, pageSize, search, by },
+      params,
       fnWithUpdatingCards: (data) => actionToUpdateCards(data.cards),
     }
 
@@ -225,14 +215,14 @@ export class CardsSliderStore implements ICardsSlider {
   }
   resetAndFillWithCards(): void {
     this.reset()
-    this.loadCards(this.loadCardsConfig)
+    this.loadCards()
   }
   slideRigth(): void {
     this.setNextPage()
     if (!this.pageWasVisited) {
       this.updateMaxVisitedPage()
       if (!this.allPagesAreLoaded) {
-        this.loadMoreCards(this.loadMoreCardsConfig)
+        this.loadMoreCards()
       }
     }
     this.setSliderPositionForward()
