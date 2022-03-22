@@ -39,6 +39,7 @@ export class CardsStore implements ICardsStore {
   }
 
   cards: Cards = []
+  //Обновляем массив через push.apply, чтобы не терялась ссылка на него (требуется для слайдера)
   setCards: ActionToUpdateCards = (cards) => {
     const prevCards = this.cards
     prevCards.length = 0
