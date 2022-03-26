@@ -1,28 +1,19 @@
-import { CardsStore, ICardsStore } from '../cards-store'
-import { ICheckStore, CheckStore } from '../check-store'
-import { IAppStore, AppStore } from '../app-store'
-import { IAuthStore, AuthStore } from '../auth-store'
-import { ICardsSlider, CardsSliderStore, SliderConfig } from '../cards-slider-store'
-import { IUsersStore, UsersStore } from '../users-store'
+import { CardsStore } from '../cards-store'
+import { CheckStore } from '../check-store'
+import { AppStore } from '../app-store'
+import { AuthStore } from '../auth-store'
+import { CardsSliderStore, SliderConfig } from '../cards-slider-store'
+import { UsersStore } from '../users-store'
 
-export interface IRootStore {
-  appStore: IAppStore
-  authStore: IAuthStore
-  cardsStore: ICardsStore
-  usersStore: IUsersStore
-  createCardsSliderStore(config: SliderConfig): ICardsSlider
-  createCheckStore(): ICheckStore
-}
-
-export class RootStore implements IRootStore {
-  appStore = new AppStore()
-  authStore = new AuthStore()
-  cardsStore = new CardsStore()
-  usersStore = new UsersStore()
-  createCardsSliderStore = (config: SliderConfig): ICardsSlider => {
+export class RootStore {
+  appStore: AppStore = new AppStore()
+  authStore: AuthStore = new AuthStore()
+  cardsStore: CardsStore = new CardsStore()
+  usersStore: UsersStore = new UsersStore()
+  createCardsSliderStore(config: SliderConfig): CardsSliderStore {
     return new CardsSliderStore(config)
   }
-  createCheckStore = (): ICheckStore => {
+  createCheckStore(): CheckStore {
     return new CheckStore()
   }
 }

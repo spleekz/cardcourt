@@ -3,20 +3,7 @@ import { makeAutoObservable } from 'mobx'
 import { api } from '../api'
 import { Me } from '../api/api'
 
-export interface IAuthStore {
-  token: string | null
-  setToken(token: string | null): void
-
-  me: Me | null
-  loadMe(): void
-  setMe(me: Me | null): void
-
-  registerUser(name: string, password: string): Promise<void>
-  loginUser(name: string, password: string): Promise<void>
-  logout(): void
-}
-
-export class AuthStore implements IAuthStore {
+export class AuthStore {
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true })
     makePersistable(this, { name: 'authStore', properties: ['token'], storage: window.localStorage })

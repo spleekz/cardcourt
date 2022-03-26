@@ -2,12 +2,7 @@ import { makeAutoObservable } from 'mobx'
 
 export type Page = 'main' | 'card' | 'new' | 'edit' | 'check' | 'auth' | 'user'
 
-export interface IAppStore {
-  page: Page
-  setPage(page: Page): void
-}
-
-export class AppStore implements IAppStore {
+export class AppStore {
   constructor() {
     makeAutoObservable(this)
   }

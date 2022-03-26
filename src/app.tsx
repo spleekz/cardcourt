@@ -12,7 +12,7 @@ import { useStore } from './stores/root-store/context'
 import { CardPage } from './pages/card/page'
 import { AuthPage } from './pages/auth/page'
 import { UserPage } from './pages/user/page'
-import { ICardsSlider } from './stores/cards-slider-store'
+import { CardsSliderStore } from './stores/cards-slider-store'
 
 interface Popup {
   value: boolean
@@ -26,13 +26,14 @@ interface Popups {
 export const PopupsContext = createContext<Popups>({} as Popups)
 export const usePopupContext = (): Popups => useContext(PopupsContext)
 
-export const MainSliderContext = createContext<ICardsSlider>({} as ICardsSlider)
-export const useMainSlider = (): ICardsSlider => useContext(MainSliderContext)
+export const MainSliderContext = createContext<CardsSliderStore>({} as CardsSliderStore)
+export const useMainSlider = (): CardsSliderStore => useContext(MainSliderContext)
 
 export const App: React.FC = observer(() => {
   const { cardsStore, authStore, appStore, createCardsSliderStore } = useStore()
 
-  const [mainSlider] = useState<ICardsSlider>(() =>
+  //TODO:если мы не на странице мейн слайдера, то не создавать его,(те в сторе не сетать карточки, а вручную загружать их в компоненте). (например при заходе на страницу пользователя грузятся его карточки и еще мейн слайдер, а нам этого не надо)
+  const [mainSlider] = useState<CardsSliderStore>(() =>
     createCardsSliderStore({
       cards: cardsStore.cards,
       cardWidth: 320,

@@ -7,7 +7,7 @@ import { useStore } from '../../stores/root-store/context'
 import { Avatar } from '../../components/avatar'
 import { CardSlider } from '../../components/card-slider'
 import { getCardHeightByWidth } from '../../lib/cards'
-import { SliderConfig, ICardsSlider } from '../../stores/cards-slider-store'
+import { SliderConfig, CardsSliderStore } from '../../stores/cards-slider-store'
 import { Preloader } from '../../components/icons/preloader'
 
 export const UserPage: React.FC = registerPage(
@@ -16,7 +16,7 @@ export const UserPage: React.FC = registerPage(
     const user = usersStore.user
 
     const { userName } = useParams() as { userName: string }
-    const [userCardsSlider, setUserCardsSlider] = useState<ICardsSlider | null>(null)
+    const [userCardsSliderStore, setUserCardsSliderStore] = useState<CardsSliderStore | null>(null)
 
     useEffect(() => {
       return () => usersStore.setUser(null)
@@ -35,7 +35,7 @@ export const UserPage: React.FC = registerPage(
     //Если загрузили инфу и карточки пользователя - создаем слайдер
     useEffect(() => {
       if (user) {
-        const userCardsSliderConfig: SliderConfig = {
+        const userCardsSliderStoreConfig: SliderConfig = {
           cards: user.cards.created,
           cardsToSlide: 3,
           cardsToShow: 3,
@@ -56,7 +56,7 @@ export const UserPage: React.FC = registerPage(
             actionToUpdateCards: usersStore.pushUserCards,
           },
         }
-        setUserCardsSlider(() => createCardsSliderStore(userCardsSliderConfig))
+        setUserCardsSliderStore(() => createCardsSliderStore(userCardsSliderStoreConfig))
       }
     }, [user])
 
@@ -75,7 +75,7 @@ export const UserPage: React.FC = registerPage(
         </AvatarBlock>
         <UserFeaturesContainer>
           <FeatureList>
-            <Feature>{userCardsSlider && <CardSlider slider={userCardsSlider} />}</Feature>
+            <Feature>{userCardsSliderStore && <CardSlider slider={userCardsSliderStore} />}</Feature>
           </FeatureList>
         </UserFeaturesContainer>
       </Container>

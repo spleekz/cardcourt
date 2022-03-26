@@ -9,26 +9,7 @@ interface CardSize {
   height: number
 }
 
-export interface ICardsStore {
-  defaultCardSize: CardSize
-
-  cards: Cards
-  setCards: ActionToUpdateCards
-  pushCards: ActionToUpdateCards
-
-  cardId: string | null
-  setCardId(id: string | null): void
-
-  card: Card | null
-  addCard(card: SendedCard): void
-  deleteCard(_id: string): void
-  updateCard(updatedCard: UpdatedCard): void
-  requestForCard(): void
-  setCard(card: Card | null): void
-  setCardById(id: string): void
-}
-
-export class CardsStore implements ICardsStore {
+export class CardsStore {
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true })
   }

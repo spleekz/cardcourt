@@ -13,20 +13,7 @@ interface User {
   }
 }
 
-export interface IUsersStore {
-  user: User | null
-  setUser(user: User | null): void
-
-  loadUserInfo(name: string): Promise<PublicUserInfo>
-
-  loadUserCards(name?: string): Promise<CardsResponse>
-  setUserCards: ActionToUpdateCards
-  pushUserCards: ActionToUpdateCards
-
-  loadUser(name: string): void
-}
-
-export class UsersStore implements IUsersStore {
+export class UsersStore {
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true })
   }

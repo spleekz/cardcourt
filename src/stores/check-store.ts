@@ -9,28 +9,7 @@ export interface ICheckConfig {
 
 export type CheckModeType = 'prepare' | 'play' | 'result'
 
-export interface ICheckStore {
-  wordList: CardWords
-  setWordList(wordList: CardWords): void
-
-  userInput: string
-  setUserInput(value: string): void
-
-  currentWordIndex: number
-  setCurrentWordIndex(index: number): void
-  updateCurrentWordIndex(): void
-
-  checkMode: CheckModeType
-  setCheckMode(mode: CheckModeType): void
-
-  currentWord: CardWord
-  isCurrentWordCorrect: boolean
-  isCurrentWordLast: boolean
-  userInputLang: Lang
-  setConfig(config: ICheckConfig): void
-}
-
-export class CheckStore implements ICheckStore {
+export class CheckStore {
   constructor() {
     makeAutoObservable(this)
   }

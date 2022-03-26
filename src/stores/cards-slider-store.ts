@@ -28,59 +28,8 @@ export interface SliderConfig {
   cardHeight: number
 }
 
-export interface ICardsSlider {
-  cards: Cards
-
-  search: string
-  setSearch(value: string): void
-
-  sliderPosition: number
-  setSliderPosition(position: number): void
-  setSliderPositionForward(): void
-  setSliderPositionBack(): void
-  pixelsToSlide: number
-
-  cardsToShow: number
-  cardsToSlide: number
-  cardWidth: number
-  cardHeight: number
-
-  pageSize: number
-  setPageSize(size: number): void
-
-  page: number
-  setPage(page: number): void
-  setNextPage(): void
-  setPrevPage(): void
-
-  pageCount: number
-  setPageCount(pageCount: number): void
-
-  maxLoadedPage: number
-  setMaxLoadedPage(page: number): void
-
-  maxVisitedPage: number
-  updateMaxVisitedPage(): void
-
-  pageWasVisited: boolean
-  allPagesAreLoaded: boolean
-
-  //Общий вид запроса за карточками
-  getCardForSlider(config: LoadCardsConfig): Promise<CardsResponse>
-
-  //Реализации запросов за карточками
-  isLoading: WithBoolean
-  loadCards(): Promise<CardsResponse>
-  loadMoreCards(): Promise<CardsResponse>
-
-  reset(): void
-  resetAndFillWithCards(): void
-  slideRigth(): void
-  slideLeft(): void
-}
-
 //! Стор
-export class CardsSliderStore implements ICardsSlider {
+export class CardsSliderStore {
   cards: Cards
   maxLoadedPage: number
   cardsToShow: number
