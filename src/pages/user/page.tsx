@@ -44,6 +44,7 @@ export const UserPage: React.FC = registerPage(
           loadCardsConfig: {
             params: {
               pagesToLoad: 2,
+              pageSize: 3,
               by: user.info.name,
             },
             actionToUpdateCards: usersStore.setUserCards,
@@ -51,6 +52,7 @@ export const UserPage: React.FC = registerPage(
           loadMoreCardsConfig: {
             params: {
               pagesToLoad: 2,
+              pageSize: 3,
               by: user.info.name,
             },
             actionToUpdateCards: usersStore.pushUserCards,

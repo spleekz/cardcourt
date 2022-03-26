@@ -32,7 +32,6 @@ export const useMainSlider = (): CardsSliderStore => useContext(MainSliderContex
 export const App: React.FC = observer(() => {
   const { cardsStore, authStore, appStore, createCardsSliderStore } = useStore()
 
-  //TODO:если мы не на странице мейн слайдера, то не создавать его,(те в сторе не сетать карточки, а вручную загружать их в компоненте). (например при заходе на страницу пользователя грузятся его карточки и еще мейн слайдер, а нам этого не надо)
   const [mainSlider] = useState<CardsSliderStore>(() =>
     createCardsSliderStore({
       cards: cardsStore.cards,
@@ -43,12 +42,14 @@ export const App: React.FC = observer(() => {
       loadCardsConfig: {
         params: {
           pagesToLoad: 2,
+          pageSize: 5,
         },
         actionToUpdateCards: cardsStore.setCards,
       },
       loadMoreCardsConfig: {
         params: {
           pagesToLoad: 2,
+          pageSize: 5,
         },
         actionToUpdateCards: cardsStore.pushCards,
       },
