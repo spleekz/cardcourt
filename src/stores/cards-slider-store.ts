@@ -31,11 +31,53 @@ export interface SliderConfig {
 //! Стор
 export class CardsSliderStore {
   cards: Cards
-  maxLoadedPage: number
+
   cardsToShow: number
   cardsToSlide: number
   cardWidth: number
   cardHeight: number
+
+  page = 1
+  setPage(page: number): void {
+    this.page = page
+  }
+  setNextPage(): void {
+    this.page++
+  }
+  setPrevPage(): void {
+    this.page--
+  }
+
+  pageSize = 5
+  setPageSize(size: number): void {
+    this.pageSize = size
+  }
+
+  search = ''
+  setSearch(value: string): void {
+    this.search = value
+    this.resetAndFillWithCards()
+  }
+
+  maxLoadedPage = 0
+  setMaxLoadedPage(page: number): void {
+    this.maxLoadedPage = page
+  }
+
+  //Дефолтные параметры запроса карточек
+  get loadCardsDefaultParams(): GetCardsParams {
+    return { page: 1, pagesToLoad: 2, pageSize: this.pageSize, search: this.search, by: '' }
+  }
+
+  get loadMoreCardsDefaultParams(): GetCardsParams {
+    return {
+      page: this.maxLoadedPage + 1,
+      pagesToLoad: 2,
+      pageSize: this.pageSize,
+      search: this.search,
+      by: '',
+    }
+  }
 
   loadCardsConfig: SliderLoadCardsConfig
   loadMoreCardsConfig: SliderLoadCardsConfig
@@ -60,12 +102,6 @@ export class CardsSliderStore {
     }
   }
 
-  search = ''
-  setSearch(value: string): void {
-    this.search = value
-    this.resetAndFillWithCards()
-  }
-
   sliderPosition = 0
   setSliderPosition(position: number): void {
     this.sliderPosition = position
@@ -80,29 +116,9 @@ export class CardsSliderStore {
     return this.cardsToSlide * (this.cardWidth + 16)
   }
 
-  pageSize = 5
-  setPageSize(size: number): void {
-    this.pageSize = size
-  }
-
-  page = 1
-  setPage(page: number): void {
-    this.page = page
-  }
-  setNextPage(): void {
-    this.page++
-  }
-  setPrevPage(): void {
-    this.page--
-  }
-
   pageCount = 0
   setPageCount(pageCount: number): void {
     this.pageCount = pageCount
-  }
-
-  setMaxLoadedPage(page: number): void {
-    this.maxLoadedPage = page
   }
 
   maxVisitedPage = 1
@@ -133,8 +149,10 @@ export class CardsSliderStore {
 
     const { params, actionToUpdateCards } = this.loadCardsConfig
 
+    const fullParams = { ...this.loadCardsDefaultParams, ...params }
+
     const loadCardsСonfig: LoadCardsConfig = {
-      params,
+      params: fullParams,
       fnWithUpdatingCards: (data) => {
         this.isLoading.set(false)
         actionToUpdateCards(data.cards)
@@ -147,8 +165,10 @@ export class CardsSliderStore {
   loadMoreCards(): Promise<CardsResponse> {
     const { params, actionToUpdateCards } = this.loadMoreCardsConfig
 
+    const fullParams = { ...this.loadMoreCardsDefaultParams, ...params }
+
     const loadMoreCardsConfig: LoadCardsConfig = {
-      params,
+      params: fullParams,
       fnWithUpdatingCards: (data) => actionToUpdateCards(data.cards),
     }
 
