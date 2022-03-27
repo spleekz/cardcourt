@@ -96,10 +96,6 @@ export class CardsSliderStore {
     this.maxLoadedPage = this.cards.length / this.cardsToShow
 
     makeAutoObservable(this, {}, { autoBind: true })
-
-    if (!this.cards.length) {
-      this.loadCards()
-    }
   }
 
   sliderPosition = 0

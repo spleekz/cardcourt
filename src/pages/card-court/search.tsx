@@ -1,28 +1,30 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { useMainSlider } from '../../app'
 import { SearchIcon } from '../../components/icons/search-icon'
 
 export const Search: React.FC = observer(() => {
-  const mainSlider = useMainSlider()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [search, setSearch] = useState<string>(searchParams.get('query') || '')
 
-  const [search, setSearch] = useState<string>('')
-
-  const setSearchToSlider = (): void => {
-    mainSlider.setSearch(search)
+  const setSearchToUrl = (): void => {
+    const trimmedSearch = search.trim()
+    if (trimmedSearch !== '') {
+      setSearchParams({ query: trimmedSearch })
+    }
   }
 
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') {
-      setSearchToSlider()
+      setSearchToUrl()
     }
   }
 
   return (
     <Container>
       <Input value={search} onChange={(e) => setSearch(e.target.value)} onKeyPress={handleEnter} />
-      <SearchButton onClick={setSearchToSlider}>
+      <SearchButton onClick={setSearchToUrl}>
         <SearchIcon />
       </SearchButton>
     </Container>
