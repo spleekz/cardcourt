@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Card } from '../api/api'
+import { Card } from '../../../api/api'
 
 const Dash = styled.span``
 

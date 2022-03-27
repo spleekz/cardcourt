@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite'
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
-import { CardRef } from './cards/card-ref'
-import { useStore } from '../stores/root-store/context'
-import { CardsSliderStore, SliderConfig } from '../stores/cards-slider-store'
+import { CardRef } from '../cards/card-ref'
+import { useStore } from '../../stores/root-store/context'
+import { CardsSliderStore, SliderConfig } from '../../stores/cards-slider-store'
 interface NewSliderConfig {
   newSliderConfig: SliderConfig
 }

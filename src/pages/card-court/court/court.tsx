@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { CardSlider } from '../../../components/card-slider'
+import { CardSlider } from '../../../components/card-slider/slider'
 import { useMainSlider } from '../../../app'
 
 export const Court: React.FC = observer(() => {

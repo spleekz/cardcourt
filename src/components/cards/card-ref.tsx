@@ -1,6 +1,6 @@
 import React from 'react'
 import { FullCard } from './full/full-card'
-import { CardElement } from './element/element'
+import { CardElement } from '../card-slider/element/carcass'
 import { CardForm } from './form/card-form'
 import { Card } from '../../api/api'
 

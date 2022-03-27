@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Card } from '../../../api/api'
 import { observer } from 'mobx-react-lite'
-import { WordList } from '../../word-list'
+import { WordList } from './word-list'
 import { useStore } from '../../../stores/root-store/context'
 
 export interface ICardElementProps {
@@ -11,6 +11,7 @@ export interface ICardElementProps {
   width?: number
   height?: number
 }
+
 export const CardElement: React.FC<ICardElementProps> = observer((props) => {
   const { cardsStore } = useStore()
 
