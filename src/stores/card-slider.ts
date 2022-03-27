@@ -28,8 +28,7 @@ export interface SliderConfig {
   cardHeight: number
 }
 
-//! Стор
-export class CardsSliderStore {
+export class CardSlider {
   cards: Cards
 
   cardsToShow: number

@@ -3,13 +3,13 @@ import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { CardRef } from '../cards/card-ref'
 import { useStore } from '../../stores/root-store/context'
-import { CardsSliderStore, SliderConfig } from '../../stores/cards-slider-store'
+import { CardSlider, SliderConfig } from '../../stores/card-slider'
 interface NewSliderConfig {
   newSliderConfig: SliderConfig
 }
 
 interface Slider {
-  slider: CardsSliderStore
+  slider: CardSlider
 }
 
 function CardSliderComponent(
@@ -18,12 +18,12 @@ function CardSliderComponent(
 function CardSliderComponent(props: React.PropsWithChildren<Slider>): React.ReactElement | null
 
 function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElement | null {
-  const { createCardsSliderStore } = useStore()
+  const { createCardSlider } = useStore()
 
   const isNewSlider = !('slider' in props)
 
-  const [slider] = useState<CardsSliderStore>(
-    !isNewSlider ? props.slider : () => createCardsSliderStore(props.newSliderConfig)
+  const [slider] = useState<CardSlider>(
+    !isNewSlider ? props.slider : () => createCardSlider(props.newSliderConfig)
   )
 
   const sliderWindowRef = useRef<HTMLDivElement>(null)
@@ -64,7 +64,7 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
   )
 }
 
-export const CardSlider = observer(CardSliderComponent)
+export const Slider = observer(CardSliderComponent)
 
 const SliderContainer = styled.div`
   display: flex;

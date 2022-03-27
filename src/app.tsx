@@ -12,7 +12,7 @@ import { useStore } from './stores/root-store/context'
 import { CardPage } from './pages/card/page'
 import { AuthPage } from './pages/auth/page'
 import { UserPage } from './pages/user/page'
-import { CardsSliderStore } from './stores/cards-slider-store'
+import { CardSlider } from './stores/card-slider'
 
 interface Popup {
   value: boolean
@@ -26,14 +26,14 @@ interface Popups {
 export const PopupsContext = createContext<Popups>({} as Popups)
 export const usePopupContext = (): Popups => useContext(PopupsContext)
 
-export const MainSliderContext = createContext<CardsSliderStore>({} as CardsSliderStore)
-export const useMainSlider = (): CardsSliderStore => useContext(MainSliderContext)
+export const MainSliderContext = createContext<CardSlider>({} as CardSlider)
+export const useMainSlider = (): CardSlider => useContext(MainSliderContext)
 
 export const App: React.FC = observer(() => {
-  const { cardsStore, authStore, appStore, createCardsSliderStore } = useStore()
+  const { cardsStore, authStore, appStore, createCardSlider } = useStore()
 
-  const [mainSlider] = useState<CardsSliderStore>(() =>
-    createCardsSliderStore({
+  const [mainSlider] = useState<CardSlider>(() =>
+    createCardSlider({
       cards: cardsStore.cards,
       cardWidth: 320,
       cardHeight: 500,

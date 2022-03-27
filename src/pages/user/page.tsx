@@ -5,18 +5,18 @@ import styled from 'styled-components'
 import { registerPage } from '../../hocs/register-page'
 import { useStore } from '../../stores/root-store/context'
 import { Avatar } from '../../components/avatar'
-import { CardSlider } from '../../components/card-slider/slider'
+import { Slider } from '../../components/card-slider/slider'
 import { getCardHeightByWidth } from '../../lib/cards'
-import { SliderConfig, CardsSliderStore } from '../../stores/cards-slider-store'
+import { SliderConfig, CardSlider } from '../../stores/card-slider'
 import { Preloader } from '../../components/icons/preloader'
 
 export const UserPage: React.FC = registerPage(
   observer(() => {
-    const { usersStore, createCardsSliderStore } = useStore()
+    const { usersStore, createCardSlider } = useStore()
     const user = usersStore.user
 
     const { userName } = useParams() as { userName: string }
-    const [userCardsSliderStore, setUserCardsSliderStore] = useState<CardsSliderStore | null>(null)
+    const [userCardsSliderStore, setUserCardsSliderStore] = useState<CardSlider | null>(null)
 
     useEffect(() => {
       return () => usersStore.setUser(null)
@@ -58,7 +58,7 @@ export const UserPage: React.FC = registerPage(
             actionToUpdateCards: usersStore.pushUserCards,
           },
         }
-        setUserCardsSliderStore(() => createCardsSliderStore(userCardsSliderStoreConfig))
+        setUserCardsSliderStore(() => createCardSlider(userCardsSliderStoreConfig))
       }
     }, [user])
 
@@ -77,7 +77,7 @@ export const UserPage: React.FC = registerPage(
         </AvatarBlock>
         <UserFeaturesContainer>
           <FeatureList>
-            <Feature>{userCardsSliderStore && <CardSlider slider={userCardsSliderStore} />}</Feature>
+            <Feature>{userCardsSliderStore && <Slider slider={userCardsSliderStore} />}</Feature>
           </FeatureList>
         </UserFeaturesContainer>
       </Container>
