@@ -54,7 +54,7 @@ export class CardsSliderStore {
   }
 
   search = ''
-  setSearch(value: string): void {
+  setSearchAndReset(value: string): void {
     this.search = value
     this.resetAndFillWithCards()
   }
