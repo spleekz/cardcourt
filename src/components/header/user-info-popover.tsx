@@ -11,7 +11,7 @@ export const UserInfoPopover: React.FC = observer(() => {
   return (
     <Container>
       <Header>
-        <Avatar size={30} />
+        <Avatar size={50} />
         <UserName>{authStore.me?.name}</UserName>
       </Header>
       <Hr />
@@ -41,6 +41,7 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex;
   padding: 11px 10px;
+  align-items: center;
 `
 const UserName = styled.div`
   font-size: 20px;
