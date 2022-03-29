@@ -33,6 +33,16 @@ export class CardsStore {
   cardId: string | null = null
   setCardId(id: string | null): void {
     this.cardId = id
+
+    if (this.cardId) {
+      api.card.getCard(this.cardId).then((res) => {
+        if (res.ok) {
+          this.setCard(res.data)
+        }
+      })
+    } else {
+      this.setCard(null)
+    }
   }
 
   card: Card | null = null
@@ -45,17 +55,7 @@ export class CardsStore {
   updateCard(updatedCard: UpdatedCard): void {
     api.card.updateCard(updatedCard)
   }
-  requestForCard(): void {
-    if (this.cardId) {
-      api.card.getCard(this.cardId).then((res) => {
-        if (res.ok) {
-          this.setCard(res.data)
-        }
-      })
-    } else {
-      this.setCard(null)
-    }
-  }
+
   setCard(card: Card | null): void {
     this.card = card
   }

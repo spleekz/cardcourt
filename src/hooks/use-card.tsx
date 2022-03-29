@@ -8,7 +8,6 @@ export const useCard = (cardId: string | undefined): Card | null | undefined => 
   useEffect(() => {
     if (cardId) {
       cardsStore.setCardId(cardId)
-      cardsStore.requestForCard()
     }
   }, [cardId])
 
