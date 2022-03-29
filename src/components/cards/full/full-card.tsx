@@ -27,26 +27,26 @@ export const FullCard: React.FC = observer(() => {
   return (
     <>
       {card && (
-        <CardPageContainer>
+        <Container>
           {card.name}
           <Link to={`check`}>
-            <ToCheckPageButton>Начать проверку</ToCheckPageButton>
+            <GoToCheckButton>Начать проверку</GoToCheckButton>
           </Link>
           <EditButton onClick={goToEditCard}>
             <PencilIcon />
           </EditButton>
           <DeleteButton onClick={() => deleteCard(card._id)}>Удалить</DeleteButton>
           <WordList card={card} />
-        </CardPageContainer>
+        </Container>
       )}
     </>
   )
 })
 
-const CardPageContainer = styled.div`
+const Container = styled.div`
   font-size: 40px;
 `
-const ToCheckPageButton = styled.button`
+const GoToCheckButton = styled.button`
   font-size: 30px;
 `
 const EditButton = styled.button``

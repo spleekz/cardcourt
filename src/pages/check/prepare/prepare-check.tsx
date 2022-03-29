@@ -12,13 +12,13 @@ export const PrepareCheck: React.FC<IPrepareCheckProps> = observer(({ card }) =>
   const CheckStore = useContext(CheckStoreContext)
 
   return (
-    <PrepareCheckContainer>
+    <Container>
       Prepare Check for CARD {card.name}
       <button onClick={() => CheckStore.setCheckMode('play')}>Начать</button>
-    </PrepareCheckContainer>
+    </Container>
   )
 })
 
-const PrepareCheckContainer = styled.div`
+const Container = styled.div`
   font-size: 30px;
 `

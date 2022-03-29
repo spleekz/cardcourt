@@ -12,12 +12,12 @@ export const EditCardPage: React.FC = registerPage(
 
     const card = useCard(cardId)
 
-    return <EditCardPageContainer>{card && <CardRef type='form' card={card} />}</EditCardPageContainer>
+    return <Container>{card && <CardRef type='form' card={card} />}</Container>
   }),
   { isProtected: true }
 )
 
-const EditCardPageContainer = styled.div`
+const Container = styled.div`
   flex: 1 0 auto;
   display: flex;
   justify-content: center;

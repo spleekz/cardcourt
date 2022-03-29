@@ -29,11 +29,11 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
   const sliderWindowRef = useRef<HTMLDivElement>(null)
 
   return (
-    <SliderContainer>
+    <Container>
       {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
-        <LeftSliderButton onClick={slider.slideLeft} disabled={slider.page <= 1}>
+        <LeftDirectionButton onClick={slider.slideLeft} disabled={slider.page <= 1}>
           Назад
-        </LeftSliderButton>
+        </LeftDirectionButton>
       )}
       <SliderWindow
         ref={sliderWindowRef}
@@ -56,17 +56,16 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
         </SliderLine>
       </SliderWindow>
       {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
-        <RightSliderButton onClick={slider.slideRigth} disabled={slider.page === slider.pageCount}>
+        <RightDirectionButton onClick={slider.slideRigth} disabled={slider.page === slider.pageCount}>
           Вперёд
-        </RightSliderButton>
+        </RightDirectionButton>
       )}
-    </SliderContainer>
+    </Container>
   )
 }
-
 export const Slider = observer(CardSliderComponent)
 
-const SliderContainer = styled.div`
+const Container = styled.div`
   display: flex;
 `
 const SliderWindow = styled.div<{ cardWidth: number; cardHeight: number; cardsToShow: number }>`
@@ -82,10 +81,10 @@ const SliderLine = styled.div<{ position: number }>`
   transform: ${(props) => `translateX(-${props.position}px)`};
   transition: 0.48s ease-out;
 `
-const SliderButton = styled.button``
-const LeftSliderButton = styled(SliderButton)`
+const DirectionButton = styled.button``
+const LeftDirectionButton = styled(DirectionButton)`
   margin-right: 8px;
 `
-const RightSliderButton = styled(SliderButton)`
+const RightDirectionButton = styled(DirectionButton)`
   margin-left: 8px;
 `

@@ -12,16 +12,15 @@ export const CardDonePopup: React.FC<Props> = ({ isOpened, title }) => {
   const { cardsStore } = useStore()
 
   return (
-    <PopupContainer isOpened={isOpened}>
+    <Container isOpened={isOpened}>
       <PopupBlock isOpened={isOpened}>
-        <PopupTitle>{title}</PopupTitle>
-        <PopupBody>
-          <PopupText>Куда идём дальше?</PopupText>
+        <Title>{title}</Title>
+        <Body>
+          <Message>Куда идём дальше?</Message>
           <ButtonsList>
             <NavLink to='/'>
               <RedirectButton>
-                на главную!
-                <p>👈</p>
+                на главную!<p>👈</p>
               </RedirectButton>
             </NavLink>
             <NavLink to={`/card/${cardsStore.cardId}`}>
@@ -30,13 +29,13 @@ export const CardDonePopup: React.FC<Props> = ({ isOpened, title }) => {
               </RedirectButton>
             </NavLink>
           </ButtonsList>
-        </PopupBody>
+        </Body>
       </PopupBlock>
-    </PopupContainer>
+    </Container>
   )
 }
 
-const PopupContainer = styled.div<{ isOpened: boolean }>`
+const Container = styled.div<{ isOpened: boolean }>`
   position: fixed;
   width: 100%;
   height: 100%;
@@ -64,14 +63,14 @@ const PopupBlock = styled.div<{ isOpened: boolean }>`
   transform: ${(props) => (props.isOpened ? 'scale(1)' : 'scale(0)')};
   transition: 0.3s;
 `
-const PopupTitle = styled.h1`
+const Title = styled.h1`
   text-align: center;
   font-size: 56px;
 `
-const PopupBody = styled.div`
+const Body = styled.div`
   margin: 20px 0;
 `
-const PopupText = styled.h3`
+const Message = styled.h3`
   text-align: center;
   font-size: 42px;
 `

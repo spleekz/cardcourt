@@ -7,14 +7,14 @@ import { registerPage } from '../../hocs/register-page'
 export const AuthPage: React.FC = registerPage(
   observer(() => {
     return (
-      <AuthPageContainer>
+      <Container>
         <AuthForm />
-      </AuthPageContainer>
+      </Container>
     )
   })
 )
 
-const AuthPageContainer = styled.div`
+const Container = styled.div`
   flex: 1 0 auto;
   display: flex;
   justify-content: center;

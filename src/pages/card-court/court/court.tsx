@@ -9,16 +9,16 @@ export const Court: React.FC = observer(() => {
   const mainSlider = useMainSlider()
 
   return (
-    <CardListContainer>
+    <Container>
       <Link to='/card/new'>
         <CreateCardButton>Создать</CreateCardButton>
       </Link>
       <Slider slider={mainSlider} />
-    </CardListContainer>
+    </Container>
   )
 })
 
-const CardListContainer = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   position: relative;

@@ -6,20 +6,20 @@ import { HeaderUserInfo } from './header-user-info'
 
 export const Header: React.FC = observer(() => {
   return (
-    <HeaderContainer>
-      <HeaderTitle>
+    <Container>
+      <Title>
         <Link to='/'>cardcourt</Link>
-      </HeaderTitle>
+      </Title>
       <HeaderUserInfo />
-    </HeaderContainer>
+    </Container>
   )
 })
 
-const HeaderContainer = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: space-between;
 `
-const HeaderTitle = styled.span`
+const Title = styled.span`
   font-family: 'Kanit', sans-serif;
   font-size: 49px;
   color: #ffffff;

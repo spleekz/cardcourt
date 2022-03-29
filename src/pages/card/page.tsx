@@ -7,12 +7,12 @@ import { registerPage } from '../../hocs/register-page'
 export const CardPage: React.FC = registerPage(
   observer(() => {
     return (
-      <CardPageContainer>
+      <Container>
         <CardRef type='full' />
-      </CardPageContainer>
+      </Container>
     )
   }),
-  {isRootPath:true}
+  { isRootPath: true }
 )
 
-const CardPageContainer = styled.div``
+const Container = styled.div``

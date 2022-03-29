@@ -9,29 +9,29 @@ export const WordList: React.FC<{ card: Card }> = ({ card }) => {
     <>
       {card.words.map((word) => {
         return (
-          <CardWordContainer key={word._id}>
-            <CardWordBlock>
-              <CardWord>{word.en}</CardWord>
+          <Container key={word._id}>
+            <WordPair>
+              <Word>{word.en}</Word>
               <Dash>—</Dash>
-              <CardWord>{word.ru}</CardWord>
-            </CardWordBlock>
-          </CardWordContainer>
+              <Word>{word.ru}</Word>
+            </WordPair>
+          </Container>
         )
       })}
     </>
   )
 }
 
-const CardWordContainer = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 6px;
 `
-const CardWordBlock = styled.span`
+const WordPair = styled.span`
   font-size: 32px;
   font-weight: bold;
   padding: 6px;
 `
-const CardWord = styled.span`
+const Word = styled.span`
   user-select: none;
 `

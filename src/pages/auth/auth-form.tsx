@@ -38,8 +38,8 @@ export const AuthForm: React.FC = observer(() => {
   }
 
   return (
-    <FormContainer>
-      <FormTitle>Авторизация</FormTitle>
+    <Container>
+      <Title>Авторизация</Title>
       <Form>
         <Input placeholder='Логин' {...register('name', { required: true })} />
         <Input type='password' placeholder='Пароль' {...register('password', { required: true })} />
@@ -52,11 +52,11 @@ export const AuthForm: React.FC = observer(() => {
           </Button>
         </Buttons>
       </Form>
-    </FormContainer>
+    </Container>
   )
 })
 
-const FormContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,7 +66,7 @@ const FormContainer = styled.div`
   padding: 15px;
   box-shadow: 0px 0px 16px 5px rgba(34, 60, 80, 0.2);
 `
-const FormTitle = styled.div`
+const Title = styled.div`
   font-size: 35px;
   font-weight: bold;
 `

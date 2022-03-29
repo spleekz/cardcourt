@@ -15,7 +15,7 @@ export const UserInfoPopover: React.FC = observer(() => {
         <UserName>{authStore.me?.name}</UserName>
       </Header>
       <Hr />
-      <OptionsList>
+      <OptionList>
         <Option>
           <Link onMouseDown={(e) => e.preventDefault()} to={`/user/${authStore.me?.name}`}>
             Мой профиль
@@ -23,7 +23,7 @@ export const UserInfoPopover: React.FC = observer(() => {
         </Option>
         <Option>Мои карточки</Option>
         <Option onClick={authStore.logout}>Выйти</Option>
-      </OptionsList>
+      </OptionList>
     </Container>
   )
 })
@@ -51,7 +51,7 @@ const UserName = styled.div`
 const Hr = styled.hr`
   border: 1px solid #dddddd;
 `
-const OptionsList = styled.div`
+const OptionList = styled.div`
   margin: 12px 0;
 `
 const Option = styled.div`

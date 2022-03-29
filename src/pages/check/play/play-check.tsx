@@ -5,14 +5,14 @@ import { CheckStoreContext } from '../page'
 
 export const PlayCheck: React.FC = observer(() => {
   const CheckStore = useContext(CheckStoreContext)
-  const [userInputValue, setUserInputValue] = useState<string>('')
+  const [inputValue, setInputValue] = useState<string>('')
 
   const goToNextWord = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.code === 'Enter') {
-      if (userInputValue.trim().toLowerCase() === CheckStore.currentWord.en.toLowerCase()) {
+      if (inputValue.trim().toLowerCase() === CheckStore.currentWord.en.toLowerCase()) {
         if (!CheckStore.isCurrentWordLast) {
           CheckStore.updateCurrentWordIndex()
-          setUserInputValue('')
+          setInputValue('')
         } else {
           CheckStore.setCheckMode('result')
           CheckStore.setCurrentWordIndex(0)
@@ -22,20 +22,20 @@ export const PlayCheck: React.FC = observer(() => {
   }
 
   return (
-    <PlayCheckContainer>
+    <Container>
       {CheckStore.currentWord.ru} -{' '}
-      <UserInput
-        value={userInputValue}
-        onChange={(e) => setUserInputValue(e.target.value)}
+      <Input
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
         onKeyPress={goToNextWord}
       />
-    </PlayCheckContainer>
+    </Container>
   )
 })
 
-const PlayCheckContainer = styled.div`
+const Container = styled.div`
   font-size: 40px;
 `
-const UserInput = styled.input`
+const Input = styled.input`
   font-size: 40px;
 `

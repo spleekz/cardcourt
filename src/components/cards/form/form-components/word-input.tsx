@@ -75,7 +75,7 @@ const WordInput = styled.input<IWordInputProps>`
   text-align: ${(props) => props.lang === 'en' && !props.isOnFocus && 'right'};
   cursor: ${(props) => props.isOnHover && !props.isOnFocus && !props.isEmpty && 'pointer'};
   box-shadow: ${(props) =>
-    (props.isEmpty || props.isOnHover || props.isOnFocus) && '0px 0px 11px 0px rgba(34, 60, 80, 0.2)'};
+    (props.isEmpty || props.isOnHover || props.isOnFocus) && '0px 0px 11px 0px rgba(34, 60, 80, 0.4)'};
   background-color: ${(props) =>
     props.isEmpty
       ? '#ffffff'

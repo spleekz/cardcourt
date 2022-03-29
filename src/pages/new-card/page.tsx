@@ -7,15 +7,15 @@ import { registerPage } from '../../hocs/register-page'
 export const NewCardPage: React.FC = registerPage(
   observer(() => {
     return (
-      <NewCardPageContainer>
+      <Container>
         <CardRef type='form' />
-      </NewCardPageContainer>
+      </Container>
     )
   }),
   { isProtected: true }
 )
 
-const NewCardPageContainer = styled.div`
+const Container = styled.div`
   flex: 1 0 auto;
   display: flex;
   justify-content: center;

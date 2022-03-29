@@ -14,13 +14,9 @@ export const UserPage: React.FC = registerPage(
   observer(() => {
     const { usersStore, createCardSlider } = useStore()
     const user = usersStore.user
-
-    const { userName } = useParams() as { userName: string }
     const [userCardsSliderStore, setUserCardsSliderStore] = useState<CardSlider | null>(null)
 
-    useEffect(() => {
-      return () => usersStore.setUser(null)
-    }, [])
+    const { userName } = useParams() as { userName: string }
 
     //Загружаем информацию о пользователе
     useEffect(() => {
@@ -28,6 +24,10 @@ export const UserPage: React.FC = registerPage(
         usersStore.loadUser(userName)
       }
     }, [userName])
+
+    useEffect(() => {
+      return () => usersStore.setUser(null)
+    }, [])
 
     const cardWidthForSlider = 340
     const cardHeightForSlider = getCardHeightByWidth(cardWidthForSlider)
@@ -68,18 +68,16 @@ export const UserPage: React.FC = registerPage(
 
     return (
       <Container>
-        <AvatarBlock>
+        <UserInfo>
           <Avatar size={480} />
-          <UserInfo>
+          <div style={{ marginTop: '-10px' }}>
             <UserName>{user.info.name}</UserName>
             <SubscribeButton>Подписаться</SubscribeButton>
-          </UserInfo>
-        </AvatarBlock>
-        <UserFeaturesContainer>
-          <FeatureList>
-            <Feature>{userCardsSliderStore && <Slider slider={userCardsSliderStore} />}</Feature>
-          </FeatureList>
-        </UserFeaturesContainer>
+          </div>
+        </UserInfo>
+        <UserCardsSlider>
+          {userCardsSliderStore && <Slider slider={userCardsSliderStore} />}
+        </UserCardsSlider>
       </Container>
     )
   }),
@@ -91,16 +89,13 @@ const Container = styled.div`
   flex: 1 0 auto;
   position: relative;
 `
-const AvatarBlock = styled.div`
+const UserInfo = styled.div`
   margin-right: 65px;
   position: relative;
   align-self: flex-start;
   top: 60px;
   left: 25px;
   display: inline-block;
-`
-const UserInfo = styled.div`
-  margin-top: -10px; ;
 `
 const UserName = styled.div`
   text-align: left;
@@ -115,16 +110,9 @@ const SubscribeButton = styled.button`
   font-size: 28px;
   border-radius: 6px;
 `
-const UserFeaturesContainer = styled.div`
+const UserCardsSlider = styled.div`
   flex: 1 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
-`
-const FeatureList = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const Feature = styled.div`
-  display: inline-block;
 `

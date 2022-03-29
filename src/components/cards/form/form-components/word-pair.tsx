@@ -26,8 +26,8 @@ export const FormWordPair: React.FC<IFormWordPair> = ({
   }
 
   return (
-    <FormWordPairContainer>
-      <FormWordPairBlock>
+    <Container>
+      <PairBlock>
         <FormWordInput
           color={color}
           inputValue={fields[index].en}
@@ -43,25 +43,25 @@ export const FormWordPair: React.FC<IFormWordPair> = ({
           lang='ru'
           isEditCard={isEditCard}
         />
-      </FormWordPairBlock>
-      <DeleteWordPairButton type='button' onClick={() => deleteWordPair(index)}>
+      </PairBlock>
+      <DeletePairButton type='button' onClick={() => deleteWordPair(index)}>
         <XIcon />
-      </DeleteWordPairButton>
-    </FormWordPairContainer>
+      </DeletePairButton>
+    </Container>
   )
 }
 
-const FormWordPairContainer = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 `
-const FormWordPairBlock = styled.div`
+const PairBlock = styled.div`
   width: 93%;
   display: flex;
   justify-content: space-between;
 `
-const DeleteWordPairButton = styled.button`
+const DeletePairButton = styled.button`
   background-color: transparent;
   border: none;
   display: flex;

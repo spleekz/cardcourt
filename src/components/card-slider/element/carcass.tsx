@@ -23,20 +23,20 @@ export const CardElement: React.FC<ICardElementProps> = observer((props) => {
 
   return (
     <Link key={card._id} to={`/card/${card._id}`}>
-      <CardContainer key={card._id} color={card.ui.headColor} width={width} height={height}>
-        <CardHead color={card.ui.headColor}>
-          <CardName>{card.name}</CardName>
-          <CardAuthor>{card.author.name}</CardAuthor>
-        </CardHead>
-        <CardWords color={card.ui.bodyColor}>
+      <Container key={card._id} color={card.ui.headColor} width={width} height={height}>
+        <Heading color={card.ui.headColor}>
+          <Name>{card.name}</Name>
+          <Author>{card.author.name}</Author>
+        </Heading>
+        <WordsContainer color={card.ui.bodyColor}>
           <WordList card={card} />
-        </CardWords>
-      </CardContainer>
+        </WordsContainer>
+      </Container>
     </Link>
   )
 })
 
-export const CardContainer = styled.div<{ color: string; width: number; height: number }>`
+export const Container = styled.div<{ color: string; width: number; height: number }>`
   display: flex;
   flex-direction: column;
   position: relative;
@@ -49,19 +49,19 @@ export const CardContainer = styled.div<{ color: string; width: number; height: 
   border-radius: 16px;
   overflow: hidden;
 `
-export const CardHead = styled.div<{ color: string }>`
+export const Heading = styled.div<{ color: string }>`
   padding: 2px 15px;
   background-color: ${(props) => props.color};
 `
-const CardName = styled.div`
+const Name = styled.div`
   font-size: 40px;
   font-weight: bold;
 `
-export const CardAuthor = styled.div`
+export const Author = styled.div`
   font-size: 25px;
   color: #000000a0;
 `
-export const CardWords = styled.div<{ color: string }>`
+export const WordsContainer = styled.div<{ color: string }>`
   min-height: 502px;
   position: relative;
   top: 0;

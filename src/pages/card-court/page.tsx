@@ -25,15 +25,15 @@ export const CardCourtPage: React.FC = registerPage(
     }
 
     return (
-      <CardsPageContainer>
+      <Container>
         <Search />
         <Court />
-      </CardsPageContainer>
+      </Container>
     )
   })
 )
 
-const CardsPageContainer = styled.div`
+const Container = styled.div`
   flex: 1 0 auto;
   position: relative;
   top: 0px;

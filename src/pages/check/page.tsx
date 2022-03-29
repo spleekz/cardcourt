@@ -31,7 +31,7 @@ export const CheckPage: React.FC = registerPage(
 
     return (
       <CheckStoreContext.Provider value={CheckStore}>
-        <CheckPageContainer>
+        <Container>
           {card &&
             (CheckStore.checkMode === 'prepare' ? (
               <PrepareCheck card={card} />
@@ -40,10 +40,10 @@ export const CheckPage: React.FC = registerPage(
             ) : (
               <CheckResult />
             ))}
-        </CheckPageContainer>
+        </Container>
       </CheckStoreContext.Provider>
     )
   })
 )
 
-const CheckPageContainer = styled.div``
+const Container = styled.div``

@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Card, SendedCard, UpdatedCard } from '../../../api/api'
 import { useStore } from '../../../stores/root-store/context'
-import { CardAuthor, CardContainer, CardHead, CardWords } from '../../card-slider/element/carcass'
+import { Author, Container, Heading, WordsContainer } from '../../card-slider/element/carcass'
 import { useForm, FormProvider, useFieldArray, SubmitHandler } from 'react-hook-form'
 import { FormWordPair } from './form-components/word-pair'
 import { observer } from 'mobx-react-lite'
@@ -74,42 +74,36 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
   const cardFormWidth = getCardWidthByHeight(cardFormHeight)
 
   return (
-    <CardFormContainer
-      color={card?.ui.headColor || 'pink'}
-      height={cardFormHeight}
-      width={cardFormWidth}
-    >
+    <FormContainer color={card?.ui.headColor || 'pink'} height={cardFormHeight} width={cardFormWidth}>
       <FormProvider {...methods}>
         <Form onSubmit={methods.handleSubmit(isEditCard ? updateCard : createNewCard)}>
-          <FormCardHeading color={card?.ui.headColor || 'pink'}>
-            <CardNameInput
+          <FormHeading color={card?.ui.headColor || 'pink'}>
+            <NameInput
               {...methods.register(`name` as const, { required: true })}
               placeholder='Введите название карточки'
               maxLength={27}
             />
-            <FormCardAuthor>{card?.author.name || authStore.me?.name}</FormCardAuthor>
-          </FormCardHeading>
-          <FormCardWordsContainer color={card?.ui.bodyColor || 'aqua'}>
+            <Author>{card?.author.name || authStore.me?.name}</Author>
+          </FormHeading>
+          <FormWordsContainer color={card?.ui.bodyColor || 'aqua'}>
             <div
               ref={topRef}
               style={{
                 height: '10px',
               }}
             />
-            <FormCardWords>
-              {fields.map((words, index) => {
-                return (
-                  <FormWordPair
-                    key={words.id}
-                    remove={remove}
-                    fields={watchedFields}
-                    isEditCard={isEditCard}
-                    index={index}
-                    color={card?.ui.bodyColor || 'aqua'}
-                  />
-                )
-              })}
-            </FormCardWords>
+            {fields.map((words, index) => {
+              return (
+                <FormWordPair
+                  key={words.id}
+                  remove={remove}
+                  fields={watchedFields}
+                  isEditCard={isEditCard}
+                  index={index}
+                  color={card?.ui.bodyColor || 'aqua'}
+                />
+              )
+            })}
             <AddWordPairButtonContainer ref={anchorRef}>
               <AddWordPairButton
                 color={card?.ui.headColor || 'pink'}
@@ -119,27 +113,27 @@ export const CardForm: React.FC<ICardFormProps> = observer(({ card }) => {
                 +
               </AddWordPairButton>
             </AddWordPairButtonContainer>
-          </FormCardWordsContainer>
+          </FormWordsContainer>
           <SubmitButton color={card?.ui.headColor || 'pink'} type='submit'>
             {isEditCard ? 'Обновить карточку' : 'Создать карточку'}
           </SubmitButton>
         </Form>
       </FormProvider>
-    </CardFormContainer>
+    </FormContainer>
   )
 })
 
-const CardFormContainer = styled(CardContainer)``
+const FormContainer = styled(Container)``
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   height: 100%;
 `
 
-const FormCardHeading = styled(CardHead)`
+const FormHeading = styled(Heading)`
   padding: 15px 15px 0 15px;
 `
-const CardNameInput = styled.input`
+const NameInput = styled.input`
   background-color: transparent;
   border: 0;
   outline: none;
@@ -147,14 +141,12 @@ const CardNameInput = styled.input`
   font-weight: bold;
   font-size: 32px;
 `
-const FormCardAuthor = styled(CardAuthor)``
-const FormCardWordsContainer = styled(CardWords)`
+const FormWordsContainer = styled(WordsContainer)`
   height: 650px;
   padding: 0px 15px 10px 15px;
   border-radius: 16px;
   overflow-y: auto;
 `
-const FormCardWords = styled.div``
 const AddWordPairButtonContainer = styled.div`
   display: flex;
   justify-content: center;
