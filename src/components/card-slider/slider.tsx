@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { CardRef } from '../cards/card-ref'
 import { useStore } from '../../stores/root-store/context'
 import { CardSlider, SliderConfig } from '../../stores/card-slider'
+import { SliderWindow } from './slider-window'
+
 interface NewSliderConfig {
   newSliderConfig: SliderConfig
 }
@@ -34,24 +35,12 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
         </LeftDirectionButton>
       )}
       <SliderWindow
+        cards={slider.cards}
         cardWidth={slider.cardWidth}
         cardHeight={slider.cardHeight}
         cardsToShow={slider.cardsToShow}
-      >
-        <SliderLine position={slider.sliderPosition}>
-          {slider.cards.map((card) => {
-            return (
-              <CardRef
-                type='element'
-                card={card}
-                width={slider.cardWidth}
-                height={slider.cardHeight}
-                key={card._id}
-              />
-            )
-          })}
-        </SliderLine>
-      </SliderWindow>
+        sliderPosition={slider.sliderPosition}
+      />
       {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
         <RightDirectionButton onClick={slider.slideRigth} disabled={slider.page === slider.pageCount}>
           Вперёд
@@ -64,19 +53,6 @@ export const Slider = observer(CardSliderComponent)
 
 const Container = styled.div`
   display: flex;
-`
-const SliderWindow = styled.div<{ cardWidth: number; cardHeight: number; cardsToShow: number }>`
-  position: relative;
-  width: ${(props) => `${props.cardWidth * props.cardsToShow + 8 * 2 * props.cardsToShow}px`};
-  height: ${(props) => `${props.cardHeight}px`};
-  border-radius: 16px;
-  overflow: hidden;
-`
-const SliderLine = styled.div<{ position: number }>`
-  display: flex;
-  position: absolute;
-  transform: ${(props) => `translateX(-${props.position}px)`};
-  transition: 0.48s ease-out;
 `
 const DirectionButton = styled.button``
 const LeftDirectionButton = styled(DirectionButton)`
