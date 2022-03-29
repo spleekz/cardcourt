@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useParams } from 'react-router'
 import { useStore } from '../../stores/root-store/context'
 import { observer } from 'mobx-react-lite'
 import { CheckStore } from '../../stores/check-store'
@@ -8,7 +7,7 @@ import { PlayCheck } from './play/play-check'
 import { PrepareCheck } from './prepare/prepare-check'
 import { CheckResult } from './result/check-result'
 import { shuffle } from 'lodash'
-import { useCard } from '../../hooks/use-card'
+import { useCardFromURL } from '../../hooks/use-card-from-url'
 import { registerPage } from '../../hocs/register-page'
 
 export const CheckStoreContext = createContext<CheckStore>(new CheckStore())
@@ -18,9 +17,7 @@ export const CheckPage: React.FC = registerPage(
     const { createCheckStore } = useStore()
     const [CheckStore] = useState<CheckStore>(createCheckStore)
 
-    const { cardId } = useParams()
-
-    const card = useCard(cardId)
+    const card = useCardFromURL()
 
     useEffect(() => {
       if (card) {

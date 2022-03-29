@@ -1,9 +1,11 @@
 import { useEffect, useLayoutEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { Card } from '../api/api'
 import { useStore } from '../stores/root-store/context'
 
-export const useCard = (cardId: string | undefined): Card | null | undefined => {
+export const useCardFromURL = (): Card | null => {
   const { cardsStore } = useStore()
+  const { cardId } = useParams()
 
   useEffect(() => {
     if (cardId) {

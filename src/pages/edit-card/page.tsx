@@ -1,17 +1,14 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
-import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { CardRef } from '../../components/cards/card-ref'
-import { useCard } from '../../hooks/use-card'
+import { useCardFromURL } from '../../hooks/use-card-from-url'
 import { registerPage } from '../../hocs/register-page'
 import { Preloader } from '../../components/icons/preloader'
 
 export const EditCardPage: React.FC = registerPage(
   observer(() => {
-    const { cardId } = useParams()
-
-    const card = useCard(cardId)
+    const card = useCardFromURL()
 
     if (!card) {
       return <Preloader />
