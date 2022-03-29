@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { CardRef } from '../cards/card-ref'
 import { useStore } from '../../stores/root-store/context'
@@ -26,8 +26,6 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
     !isNewSlider ? props.slider : () => createCardSlider(props.newSliderConfig)
   )
 
-  const sliderWindowRef = useRef<HTMLDivElement>(null)
-
   return (
     <Container>
       {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
@@ -36,7 +34,6 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
         </LeftDirectionButton>
       )}
       <SliderWindow
-        ref={sliderWindowRef}
         cardWidth={slider.cardWidth}
         cardHeight={slider.cardHeight}
         cardsToShow={slider.cardsToShow}
