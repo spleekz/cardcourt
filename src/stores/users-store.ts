@@ -23,13 +23,13 @@ export class UsersStore {
     this.user = user
   }
 
-  loadUserInfo(name: string): Promise<PublicUserInfo> {
+  private loadUserInfo(name: string): Promise<PublicUserInfo> {
     return api.userInfo.getUserInfo(name).then((res) => {
       return res.data
     })
   }
 
-  loadUserCards(name?: string): Promise<CardsResponse> {
+  private loadUserCards(name?: string): Promise<CardsResponse> {
     const params: GetCardsParams = {
       pagesToLoad: 2,
       pageSize: 3,

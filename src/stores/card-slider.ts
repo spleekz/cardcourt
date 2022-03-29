@@ -37,20 +37,17 @@ export class CardSlider {
   cardHeight: number
 
   page = 1
-  setPage(page: number): void {
+  private setPage(page: number): void {
     this.page = page
   }
-  setNextPage(): void {
+  private setNextPage(): void {
     this.page++
   }
-  setPrevPage(): void {
+  private setPrevPage(): void {
     this.page--
   }
 
   pageSize = 5
-  setPageSize(size: number): void {
-    this.pageSize = size
-  }
 
   search = ''
   setSearchAndReset(value: string): void {
@@ -58,17 +55,16 @@ export class CardSlider {
     this.resetAndFillWithCards()
   }
 
-  maxLoadedPage = 0
-  setMaxLoadedPage(page: number): void {
+  private maxLoadedPage = 0
+  private setMaxLoadedPage(page: number): void {
     this.maxLoadedPage = page
   }
 
   //Дефолтные параметры запроса карточек
-  get loadCardsDefaultParams(): GetCardsParams {
+  private get loadCardsDefaultParams(): GetCardsParams {
     return { page: 1, pagesToLoad: 2, pageSize: this.pageSize, search: this.search, by: '' }
   }
-
-  get loadMoreCardsDefaultParams(): GetCardsParams {
+  private get loadMoreCardsDefaultParams(): GetCardsParams {
     return {
       page: this.maxLoadedPage + 1,
       pagesToLoad: 2,
@@ -78,8 +74,8 @@ export class CardSlider {
     }
   }
 
-  loadCardsConfig: SliderLoadCardsConfig
-  loadMoreCardsConfig: SliderLoadCardsConfig
+  private loadCardsConfig: SliderLoadCardsConfig
+  private loadMoreCardsConfig: SliderLoadCardsConfig
 
   constructor(config: SliderConfig) {
     this.cards = config.cards
@@ -101,35 +97,34 @@ export class CardSlider {
   setPosition(position: number): void {
     this.position = position
   }
-  setPositionForward(): void {
+  private setPositionForward(): void {
     this.position = this.position + this.pixelsToSlide
   }
-  setPositionBack(): void {
+  private setPositionBack(): void {
     this.position = this.position - this.pixelsToSlide
   }
-  get pixelsToSlide(): number {
+  private get pixelsToSlide(): number {
     return this.cardsToSlide * (this.cardWidth + 16)
   }
 
   pageCount = 0
-  setPageCount(pageCount: number): void {
+  private setPageCount(pageCount: number): void {
     this.pageCount = pageCount
   }
 
-  maxVisitedPage = 1
-  updateMaxVisitedPage(): void {
+  private maxVisitedPage = 1
+  private updateMaxVisitedPage(): void {
     this.maxVisitedPage++
   }
 
-  get pageWasVisited(): boolean {
+  private get pageWasVisited(): boolean {
     return this.page <= this.maxVisitedPage
   }
   get allPagesAreLoaded(): boolean {
     return this.maxLoadedPage === this.pageCount
   }
 
-  //!Функции слайдера
-  getCardForSlider({ params, fnWithUpdatingCards }: LoadCardsConfig): Promise<CardsResponse> {
+  private getCardForSlider({ params, fnWithUpdatingCards }: LoadCardsConfig): Promise<CardsResponse> {
     const fnToCall: FnToCallAfterRequest = (data) => {
       fnWithUpdatingCards(data)
       this.setMaxLoadedPage(data.maxLoadedPage)
@@ -170,17 +165,18 @@ export class CardSlider {
     return this.getCardForSlider(loadMoreCardsConfig)
   }
 
-  reset(): void {
+  private reset(): void {
     this.position = 0
     this.page = 1
     this.pageCount = 0
     this.maxLoadedPage = 0
     this.maxVisitedPage = 1
   }
-  resetAndFillWithCards(): void {
+  private resetAndFillWithCards(): void {
     this.reset()
     this.loadCards()
   }
+
   slideRigth(): void {
     this.setNextPage()
     if (!this.pageWasVisited) {
