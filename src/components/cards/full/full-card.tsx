@@ -1,45 +1,42 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useParams } from 'react-router'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import { WordList } from '../../card-slider/element/word-list'
-import { useCard } from '../../../hooks/use-card'
 import { useStore } from '../../../stores/root-store/context'
-import { useNavigate } from 'react-router-dom'
 import { PencilIcon } from '../../icons/pencil-icon'
+import { Preloader } from '../../icons/preloader'
+import { Card } from '../../../api/api'
 
-export const FullCard: React.FC = observer(() => {
+interface Props {
+  card: Card
+}
+
+export const FullCard: React.FC<Props> = observer(({ card }) => {
   const { cardsStore } = useStore()
 
-  const { cardId } = useParams()
-  const navigate = useNavigate()
-
-  const card = useCard(cardId)
-
-  const goToEditCard = (): void => {
-    navigate(`/card/${card!._id}/edit`)
-  }
   const deleteCard = (id: string): void => {
     cardsStore.deleteCard(id)
   }
 
+  if (!card) {
+    return <Preloader />
+  }
+
   return (
-    <>
-      {card && (
-        <Container>
-          {card.name}
-          <Link to={`check`}>
-            <GoToCheckButton>Начать проверку</GoToCheckButton>
-          </Link>
-          <EditButton onClick={goToEditCard}>
-            <PencilIcon />
-          </EditButton>
-          <DeleteButton onClick={() => deleteCard(card._id)}>Удалить</DeleteButton>
-          <WordList card={card} />
-        </Container>
-      )}
-    </>
+    <Container>
+      {card.name}
+      <Link to={`check`}>
+        <GoToCheckButton>Начать проверку</GoToCheckButton>
+      </Link>
+      <Link to={`/card/${card!._id}/edit`}>
+        <EditButton>
+          <PencilIcon />
+        </EditButton>
+      </Link>
+      <DeleteButton onClick={() => deleteCard(card._id)}>Удалить</DeleteButton>
+      <WordList card={card} />
+    </Container>
   )
 })
 

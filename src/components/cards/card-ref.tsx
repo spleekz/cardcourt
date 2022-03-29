@@ -1,5 +1,4 @@
 import React from 'react'
-import { FullCard } from './full/full-card'
 import { CardElement } from '../card-slider/element/carcass'
 import { CardForm } from './form/card-form'
 import { Card } from '../../api/api'
@@ -32,8 +31,6 @@ export function CardRef(props: IFormCard | IFullCard | IElementCard): React.Reac
     if (props.card) {
       return <CardForm card={props.card} />
     } else return <CardForm />
-  } else if (props.type === 'full') {
-    return <FullCard />
   } else if (props.type === 'element') {
     return <CardElement card={props.card} width={props.width} height={props.height} />
   } else return null

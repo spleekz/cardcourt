@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { Card } from '../api/api'
 import { useStore } from '../stores/root-store/context'
 
@@ -11,7 +11,9 @@ export const useCard = (cardId: string | undefined): Card | null | undefined => 
     }
   }, [cardId])
 
-  useEffect(() => {
+  // Используем useLayoutEffect, т.к. с useEffect сначала отрисуется другая страница,
+  // а потом сбросится id карточки. Это может привести к визуальным багам
+  useLayoutEffect(() => {
     return () => cardsStore.setCardId(null)
   }, [])
 

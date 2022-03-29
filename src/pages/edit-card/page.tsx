@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { CardRef } from '../../components/cards/card-ref'
 import { useCard } from '../../hooks/use-card'
 import { registerPage } from '../../hocs/register-page'
+import { Preloader } from '../../components/icons/preloader'
 
 export const EditCardPage: React.FC = registerPage(
   observer(() => {
@@ -12,7 +13,15 @@ export const EditCardPage: React.FC = registerPage(
 
     const card = useCard(cardId)
 
-    return <Container>{card && <CardRef type='form' card={card} />}</Container>
+    if (!card) {
+      return <Preloader />
+    }
+
+    return (
+      <Container>
+        <CardRef type='form' card={card} />
+      </Container>
+    )
   }),
   { isProtected: true }
 )
