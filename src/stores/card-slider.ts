@@ -97,15 +97,15 @@ export class CardSlider {
     makeAutoObservable(this, {}, { autoBind: true })
   }
 
-  sliderPosition = 0
-  setSliderPosition(position: number): void {
-    this.sliderPosition = position
+  position = 0
+  setPosition(position: number): void {
+    this.position = position
   }
-  setSliderPositionForward(): void {
-    this.sliderPosition = this.sliderPosition + this.pixelsToSlide
+  setPositionForward(): void {
+    this.position = this.position + this.pixelsToSlide
   }
-  setSliderPositionBack(): void {
-    this.sliderPosition = this.sliderPosition - this.pixelsToSlide
+  setPositionBack(): void {
+    this.position = this.position - this.pixelsToSlide
   }
   get pixelsToSlide(): number {
     return this.cardsToSlide * (this.cardWidth + 16)
@@ -171,7 +171,7 @@ export class CardSlider {
   }
 
   reset(): void {
-    this.sliderPosition = 0
+    this.position = 0
     this.page = 1
     this.pageCount = 0
     this.maxLoadedPage = 0
@@ -189,10 +189,10 @@ export class CardSlider {
         this.loadMoreCards()
       }
     }
-    this.setSliderPositionForward()
+    this.setPositionForward()
   }
   slideLeft(): void {
     this.setPrevPage()
-    this.setSliderPositionBack()
+    this.setPositionBack()
   }
 }

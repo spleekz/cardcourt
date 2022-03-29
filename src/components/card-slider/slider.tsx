@@ -39,7 +39,7 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
         cardWidth={slider.cardWidth}
         cardHeight={slider.cardHeight}
         cardsToShow={slider.cardsToShow}
-        sliderPosition={slider.sliderPosition}
+        sliderPosition={slider.position}
       />
       {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
         <RightDirectionButton onClick={slider.slideRigth} disabled={slider.page === slider.pageCount}>
