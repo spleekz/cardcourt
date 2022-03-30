@@ -123,6 +123,9 @@ export class CardSlider {
   get allPagesAreLoaded(): boolean {
     return this.maxLoadedPage === this.pageCount
   }
+  get onLastPage():boolean {
+    return this.page === this.pageCount
+  }
 
   private getCardForSlider({ params, fnWithUpdatingCards }: LoadCardsConfig): Promise<CardsResponse> {
     const fnToCall: FnToCallAfterRequest = (data) => {
