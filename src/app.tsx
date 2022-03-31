@@ -13,6 +13,7 @@ import { CardPage } from './pages/card/page'
 import { AuthPage } from './pages/auth/page'
 import { UserPage } from './pages/user/page'
 import { CardSlider } from './stores/card-slider'
+import { PortalToBody } from './components/portal-to-body'
 
 interface Popup {
   value: boolean
@@ -77,10 +78,12 @@ export const App: React.FC = observer(() => {
       <PopupsContext.Provider value={PopupsForContext}>
         <GlobalStyles isPopup={isAnyPopupOpened} />
         <AppContainer>
-          <CardDonePopup
-            isOpened={isCardDonePopup}
-            title={appStore.page === 'new' ? 'Карточка создана!' : 'Карточка обновлена!'}
-          />
+          <PortalToBody>
+            <CardDonePopup
+              isOpened={isCardDonePopup}
+              title={appStore.page === 'new' ? 'Карточка создана!' : 'Карточка обновлена!'}
+            />
+          </PortalToBody>
           <Header />
           <PageContainer>
             <Routes>

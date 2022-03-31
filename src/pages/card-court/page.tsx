@@ -7,6 +7,7 @@ import { Court } from './court/court'
 import { useMainSlider } from '../../app'
 import { Preloader } from '../../components/icons/preloader'
 import { useSearchParams } from 'react-router-dom'
+import { PortalToBody } from '../../components/portal-to-body'
 
 export const CardCourtPage: React.FC = registerPage(
   observer(() => {
@@ -23,7 +24,11 @@ export const CardCourtPage: React.FC = registerPage(
     }, [searchParams])
 
     if (mainSlider.isLoading.value) {
-      return <Preloader />
+      return (
+        <PortalToBody>
+          <Preloader />
+        </PortalToBody>
+      )
     }
 
     return (
