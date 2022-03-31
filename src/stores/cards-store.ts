@@ -31,7 +31,7 @@ export class CardsStore {
   }
 
   cardId: string | null = null
-  setCardId(id: string | null): void {
+  setCardById(id: string | null): void {
     this.cardId = id
 
     if (this.cardId) {

@@ -9,14 +9,14 @@ export const useCardFromURL = (): Card | null => {
 
   useEffect(() => {
     if (cardId) {
-      cardsStore.setCardId(cardId)
+      cardsStore.setCardById(cardId)
     }
   }, [cardId])
 
   // Используем useLayoutEffect, т.к. с useEffect сначала отрисуется другая страница,
   // а потом сбросится id карточки. Это может привести к визуальным багам
   useLayoutEffect(() => {
-    return () => cardsStore.setCardId(null)
+    return () => cardsStore.setCardById(null)
   }, [])
 
   return cardsStore.card
