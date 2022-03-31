@@ -59,11 +59,4 @@ export class CardsStore {
   setCard(card: Card | null): void {
     this.card = card
   }
-  setCardById(id: string): void {
-    this.cards.forEach((card) => {
-      if (card._id === id) {
-        this.setCard(card)
-      }
-    })
-  }
 }
