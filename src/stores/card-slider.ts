@@ -55,12 +55,13 @@ export class CardSlider {
     this.resetAndFillWithCards()
   }
 
+  //Страница, с которой будет начинаться запрос loadMoreCards
   private maxLoadedPage = 0
   private setMaxLoadedPage(page: number): void {
     this.maxLoadedPage = page
   }
 
-  //Дефолтные параметры запроса карточек
+  //Дефолтные параметры запросов
   private get loadCardsDefaultParams(): GetCardsParams {
     return { page: 1, pagesToLoad: 2, pageSize: this.pageSize, search: this.search, by: '' }
   }
@@ -74,6 +75,7 @@ export class CardSlider {
     }
   }
 
+  //Пользовательские конфиги для запросов
   private loadCardsConfig: SliderLoadCardsConfig
   private loadMoreCardsConfig: SliderLoadCardsConfig
 
@@ -123,10 +125,11 @@ export class CardSlider {
   get allPagesAreLoaded(): boolean {
     return this.maxLoadedPage === this.pageCount
   }
-  get onLastPage():boolean {
+  get onLastPage(): boolean {
     return this.page === this.pageCount
   }
 
+  //Общий вид запроса карточек для слайдера
   private getCardForSlider({ params, fnWithUpdatingCards }: LoadCardsConfig): Promise<CardsResponse> {
     const fnToCall: FnToCallAfterRequest = (data) => {
       fnWithUpdatingCards(data)
@@ -141,7 +144,7 @@ export class CardSlider {
     this.isLoading.set(true)
 
     const { params, actionToUpdateCards } = this.loadCardsConfig
-
+    //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadCardsDefaultParams, ...params }
 
     const loadCardsСonfig: LoadCardsConfig = {
@@ -157,7 +160,7 @@ export class CardSlider {
 
   loadMoreCards(): Promise<CardsResponse> {
     const { params, actionToUpdateCards } = this.loadMoreCardsConfig
-
+    //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadMoreCardsDefaultParams, ...params }
 
     const loadMoreCardsConfig: LoadCardsConfig = {
