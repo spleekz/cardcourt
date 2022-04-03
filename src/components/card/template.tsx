@@ -27,7 +27,7 @@ export const CardTemplate: React.FC<Props> = ({ width, height, headColor, bodyCo
       const footerHeight = footerRef.current.getBoundingClientRect().height
       setBodyHeight(height - (headingHeight + footerHeight))
     }
-  })
+  }, [headingRef, footerRef])
 
   return (
     <Container width={width} height={height} color={headColor}>
