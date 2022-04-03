@@ -1,14 +1,18 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import styled from 'styled-components'
-import { CardRef } from '../../components/cards/card-ref'
+import { FormCard } from '../../components/card/variants/form-card/form-card'
 import { registerPage } from '../../hocs/register-page'
+import { getCardWidthByHeight } from '../../lib/cards'
 
 export const NewCardPage: React.FC = registerPage(
   observer(() => {
+    const cardHeight = 780
+    const cardWidth = getCardWidthByHeight(cardHeight)
+
     return (
       <Container>
-        <CardRef type='form' />
+        <FormCard width={cardWidth} height={cardHeight} />
       </Container>
     )
   }),

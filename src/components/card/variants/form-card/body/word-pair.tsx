@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { SendedCardWords } from '../../../../api/api'
-import { XIcon } from '../../../icons/x-icon'
+import { SendedCardWords } from '../../../../../api/api'
+import { XIcon } from '../../../../icons/x-icon'
 import { FormWordInput } from './word-input'
 
 interface IFormWordPair {
-  remove: (index?: number | number[] | undefined) => void
+  removePair: () => void
   isEditCard: boolean
   fields: SendedCardWords
   index: number
@@ -13,15 +13,15 @@ interface IFormWordPair {
 }
 
 export const FormWordPair: React.FC<IFormWordPair> = ({
-  remove,
+  removePair,
   fields,
   index,
   isEditCard,
   color,
 }) => {
-  const deleteWordPair = (index: number): void => {
+  const deleteWordPair = (): void => {
     if (fields.length !== 1) {
-      remove(index)
+      removePair()
     }
   }
 
@@ -44,7 +44,7 @@ export const FormWordPair: React.FC<IFormWordPair> = ({
           isEditCard={isEditCard}
         />
       </PairBlock>
-      <DeletePairButton type='button' onClick={() => deleteWordPair(index)}>
+      <DeletePairButton type='button' onClick={deleteWordPair}>
         <XIcon />
       </DeletePairButton>
     </Container>

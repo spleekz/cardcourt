@@ -4,8 +4,6 @@ export const XIcon: React.FC = () => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='16'
-      height='16'
       fill='currentColor'
       className='bi bi-x-lg'
       viewBox='0 0 16 16'

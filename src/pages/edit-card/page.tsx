@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import styled from 'styled-components'
-import { CardRef } from '../../components/cards/card-ref'
 import { useCardFromURL } from '../../hooks/use-card-from-url'
 import { registerPage } from '../../hocs/register-page'
 import { Preloader } from '../../components/icons/preloader'
+import { FormCard } from '../../components/card/variants/form-card/form-card'
+import { getCardWidthByHeight } from '../../lib/cards'
 
 export const EditCardPage: React.FC = registerPage(
   observer(() => {
@@ -14,9 +15,12 @@ export const EditCardPage: React.FC = registerPage(
       return <Preloader />
     }
 
+    const cardHeight = 780
+    const cardWidth = getCardWidthByHeight(cardHeight)
+
     return (
       <Container>
-        <CardRef type='form' card={card} />
+        <FormCard card={card} width={cardWidth} height={cardHeight} />
       </Container>
     )
   }),

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Cards } from '../../api/api'
-import { CardRef } from '../cards/card-ref'
+import { SliderCard } from '../card/variants/slider-card'
 
 interface Props {
   cards: Cards
@@ -23,7 +23,9 @@ export const SliderWindow: React.FC<Props> = ({
       <SliderLine position={sliderPosition}>
         {cards.map((card) => {
           return (
-            <CardRef type='element' card={card} width={cardWidth} height={cardHeight} key={card._id} />
+            <div key={card._id} style={{ margin: '0 8px 0 8px' }}>
+              <SliderCard card={card} width={cardWidth} height={cardHeight} />
+            </div>
           )
         })}
       </SliderLine>
