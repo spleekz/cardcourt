@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useLayoutEffect, useState } from 'react'
 import { Route, Routes } from 'react-router'
 import styled, { createGlobalStyle } from 'styled-components'
 import { Header } from './components/header/header'
@@ -14,6 +14,7 @@ import { AuthPage } from './pages/auth/page'
 import { UserPage } from './pages/user/page'
 import { CardSlider } from './stores/card-slider'
 import { PortalToBody } from './components/portal-to-body'
+import { Preloader } from './components/icons/preloader'
 
 interface Popup {
   value: boolean
@@ -67,38 +68,47 @@ export const App: React.FC = observer(() => {
     },
   }
 
-  useEffect(() => {
+  //useLayoutEffect, т.к. useEffect приводит к визуальным багам
+  useLayoutEffect(() => {
     if (authStore.token) {
       authStore.loadMe()
     }
   }, [authStore.token])
 
   return (
-    <MainSliderContext.Provider value={mainSlider}>
-      <PopupsContext.Provider value={PopupsForContext}>
-        <GlobalStyles isPopup={isAnyPopupOpened} />
-        <AppContainer>
-          <PortalToBody>
-            <CardDonePopup
-              isOpened={isCardDonePopup}
-              title={appStore.page === 'new' ? 'Карточка создана!' : 'Карточка обновлена!'}
-            />
-          </PortalToBody>
-          <Header />
-          <PageContainer>
-            <Routes>
-              <Route path='/' element={<CardCourtPage />} />
-              <Route path='/auth' element={<AuthPage />} />
-              <Route path='card/new' element={<NewCardPage />} />
-              <Route path='/card/:cardId' element={<CardPage />} />
-              <Route path='card/:cardId/check' element={<CheckPage />} />
-              <Route path='card/:cardId/edit' element={<EditCardPage />} />
-              <Route path='user/:userName' element={<UserPage />} />
-            </Routes>
-          </PageContainer>
-        </AppContainer>
-      </PopupsContext.Provider>
-    </MainSliderContext.Provider>
+    <>
+      <GlobalStyles isPopup={isAnyPopupOpened} />
+      {!authStore.isLoadingMe ? (
+        <MainSliderContext.Provider value={mainSlider}>
+          <PopupsContext.Provider value={PopupsForContext}>
+            <AppContainer>
+              <PortalToBody>
+                <CardDonePopup
+                  isOpened={isCardDonePopup}
+                  title={appStore.page === 'new' ? 'Карточка создана!' : 'Карточка обновлена!'}
+                />
+              </PortalToBody>
+              <Header />
+              <PageContainer>
+                <Routes>
+                  <Route path='/' element={<CardCourtPage />} />
+                  <Route path='/auth' element={<AuthPage />} />
+                  <Route path='card/new' element={<NewCardPage />} />
+                  <Route path='/card/:cardId' element={<CardPage />} />
+                  <Route path='card/:cardId/check' element={<CheckPage />} />
+                  <Route path='card/:cardId/edit' element={<EditCardPage />} />
+                  <Route path='user/:userName' element={<UserPage />} />
+                </Routes>
+              </PageContainer>
+            </AppContainer>
+          </PopupsContext.Provider>
+        </MainSliderContext.Provider>
+      ) : (
+        <PortalToBody>
+          <Preloader />
+        </PortalToBody>
+      )}
+    </>
   )
 })
 

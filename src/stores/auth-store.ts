@@ -15,11 +15,19 @@ export class AuthStore {
   }
 
   me: Me | null = null
+
+  isLoadingMe = false
+  setIsLoadingMe(value: boolean): void {
+    this.isLoadingMe = value
+  }
+
   loadMe(): void {
+    this.setIsLoadingMe(true)
     api.setSecurityData(this.token)
     api.me.getMe().then((res) => {
-      if (res) {
+      if (res.ok) {
         this.setMe(res.data)
+        this.setIsLoadingMe(false)
       }
     })
   }
