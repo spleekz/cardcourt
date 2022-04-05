@@ -17,8 +17,8 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
     const isEditCard = card !== null
 
     const { cardDone } = usePopupContext()
-    const cardHeadColor = isEditCard ? card.ui.headColor : '#fffff0'
-    const cardBodyColor = isEditCard ? card.ui.bodyColor : '#20c530'
+    const cardHeadColor = isEditCard ? card.ui.headColor : cardsStore.defaultCardUi.headColor
+    const cardBodyColor = isEditCard ? card.ui.bodyColor : cardsStore.defaultCardUi.bodyColor
 
     const anchorRef = useRef<HTMLDivElement>(null)
     const topRef = useRef<HTMLDivElement>(null)

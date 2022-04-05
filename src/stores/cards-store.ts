@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { Card, Cards, SendedCard, UpdatedCard } from '../api/api'
+import { Card, Cards, CardUI, SendedCard, UpdatedCard } from '../api/api'
 import { api } from '../api'
 import cardConfig from './card-config.json'
 import { ActionToUpdateCards } from './utility-types'
@@ -17,6 +17,10 @@ export class CardsStore {
   defaultCardSize: CardSize = {
     width: cardConfig.width,
     height: cardConfig.height,
+  }
+  defaultCardUi: CardUI = {
+    headColor: cardConfig.headColor,
+    bodyColor: cardConfig.bodyColor,
   }
 
   cards: Cards = []

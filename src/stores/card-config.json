@@ -1,4 +1,6 @@
 {
   "width": 320,
-  "height": 500
+  "height": 500,
+  "headColor": "#fffff0",
+  "bodyColor": "#20c530"
 }
