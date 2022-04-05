@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import styled from 'styled-components'
-import { Lang } from '../../../../../stores/check-store'
+import { Lang } from '../../../../../../stores/check-store'
 import isEnglish from 'is-english'
+import { getCursorState, getInputBGC, getInputBoxShadow } from './utils'
 
 interface IFormWordInput {
   inputValue: string
@@ -10,12 +11,7 @@ interface IFormWordInput {
   lang: Lang
   color: string
 }
-export const FormWordInput: React.FC<IFormWordInput> = ({
-  inputValue,
-  index,
-  color,
-  lang,
-}) => {
+export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, color, lang }) => {
   const { register } = useFormContext()
 
   const [isInputOnFocus, setIsInputOnFocus] = useState<boolean>(false)
@@ -71,17 +67,11 @@ const WordInput = styled.input<IWordInputProps>`
   font-size: 26px;
   transition: all 0.33s;
   text-align: ${(props) => props.lang === 'en' && !props.isOnFocus && 'right'};
-  cursor: ${(props) => props.isOnHover && !props.isOnFocus && !props.isEmpty && 'pointer'};
-  box-shadow: ${(props) =>
-    (props.isEmpty || props.isOnHover || props.isOnFocus) && '0px 0px 11px 0px rgba(34, 60, 80, 0.4)'};
-  background-color: ${(props) =>
-    props.isEmpty
-      ? '#ffffff'
-      : props.isOnFocus
-        ? '#ffffff'
-        : props.isOnHover
-          ? '#ffffff'
-          : props.color};
+  cursor: ${({ isEmpty, isOnHover, isOnFocus }) => getCursorState({ isEmpty, isOnHover, isOnFocus })};
+  box-shadow: ${({ isEmpty, isOnHover, isOnFocus }) =>
+    getInputBoxShadow({ isEmpty, isOnHover, isOnFocus })};
+  background-color: ${({ isEmpty, isOnHover, isOnFocus, color }) =>
+    getInputBGC({ isEmpty, isOnHover, isOnFocus, color })};
   ::placeholder {
     text-align: left;
     font-size: 18px;
