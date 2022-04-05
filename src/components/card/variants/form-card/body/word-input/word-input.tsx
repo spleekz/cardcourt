@@ -26,11 +26,7 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, col
 
   const onInputBlur = (): void => {
     setIsInputOnFocus(false)
-    if (inputValue.trim() === '') {
-      setIsInputEmpty(true)
-    } else {
-      setIsInputEmpty(false)
-    }
+    setIsInputEmpty(inputValue.trim() === '')
   }
 
   return (
