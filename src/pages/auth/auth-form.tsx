@@ -39,19 +39,25 @@ export const AuthForm: React.FC = observer(() => {
 
   return (
     <Container>
+
       <Title>Авторизация</Title>
       <Form>
+
         <Input placeholder='Логин' {...register('name', { required: true })} />
         <Input type='password' placeholder='Пароль' {...register('password', { required: true })} />
+
         <Buttons>
           <Button type='submit' onClick={handleSubmit(loginUser)}>
             Войти
           </Button>
+
           <Button type='submit' onClick={handleSubmit(registerUser)}>
             Зарегистрироваться
           </Button>
         </Buttons>
+
       </Form>
+
     </Container>
   )
 })

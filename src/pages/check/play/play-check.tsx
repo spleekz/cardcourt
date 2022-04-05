@@ -23,12 +23,14 @@ export const PlayCheck: React.FC = observer(() => {
 
   return (
     <Container>
+
       {CheckStore.currentWord.ru} -{' '}
       <Input
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onKeyPress={goToNextWord}
       />
+
     </Container>
   )
 })

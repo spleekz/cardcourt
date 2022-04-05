@@ -11,9 +11,11 @@ const FullCardBody: React.FC<{ words: CardWords }> = ({ words }) => {
       {words.map((word) => {
         return (
           <WordPairContainer key={word._id}>
+
             <WordContainer textAlign='right'>{word.en}</WordContainer>
             <Dash>—</Dash>
             <WordContainer textAlign='left'>{word.ru}</WordContainer>
+
           </WordPairContainer>
         )
       })}

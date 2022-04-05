@@ -32,9 +32,11 @@ export const CardTemplate: React.FC<Props> = ({ width, height, headColor, bodyCo
   return (
     <Container width={width} height={height} color={headColor}>
       <CardHeading ref={headingRef}>{cardHeading}</CardHeading>
+
       <CardBody height={bodyHeight} color={bodyColor}>
         {cardBody}
       </CardBody>
+
       <CardFooter ref={footerRef}> {cardFooter}</CardFooter>
     </Container>
   )

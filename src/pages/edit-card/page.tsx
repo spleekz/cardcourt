@@ -20,7 +20,9 @@ export const EditCardPage: React.FC = registerPage(
 
     return (
       <Container>
+
         <FormCard card={card} width={cardWidth} height={cardHeight} />
+
       </Container>
     )
   }),

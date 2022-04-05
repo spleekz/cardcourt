@@ -23,10 +23,13 @@ export const Search: React.FC = observer(() => {
 
   return (
     <Container>
+
       <Input value={search} onChange={(e) => setSearch(e.target.value)} onKeyPress={handleEnter} />
+
       <SearchButton onClick={setSearchToUrl}>
         <SearchIcon />
       </SearchButton>
+
     </Container>
   )
 })

@@ -10,10 +10,13 @@ export const Court: React.FC = observer(() => {
 
   return (
     <Container>
+
       <Link to='/card/new'>
         <CreateCardButton>Создать</CreateCardButton>
       </Link>
+
       <Slider slider={mainSlider} />
+
     </Container>
   )
 })

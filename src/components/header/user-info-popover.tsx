@@ -10,20 +10,26 @@ export const UserInfoPopover: React.FC = observer(() => {
 
   return (
     <Container>
+
       <Header>
         <Avatar size={50} />
         <UserName>{authStore.me?.name}</UserName>
       </Header>
+
       <Hr />
+
       <OptionList>
         <Option>
           <Link onMouseDown={(e) => e.preventDefault()} to={`/user/${authStore.me?.name}`}>
             Мой профиль
           </Link>
         </Option>
+
         <Option>Мои карточки</Option>
+
         <Option onClick={authStore.logout}>Выйти</Option>
       </OptionList>
+
     </Container>
   )
 })

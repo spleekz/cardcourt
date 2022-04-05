@@ -28,7 +28,9 @@ export const CheckPage: React.FC = registerPage(
 
     return (
       <CheckStoreContext.Provider value={CheckStore}>
+
         <Container>
+
           {card &&
             (CheckStore.checkMode === 'prepare' ? (
               <PrepareCheck card={card} />
@@ -37,7 +39,9 @@ export const CheckPage: React.FC = registerPage(
             ) : (
               <CheckResult />
             ))}
+
         </Container>
+
       </CheckStoreContext.Provider>
     )
   })

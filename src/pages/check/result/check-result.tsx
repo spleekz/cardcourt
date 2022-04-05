@@ -10,13 +10,17 @@ export const CheckResult: React.FC = observer(() => {
 
   return (
     <div>
+
       <Link to={'/'}>
         <button>На Card Court</button>
       </Link>
+
       <Link to={`/card/${cardsStore.card!._id}`}>
         <button>На карточку</button>
       </Link>
+
       <button onClick={() => CheckStore.setCheckMode('prepare')}>Повторить проверку</button>
+
     </div>
   )
 })

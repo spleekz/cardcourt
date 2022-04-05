@@ -63,6 +63,7 @@ export const FormCardBody: React.FC<PropsForBody> = ({
           height: '10px',
         }}
       />
+
       <FormCardWords
         fields={fields}
         bodyColor={bodyColor}
@@ -70,6 +71,7 @@ export const FormCardBody: React.FC<PropsForBody> = ({
         remove={remove}
         watchedFields={watchedFields}
       />
+
       <AddWordPairButtonContainer ref={anchorRef}>
         <AddWordPairButton color={headColor} type='button' onClick={addNewWordPair}>
           +

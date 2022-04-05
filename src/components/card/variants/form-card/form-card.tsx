@@ -73,6 +73,7 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
     return (
       <FormProvider {...methods}>
         <Form onSubmit={methods.handleSubmit(isEditCard ? updateCard : createNewCard)}>
+
           <CardTemplate
             width={width}
             height={height}
@@ -87,6 +88,7 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
               />
               <CardAuthor>{isEditCard ? card.author.name : authStore.me?.name}</CardAuthor>
             </CardHeading>
+
             <FormCardBody
               fields={fields}
               headColor={cardHeadColor}
@@ -98,10 +100,12 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
               topRef={topRef}
               anchorRef={anchorRef}
             />
+
             <SubmitButton color={cardHeadColor} type='submit'>
               {isEditCard ? 'Обновить карточку' : 'Создать карточку'}
             </SubmitButton>
           </CardTemplate>
+
         </Form>
       </FormProvider>
     )

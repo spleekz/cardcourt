@@ -78,9 +78,11 @@ export const App: React.FC = observer(() => {
   return (
     <>
       <GlobalStyles isPopup={isAnyPopupOpened} />
+
       {!authStore.isLoadingMe ? (
         <MainSliderContext.Provider value={mainSlider}>
           <PopupsContext.Provider value={PopupsForContext}>
+
             <AppContainer>
               <PortalToBody>
                 <CardDonePopup
@@ -88,7 +90,9 @@ export const App: React.FC = observer(() => {
                   title={appStore.page === 'new' ? 'Карточка создана!' : 'Карточка обновлена!'}
                 />
               </PortalToBody>
+
               <Header />
+
               <PageContainer>
                 <Routes>
                   <Route path='/' element={<CardCourtPage />} />
@@ -101,6 +105,7 @@ export const App: React.FC = observer(() => {
                 </Routes>
               </PageContainer>
             </AppContainer>
+
           </PopupsContext.Provider>
         </MainSliderContext.Provider>
       ) : (

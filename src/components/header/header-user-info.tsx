@@ -22,6 +22,7 @@ export const HeaderUserInfo: React.FC = observer(() => {
 
   return (
     <Container>
+
       {authStore.token ? (
         <UserBlock tabIndex={1} onBlur={() => setIsUserPopover(false)}>
           <AvatarBlock onClick={() => setIsUserPopover(!isUserPopover)}>
@@ -34,6 +35,7 @@ export const HeaderUserInfo: React.FC = observer(() => {
           Вы не авторизованы! <Link to='/auth'>Авторизация</Link>
         </>
       )}
+      
     </Container>
   )
 })

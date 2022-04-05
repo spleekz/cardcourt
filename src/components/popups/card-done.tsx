@@ -13,24 +13,31 @@ export const CardDonePopup: React.FC<Props> = ({ isOpened, title }) => {
 
   return (
     <Container isOpened={isOpened}>
+
       <PopupBlock isOpened={isOpened}>
         <Title>{title}</Title>
+
         <Body>
           <Message>Куда идём дальше?</Message>
+
           <ButtonsList>
             <NavLink to='/'>
               <RedirectButton>
                 на главную!<p>👈</p>
               </RedirectButton>
             </NavLink>
+
             <NavLink to={`/card/${cardsStore.cardId}`}>
               <RedirectButton>
                 на карточку!<p>👉</p>
               </RedirectButton>
             </NavLink>
           </ButtonsList>
+
         </Body>
+
       </PopupBlock>
+
     </Container>
   )
 }

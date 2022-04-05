@@ -27,7 +27,9 @@ export const FormWordPair: React.FC<IFormWordPair> = ({
 
   return (
     <Container>
+
       <PairBlock>
+
         <FormWordInput
           color={color}
           inputValue={fields[index].en}
@@ -43,10 +45,13 @@ export const FormWordPair: React.FC<IFormWordPair> = ({
           lang='ru'
           isEditCard={isEditCard}
         />
+
       </PairBlock>
+
       <DeletePairButton type='button' onClick={deleteWordPair}>
         <XIcon />
       </DeletePairButton>
+
     </Container>
   )
 }

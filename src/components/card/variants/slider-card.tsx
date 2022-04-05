@@ -32,13 +32,16 @@ export const SliderCard: CardVariantComponent = ({ card, width, height }) => {
       headColor={card.ui.headColor}
       bodyColor={card.ui.bodyColor}
     >
+
       <CardHeading>
         <Link to={`/card/${card._id}`}>
           <CardName>{card.name}</CardName>
         </Link>
         <CardAuthor>{card.author.name}</CardAuthor>
       </CardHeading>
+
       <SliderCardBody words={card.words} />
+
     </CardTemplate>
   )
 }
