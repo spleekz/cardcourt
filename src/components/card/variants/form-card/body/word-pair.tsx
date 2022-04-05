@@ -6,7 +6,6 @@ import { FormWordInput } from './word-input'
 
 interface IFormWordPair {
   removePair: () => void
-  isEditCard: boolean
   fields: SendedCardWords
   index: number
   color: string
@@ -16,7 +15,6 @@ export const FormWordPair: React.FC<IFormWordPair> = ({
   removePair,
   fields,
   index,
-  isEditCard,
   color,
 }) => {
   const deleteWordPair = (): void => {
@@ -29,13 +27,11 @@ export const FormWordPair: React.FC<IFormWordPair> = ({
     <Container>
 
       <PairBlock>
-
         <FormWordInput
           color={color}
           inputValue={fields[index].en}
           index={index}
           lang='en'
-          isEditCard={isEditCard}
         />
         <Dash>—</Dash>
         <FormWordInput
@@ -43,9 +39,7 @@ export const FormWordPair: React.FC<IFormWordPair> = ({
           inputValue={fields[index].ru}
           index={index}
           lang='ru'
-          isEditCard={isEditCard}
         />
-
       </PairBlock>
 
       <DeletePairButton type='button' onClick={deleteWordPair}>

@@ -96,7 +96,6 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
               remove={remove}
               addNewWordPair={addNewWordPair}
               watchedFields={watchedFields}
-              isEditCard={isEditCard}
               topRef={topRef}
               anchorRef={anchorRef}
             />

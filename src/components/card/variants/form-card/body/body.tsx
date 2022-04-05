@@ -10,12 +10,10 @@ interface PropsForWords {
   watchedFields: SendedCardWords
   remove: (index: number) => void
   bodyColor: string
-  isEditCard: boolean
 }
 const FormCardWords: React.FC<PropsForWords> = ({
   fields,
   bodyColor,
-  isEditCard,
   remove,
   watchedFields,
 }) => {
@@ -27,7 +25,6 @@ const FormCardWords: React.FC<PropsForWords> = ({
             key={words.id}
             removePair={() => remove(index)}
             fields={watchedFields}
-            isEditCard={isEditCard}
             index={index}
             color={bodyColor}
           />
@@ -48,7 +45,6 @@ export const FormCardBody: React.FC<PropsForBody> = ({
   fields,
   bodyColor,
   headColor,
-  isEditCard,
   remove,
   watchedFields,
   topRef,
@@ -67,7 +63,6 @@ export const FormCardBody: React.FC<PropsForBody> = ({
       <FormCardWords
         fields={fields}
         bodyColor={bodyColor}
-        isEditCard={isEditCard}
         remove={remove}
         watchedFields={watchedFields}
       />
