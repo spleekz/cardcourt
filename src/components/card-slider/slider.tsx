@@ -29,7 +29,6 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
 
   return (
     <Container>
-
       {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
         <LeftDirectionButton onClick={slider.slideLeft} disabled={slider.page <= 1}>
           Назад
@@ -49,7 +48,6 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
           Вперёд
         </RightDirectionButton>
       )}
-
     </Container>
   )
 }

@@ -82,7 +82,6 @@ export const App: React.FC = observer(() => {
       {!authStore.isLoadingMe ? (
         <MainSliderContext.Provider value={mainSlider}>
           <PopupsContext.Provider value={PopupsForContext}>
-
             <AppContainer>
               <PortalToBody>
                 <CardDonePopup
@@ -105,7 +104,6 @@ export const App: React.FC = observer(() => {
                 </Routes>
               </PageContainer>
             </AppContainer>
-
           </PopupsContext.Provider>
         </MainSliderContext.Provider>
       ) : (

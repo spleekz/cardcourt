@@ -33,10 +33,8 @@ export const CardCourtPage: React.FC = registerPage(
 
     return (
       <Container>
-
         <Search />
         <Court />
-
       </Container>
     )
   })

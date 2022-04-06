@@ -10,7 +10,6 @@ export const UserInfoPopover: React.FC = observer(() => {
 
   return (
     <Container>
-
       <Header>
         <Avatar size={50} />
         <UserName>{authStore.me?.name}</UserName>
@@ -29,7 +28,6 @@ export const UserInfoPopover: React.FC = observer(() => {
 
         <Option onClick={authStore.logout}>Выйти</Option>
       </OptionList>
-
     </Container>
   )
 })

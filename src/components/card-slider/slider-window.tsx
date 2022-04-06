@@ -20,7 +20,6 @@ export const SliderWindow: React.FC<Props> = ({
 }) => {
   return (
     <Window cardWidth={cardWidth} cardHeight={cardHeight} cardsToShow={cardsToShow}>
-
       <SliderLine position={sliderPosition}>
         {cards.map((card) => {
           return (
@@ -30,7 +29,6 @@ export const SliderWindow: React.FC<Props> = ({
           )
         })}
       </SliderLine>
-
     </Window>
   )
 }

@@ -7,13 +7,11 @@ import { HeaderUserInfo } from './header-user-info'
 export const Header: React.FC = observer(() => {
   return (
     <Container>
-
       <Title>
         <Link to='/'>cardcourt</Link>
       </Title>
 
       <HeaderUserInfo />
-
     </Container>
   )
 })

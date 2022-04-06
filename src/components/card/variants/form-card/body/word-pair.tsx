@@ -11,12 +11,7 @@ interface IFormWordPair {
   color: string
 }
 
-export const FormWordPair: React.FC<IFormWordPair> = ({
-  removePair,
-  fields,
-  index,
-  color,
-}) => {
+export const FormWordPair: React.FC<IFormWordPair> = ({ removePair, fields, index, color }) => {
   const deleteWordPair = (): void => {
     if (fields.length !== 1) {
       removePair()
@@ -25,27 +20,15 @@ export const FormWordPair: React.FC<IFormWordPair> = ({
 
   return (
     <Container>
-
       <PairBlock>
-        <FormWordInput
-          color={color}
-          inputValue={fields[index].en}
-          index={index}
-          lang='en'
-        />
+        <FormWordInput color={color} inputValue={fields[index].en} index={index} lang='en' />
         <Dash>—</Dash>
-        <FormWordInput
-          color={color}
-          inputValue={fields[index].ru}
-          index={index}
-          lang='ru'
-        />
+        <FormWordInput color={color} inputValue={fields[index].ru} index={index} lang='ru' />
       </PairBlock>
 
       <DeletePairButton type='button' onClick={deleteWordPair}>
         <XIcon />
       </DeletePairButton>
-
     </Container>
   )
 }

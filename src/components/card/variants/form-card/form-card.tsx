@@ -73,7 +73,6 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
     return (
       <FormProvider {...methods}>
         <Form onSubmit={methods.handleSubmit(isEditCard ? updateCard : createNewCard)}>
-
           <CardTemplate
             width={width}
             height={height}
@@ -104,7 +103,6 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
               {isEditCard ? 'Обновить карточку' : 'Создать карточку'}
             </SubmitButton>
           </CardTemplate>
-
         </Form>
       </FormProvider>
     )

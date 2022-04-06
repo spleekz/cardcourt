@@ -39,10 +39,8 @@ export const AuthForm: React.FC = observer(() => {
 
   return (
     <Container>
-
       <Title>Авторизация</Title>
       <Form>
-
         <Input placeholder='Логин' {...register('name', { required: true })} />
         <Input type='password' placeholder='Пароль' {...register('password', { required: true })} />
 
@@ -55,9 +53,7 @@ export const AuthForm: React.FC = observer(() => {
             Зарегистрироваться
           </Button>
         </Buttons>
-
       </Form>
-
     </Container>
   )
 })

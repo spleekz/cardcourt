@@ -12,9 +12,7 @@ export const NewCardPage: React.FC = registerPage(
 
     return (
       <Container>
-
         <FormCard width={cardWidth} height={cardHeight} />
-
       </Container>
     )
   }),

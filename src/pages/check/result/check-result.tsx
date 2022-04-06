@@ -10,7 +10,6 @@ export const CheckResult: React.FC = observer(() => {
 
   return (
     <div>
-
       <Link to={'/'}>
         <button>На Card Court</button>
       </Link>
@@ -20,7 +19,6 @@ export const CheckResult: React.FC = observer(() => {
       </Link>
 
       <button onClick={() => CheckStore.setCheckMode('prepare')}>Повторить проверку</button>
-
     </div>
   )
 })

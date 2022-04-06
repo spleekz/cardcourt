@@ -68,7 +68,6 @@ export const UserPage: React.FC = registerPage(
 
     return (
       <Container>
-
         <UserInfo>
           <Avatar size={480} />
           <div style={{ marginTop: '-10px' }}>
@@ -80,7 +79,6 @@ export const UserPage: React.FC = registerPage(
         <UserCardsSlider>
           {userCardsSliderStore && <Slider slider={userCardsSliderStore} />}
         </UserCardsSlider>
-
       </Container>
     )
   }),

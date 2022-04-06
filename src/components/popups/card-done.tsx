@@ -13,7 +13,6 @@ export const CardDonePopup: React.FC<Props> = ({ isOpened, title }) => {
 
   return (
     <Container isOpened={isOpened}>
-
       <PopupBlock isOpened={isOpened}>
         <Title>{title}</Title>
 
@@ -33,11 +32,8 @@ export const CardDonePopup: React.FC<Props> = ({ isOpened, title }) => {
               </RedirectButton>
             </NavLink>
           </ButtonsList>
-
         </Body>
-
       </PopupBlock>
-
     </Container>
   )
 }

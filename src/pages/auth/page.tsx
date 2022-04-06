@@ -8,9 +8,7 @@ export const AuthPage: React.FC = registerPage(
   observer(() => {
     return (
       <Container>
-
         <AuthForm />
-
       </Container>
     )
   })

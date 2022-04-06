@@ -11,12 +11,7 @@ interface PropsForWords {
   remove: (index: number) => void
   bodyColor: string
 }
-const FormCardWords: React.FC<PropsForWords> = ({
-  fields,
-  bodyColor,
-  remove,
-  watchedFields,
-}) => {
+const FormCardWords: React.FC<PropsForWords> = ({ fields, bodyColor, remove, watchedFields }) => {
   return (
     <>
       {fields.map((words, index) => {
