@@ -9,9 +9,8 @@ interface PropsForWords {
   fields: FieldArrayWithId<SendedCard, 'words', 'id'>[]
   watchedFields: SendedCardWords
   remove: (index: number) => void
-  bodyColor: string
 }
-const FormCardWords: React.FC<PropsForWords> = ({ fields, bodyColor, remove, watchedFields }) => {
+const FormCardWords: React.FC<PropsForWords> = ({ fields, remove, watchedFields }) => {
   return (
     <>
       {fields.map((words, index) => {
@@ -21,7 +20,6 @@ const FormCardWords: React.FC<PropsForWords> = ({ fields, bodyColor, remove, wat
             removePair={() => remove(index)}
             fields={watchedFields}
             index={index}
-            color={bodyColor}
           />
         )
       })}
@@ -38,7 +36,6 @@ interface PropsForBody extends PropsForWords {
 }
 export const FormCardBody: React.FC<PropsForBody> = ({
   fields,
-  bodyColor,
   headColor,
   remove,
   watchedFields,
@@ -57,7 +54,6 @@ export const FormCardBody: React.FC<PropsForBody> = ({
 
       <FormCardWords
         fields={fields}
-        bodyColor={bodyColor}
         remove={remove}
         watchedFields={watchedFields}
       />

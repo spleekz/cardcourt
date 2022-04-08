@@ -9,9 +9,9 @@ interface IFormWordInput {
   inputValue: string
   index: number
   lang: Lang
-  color: string
 }
-export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, color, lang }) => {
+
+export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, lang }) => {
   const { register } = useFormContext()
 
   const [isInputOnFocus, setIsInputOnFocus] = useState<boolean>(false)
@@ -41,7 +41,6 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, col
       onBlur={onInputBlur}
       onMouseEnter={() => setIsInputOnHover(true)}
       onMouseLeave={() => setIsInputOnHover(false)}
-      color={color}
       isOnFocus={isInputOnFocus}
       isOnHover={isInputOnHover}
       isEmpty={isInputEmpty}
@@ -54,7 +53,6 @@ interface IWordInputProps {
   isOnHover: boolean
   isEmpty: boolean
   lang: Lang
-  color: string
 }
 
 const WordInput = styled.input<IWordInputProps>`
@@ -66,8 +64,8 @@ const WordInput = styled.input<IWordInputProps>`
   cursor: ${({ isEmpty, isOnHover, isOnFocus }) => getCursorState({ isEmpty, isOnHover, isOnFocus })};
   box-shadow: ${({ isEmpty, isOnHover, isOnFocus }) =>
     getInputBoxShadow({ isEmpty, isOnHover, isOnFocus })};
-  background-color: ${({ isEmpty, isOnHover, isOnFocus, color }) =>
-    getInputBGC({ isEmpty, isOnHover, isOnFocus, color })};
+  background-color: ${({ isEmpty, isOnHover, isOnFocus }) =>
+    getInputBGC({ isEmpty, isOnHover, isOnFocus })};
   ::placeholder {
     text-align: left;
     font-size: 18px;

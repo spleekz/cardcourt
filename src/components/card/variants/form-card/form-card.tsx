@@ -91,7 +91,6 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
             <FormCardBody
               fields={fields}
               headColor={cardHeadColor}
-              bodyColor={cardBodyColor}
               remove={remove}
               addNewWordPair={addNewWordPair}
               watchedFields={watchedFields}

@@ -13,15 +13,12 @@ export const getInputBoxShadow = (props: InputState): string | false => {
   )
 }
 
-interface getInputBGCProps extends InputState {
-  color: string
-}
-export const getInputBGC = (props: getInputBGCProps): string | false => {
+export const getInputBGC = (props: InputState): string | false => {
   return props.isEmpty
     ? '#ffffff'
     : props.isOnFocus
     ? '#ffffff'
     : props.isOnHover
     ? '#eeeeee'
-    : props.color
+    : 'transparent'
 }
