@@ -5,7 +5,7 @@ import { useCardFromURL } from '../../hooks/use-card-from-url'
 import { registerPage } from '../../hocs/register-page'
 import { Preloader } from '../../components/icons/preloader'
 import { FormCard } from '../../components/card/variants/form-card/form-card'
-import { getCardWidthByHeight } from '../../lib/cards'
+import { getCardWidthByHeight } from '../../utils/cards'
 
 export const EditCardPage: React.FC = registerPage(
   observer(() => {

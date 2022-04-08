@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useStore } from '../stores/root-store/context'
-import { withoutSlash } from '../lib/strings'
+import { withoutSlash } from '../utils/strings'
 import { Page } from '../stores/app-store'
 import { observer } from 'mobx-react-lite'
 

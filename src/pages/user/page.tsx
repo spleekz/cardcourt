@@ -6,7 +6,7 @@ import { registerPage } from '../../hocs/register-page'
 import { useStore } from '../../stores/root-store/context'
 import { Avatar } from '../../components/avatar'
 import { Slider } from '../../components/card-slider/slider'
-import { getCardHeightByWidth } from '../../lib/cards'
+import { getCardHeightByWidth } from '../../utils/cards'
 import { SliderConfig, CardSlider } from '../../stores/card-slider'
 import { Preloader } from '../../components/icons/preloader'
 
