@@ -133,7 +133,9 @@ export class CardSlider {
   private getCardForSlider({ params, fnWithUpdatingCards }: LoadCardsConfig): Promise<CardsResponse> {
     const fnToCall: FnToCallAfterRequest = (data) => {
       fnWithUpdatingCards(data)
-      this.setMaxLoadedPage(data.maxLoadedPage)
+      if(data.maxLoadedPage > this.maxLoadedPage) {
+        this.setMaxLoadedPage(data.maxLoadedPage)
+      }
       this.setPageCount(data.pageCount)
     }
     return getCards({ params, fnToCall })
