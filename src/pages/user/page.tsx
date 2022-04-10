@@ -34,7 +34,7 @@ export const UserPage: React.FC = registerPage(
 
     //Если загрузили инфу и карточки пользователя - создаем слайдер
     useEffect(() => {
-      if (user) {
+      if (user && !userCardsSliderStore) {
         const userCardsSliderStoreConfig: SliderConfig = {
           cards: user.cards.created,
           cardsToSlide: 3,
