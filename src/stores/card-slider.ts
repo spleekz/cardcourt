@@ -47,8 +47,6 @@ export class CardSlider {
     this.page--
   }
 
-  pageSize = 5
-
   search = ''
   setSearchAndReset(value: string): void {
     this.search = value
@@ -63,13 +61,13 @@ export class CardSlider {
 
   //Дефолтные параметры запросов
   private get loadCardsDefaultParams(): GetCardsParams {
-    return { page: 1, pagesToLoad: 2, pageSize: this.pageSize, search: this.search, by: '' }
+    return { page: 1, pagesToLoad: 2, pageSize: this.cardsToShow, search: this.search, by: '' }
   }
   private get loadMoreCardsDefaultParams(): GetCardsParams {
     return {
       page: this.maxLoadedPage + 1,
       pagesToLoad: 2,
-      pageSize: this.pageSize,
+      pageSize: this.cardsToShow,
       search: this.search,
       by: '',
     }
