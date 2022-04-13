@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { Cards, GetCardsParams, CardsResponse } from '../api/api'
-import { FnToCallAfterRequest, getCards } from '../api'
+import { api, FnToCallAfterRequest, getCards } from '../api'
 import { WithBoolean } from './entities/with-boolean'
 import { ActionToUpdateCards } from './utility-types'
 
@@ -29,7 +29,7 @@ export interface SliderConfig {
 }
 
 export class CardSlider {
-  cards: Cards
+  cards: Cards = []
 
   cardsToShow: number
   cardsToSlide: number
@@ -78,8 +78,6 @@ export class CardSlider {
   private loadMoreCardsConfig: SliderLoadCardsConfig
 
   constructor(config: SliderConfig) {
-    this.cards = config.cards
-
     this.loadCardsConfig = config.loadCardsConfig
     this.loadMoreCardsConfig = config.loadMoreCardsConfig
 
@@ -88,7 +86,51 @@ export class CardSlider {
     this.cardWidth = config.cardWidth
     this.cardHeight = config.cardHeight
 
-    this.maxLoadedPage = this.cards.length / this.cardsToShow
+    this.cards = config.cards
+
+    const configCardCount = config.cards.length
+    //!Догружаем карточки до полной страницы, если возможно
+    if (configCardCount !== 0) {
+      //Запрос за количеством карточек по этому запросу, чтобы узнать, все ли карточки есть в конфиге
+      api.cardCount
+        .getCardCount({
+          pageSize: this.cardsToShow,
+          search: this.search,
+          by: this.loadMoreCardsConfig.params.by,
+        })
+        .then((res) => {
+          const { pageCount, cardCount } = res.data
+
+          this.pageCount = pageCount
+
+          //Если в конфиге нецелое число страниц и ещё есть карточки по этому запросу
+          if (configCardCount % this.cardsToShow !== 0 && cardCount > configCardCount) {
+            const loadCardsToFullPageParams: GetCardsParams = {
+              page: configCardCount + 1,
+              pagesToLoad: this.cardsToShow - (configCardCount % this.cardsToShow),
+              pageSize: 1,
+              search: this.search,
+              by: this.loadMoreCardsConfig.params.by,
+            }
+            const fnToCall: FnToCallAfterRequest = (data) => {
+              this.loadMoreCardsConfig.actionToUpdateCards(data.cards)
+              this.maxLoadedPage = this.cards.length / this.cardsToShow
+            }
+            //Догружаем карточки в хранилище
+            getCards({
+              params: loadCardsToFullPageParams,
+              fnToCall,
+            })
+          } else {
+            //Если в конфиге целое число страниц
+            this.maxLoadedPage = this.cards.length / this.cardsToShow
+          }
+        })
+    } else {
+      //Если карточек в конфиге нет
+      this.pageCount = 0
+      this.maxLoadedPage = 0
+    }
 
     makeAutoObservable(this, {}, { autoBind: true })
   }

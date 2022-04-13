@@ -91,6 +91,11 @@ export type UpdatedCard = Id & EditedCardFields;
 
 export type Cards = Card[];
 
+export interface CardCountResponse {
+  pageCount: number;
+  cardCount: number;
+}
+
 export interface CardsResponse {
   cards: Cards;
   maxLoadedPage: number;
@@ -104,6 +109,17 @@ export interface GetCardsParams {
   /** Количество страниц, которое нужно загрузить, начиная с page включительно */
   pagesToLoad?: number;
 
+  /** Размер одной страницы (по умолчанию - 5) */
+  pageSize?: number;
+
+  /** Поисковый запрос */
+  search?: string;
+
+  /** Имя автора карточек */
+  by?: string;
+}
+
+export interface GetCardCountParams {
   /** Размер одной страницы (по умолчанию - 5) */
   pageSize?: number;
 
@@ -187,6 +203,24 @@ export namespace Cards {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = CardsResponse;
+  }
+}
+
+export namespace CardCount {
+  /**
+   * No description
+   * @tags cards
+   * @name GetCardCount
+   * @summary Получить количество страниц карточек, существующих по этому запросу
+   * @request GET:/cardCount
+   * @response `200` `CardCountResponse` Количество страниц
+   */
+  export namespace GetCardCount {
+    export type RequestParams = {};
+    export type RequestQuery = { pageSize?: number; search?: string; by?: string };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CardCountResponse;
   }
 }
 
@@ -570,6 +604,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     getCards: (query: GetCardsParams, params: RequestParams = {}) =>
       this.request<CardsResponse, MessageResponse>({
         path: `/cards`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
+  cardCount = {
+    /**
+     * No description
+     *
+     * @tags cards
+     * @name GetCardCount
+     * @summary Получить количество страниц карточек, существующих по этому запросу
+     * @request GET:/cardCount
+     * @response `200` `CardCountResponse` Количество страниц
+     */
+    getCardCount: (query: GetCardCountParams, params: RequestParams = {}) =>
+      this.request<CardCountResponse, any>({
+        path: `/cardCount`,
         method: "GET",
         query: query,
         format: "json",
