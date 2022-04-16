@@ -40,18 +40,18 @@ export const App: React.FC = observer(() => {
       cardHeight: 500,
       cardsToShow: 5,
       cardsToSlide: 5,
+
+      paramsForCardRequest: {
+        search: '',
+        by: '',
+      },
+
       loadCardsConfig: {
-        params: {
-          pagesToLoad: 2,
-          pageSize: 5,
-        },
+        pagesToLoad: 2,
         actionToUpdateCards: cardsStore.setCards,
       },
       loadMoreCardsConfig: {
-        params: {
-          pagesToLoad: 2,
-          pageSize: 5,
-        },
+        pagesToLoad: 2,
         actionToUpdateCards: cardsStore.pushCards,
       },
     })

@@ -8,9 +8,15 @@ interface LoadCardsConfig {
   params: GetCardsParams
   fnWithUpdatingCards: FnToCallAfterRequest
 }
+
 interface SliderLoadCardsConfig {
-  params: GetCardsParams
+  pagesToLoad: number
   actionToUpdateCards: ActionToUpdateCards
+}
+
+interface ParamsForCardRequest {
+  search?: string
+  by?: string
 }
 
 export interface SliderConfig {
@@ -18,6 +24,8 @@ export interface SliderConfig {
   cards: Cards
 
   //Конфиги для загрузки карточек
+  paramsForCardRequest: ParamsForCardRequest
+
   loadCardsConfig: SliderLoadCardsConfig
   loadMoreCardsConfig: SliderLoadCardsConfig
 
@@ -47,9 +55,8 @@ export class CardSlider {
     this.page--
   }
 
-  search = ''
   setSearchAndReset(value: string): void {
-    this.search = value
+    this.paramsForCardRequest.search = value
     this.resetAndFillWithCards()
   }
 
@@ -61,23 +68,32 @@ export class CardSlider {
 
   //Дефолтные параметры запросов
   private get loadCardsDefaultParams(): GetCardsParams {
-    return { page: 1, pagesToLoad: 2, pageSize: this.cardsToShow, search: this.search, by: '' }
+    return {
+      page: 1,
+      pagesToLoad: 2,
+      pageSize: this.cardsToShow,
+      search: this.paramsForCardRequest.search,
+      by: this.paramsForCardRequest.by,
+    }
   }
   private get loadMoreCardsDefaultParams(): GetCardsParams {
     return {
       page: this.maxLoadedPage + 1,
       pagesToLoad: 2,
       pageSize: this.cardsToShow,
-      search: this.search,
-      by: '',
+      search: this.paramsForCardRequest.search,
+      by: this.paramsForCardRequest.by,
     }
   }
 
   //Пользовательские конфиги для запросов
+  paramsForCardRequest: ParamsForCardRequest
   private loadCardsConfig: SliderLoadCardsConfig
   private loadMoreCardsConfig: SliderLoadCardsConfig
 
   constructor(config: SliderConfig) {
+    this.paramsForCardRequest = config.paramsForCardRequest
+
     this.loadCardsConfig = config.loadCardsConfig
     this.loadMoreCardsConfig = config.loadMoreCardsConfig
 
@@ -95,8 +111,8 @@ export class CardSlider {
       api.cardCount
         .getCardCount({
           pageSize: this.cardsToShow,
-          search: this.search,
-          by: this.loadMoreCardsConfig.params.by,
+          search: this.paramsForCardRequest.search,
+          by: this.paramsForCardRequest.by,
         })
         .then((res) => {
           const { pageCount, cardCount } = res.data
@@ -109,8 +125,6 @@ export class CardSlider {
               page: configCardCount + 1,
               pagesToLoad: this.cardsToShow - (configCardCount % this.cardsToShow),
               pageSize: 1,
-              search: this.search,
-              by: this.loadMoreCardsConfig.params.by,
             }
             const fnToCall: FnToCallAfterRequest = (data) => {
               this.loadMoreCardsConfig.actionToUpdateCards(data.cards)
@@ -184,9 +198,9 @@ export class CardSlider {
   loadCards(): Promise<CardsResponse> {
     this.isLoading.set(true)
 
-    const { params, actionToUpdateCards } = this.loadCardsConfig
+    const { pagesToLoad, actionToUpdateCards } = this.loadCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
-    const fullParams = { ...this.loadCardsDefaultParams, ...params }
+    const fullParams = { ...this.loadCardsDefaultParams, pagesToLoad }
 
     const loadCardsСonfig: LoadCardsConfig = {
       params: fullParams,
@@ -201,9 +215,9 @@ export class CardSlider {
   }
 
   loadMoreCards(): Promise<CardsResponse> {
-    const { params, actionToUpdateCards } = this.loadMoreCardsConfig
+    const { pagesToLoad, actionToUpdateCards } = this.loadMoreCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
-    const fullParams = { ...this.loadMoreCardsDefaultParams, ...params }
+    const fullParams = { ...this.loadMoreCardsDefaultParams, pagesToLoad }
 
     const loadMoreCardsConfig: LoadCardsConfig = {
       params: fullParams,

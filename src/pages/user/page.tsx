@@ -41,20 +41,18 @@ export const UserPage: React.FC = registerPage(
           cardsToShow: 3,
           cardWidth: cardWidthForSlider,
           cardHeight: cardHeightForSlider,
+
+          paramsForCardRequest: {
+            search: '',
+            by: user.info.name,
+          },
+
           loadCardsConfig: {
-            params: {
-              pagesToLoad: 2,
-              pageSize: 3,
-              by: user.info.name,
-            },
+            pagesToLoad: 2,
             actionToUpdateCards: usersStore.setUserCards,
           },
           loadMoreCardsConfig: {
-            params: {
-              pagesToLoad: 2,
-              pageSize: 3,
-              by: user.info.name,
-            },
+            pagesToLoad: 2,
             actionToUpdateCards: usersStore.pushUserCards,
           },
         }
