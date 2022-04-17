@@ -28,11 +28,11 @@ export const CardPage: React.FC = registerPage(
         <CardContainer>
           <FullCard card={card} width={cardWidth} height={cardHeight} />
           <Icons>
-            <Icon>
-              <Link to={`edit`}>
+            <Link to={`edit`}>
+              <Icon>
                 <PencilIcon />
-              </Link>
-            </Icon>
+              </Icon>
+            </Link>
             <Icon onClick={() => cardsStore.deleteCard(card._id)}>
               <XIcon />
             </Icon>
