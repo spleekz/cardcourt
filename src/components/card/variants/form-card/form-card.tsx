@@ -98,7 +98,7 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
               anchorRef={anchorRef}
             />
 
-            <SubmitButton color={cardHeadColor} type='submit'>
+            <SubmitButton type='submit'>
               {isEditCard ? 'Обновить карточку' : 'Создать карточку'}
             </SubmitButton>
           </CardTemplate>
@@ -125,7 +125,7 @@ const CardName = styled(CardNameInput)`
 const CardAuthor = styled(CardAuthorDiv)`
   font-size: 22px;
 `
-const SubmitButton = styled.button<{ color: string }>`
+const SubmitButton = styled.button`
   font-weight: bold;
   width: 100%;
   font-size: 28px;
