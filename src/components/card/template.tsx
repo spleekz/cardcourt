@@ -37,7 +37,7 @@ export const CardTemplate: React.FC<Props> = ({ width, height, headColor, bodyCo
         {cardBody}
       </CardBody>
 
-      <CardFooter ref={footerRef}> {cardFooter}</CardFooter>
+      <CardFooter ref={footerRef}>{cardFooter}</CardFooter>
     </Container>
   )
 }

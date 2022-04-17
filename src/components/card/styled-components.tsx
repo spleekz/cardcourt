@@ -16,3 +16,11 @@ export const CardNameInput = styled.input`
 export const CardAuthorDiv = styled.div`
   color: #606060;
 `
+
+export const CardFooterButton = styled.button`
+  width: 100%;
+  padding: 4px;
+  font-size: 28px;
+  font-weight: bold;
+  background-color: transparent;
+`

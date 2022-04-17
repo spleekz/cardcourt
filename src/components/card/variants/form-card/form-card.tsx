@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { SendedCard, UpdatedCard } from '../../../../api/api'
 import { usePopupContext } from '../../../../app'
 import { useStore } from '../../../../stores/root-store/context'
-import { CardAuthorDiv, CardNameInput } from '../../styled-components'
+import { CardAuthorDiv, CardFooterButton, CardNameInput } from '../../styled-components'
 import { CardTemplate } from '../../template'
 import { CardVariantComponent, PropsForCardForm } from '../types'
 import { FormCardBody } from './body/body'
@@ -125,10 +125,4 @@ const CardName = styled(CardNameInput)`
 const CardAuthor = styled(CardAuthorDiv)`
   font-size: 22px;
 `
-const SubmitButton = styled.button`
-  font-weight: bold;
-  width: 100%;
-  font-size: 28px;
-  padding: 4px;
-  background-color: transparent;
-`
+const SubmitButton = styled(CardFooterButton)``
