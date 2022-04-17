@@ -4,33 +4,10 @@ import styled from 'styled-components'
 import { SendedCard, SendedCardWords } from '../../../../../api/api'
 import { FormWordPair } from './word-pair'
 
-//!WordList
-interface PropsForWords {
+interface PropsForBody {
   fields: FieldArrayWithId<SendedCard, 'words', 'id'>[]
   watchedFields: SendedCardWords
   remove: (index: number) => void
-}
-const FormCardWords: React.FC<PropsForWords> = ({ fields, remove, watchedFields }) => {
-  return (
-    <FormCardWordsContainer>
-      {fields.map((words, index) => {
-        return (
-          <FormWordPair
-            key={words.id}
-            removePair={() => remove(index)}
-            fields={watchedFields}
-            index={index}
-          />
-        )
-      })}
-    </FormCardWordsContainer>
-  )
-}
-
-const FormCardWordsContainer = styled.div``
-
-//!Body
-interface PropsForBody extends PropsForWords {
   topRef: RefObject<HTMLDivElement>
   anchorRef: RefObject<HTMLDivElement>
   addNewWordPair(): void
@@ -45,6 +22,17 @@ export const FormCardBody: React.FC<PropsForBody> = ({
   anchorRef,
   addNewWordPair,
 }) => {
+  const cardWords = fields.map((words, index) => {
+    return (
+      <FormWordPair
+        key={words.id}
+        removePair={() => remove(index)}
+        fields={watchedFields}
+        index={index}
+      />
+    )
+  })
+
   return (
     <>
       <div
@@ -54,7 +42,7 @@ export const FormCardBody: React.FC<PropsForBody> = ({
         }}
       />
 
-      <FormCardWords fields={fields} remove={remove} watchedFields={watchedFields} />
+      <CardWordsContainer>{cardWords}</CardWordsContainer>
 
       <AddWordPairButtonContainer ref={anchorRef}>
         <AddWordPairButton color={headColor} type='button' onClick={addNewWordPair}>
@@ -76,3 +64,4 @@ const AddWordPairButton = styled.button<{ color: string }>`
   border-radius: 5px;
   background-color: ${(props) => props.color};
 `
+const CardWordsContainer = styled.div``

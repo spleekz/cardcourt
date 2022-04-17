@@ -1,31 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { CardWords } from '../../../api/api'
-import { CardAuthorDiv, CardNameDiv } from '../card-shared-components/heading'
 import { CardWordPairBlock } from '../card-shared-components/body'
+import { CardAuthorDiv, CardNameDiv } from '../card-shared-components/heading'
 import { CardTemplate } from '../template'
 import { CardVariantComponent } from './types'
 
-const SliderCardBody: React.FC<{ words: CardWords }> = ({ words }) => {
-  return (
-    <>
-      {words.map((word) => {
-        return (
-          <WordPairContainer key={word._id}>
-            {word.en}-{word.ru}
-          </WordPairContainer>
-        )
-      })}
-    </>
-  )
-}
-const WordPairContainer = styled(CardWordPairBlock)`
-  text-align: center;
-  font-size: 28px;
-`
-
 export const SliderCard: CardVariantComponent = ({ card, width, height }) => {
+  const cardWords = card.words.map((word) => {
+    return (
+      <WordPairContainer key={word._id}>
+        {word.en}-{word.ru}
+      </WordPairContainer>
+    )
+  })
+
   return (
     <CardTemplate
       width={width}
@@ -40,7 +29,7 @@ export const SliderCard: CardVariantComponent = ({ card, width, height }) => {
         <CardAuthor>{card.author.name}</CardAuthor>
       </CardHeading>
 
-      <SliderCardBody words={card.words} />
+      <CardWordsContainer>{cardWords}</CardWordsContainer>
     </CardTemplate>
   )
 }
@@ -59,4 +48,9 @@ const CardName = styled(CardNameDiv)`
 const CardAuthor = styled(CardAuthorDiv)`
   font-size: 21px;
   margin-top: -4px;
+`
+const CardWordsContainer = styled.div``
+const WordPairContainer = styled(CardWordPairBlock)`
+  text-align: center;
+  font-size: 28px;
 `
