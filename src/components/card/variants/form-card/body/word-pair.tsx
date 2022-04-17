@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { SendedCardWords } from '../../../../../api/api'
 import { XIcon } from '../../../../icons/x-icon'
-import { CardWordPairBlock } from '../../../card-styled-components'
+import { CardWordPairBlock } from '../../../card-shared-components/body'
 import { FormWordInput } from './word-input/word-input'
 
 interface IFormWordPair {
