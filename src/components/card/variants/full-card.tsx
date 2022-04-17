@@ -1,7 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { CardWords } from '../../../api/api'
-import { CardAuthorDiv, CardNameDiv } from '../styled-components'
+import { CardAuthorDiv, CardFooterButton, CardNameDiv } from '../styled-components'
 import { CardTemplate } from '../template'
 import { CardVariantComponent } from './types'
 
@@ -48,6 +49,9 @@ export const FullCard: CardVariantComponent = ({ card, width, height }) => {
         <CardAuthor>{card.author.name}</CardAuthor>
       </CardHeading>
       <FullCardBody words={card.words} />
+      <Link to={`/card/${card._id}/check`}>
+        <GoToCardCheck>Проверить</GoToCardCheck>
+      </Link>
     </CardTemplate>
   )
 }
@@ -61,3 +65,4 @@ const CardName = styled(CardNameDiv)`
 const CardAuthor = styled(CardAuthorDiv)`
   font-size: 22px;
 `
+const GoToCardCheck = styled(CardFooterButton)``
