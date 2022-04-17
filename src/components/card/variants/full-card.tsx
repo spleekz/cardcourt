@@ -60,5 +60,4 @@ const CardName = styled(CardNameDiv)`
 `
 const CardAuthor = styled(CardAuthorDiv)`
   font-size: 22px;
-  margin-top: -3px;
 `
