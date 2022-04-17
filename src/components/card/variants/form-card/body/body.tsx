@@ -12,7 +12,7 @@ interface PropsForWords {
 }
 const FormCardWords: React.FC<PropsForWords> = ({ fields, remove, watchedFields }) => {
   return (
-    <>
+    <FormCardWordsContainer>
       {fields.map((words, index) => {
         return (
           <FormWordPair
@@ -23,9 +23,11 @@ const FormCardWords: React.FC<PropsForWords> = ({ fields, remove, watchedFields 
           />
         )
       })}
-    </>
+    </FormCardWordsContainer>
   )
 }
+
+const FormCardWordsContainer = styled.div``
 
 //!Body
 interface PropsForBody extends PropsForWords {
@@ -52,11 +54,7 @@ export const FormCardBody: React.FC<PropsForBody> = ({
         }}
       />
 
-      <FormCardWords
-        fields={fields}
-        remove={remove}
-        watchedFields={watchedFields}
-      />
+      <FormCardWords fields={fields} remove={remove} watchedFields={watchedFields} />
 
       <AddWordPairButtonContainer ref={anchorRef}>
         <AddWordPairButton color={headColor} type='button' onClick={addNewWordPair}>

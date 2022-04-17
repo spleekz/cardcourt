@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { SendedCardWords } from '../../../../../api/api'
 import { XIcon } from '../../../../icons/x-icon'
+import { CardWordPairBlock } from '../../../card-styled-components'
 import { FormWordInput } from './word-input/word-input'
 
 interface IFormWordPair {
@@ -32,10 +33,9 @@ export const FormWordPair: React.FC<IFormWordPair> = ({ removePair, fields, inde
   )
 }
 
-const Container = styled.div`
+const Container = styled(CardWordPairBlock)`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
 `
 const PairBlock = styled.div`
   width: 93%;

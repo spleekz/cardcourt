@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { CardWords } from '../../../api/api'
-import { CardAuthorDiv, CardFooterButton, CardNameDiv } from '../styled-components'
+import { CardAuthorDiv, CardFooterButton, CardNameDiv, CardWordPairBlock } from '../card-styled-components'
 import { CardTemplate } from '../template'
 import { CardVariantComponent } from './types'
 
@@ -22,8 +22,9 @@ const FullCardBody: React.FC<{ words: CardWords }> = ({ words }) => {
   )
 }
 
-const WordPairContainer = styled.div`
+const WordPairContainer = styled(CardWordPairBlock)`
   display: flex;
+  align-items: center;
 `
 const WordContainer = styled.div<{ textAlign: string }>`
   font-size: 24px;
@@ -50,7 +51,7 @@ export const FullCard: CardVariantComponent = ({ card, width, height }) => {
       </CardHeading>
       <FullCardBody words={card.words} />
       <Link to={`/card/${card._id}/check`}>
-        <GoToCardCheck>Проверить</GoToCardCheck>
+        <GoToCardCheck>Проверить себя </GoToCardCheck>
       </Link>
     </CardTemplate>
   )

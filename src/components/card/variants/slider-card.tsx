@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { CardWords } from '../../../api/api'
-import { CardAuthorDiv, CardNameDiv } from '../styled-components'
+import { CardAuthorDiv, CardNameDiv, CardWordPairBlock } from '../card-styled-components'
 import { CardTemplate } from '../template'
 import { CardVariantComponent } from './types'
 
@@ -11,15 +11,15 @@ const SliderCardBody: React.FC<{ words: CardWords }> = ({ words }) => {
     <>
       {words.map((word) => {
         return (
-          <WordPaitContainer key={word._id}>
+          <WordPairContainer key={word._id}>
             {word.en}-{word.ru}
-          </WordPaitContainer>
+          </WordPairContainer>
         )
       })}
     </>
   )
 }
-const WordPaitContainer = styled.div`
+const WordPairContainer = styled(CardWordPairBlock)`
   text-align: center;
   font-size: 28px;
 `
