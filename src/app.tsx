@@ -41,7 +41,7 @@ export const App: React.FC = observer(() => {
       cardsToShow: 5,
       cardsToSlide: 5,
 
-      paramsForCardRequest: {
+      initialParamsForCardRequest: {
         search: '',
         by: '',
       },

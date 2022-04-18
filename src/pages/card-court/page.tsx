@@ -14,13 +14,12 @@ export const CardCourtPage: React.FC = registerPage(
     const mainSlider = useMainSlider()
     const [searchParams] = useSearchParams()
 
-    // Поток: вводим поиск -> устанавливаем поиск в url -> компонент заново рендерится
-    // -> сетаем поиск в слайдер -> слайдер изнутри заново заполняется карточками
+    //поток: вводим поиск -> сетаем его в url ->
+    //сетаем его в слайдер (если поиска нет, он заменится в слайдере на initial поиск) ->
+    //слайдер изнутри грузит карточки по новову запросу
     useEffect(() => {
-      const search = searchParams.get('query') || ''
-      if (mainSlider.cards.length === 0 || search !== mainSlider.paramsForCardRequest.search) {
-        mainSlider.setSearchAndReset(search)
-      }
+      const search = searchParams.get('query')
+      mainSlider.setSearchAndReset(search)
     }, [searchParams])
 
     if (mainSlider.isLoading.value) {

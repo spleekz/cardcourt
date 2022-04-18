@@ -42,7 +42,7 @@ export const UserPage: React.FC = registerPage(
           cardWidth: cardWidthForSlider,
           cardHeight: cardHeightForSlider,
 
-          paramsForCardRequest: {
+          initialParamsForCardRequest: {
             search: '',
             by: user.info.name,
           },

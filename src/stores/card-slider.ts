@@ -15,8 +15,8 @@ interface SliderLoadCardsConfig {
 }
 
 interface ParamsForCardRequest {
-  search?: string
-  by?: string
+  search: string
+  by: string
 }
 
 export interface SliderConfig {
@@ -24,7 +24,7 @@ export interface SliderConfig {
   cards: Cards
 
   //Конфиги для загрузки карточек
-  paramsForCardRequest: ParamsForCardRequest
+  initialParamsForCardRequest: ParamsForCardRequest
 
   loadCardsConfig: SliderLoadCardsConfig
   loadMoreCardsConfig: SliderLoadCardsConfig
@@ -55,8 +55,12 @@ export class CardSlider {
     this.page--
   }
 
-  setSearchAndReset(value: string): void {
-    this.paramsForCardRequest.search = value
+  private setSearch(search: string): void {
+    this.actualForCardRequest.search = search
+  }
+  setSearchAndReset(value: string | null): void {
+    const search = value || this.initialSearch
+    this.setSearch(search)
     this.resetAndFillWithCards()
   }
 
@@ -72,8 +76,8 @@ export class CardSlider {
       page: 1,
       pagesToLoad: 2,
       pageSize: this.cardsToShow,
-      search: this.paramsForCardRequest.search,
-      by: this.paramsForCardRequest.by,
+      search: this.search,
+      by: this.by,
     }
   }
   private get loadMoreCardsDefaultParams(): GetCardsParams {
@@ -81,18 +85,34 @@ export class CardSlider {
       page: this.maxLoadedPage + 1,
       pagesToLoad: 2,
       pageSize: this.cardsToShow,
-      search: this.paramsForCardRequest.search,
-      by: this.paramsForCardRequest.by,
+      search: this.search,
+      by: this.by,
     }
   }
 
   //Пользовательские конфиги для запросов
-  paramsForCardRequest: ParamsForCardRequest
+  initialParamsForCardRequest: ParamsForCardRequest
+  actualForCardRequest: ParamsForCardRequest
+
+  get initialSearch(): string {
+    return this.initialParamsForCardRequest.search
+  }
+  get initialBy(): string {
+    return this.initialParamsForCardRequest.by
+  }
+
+  get search(): string {
+    return this.actualForCardRequest.search
+  }
+  get by(): string {
+    return this.actualForCardRequest.by
+  }
+
   private loadCardsConfig: SliderLoadCardsConfig
   private loadMoreCardsConfig: SliderLoadCardsConfig
 
   constructor(config: SliderConfig) {
-    this.paramsForCardRequest = config.paramsForCardRequest
+    this.actualForCardRequest = this.initialParamsForCardRequest = config.initialParamsForCardRequest
 
     this.loadCardsConfig = config.loadCardsConfig
     this.loadMoreCardsConfig = config.loadMoreCardsConfig
@@ -111,8 +131,8 @@ export class CardSlider {
       api.cardCount
         .getCardCount({
           pageSize: this.cardsToShow,
-          search: this.paramsForCardRequest.search,
-          by: this.paramsForCardRequest.by,
+          search: this.search,
+          by: this.by,
         })
         .then((res) => {
           const { pageCount, cardCount } = res.data
