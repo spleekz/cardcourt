@@ -8,7 +8,7 @@ import { CardVariantComponent } from './types'
 import { CardWordPairBlock } from '../card-shared-components/body'
 
 export const FullCard: CardVariantComponent = ({ card, width, height }) => {
-  const cardWords = card.words.map((word) => {
+  const wordPairs = card.words.map((word) => {
     return (
       <WordPairContainer key={word._id}>
         <WordContainer textAlign='right'>{word.en}</WordContainer>
@@ -30,7 +30,7 @@ export const FullCard: CardVariantComponent = ({ card, width, height }) => {
         <CardAuthor>{card.author.name}</CardAuthor>
       </CardHeading>
 
-      <CardWordsContainer>{cardWords}</CardWordsContainer>
+      <CardWordsContainer>{wordPairs}</CardWordsContainer>
 
       <Link to={`/card/${card._id}/check`}>
         <GoToCardCheck>Проверить себя </GoToCardCheck>

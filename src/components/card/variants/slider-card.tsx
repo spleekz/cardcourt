@@ -7,7 +7,7 @@ import { CardTemplate } from '../template'
 import { CardVariantComponent } from './types'
 
 export const SliderCard: CardVariantComponent = ({ card, width, height }) => {
-  const cardWords = card.words.map((word) => {
+  const wordPairs = card.words.map((word) => {
     return (
       <WordPairContainer key={word._id}>
         {word.en}-{word.ru}
@@ -29,7 +29,7 @@ export const SliderCard: CardVariantComponent = ({ card, width, height }) => {
         <CardAuthor>{card.author.name}</CardAuthor>
       </CardHeading>
 
-      <CardWordsContainer>{cardWords}</CardWordsContainer>
+      <CardWordsContainer>{wordPairs}</CardWordsContainer>
     </CardTemplate>
   )
 }

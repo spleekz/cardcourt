@@ -20,11 +20,11 @@ export const FormWordPair: React.FC<IFormWordPair> = ({ removePair, fields, inde
 
   return (
     <Container>
-      <PairBlock>
+      <WordPairBlock>
         <FormWordInput inputValue={fields[index].en} index={index} lang='en' />
         <Dash>—</Dash>
         <FormWordInput inputValue={fields[index].ru} index={index} lang='ru' />
-      </PairBlock>
+      </WordPairBlock>
 
       <DeletePairButton type='button' onClick={deleteWordPair}>
         <XIcon />
@@ -37,7 +37,7 @@ const Container = styled(CardWordPairBlock)`
   display: flex;
   justify-content: space-between;
 `
-const PairBlock = styled.div`
+const WordPairBlock = styled.div`
   width: 93%;
   display: flex;
   justify-content: space-between;

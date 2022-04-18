@@ -22,7 +22,7 @@ export const FormCardBody: React.FC<PropsForBody> = ({
   anchorRef,
   addNewWordPair,
 }) => {
-  const cardWords = fields.map((words, index) => {
+  const wordPairs = fields.map((words, index) => {
     return (
       <FormWordPair
         key={words.id}
@@ -42,7 +42,7 @@ export const FormCardBody: React.FC<PropsForBody> = ({
         }}
       />
 
-      <CardWordsContainer>{cardWords}</CardWordsContainer>
+      <CardWordsContainer>{wordPairs}</CardWordsContainer>
 
       <AddWordPairButtonContainer ref={anchorRef}>
         <AddWordPairButton color={headColor} type='button' onClick={addNewWordPair}>
