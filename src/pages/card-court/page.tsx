@@ -5,7 +5,7 @@ import { registerPage } from '../../hocs/register-page'
 import { Search } from './search'
 import { Court } from './court/court'
 import { useMainSlider } from '../../app'
-import { Preloader } from '../../components/icons/preloader'
+import { ScreenPreloader } from '../../components/icons/screen-preloader'
 import { useSearchParams } from 'react-router-dom'
 import { PortalToBody } from '../../components/portal-to-body'
 
@@ -25,7 +25,7 @@ export const CardCourtPage: React.FC = registerPage(
     if (mainSlider.isLoading.value) {
       return (
         <PortalToBody>
-          <Preloader />
+          <ScreenPreloader />
         </PortalToBody>
       )
     }

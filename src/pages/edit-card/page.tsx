@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useCardFromURL } from '../../hooks/use-card-from-url'
 import { registerPage } from '../../hocs/register-page'
-import { Preloader } from '../../components/icons/preloader'
+import { ScreenPreloader } from '../../components/icons/screen-preloader'
 import { FormCard } from '../../components/card/variants/form-card/form-card'
 import { getCardWidthByHeight } from '../../utils/cards'
 
@@ -12,7 +12,7 @@ export const EditCardPage: React.FC = registerPage(
     const card = useCardFromURL()
 
     if (!card) {
-      return <Preloader />
+      return <ScreenPreloader />
     }
 
     const cardHeight = 780

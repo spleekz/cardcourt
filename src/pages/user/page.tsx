@@ -8,7 +8,7 @@ import { Avatar } from '../../components/avatar'
 import { Slider } from '../../components/card-slider/slider'
 import { getCardHeightByWidth } from '../../utils/cards'
 import { SliderConfig, CardSlider } from '../../stores/card-slider'
-import { Preloader } from '../../components/icons/preloader'
+import { ScreenPreloader } from '../../components/icons/screen-preloader'
 
 export const UserPage: React.FC = registerPage(
   observer(() => {
@@ -61,7 +61,7 @@ export const UserPage: React.FC = registerPage(
     }, [user])
 
     if (!user) {
-      return <Preloader />
+      return <ScreenPreloader />
     }
 
     return (

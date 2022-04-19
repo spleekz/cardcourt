@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import { registerPage } from '../../hocs/register-page'
-import { Preloader } from '../../components/icons/preloader'
+import { ScreenPreloader } from '../../components/icons/screen-preloader'
 import { useCardFromURL } from '../../hooks/use-card-from-url'
 import { getCardWidthByHeight } from '../../utils/cards'
 import { FullCard } from '../../components/card/variants/full-card'
@@ -17,7 +17,7 @@ export const CardPage: React.FC = registerPage(
     const card = useCardFromURL()
 
     if (!card) {
-      return <Preloader />
+      return <ScreenPreloader />
     }
 
     const cardHeight = 780
