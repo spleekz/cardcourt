@@ -19,8 +19,8 @@ export class CardsStore {
     height: cardConfig.height,
   }
   defaultCardUi: CardUI = {
-    headColor: cardConfig.headColor,
     bodyColor: cardConfig.bodyColor,
+    wordsColor: cardConfig.wordsColor,
   }
 
   cards: Cards = []

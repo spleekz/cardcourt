@@ -11,11 +11,11 @@ interface PropsForBody {
   topRef: RefObject<HTMLDivElement>
   anchorRef: RefObject<HTMLDivElement>
   addNewWordPair(): void
-  headColor: string
+  bodyColor: string
 }
 export const FormCardBody: React.FC<PropsForBody> = ({
   fields,
-  headColor,
+  bodyColor,
   remove,
   watchedFields,
   topRef,
@@ -45,7 +45,7 @@ export const FormCardBody: React.FC<PropsForBody> = ({
       <CardWordsContainer>{wordPairs}</CardWordsContainer>
 
       <AddWordPairButtonContainer ref={anchorRef}>
-        <AddWordPairButton color={headColor} type='button' onClick={addNewWordPair}>
+        <AddWordPairButton color={bodyColor} type='button' onClick={addNewWordPair}>
           +
         </AddWordPairButton>
       </AddWordPairButtonContainer>

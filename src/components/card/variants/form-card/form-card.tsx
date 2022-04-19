@@ -18,8 +18,8 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
     const isEditCard = card !== null
 
     const { cardDone } = usePopupContext()
-    const cardHeadColor = isEditCard ? card.ui.headColor : cardsStore.defaultCardUi.headColor
     const cardBodyColor = isEditCard ? card.ui.bodyColor : cardsStore.defaultCardUi.bodyColor
+    const cardWordsColor = isEditCard ? card.ui.wordsColor : cardsStore.defaultCardUi.wordsColor
 
     const anchorRef = useRef<HTMLDivElement>(null)
     const topRef = useRef<HTMLDivElement>(null)
@@ -55,8 +55,8 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
     //!Функции для сабмита
     const createNewCard: SubmitHandler<SendedCard> = (card) => {
       card.ui = {
-        headColor: cardHeadColor,
         bodyColor: cardBodyColor,
+        wordsColor: cardWordsColor,
       }
       cardsStore.addCard(card)
       cardDone.set(true)
@@ -77,8 +77,8 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
           <CardTemplate
             width={width}
             height={height}
-            headColor={cardHeadColor}
             bodyColor={cardBodyColor}
+            wordsColor={cardWordsColor}
           >
             <CardHeading>
               <CardName
@@ -91,7 +91,7 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
 
             <FormCardBody
               fields={fields}
-              headColor={cardHeadColor}
+              bodyColor={cardBodyColor}
               remove={remove}
               addNewWordPair={addNewWordPair}
               watchedFields={watchedFields}

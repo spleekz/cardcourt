@@ -51,8 +51,8 @@ export interface Me {
 }
 
 export interface CardUI {
-  headColor: string;
   bodyColor: string;
+  wordsColor: string;
 }
 
 export interface CardAuthor {

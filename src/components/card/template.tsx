@@ -4,13 +4,13 @@ import styled from 'styled-components'
 interface Props {
   width: number
   height: number
-  headColor: string
   bodyColor: string
+  wordsColor: string
 }
 
 //В CardTemplate можно передать только ТРИ узла - заглавие(состоит из имени карточки и ее автора),
 //тело карточки и футер (если нужен)
-export const CardTemplate: React.FC<Props> = ({ width, height, headColor, bodyColor, children }) => {
+export const CardTemplate: React.FC<Props> = ({ width, height, bodyColor, wordsColor, children }) => {
   const childrenArray = React.Children.toArray(children)
   const [cardHeading, cardBody, cardFooter] = childrenArray
 
@@ -30,10 +30,10 @@ export const CardTemplate: React.FC<Props> = ({ width, height, headColor, bodyCo
   }, [headingRef, footerRef])
 
   return (
-    <Container width={width} height={height} color={headColor}>
+    <Container width={width} height={height} color={bodyColor}>
       <CardHeading ref={headingRef}>{cardHeading}</CardHeading>
 
-      <CardBody height={bodyHeight} color={bodyColor}>
+      <CardBody height={bodyHeight} color={wordsColor}>
         {cardBody}
       </CardBody>
 
