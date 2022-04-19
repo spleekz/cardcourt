@@ -10,7 +10,7 @@ import { CardWordPairBlock } from '../card-shared-components/body'
 export const FullCard: CardVariantComponent = ({ card, width, height }) => {
   const wordPairs = card.words.map((word) => {
     return (
-      <WordPairContainer key={word._id}>
+      <WordPairContainer highlightOnHover={true} key={word._id}>
         <WordContainer textAlign='right'>{word.en}</WordContainer>
         <Dash>—</Dash>
         <WordContainer textAlign='left'>{word.ru}</WordContainer>
