@@ -60,7 +60,7 @@ const CardBody = styled.div<{ height: number; color: string }>`
   height: ${(props) => `${props.height}px`};
   position: relative;
   width: 100%;
-  padding: 4px 0px;
+  padding: 0px 0px 4px 0px;
   border-radius: 16px;
   overflow: auto;
   background-color: ${(props) => props.color};
