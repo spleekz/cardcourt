@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
 import { CardSlider, SliderConfig } from '../../stores/card-slider'
 import { SliderWindow } from './slider-window'
-import { SliderErrorMessage } from './error-message'
+import { NoCardsFoundMessage } from './no-cards-found-message'
 
 interface NewSliderConfig {
   newSliderConfig: SliderConfig
@@ -53,7 +53,7 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
           )}
         </Container>
       ) : (
-        <SliderErrorMessage text='Карточки не были найдены' />
+        <NoCardsFoundMessage search={slider.search} />
       )}
     </>
   )
