@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
 import { CardSlider, SliderConfig } from '../../stores/card-slider'
 import { SliderWindow } from './slider-window'
+import { SliderErrorMessage } from './error-message'
 
 interface NewSliderConfig {
   newSliderConfig: SliderConfig
@@ -28,27 +29,33 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
   )
 
   return (
-    <Container>
-      {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
-        <LeftDirectionButton onClick={slider.slideLeft} disabled={slider.page <= 1}>
-          Назад
-        </LeftDirectionButton>
-      )}
+    <>
+      {slider.areCardsFinded ? (
+        <Container>
+          {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
+            <LeftDirectionButton onClick={slider.slideLeft} disabled={slider.page <= 1}>
+              Назад
+            </LeftDirectionButton>
+          )}
 
-      <SliderWindow
-        cards={slider.cards}
-        cardWidth={slider.cardWidth}
-        cardHeight={slider.cardHeight}
-        cardsToShow={slider.cardsToShow}
-        sliderPosition={slider.position}
-      />
+          <SliderWindow
+            cards={slider.cards}
+            cardWidth={slider.cardWidth}
+            cardHeight={slider.cardHeight}
+            cardsToShow={slider.cardsToShow}
+            sliderPosition={slider.position}
+          />
 
-      {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
-        <RightDirectionButton onClick={slider.slideRigth} disabled={slider.onLastPage}>
-          Вперёд
-        </RightDirectionButton>
+          {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
+            <RightDirectionButton onClick={slider.slideRigth} disabled={slider.onLastPage}>
+              Вперёд
+            </RightDirectionButton>
+          )}
+        </Container>
+      ) : (
+        <SliderErrorMessage text='Карточки не были найдены' />
       )}
-    </Container>
+    </>
   )
 }
 export const Slider = observer(CardSliderComponent)

@@ -9,6 +9,7 @@ import { Slider } from '../../components/card-slider/slider'
 import { getCardHeightByWidth } from '../../utils/cards'
 import { SliderConfig, CardSlider } from '../../stores/card-slider'
 import { ScreenPreloader } from '../../components/icons/screen-preloader'
+import { UserErrorMessage } from './error-message'
 
 export const UserPage: React.FC = registerPage(
   observer(() => {
@@ -60,24 +61,34 @@ export const UserPage: React.FC = registerPage(
       }
     }, [user])
 
-    if (!user) {
+    if (usersStore.userIsLoading) {
       return <ScreenPreloader />
     }
 
     return (
-      <Container>
-        <UserInfo>
-          <Avatar size={480} />
-          <div style={{ marginTop: '-10px' }}>
-            <UserName>{user.info.name}</UserName>
-            <SubscribeButton>Подписаться</SubscribeButton>
-          </div>
-        </UserInfo>
+      <>
+        {user ? (
+          <Container>
+            <UserInfo>
+              <Avatar size={480} />
+              <div style={{ marginTop: '-10px' }}>
+                <UserName>{user.info.name}</UserName>
+                <SubscribeButton>Подписаться</SubscribeButton>
+              </div>
+            </UserInfo>
 
-        <UserCardsSlider>
-          {userCardsSliderStore && <Slider slider={userCardsSliderStore} />}
-        </UserCardsSlider>
-      </Container>
+            {usersStore.userCardsAreFinded ? (
+              <UserCardsSlider>
+                {userCardsSliderStore && <Slider slider={userCardsSliderStore} />}
+              </UserCardsSlider>
+            ) : (
+              <UserErrorMessage text='У пользователя нет карточек' />
+            )}
+          </Container>
+        ) : (
+          <UserErrorMessage text='Пользователь не найден' />
+        )}
+      </>
     )
   }),
   { isRootPath: true }

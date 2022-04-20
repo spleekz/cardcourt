@@ -1,12 +1,13 @@
 import { makeAutoObservable } from 'mobx'
-import { Cards, GetCardsParams, CardsResponse } from '../api/api'
-import { api, FnToCallAfterRequest, getCards } from '../api'
+import { Cards, GetCardsParams } from '../api/api'
+import { api, CardResponsePromise, FnToCallAfterRequest, getCards, RequestErrors } from '../api'
 import { WithBoolean } from './entities/with-boolean'
 import { ActionToUpdateCards } from './utility-types'
 
 interface LoadCardsConfig {
   params: GetCardsParams
   fnWithUpdatingCards: FnToCallAfterRequest
+  errors?: RequestErrors
 }
 
 interface SliderLoadCardsConfig {
@@ -146,14 +147,14 @@ export class CardSlider {
               pagesToLoad: this.cardsToShow - (configCardCount % this.cardsToShow),
               pageSize: 1,
             }
-            const fnToCall: FnToCallAfterRequest = (data) => {
+            const successFn: FnToCallAfterRequest = (data) => {
               this.loadMoreCardsConfig.actionToUpdateCards(data.cards)
               this.maxLoadedPage = this.cards.length / this.cardsToShow
             }
             //Догружаем карточки в хранилище
             getCards({
               params: loadCardsToFullPageParams,
-              fnToCall,
+              successFn,
             })
           } else {
             //Если в конфиге целое число страниц
@@ -204,37 +205,58 @@ export class CardSlider {
   }
 
   //Общий вид запроса карточек для слайдера
-  private getCardForSlider({ params, fnWithUpdatingCards }: LoadCardsConfig): Promise<CardsResponse> {
-    const fnToCall: FnToCallAfterRequest = (data) => {
+  private getCardForSlider({
+    params,
+    fnWithUpdatingCards,
+    errors,
+  }: LoadCardsConfig): CardResponsePromise {
+    const successFn: FnToCallAfterRequest = (data) => {
       fnWithUpdatingCards(data)
       if (data.maxLoadedPage > this.maxLoadedPage) {
         this.setMaxLoadedPage(data.maxLoadedPage)
       }
     }
-    return getCards({ params, fnToCall })
+    return getCards({ params, successFn, errors })
   }
 
   isLoading: WithBoolean = new WithBoolean(true)
-  loadCards(): Promise<CardsResponse> {
+  areCardsFinded = false
+  setAreCardsFinded(value: boolean): void {
+    this.areCardsFinded = value
+  }
+
+  loadCards(): CardResponsePromise {
     this.isLoading.set(true)
 
     const { pagesToLoad, actionToUpdateCards } = this.loadCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadCardsDefaultParams, pagesToLoad }
 
+    const errors: RequestErrors = [
+      {
+        code: 404,
+        fn: () => {
+          this.isLoading.set(false)
+          this.setAreCardsFinded(false)
+        },
+      },
+    ]
+
     const loadCardsСonfig: LoadCardsConfig = {
       params: fullParams,
       fnWithUpdatingCards: (data) => {
+        actionToUpdateCards(data.cards)
+        this.setAreCardsFinded(true)
         this.isLoading.set(false)
         this.setPageCount(data.pageCount)
-        actionToUpdateCards(data.cards)
       },
+      errors,
     }
 
     return this.getCardForSlider(loadCardsСonfig)
   }
 
-  loadMoreCards(): Promise<CardsResponse> {
+  loadMoreCards(): CardResponsePromise {
     const { pagesToLoad, actionToUpdateCards } = this.loadMoreCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadMoreCardsDefaultParams, pagesToLoad }
