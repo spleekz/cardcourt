@@ -13,31 +13,20 @@ import { UserErrorMessage } from './error-message'
 
 export const UserPage: React.FC = registerPage(
   observer(() => {
-    const { usersStore, createCardSlider } = useStore()
-    const user = usersStore.user
-    const [userCardsSliderStore, setUserCardsSliderStore] = useState<CardSlider | null>(null)
+    const { createCurrentUserStore, createCardSlider } = useStore()
 
     const { userName } = useParams() as { userName: string }
-
-    //Загружаем информацию о пользователе
-    useEffect(() => {
-      if (userName) {
-        usersStore.loadUser(userName)
-      }
-    }, [userName])
-
-    useEffect(() => {
-      return () => usersStore.setUser(null)
-    }, [])
+    const [userStore] = useState(() => createCurrentUserStore(userName))
+    const [userCardsSliderStore, setUserCardsSliderStore] = useState<CardSlider | null>(null)
 
     const cardWidthForSlider = 340
     const cardHeightForSlider = getCardHeightByWidth(cardWidthForSlider)
 
-    //Если загрузили инфу и карточки пользователя - создаем слайдер
+    //Если пользователь существует и загрузился - создаём слайдер
     useEffect(() => {
-      if (user && !userCardsSliderStore) {
+      if (userStore.userLoadingState === 'success') {
         const userCardsSliderStoreConfig: SliderConfig = {
-          cards: user.cards.created,
+          cards: userStore.cards.created,
           cardsToSlide: 3,
           cardsToShow: 3,
           cardWidth: cardWidthForSlider,
@@ -45,39 +34,39 @@ export const UserPage: React.FC = registerPage(
 
           initialParamsForCardRequest: {
             search: '',
-            by: user.info.name,
+            by: userStore.info.name,
           },
 
           loadCardsConfig: {
             pagesToLoad: 2,
-            actionToUpdateCards: usersStore.setUserCards,
+            actionToUpdateCards: userStore.setCreatedCards,
           },
           loadMoreCardsConfig: {
             pagesToLoad: 2,
-            actionToUpdateCards: usersStore.pushUserCards,
+            actionToUpdateCards: userStore.pushCreatedCards,
           },
         }
         setUserCardsSliderStore(() => createCardSlider(userCardsSliderStoreConfig))
       }
-    }, [user])
+    }, [userStore.userLoadingState])
 
-    if (usersStore.userIsLoading) {
+    if (userStore.userLoadingState === 'loading') {
       return <ScreenPreloader />
     }
 
     return (
       <>
-        {user ? (
+        {userStore.userLoadingState === 'success' ? (
           <Container>
             <UserInfo>
               <Avatar size={480} />
               <div style={{ marginTop: '-10px' }}>
-                <UserName>{user.info.name}</UserName>
+                <UserName>{userStore.info.name}</UserName>
                 <SubscribeButton>Подписаться</SubscribeButton>
               </div>
             </UserInfo>
 
-            {usersStore.userCardsAreFinded ? (
+            {userStore.userCardsAreFinded ? (
               <UserCardsSlider>
                 {userCardsSliderStore && <Slider slider={userCardsSliderStore} />}
               </UserCardsSlider>
