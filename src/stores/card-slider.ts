@@ -3,6 +3,7 @@ import { Cards, GetCardsParams } from '../api/api'
 import {
   api,
   CardResponsePromise,
+  EmptyFunction,
   FnToCallAfterRequest,
   getCards,
   RequestErrorsHandlers,
@@ -14,6 +15,7 @@ interface LoadCardsConfig {
   params: GetCardsParams
   fnWithUpdatingCards: FnToCallAfterRequest
   errors?: RequestErrorsHandlers
+  anywayFn?: EmptyFunction
 }
 
 interface SliderLoadCardsConfig {
@@ -215,6 +217,7 @@ export class CardSlider {
     params,
     fnWithUpdatingCards,
     errors,
+    anywayFn,
   }: LoadCardsConfig): CardResponsePromise {
     const successFn: FnToCallAfterRequest = (data) => {
       fnWithUpdatingCards(data)
@@ -222,7 +225,7 @@ export class CardSlider {
         this.setMaxLoadedPage(data.maxLoadedPage)
       }
     }
-    return getCards({ params, successFn, errors })
+    return getCards({ params, successFn, errors, anywayFn })
   }
 
   isLoading: WithBoolean = new WithBoolean(true)
@@ -241,12 +244,10 @@ export class CardSlider {
     const errors: RequestErrorsHandlers = [
       {
         code: 404,
-        handle: () => {
-          this.isLoading.set(false)
-          this.setAreCardsFinded(false)
-        },
+        handle: () => this.setAreCardsFinded(false),
       },
     ]
+    const anywayFn = (): void => this.isLoading.set(false)
 
     const loadCardsСonfig: LoadCardsConfig = {
       params: fullParams,
@@ -257,6 +258,7 @@ export class CardSlider {
         this.setPageCount(data.pageCount)
       },
       errors,
+      anywayFn,
     }
 
     return this.getCardForSlider(loadCardsСonfig)

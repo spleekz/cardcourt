@@ -9,7 +9,7 @@ export const api = new Api({
 })
 
 export type FnToCallAfterRequest = (response: CardsResponse) => void
-type EmptyFunction = (...args: Array<any>) => void
+export type EmptyFunction = (...args: Array<any>) => void
 
 export interface RequestErrorHandler {
   code: number
@@ -21,12 +21,13 @@ export interface GetCardsConfig {
   params: GetCardsParams
   successFn?: FnToCallAfterRequest
   errors?: RequestErrorsHandlers
+  anywayFn?: EmptyFunction
 }
 
 export type CardResponsePromise = Promise<CardsResponse | void>
 type GetCardsFn = (config: GetCardsConfig) => CardResponsePromise
 
-export const getCards: GetCardsFn = ({ params = {}, successFn, errors }) => {
+export const getCards: GetCardsFn = ({ params = {}, successFn, errors, anywayFn }) => {
   const { page = 1, pagesToLoad = 1, pageSize = 5, search = '', by = '' } = params
   return api.cards
     .getCards({ page, pagesToLoad, pageSize, search, by })
@@ -48,4 +49,5 @@ export const getCards: GetCardsFn = ({ params = {}, successFn, errors }) => {
         }
       })
     })
+    .finally(() => anywayFn?.())
 }
