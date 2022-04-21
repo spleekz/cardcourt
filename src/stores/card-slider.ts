@@ -8,7 +8,6 @@ import {
   getCards,
   RequestErrorsHandlers,
 } from '../api'
-import { WithBoolean } from './entities/with-boolean'
 import { ActionToUpdateCards } from './utility-types'
 
 interface LoadCardsConfig {
@@ -228,14 +227,17 @@ export class CardSlider {
     return getCards({ params, successFn, errors, anywayFn })
   }
 
-  isLoading: WithBoolean = new WithBoolean(true)
+  areCardsLoading = true
+  setAreCardsLoading(value: boolean): void {
+    this.areCardsLoading = value
+  }
   areCardsFinded = true
   setAreCardsFinded(value: boolean): void {
     this.areCardsFinded = value
   }
 
   loadCards(): CardResponsePromise {
-    this.isLoading.set(true)
+    this.setAreCardsLoading(true)
 
     const { pagesToLoad, actionToUpdateCards } = this.loadCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
@@ -247,14 +249,14 @@ export class CardSlider {
         handle: () => this.setAreCardsFinded(false),
       },
     ]
-    const anywayFn = (): void => this.isLoading.set(false)
+    const anywayFn = (): void => this.setAreCardsLoading(false)
 
     const loadCardsСonfig: LoadCardsConfig = {
       params: fullParams,
       fnWithUpdatingCards: (data) => {
         actionToUpdateCards(data.cards)
         this.setAreCardsFinded(true)
-        this.isLoading.set(false)
+        this.setAreCardsLoading(false)
         this.setPageCount(data.pageCount)
       },
       errors,
