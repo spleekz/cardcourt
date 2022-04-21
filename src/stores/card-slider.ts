@@ -220,7 +220,7 @@ export class CardSlider {
   }
 
   isLoading: WithBoolean = new WithBoolean(true)
-  areCardsFinded = false
+  areCardsFinded = true
   setAreCardsFinded(value: boolean): void {
     this.areCardsFinded = value
   }
