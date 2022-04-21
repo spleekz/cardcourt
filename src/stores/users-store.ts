@@ -1,4 +1,4 @@
-import { api, CardResponsePromise, getCards, RequestErrors } from '../api'
+import { api, CardResponsePromise, getCards, RequestErrorsHandlers } from '../api'
 import { makeAutoObservable } from 'mobx'
 import { PublicUserInfo } from '../../../backend/api/api-types'
 import { ActionToUpdateCards } from './utility-types'
@@ -41,10 +41,10 @@ export class UsersStore {
       by: name || this.user?.info.name,
     }
     const successFn = (): void => this.setUserCardsAreFinded(true)
-    const errors: RequestErrors = [
+    const errors: RequestErrorsHandlers = [
       {
         code: 404,
-        fn: () => this.setUserCardsAreFinded(false),
+        handle: () => this.setUserCardsAreFinded(false),
       },
     ]
 

@@ -11,16 +11,16 @@ export const api = new Api({
 export type FnToCallAfterRequest = (response: CardsResponse) => void
 type EmptyFunction = (...args: Array<any>) => void
 
-export interface RequestError {
+export interface RequestErrorHandler {
   code: number
-  fn: EmptyFunction
+  handle: EmptyFunction
 }
-export type RequestErrors = Array<RequestError>
+export type RequestErrorsHandlers = Array<RequestErrorHandler>
 
 export interface GetCardsConfig {
   params: GetCardsParams
   successFn?: FnToCallAfterRequest
-  errors?: RequestErrors
+  errors?: RequestErrorsHandlers
 }
 
 export type CardResponsePromise = Promise<CardsResponse | void>
@@ -44,7 +44,7 @@ export const getCards: GetCardsFn = ({ params = {}, successFn, errors }) => {
     .catch((res) => {
       errors?.forEach((error) => {
         if (res.status === error.code) {
-          error.fn()
+          error.handle()
         }
       })
     })

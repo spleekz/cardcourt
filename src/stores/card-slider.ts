@@ -1,13 +1,19 @@
 import { makeAutoObservable } from 'mobx'
 import { Cards, GetCardsParams } from '../api/api'
-import { api, CardResponsePromise, FnToCallAfterRequest, getCards, RequestErrors } from '../api'
+import {
+  api,
+  CardResponsePromise,
+  FnToCallAfterRequest,
+  getCards,
+  RequestErrorsHandlers,
+} from '../api'
 import { WithBoolean } from './entities/with-boolean'
 import { ActionToUpdateCards } from './utility-types'
 
 interface LoadCardsConfig {
   params: GetCardsParams
   fnWithUpdatingCards: FnToCallAfterRequest
-  errors?: RequestErrors
+  errors?: RequestErrorsHandlers
 }
 
 interface SliderLoadCardsConfig {
@@ -232,10 +238,10 @@ export class CardSlider {
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadCardsDefaultParams, pagesToLoad }
 
-    const errors: RequestErrors = [
+    const errors: RequestErrorsHandlers = [
       {
         code: 404,
-        fn: () => {
+        handle: () => {
           this.isLoading.set(false)
           this.setAreCardsFinded(false)
         },
