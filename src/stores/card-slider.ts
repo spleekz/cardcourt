@@ -231,11 +231,10 @@ export class CardSlider {
   setAreCardsLoading(value: boolean): void {
     this.areCardsLoading = value
   }
-  areCardsFinded = true
-  setAreCardsFinded(value: boolean): void {
-    this.areCardsFinded = value
-  }
 
+  get areCardsFinded(): boolean {
+    return this.cards.length !== 0
+  }
   loadCards(): CardResponsePromise {
     this.setAreCardsLoading(true)
 
@@ -243,23 +242,15 @@ export class CardSlider {
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadCardsDefaultParams, pagesToLoad }
 
-    const errors: RequestErrorsHandlers = [
-      {
-        code: 404,
-        handle: () => this.setAreCardsFinded(false),
-      },
-    ]
     const anywayFn = (): void => this.setAreCardsLoading(false)
 
     const loadCardsСonfig: LoadCardsConfig = {
       params: fullParams,
       fnWithUpdatingCards: (data) => {
         actionToUpdateCards(data.cards)
-        this.setAreCardsFinded(true)
         this.setAreCardsLoading(false)
         this.setPageCount(data.pageCount)
       },
-      errors,
       anywayFn,
     }
 

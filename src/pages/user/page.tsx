@@ -66,7 +66,7 @@ export const UserPage: React.FC = registerPage(
               </div>
             </UserInfo>
 
-            {userStore.userCardsAreFinded ? (
+            {userStore.userCreatedCardsAreFinded ? (
               <UserCardsSlider>
                 {userCardsSliderStore && <Slider slider={userCardsSliderStore} />}
               </UserCardsSlider>

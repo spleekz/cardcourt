@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { api, CardResponsePromise, getCards, RequestErrorsHandlers } from '../api'
+import { api, CardResponsePromise, getCards } from '../api'
 import { Cards, GetCardsParams, PublicUserInfo } from '../api/api'
 import { ActionToUpdateCards } from './utility-types'
 
@@ -34,9 +34,8 @@ export class CurrentUserStore {
   pushCreatedCards: ActionToUpdateCards = (cards) => {
     this.cards.created.push.apply(this.cards!.created, cards)
   }
-  userCardsAreFinded = true
-  setUserCardsAreFinded(value: boolean): void {
-    this.userCardsAreFinded = value
+  get userCreatedCardsAreFinded(): boolean {
+    return this.cards.created.length !== 0
   }
 
   loadInfo(name: string): Promise<PublicUserInfo | void> {
@@ -45,7 +44,10 @@ export class CurrentUserStore {
       .then((res) => {
         return res.data
       })
-      .catch(() => this.setUserLoadingState('error'))
+      .catch(() => {
+        this.setUserLoadingState('error')
+        return Promise.reject()
+      })
   }
   loadCreatedCards(name: string): CardResponsePromise {
     const params: GetCardsParams = {
@@ -53,15 +55,8 @@ export class CurrentUserStore {
       pageSize: 3,
       by: name,
     }
-    const successFn = (): void => this.setUserCardsAreFinded(true)
-    const errors: RequestErrorsHandlers = [
-      {
-        code: 404,
-        handle: () => this.setUserCardsAreFinded(false),
-      },
-    ]
 
-    return getCards({ params, successFn, errors })
+    return getCards({ params })
   }
 
   userLoadingState: UserLoadingState = 'loading'
