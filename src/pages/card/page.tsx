@@ -9,12 +9,11 @@ import styled from 'styled-components'
 import { PencilIcon } from '../../components/icons/pencil-icon'
 import { Link } from 'react-router-dom'
 import { XIcon } from '../../components/icons/x-icon'
-import { useStore } from '../../stores/root-store/context'
 
 export const CardPage: React.FC = registerPage(
   observer(() => {
-    const { cardsStore } = useStore()
-    const { card } = useCardStoreFromURL()
+    const cardStore = useCardStoreFromURL()
+    const { card } = cardStore
 
     if (!card) {
       return <ScreenPreloader />
@@ -33,7 +32,7 @@ export const CardPage: React.FC = registerPage(
                 <PencilIcon />
               </Icon>
             </Link>
-            <Icon onClick={() => cardsStore.deleteCard(card._id)}>
+            <Icon onClick={() => cardStore.deleteCard(card._id)}>
               <XIcon />
             </Icon>
           </Icons>

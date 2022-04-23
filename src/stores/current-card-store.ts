@@ -1,12 +1,12 @@
 import { makeAutoObservable } from 'mobx'
-import { getCard } from '../api'
-import { Card } from '../api/api'
+import { api, getCard } from '../api'
+import { Card, UpdatedCard } from '../api/api'
 
 type LoadingStatus = 'error' | 'loading' | 'success'
 
 export class CurrentCardStore {
   constructor(cardId: string) {
-    makeAutoObservable(this)
+    makeAutoObservable(this, {}, { autoBind: true })
 
     this.loadCard(cardId)
   }
@@ -33,5 +33,12 @@ export class CurrentCardStore {
         this.setCard(null)
         this.setCardLoadingStatus('error')
       })
+  }
+
+  deleteCard(_id: string): void {
+    api.card.deleteCard({ _id })
+  }
+  updateCard(updatedCard: UpdatedCard): void {
+    api.card.updateCard(updatedCard)
   }
 }

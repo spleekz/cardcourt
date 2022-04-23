@@ -1,4 +1,12 @@
-import { Api, GetCardsParams, CardsResponse, Card } from './api'
+import {
+  Api,
+  GetCardsParams,
+  CardsResponse,
+  Card,
+  HttpResponse,
+  MessageResponse,
+  UpdatedCard,
+} from './api'
 
 export const api = new Api({
   baseUrl: 'http://localhost:4400',
@@ -56,4 +64,14 @@ export const getCard: GetCardFn = (id) => {
   return api.card.getCard(id).then((res) => {
     return res.data
   })
+}
+
+type DeleteCardFn = (id: string) => Promise<HttpResponse<MessageResponse, MessageResponse>>
+export const deleteCard: DeleteCardFn = (id) => {
+  return api.card.deleteCard({ _id: id })
+}
+
+type UpdateCardFn = (card: UpdatedCard) => Promise<HttpResponse<MessageResponse, MessageResponse>>
+export const updateCard: UpdateCardFn = (card) => {
+  return api.card.updateCard(card)
 }
