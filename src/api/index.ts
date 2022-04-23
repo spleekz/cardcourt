@@ -24,7 +24,7 @@ export interface GetCardsConfig {
   anywayFn?: EmptyFunction
 }
 
-export type CardResponsePromise = Promise<CardsResponse | void>
+export type CardResponsePromise = Promise<CardsResponse>
 type GetCardsFn = (config: GetCardsConfig) => CardResponsePromise
 
 export const getCards: GetCardsFn = ({ params = {}, successFn, errors, anywayFn }) => {
@@ -48,6 +48,7 @@ export const getCards: GetCardsFn = ({ params = {}, successFn, errors, anywayFn 
           error.handle()
         }
       })
+      return Promise.reject()
     })
     .finally(() => anywayFn?.())
 }
