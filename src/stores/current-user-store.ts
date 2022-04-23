@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { api, CardResponsePromise, getCards } from '../api'
+import { api, CardsResponsePromise, getCards } from '../api'
 import { Cards, GetCardsParams, PublicUserInfo } from '../api/api'
 import { ActionToUpdateCards } from './utility-types'
 
@@ -42,7 +42,7 @@ export class CurrentUserStore {
       return res.data
     })
   }
-  loadCreatedCards(name: string): CardResponsePromise {
+  loadCreatedCards(name: string): CardsResponsePromise {
     const params: GetCardsParams = {
       pagesToLoad: 2,
       pageSize: 3,

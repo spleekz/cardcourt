@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { Cards, GetCardsParams } from '../api/api'
 import {
   api,
-  CardResponsePromise,
+  CardsResponsePromise,
   EmptyFunction,
   FnToCallAfterRequest,
   getCards,
@@ -217,7 +217,7 @@ export class CardSlider {
     fnWithUpdatingCards,
     errors,
     anywayFn,
-  }: LoadCardsConfig): CardResponsePromise {
+  }: LoadCardsConfig): CardsResponsePromise {
     const successFn: FnToCallAfterRequest = (data) => {
       fnWithUpdatingCards(data)
       if (data.maxLoadedPage > this.maxLoadedPage) {
@@ -235,7 +235,7 @@ export class CardSlider {
   get areCardsFinded(): boolean {
     return this.cards.length !== 0
   }
-  loadCards(): CardResponsePromise {
+  loadCards(): CardsResponsePromise {
     this.setAreCardsLoading(true)
 
     const { pagesToLoad, actionToUpdateCards } = this.loadCardsConfig
@@ -257,7 +257,7 @@ export class CardSlider {
     return this.getCardForSlider(loadCardsСonfig)
   }
 
-  loadMoreCards(): CardResponsePromise {
+  loadMoreCards(): CardsResponsePromise {
     const { pagesToLoad, actionToUpdateCards } = this.loadMoreCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadMoreCardsDefaultParams, pagesToLoad }
