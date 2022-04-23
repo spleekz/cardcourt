@@ -37,17 +37,10 @@ export class CurrentUserStore {
   get userCreatedCardsAreFinded(): boolean {
     return this.cards.created.length !== 0
   }
-
-  loadInfo(name: string): Promise<PublicUserInfo | void> {
-    return api.userInfo
-      .getUserInfo(name)
-      .then((res) => {
-        return res.data
-      })
-      .catch(() => {
-        this.setUserLoadingState('error')
-        return Promise.reject()
-      })
+  loadInfo(name: string): Promise<PublicUserInfo> {
+    return api.userInfo.getUserInfo(name).then((res) => {
+      return res.data
+    })
   }
   loadCreatedCards(name: string): CardResponsePromise {
     const params: GetCardsParams = {
@@ -65,15 +58,15 @@ export class CurrentUserStore {
   }
   loadUser(name: string): void {
     this.setUserLoadingState('loading')
-    Promise.all([this.loadInfo(name), this.loadCreatedCards(name)]).then(
-      ([infoResponse, createdCardsResponse]) => {
-        //Проверяем только infoResponse, т.к. пользователь может быть создан, но у него может не быть карточек(не ошибка)
-        if (infoResponse) {
+
+    this.loadInfo(name)
+      .then((infoResponse) => {
+        this.loadCreatedCards(name).then((createdCardsResponse) => {
           this.setInfo(infoResponse)
-          this.setCreatedCards(createdCardsResponse?.cards || [])
+          this.setCreatedCards(createdCardsResponse.cards)
           this.setUserLoadingState('success')
-        }
-      }
-    )
+        })
+      })
+      .catch(() => this.setUserLoadingState('error'))
   }
 }
