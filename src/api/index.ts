@@ -1,4 +1,4 @@
-import { Api, GetCardsParams, CardsResponse } from './api'
+import { Api, GetCardsParams, CardsResponse, Card } from './api'
 
 export const api = new Api({
   baseUrl: 'http://localhost:4400',
@@ -48,4 +48,12 @@ export const getCards: GetCardsFn = ({ params = {}, successFn, errors, anywayFn 
       return Promise.reject()
     })
     .finally(() => anywayFn?.())
+}
+
+export type CardResponsePromise = Promise<Card>
+export type GetCardFn = (id: string) => CardResponsePromise
+export const getCard: GetCardFn = (id) => {
+  return api.card.getCard(id).then((res) => {
+    return res.data
+  })
 }
