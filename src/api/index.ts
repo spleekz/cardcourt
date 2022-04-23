@@ -24,7 +24,7 @@ export interface RequestErrorHandler {
 }
 export type RequestErrorsHandlers = Array<RequestErrorHandler>
 
-export interface GetCardsConfig {
+interface GetCardsConfig {
   params: GetCardsParams
   successFn?: FnToCallAfterRequest
   errors?: RequestErrorsHandlers
@@ -58,7 +58,7 @@ export const getCards: GetCardsFn = ({ params = {}, successFn, errors, anywayFn 
     .finally(() => anywayFn?.())
 }
 
-export type CardResponsePromise = Promise<Card>
+type CardResponsePromise = Promise<Card>
 export type GetCardFn = (id: string) => CardResponsePromise
 export const getCard: GetCardFn = (id) => {
   return api.card.getCard(id).then((res) => {
