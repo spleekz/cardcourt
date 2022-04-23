@@ -7,7 +7,7 @@ import { PlayCheck } from './play/play-check'
 import { PrepareCheck } from './prepare/prepare-check'
 import { CheckResult } from './result/check-result'
 import { shuffle } from 'lodash'
-import { useCardFromURL } from '../../hooks/use-card-from-url'
+import { useCardStoreFromURL } from '../../hooks/use-card-store-from-url'
 import { registerPage } from '../../hocs/register-page'
 
 export const CheckStoreContext = createContext<CheckStore>(new CheckStore())
@@ -17,7 +17,7 @@ export const CheckPage: React.FC = registerPage(
     const { createCheckStore } = useStore()
     const [CheckStore] = useState<CheckStore>(createCheckStore)
 
-    const card = useCardFromURL()
+    const { card } = useCardStoreFromURL()
 
     useEffect(() => {
       if (card) {

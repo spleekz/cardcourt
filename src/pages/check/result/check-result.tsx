@@ -2,10 +2,8 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { CheckStoreContext } from '../page'
-import { useStore } from '../../../stores/root-store/context'
 
 export const CheckResult: React.FC = observer(() => {
-  const { cardsStore } = useStore()
   const CheckStore = useContext(CheckStoreContext)
 
   return (
@@ -14,7 +12,7 @@ export const CheckResult: React.FC = observer(() => {
         <button>На Card Court</button>
       </Link>
 
-      <Link to={`/card/${cardsStore.card!._id}`}>
+      <Link to={`/}`}>
         <button>На карточку</button>
       </Link>
 

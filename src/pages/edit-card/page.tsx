@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import styled from 'styled-components'
-import { useCardFromURL } from '../../hooks/use-card-from-url'
+import { useCardStoreFromURL } from '../../hooks/use-card-store-from-url'
 import { registerPage } from '../../hocs/register-page'
 import { ScreenPreloader } from '../../components/icons/screen-preloader'
 import { FormCard } from '../../components/card/variants/form-card/form-card'
@@ -9,7 +9,7 @@ import { getCardWidthByHeight } from '../../utils/cards'
 
 export const EditCardPage: React.FC = registerPage(
   observer(() => {
-    const card = useCardFromURL()
+    const { card } = useCardStoreFromURL()
 
     if (!card) {
       return <ScreenPreloader />

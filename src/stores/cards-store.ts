@@ -1,26 +1,11 @@
 import { makeAutoObservable } from 'mobx'
-import { Card, Cards, CardUI, SendedCard, UpdatedCard } from '../api/api'
+import { Cards, SendedCard, UpdatedCard } from '../api/api'
 import { api } from '../api'
-import cardConfig from './card-config.json'
 import { ActionToUpdateCards } from './utility-types'
-
-interface CardSize {
-  width: number
-  height: number
-}
 
 export class CardsStore {
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true })
-  }
-
-  defaultCardSize: CardSize = {
-    width: cardConfig.width,
-    height: cardConfig.height,
-  }
-  defaultCardUi: CardUI = {
-    bodyColor: cardConfig.bodyColor,
-    wordsColor: cardConfig.wordsColor,
   }
 
   cards: Cards = []
@@ -34,22 +19,6 @@ export class CardsStore {
     this.cards.push.apply(this.cards, cards)
   }
 
-  cardId: string | null = null
-  setCardById(id: string | null): void {
-    this.cardId = id
-
-    if (this.cardId) {
-      api.card.getCard(this.cardId).then((res) => {
-        if (res.ok) {
-          this.setCard(res.data)
-        }
-      })
-    } else {
-      this.setCard(null)
-    }
-  }
-
-  card: Card | null = null
   addCard(card: SendedCard): void {
     api.card.createCard(card)
   }
@@ -58,9 +27,5 @@ export class CardsStore {
   }
   updateCard(updatedCard: UpdatedCard): void {
     api.card.updateCard(updatedCard)
-  }
-
-  setCard(card: Card | null): void {
-    this.card = card
   }
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { useStore } from '../../stores/root-store/context'
 
 interface Props {
   isOpened: boolean
@@ -9,8 +8,6 @@ interface Props {
 }
 
 export const CardDonePopup: React.FC<Props> = ({ isOpened, title }) => {
-  const { cardsStore } = useStore()
-
   return (
     <Container isOpened={isOpened}>
       <PopupBlock isOpened={isOpened}>
@@ -26,7 +23,7 @@ export const CardDonePopup: React.FC<Props> = ({ isOpened, title }) => {
               </RedirectButton>
             </NavLink>
 
-            <NavLink to={`/card/${cardsStore.cardId}`}>
+            <NavLink to={'/'}>
               <RedirectButton>
                 на карточку!<p>👉</p>
               </RedirectButton>

@@ -10,6 +10,7 @@ import { CardFooterButton } from '../../card-shared-components/footer'
 import { CardTemplate } from '../../template'
 import { CardVariantComponent, PropsForCardForm } from '../types'
 import { FormCardBody } from './body/body'
+import cardConfig from '../../../../stores/card-config.json'
 
 export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
   ({ card = null, width, height }) => {
@@ -18,8 +19,8 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
     const isEditCard = card !== null
 
     const { cardDone } = usePopupContext()
-    const cardBodyColor = isEditCard ? card.ui.bodyColor : cardsStore.defaultCardUi.bodyColor
-    const cardWordsColor = isEditCard ? card.ui.wordsColor : cardsStore.defaultCardUi.wordsColor
+    const cardBodyColor = isEditCard ? card.ui.bodyColor : cardConfig.bodyColor
+    const cardWordsColor = isEditCard ? card.ui.wordsColor : cardConfig.wordsColor
 
     const anchorRef = useRef<HTMLDivElement>(null)
     const topRef = useRef<HTMLDivElement>(null)

@@ -4,6 +4,7 @@ import { AppStore } from '../app-store'
 import { AuthStore } from '../auth-store'
 import { CardSlider, SliderConfig } from '../card-slider'
 import { CurrentUserStore } from '../current-user-store'
+import { CurrentCardStore } from '../current-card-store'
 
 export class RootStore {
   appStore: AppStore = new AppStore()
@@ -18,5 +19,8 @@ export class RootStore {
   }
   createCheckStore(): CheckStore {
     return new CheckStore()
+  }
+  createCurrentCardStore(cardId: string): CurrentCardStore {
+    return new CurrentCardStore(cardId)
   }
 }
