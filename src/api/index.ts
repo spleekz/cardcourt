@@ -6,6 +6,9 @@ import {
   HttpResponse,
   MessageResponse,
   UpdatedCard,
+  CreateCardResponse,
+  SendedCard,
+  UpdateCardResponse,
 } from './api'
 
 export const api = new Api({
@@ -66,12 +69,21 @@ export const getCard: GetCardFn = (id) => {
   })
 }
 
+export type CreateCardResponsePromise = Promise<CreateCardResponse>
+type CreateCardFn = (card: SendedCard) => CreateCardResponsePromise
+export const createCard: CreateCardFn = (card) => {
+  return api.card.createCard(card).then((res) => {
+    return res.data
+  })
+}
+
 type DeleteCardFn = (id: string) => Promise<HttpResponse<MessageResponse, MessageResponse>>
 export const deleteCard: DeleteCardFn = (id) => {
   return api.card.deleteCard({ _id: id })
 }
 
-type UpdateCardFn = (card: UpdatedCard) => Promise<HttpResponse<MessageResponse, MessageResponse>>
+export type UpdateCardResponsePromise = Promise<UpdateCardResponse>
+type UpdateCardFn = (card: UpdatedCard) => UpdateCardResponsePromise
 export const updateCard: UpdateCardFn = (card) => {
-  return api.card.updateCard(card)
+  return api.card.updateCard(card).then((res) => res.data)
 }

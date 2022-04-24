@@ -50,6 +50,8 @@ export interface Me {
   name: string;
 }
 
+export type CreateCardResponse = Id;
+
 export interface CardUI {
   bodyColor: string;
   wordsColor: string;
@@ -88,6 +90,10 @@ export type Card = { author: CardAuthor; words: CardWords } & SendedCard & Id;
 export type DeletedCard = Id;
 
 export type UpdatedCard = Id & EditedCardFields;
+
+export interface UpdateCardResponse {
+  updatedCard: Card;
+}
 
 export type Cards = Card[];
 
@@ -232,7 +238,7 @@ export namespace Card {
    * @summary Создать карточку от своего имени
    * @request POST:/card
    * @secure
-   * @response `200` `MessageResponse` Сообщение о статусе добавления карточки
+   * @response `200` `CreateCardResponse` Id новосозданной карточки
    * @response `default` `MessageResponse` Ошибка
    */
   export namespace CreateCard {
@@ -240,7 +246,7 @@ export namespace Card {
     export type RequestQuery = {};
     export type RequestBody = SendedCard;
     export type RequestHeaders = {};
-    export type ResponseBody = MessageResponse;
+    export type ResponseBody = CreateCardResponse;
   }
   /**
    * No description
@@ -266,14 +272,14 @@ export namespace Card {
    * @summary Обновить уже существующую карточку
    * @request PUT:/card
    * @secure
-   * @response `200` `MessageResponse` Сообщение о добавлении карточки
+   * @response `200` `UpdateCardResponse` Обновленная карточка
    */
   export namespace UpdateCard {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = UpdatedCard;
     export type RequestHeaders = {};
-    export type ResponseBody = MessageResponse;
+    export type ResponseBody = UpdateCardResponse;
   }
   /**
    * No description
@@ -638,11 +644,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Создать карточку от своего имени
      * @request POST:/card
      * @secure
-     * @response `200` `MessageResponse` Сообщение о статусе добавления карточки
+     * @response `200` `CreateCardResponse` Id новосозданной карточки
      * @response `default` `MessageResponse` Ошибка
      */
     createCard: (data: SendedCard, params: RequestParams = {}) =>
-      this.request<MessageResponse, MessageResponse>({
+      this.request<CreateCardResponse, MessageResponse>({
         path: `/card`,
         method: "POST",
         body: data,
@@ -682,10 +688,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Обновить уже существующую карточку
      * @request PUT:/card
      * @secure
-     * @response `200` `MessageResponse` Сообщение о добавлении карточки
+     * @response `200` `UpdateCardResponse` Обновленная карточка
      */
     updateCard: (data: UpdatedCard, params: RequestParams = {}) =>
-      this.request<MessageResponse, any>({
+      this.request<UpdateCardResponse, any>({
         path: `/card`,
         method: "PUT",
         body: data,

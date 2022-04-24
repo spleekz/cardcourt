@@ -1,41 +1,49 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
+import { PortalToBody } from '../portal-to-body'
+import { useStore } from '../../stores/root-store/context'
 
 interface Props {
-  isOpened: boolean
   title: string
+  cardId: string
 }
 
-export const CardDonePopup: React.FC<Props> = ({ isOpened, title }) => {
+export const CardDonePopup: React.FC<Props> = ({ title, cardId }) => {
+  const { appStore } = useStore()
+
+  useEffect(() => {
+    appStore.setIsAnyPopupOpened(true)
+    return () => appStore.setIsAnyPopupOpened(false)
+  }, [])
+
   return (
-    <Container isOpened={isOpened}>
-      <PopupBlock isOpened={isOpened}>
-        <Title>{title}</Title>
-
-        <Body>
-          <Message>Куда идём дальше?</Message>
-
-          <ButtonsList>
-            <NavLink to='/'>
-              <RedirectButton>
-                на главную!<p>👈</p>
-              </RedirectButton>
-            </NavLink>
-
-            <NavLink to={'/'}>
-              <RedirectButton>
-                на карточку!<p>👉</p>
-              </RedirectButton>
-            </NavLink>
-          </ButtonsList>
-        </Body>
-      </PopupBlock>
-    </Container>
+    <PortalToBody>
+      <Container>
+        <PopupBlock>
+          <Title>{title}</Title>
+          <Body>
+            <Message>Куда идём дальше?</Message>
+            <ButtonsList>
+              <NavLink to='/'>
+                <RedirectButton>
+                  на главную!<p>👈</p>
+                </RedirectButton>
+              </NavLink>
+              <NavLink to={`/card/${cardId}`}>
+                <RedirectButton>
+                  на карточку!<p>👉</p>
+                </RedirectButton>
+              </NavLink>
+            </ButtonsList>
+          </Body>
+        </PopupBlock>
+      </Container>
+    </PortalToBody>
   )
 }
 
-const Container = styled.div<{ isOpened: boolean }>`
+const Container = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
@@ -46,11 +54,9 @@ const Container = styled.div<{ isOpened: boolean }>`
   justify-content: center;
   align-items: center;
   background-color: #00000083;
-  opacity: ${(props) => (props.isOpened ? '1' : '0')};
-  pointer-events: ${(props) => (props.isOpened ? 'all' : 'none')};
   transition: 0.3s;
 `
-const PopupBlock = styled.div<{ isOpened: boolean }>`
+const PopupBlock = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,7 +66,6 @@ const PopupBlock = styled.div<{ isOpened: boolean }>`
   padding: 25px;
   background-color: #ffffff;
   border-radius: 50px 7px 50px 7px;
-  transform: ${(props) => (props.isOpened ? 'scale(1)' : 'scale(0)')};
   transition: 0.3s;
 `
 const Title = styled.h1`

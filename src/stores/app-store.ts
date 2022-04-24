@@ -11,4 +11,9 @@ export class AppStore {
   setPage(page: Page): void {
     this.page = page
   }
+
+  isAnyPopupOpened = false
+  setIsAnyPopupOpened(value: boolean): void {
+    this.isAnyPopupOpened = value
+  }
 }

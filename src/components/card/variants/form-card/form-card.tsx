@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite'
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { FormProvider, SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import { SendedCard, UpdatedCard } from '../../../../api/api'
-import { usePopupContext } from '../../../../app'
 import { useStore } from '../../../../stores/root-store/context'
 import { CardAuthorDiv, CardNameInput } from '../../card-shared-components/heading'
 import { CardFooterButton } from '../../card-shared-components/footer'
@@ -11,6 +10,7 @@ import { CardTemplate } from '../../template'
 import { CardVariantComponent, PropsForCardForm } from '../types'
 import { FormCardBody } from './body/body'
 import cardConfig from '../../../../stores/card-config.json'
+import { CardDonePopup } from '../../../popups/card-done'
 
 export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
   ({ card = null, width, height }) => {
@@ -18,7 +18,15 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
 
     const isEditCard = card !== null
 
-    const { cardDone } = usePopupContext()
+    //!CardDonePopup
+    const [isDone, setIsDone] = useState(false)
+    const [cardIdForRedirect, setCardIdForRedirect] = useState<string | null>(null)
+    const showCardDonePopup = (cardId: string): void => {
+      setIsDone(true)
+      setCardIdForRedirect(cardId)
+    }
+    const cardDonePopupTitle = isEditCard ? 'Карточка обновлена!' : 'Карточка создана'
+
     const cardBodyColor = isEditCard ? card.ui.bodyColor : cardConfig.bodyColor
     const cardWordsColor = isEditCard ? card.ui.wordsColor : cardConfig.wordsColor
 
@@ -31,7 +39,6 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
           topRef.current?.scrollIntoView({ behavior: 'smooth' })
         }, 310)
       }
-      return () => cardDone.set(false)
     }, [])
 
     //!Все для формы
@@ -59,53 +66,62 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
         bodyColor: cardBodyColor,
         wordsColor: cardWordsColor,
       }
-      cardsStore.addCard(card)
-      cardDone.set(true)
+      cardsStore.createCard(card).then(({ _id }) => {
+        showCardDonePopup(_id)
+      })
     }
+
     const updateCard: SubmitHandler<SendedCard> = (updatableFields) => {
       const fullUpdatedCard: UpdatedCard = {
         ...updatableFields,
         ui: card!.ui,
         _id: card!._id,
       }
-      cardsStore.updateCard(fullUpdatedCard)
-      cardDone.set(true)
+      cardsStore.updateCard(fullUpdatedCard).then(({ updatedCard }) => {
+        showCardDonePopup(updatedCard._id)
+      })
     }
 
     return (
-      <FormProvider {...methods}>
-        <Form onSubmit={methods.handleSubmit(isEditCard ? updateCard : createNewCard)}>
-          <CardTemplate
-            width={width}
-            height={height}
-            bodyColor={cardBodyColor}
-            wordsColor={cardWordsColor}
-          >
-            <CardHeading>
-              <CardName
-                {...methods.register(`name` as const, { required: true })}
-                placeholder='Введите название карточки'
-                maxLength={27}
-              />
-              <CardAuthor>{isEditCard ? card.author.name : authStore.me?.name}</CardAuthor>
-            </CardHeading>
-
-            <FormCardBody
-              fields={fields}
+      <>
+        <FormProvider {...methods}>
+          <Form onSubmit={methods.handleSubmit(isEditCard ? updateCard : createNewCard)}>
+            <CardTemplate
+              width={width}
+              height={height}
               bodyColor={cardBodyColor}
-              remove={remove}
-              addNewWordPair={addNewWordPair}
-              watchedFields={watchedFields}
-              topRef={topRef}
-              anchorRef={anchorRef}
-            />
+              wordsColor={cardWordsColor}
+            >
+              <CardHeading>
+                <CardName
+                  {...methods.register(`name` as const, { required: true })}
+                  placeholder='Введите название карточки'
+                  maxLength={27}
+                />
+                <CardAuthor>{isEditCard ? card.author.name : authStore.me?.name}</CardAuthor>
+              </CardHeading>
 
-            <SubmitButton type='submit'>
-              {isEditCard ? 'Обновить карточку' : 'Создать карточку'}
-            </SubmitButton>
-          </CardTemplate>
-        </Form>
-      </FormProvider>
+              <FormCardBody
+                fields={fields}
+                bodyColor={cardBodyColor}
+                remove={remove}
+                addNewWordPair={addNewWordPair}
+                watchedFields={watchedFields}
+                topRef={topRef}
+                anchorRef={anchorRef}
+              />
+
+              <SubmitButton type='submit'>
+                {isEditCard ? 'Обновить карточку' : 'Создать карточку'}
+              </SubmitButton>
+            </CardTemplate>
+          </Form>
+        </FormProvider>
+
+        {isDone && cardIdForRedirect && (
+          <CardDonePopup title={cardDonePopupTitle} cardId={cardIdForRedirect} />
+        )}
+      </>
     )
   }
 )

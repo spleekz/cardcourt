@@ -7,31 +7,17 @@ import { CardCourtPage } from './pages/card-court/page'
 import { NewCardPage } from './pages/new-card/page'
 import { CheckPage } from './pages/check/page'
 import { EditCardPage } from './pages/edit-card/page'
-import { CardDonePopup } from './components/popups/card-done'
 import { useStore } from './stores/root-store/context'
 import { CardPage } from './pages/card/page'
 import { AuthPage } from './pages/auth/page'
 import { UserPage } from './pages/user/page'
 import { CardSlider } from './stores/card-slider'
-import { PortalToBody } from './components/portal-to-body'
-
-interface Popup {
-  value: boolean
-  set: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-interface Popups {
-  cardDone: Popup
-}
-
-export const PopupsContext = createContext<Popups>({} as Popups)
-export const usePopupContext = (): Popups => useContext(PopupsContext)
 
 export const MainSliderContext = createContext<CardSlider>({} as CardSlider)
 export const useMainSlider = (): CardSlider => useContext(MainSliderContext)
 
 export const App: React.FC = observer(() => {
-  const { cardsStore, authStore, appStore, createCardSlider } = useStore()
+  const { appStore, cardsStore, authStore, createCardSlider } = useStore()
 
   const [mainSlider] = useState<CardSlider>(() =>
     createCardSlider({
@@ -57,16 +43,6 @@ export const App: React.FC = observer(() => {
     })
   )
 
-  const [isCardDonePopup, setIsCardDonePopup] = useState<boolean>(false)
-  const isAnyPopupOpened = isCardDonePopup
-
-  const PopupsForContext: Popups = {
-    cardDone: {
-      value: isCardDonePopup,
-      set: setIsCardDonePopup,
-    },
-  }
-
   //useLayoutEffect, т.к. useEffect приводит к визуальным багам
   useLayoutEffect(() => {
     if (authStore.token) {
@@ -76,32 +52,23 @@ export const App: React.FC = observer(() => {
 
   return (
     <>
-      <GlobalStyles isPopup={isAnyPopupOpened} />
+      <GlobalStyles isPopup={appStore.isAnyPopupOpened} />
       <MainSliderContext.Provider value={mainSlider}>
-        <PopupsContext.Provider value={PopupsForContext}>
-          <AppContainer>
-            <PortalToBody>
-              <CardDonePopup
-                isOpened={isCardDonePopup}
-                title={appStore.page === 'new' ? 'Карточка создана!' : 'Карточка обновлена!'}
-              />
-            </PortalToBody>
+        <AppContainer>
+          <Header />
 
-            <Header />
-
-            <PageContainer>
-              <Routes>
-                <Route path='/' element={<CardCourtPage />} />
-                <Route path='/auth' element={<AuthPage />} />
-                <Route path='card/new' element={<NewCardPage />} />
-                <Route path='/card/:cardId' element={<CardPage />} />
-                <Route path='card/:cardId/check' element={<CheckPage />} />
-                <Route path='card/:cardId/edit' element={<EditCardPage />} />
-                <Route path='user/:userName' element={<UserPage />} />
-              </Routes>
-            </PageContainer>
-          </AppContainer>
-        </PopupsContext.Provider>
+          <PageContainer>
+            <Routes>
+              <Route path='/' element={<CardCourtPage />} />
+              <Route path='/auth' element={<AuthPage />} />
+              <Route path='card/new' element={<NewCardPage />} />
+              <Route path='/card/:cardId' element={<CardPage />} />
+              <Route path='card/:cardId/check' element={<CheckPage />} />
+              <Route path='card/:cardId/edit' element={<EditCardPage />} />
+              <Route path='user/:userName' element={<UserPage />} />
+            </Routes>
+          </PageContainer>
+        </AppContainer>
       </MainSliderContext.Provider>
     </>
   )
