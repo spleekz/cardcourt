@@ -62,6 +62,10 @@ export interface CardAuthor {
   _id: string;
 }
 
+export interface CardAuthorField {
+  author: CardAuthor;
+}
+
 export interface EditedCardFields {
   ui: CardUI;
   words: (CardWord | SendedCardWord)[];
@@ -89,7 +93,7 @@ export type Card = { author: CardAuthor; words: CardWords } & SendedCard & Id;
 
 export type DeletedCard = Id;
 
-export type UpdatedCard = Id & EditedCardFields;
+export type UpdatedCard = Id & EditedCardFields & CardAuthorField;
 
 export interface UpdateCardResponse {
   updatedCard: Card;

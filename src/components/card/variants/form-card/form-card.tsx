@@ -73,9 +73,8 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
 
     const updateCard: SubmitHandler<SendedCard> = (updatableFields) => {
       const fullUpdatedCard: UpdatedCard = {
+        ...card!,
         ...updatableFields,
-        ui: card!.ui,
-        _id: card!._id,
       }
       cardsStore.updateCard(fullUpdatedCard).then(({ updatedCard }) => {
         showCardDonePopup(updatedCard._id)
