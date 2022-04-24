@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
-import { Cards, SendedCard } from '../api/api'
-import { api } from '../api'
+import { Cards, SendedCard, UpdatedCard } from '../api/api'
+import { api, updateCard } from '../api'
 import { ActionToUpdateCards } from './utility-types'
 
 export class CardsStore {
@@ -21,5 +21,8 @@ export class CardsStore {
 
   addCard(card: SendedCard): void {
     api.card.createCard(card)
+  }
+  updateCard(card: UpdatedCard): void {
+    updateCard(card)
   }
 }

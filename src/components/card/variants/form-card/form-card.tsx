@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import { FormProvider, SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import { SendedCard, UpdatedCard } from '../../../../api/api'
@@ -11,17 +11,12 @@ import { CardTemplate } from '../../template'
 import { CardVariantComponent, PropsForCardForm } from '../types'
 import { FormCardBody } from './body/body'
 import cardConfig from '../../../../stores/card-config.json'
-import { CurrentCardStore } from '../../../../stores/current-card-store'
 
 export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
   ({ card = null, width, height }) => {
-    const { createCurrentCardStore, cardsStore, authStore } = useStore()
+    const { cardsStore, authStore } = useStore()
 
     const isEditCard = card !== null
-
-    const [currentCard] = useState<CurrentCardStore | null>(() => {
-      return isEditCard ? createCurrentCardStore(card._id) : null
-    })
 
     const { cardDone } = usePopupContext()
     const cardBodyColor = isEditCard ? card.ui.bodyColor : cardConfig.bodyColor
@@ -73,7 +68,7 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
         ui: card!.ui,
         _id: card!._id,
       }
-      currentCard!.updateCard(fullUpdatedCard)
+      cardsStore.updateCard(fullUpdatedCard)
       cardDone.set(true)
     }
 
