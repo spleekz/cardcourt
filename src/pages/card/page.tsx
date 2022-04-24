@@ -32,7 +32,7 @@ export const CardPage: React.FC = registerPage(
                 <PencilIcon />
               </Icon>
             </Link>
-            <Icon onClick={() => cardStore.deleteCard(card._id)}>
+            <Icon onClick={() => cardStore.deleteCard()}>
               <XIcon />
             </Icon>
           </Icons>

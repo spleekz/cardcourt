@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { api, getCard } from '../api'
+import { deleteCard, getCard } from '../api'
 import { Card } from '../api/api'
 
 type LoadingStatus = 'error' | 'loading' | 'success'
@@ -35,7 +35,7 @@ export class CurrentCardStore {
       })
   }
 
-  deleteCard(_id: string): void {
-    api.card.deleteCard({ _id })
+  deleteCard(): void {
+    deleteCard(this.card!._id)
   }
 }
