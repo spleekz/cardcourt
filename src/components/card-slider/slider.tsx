@@ -53,7 +53,7 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
           )}
         </Container>
       ) : (
-        <NoCardsFoundMessage search={slider.search} />
+        <NoCardsFoundMessage search={slider.search} by={slider.by} />
       )}
     </>
   )
