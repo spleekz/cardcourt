@@ -1,8 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { deleteCard, getCard } from '../api'
 import { Card } from '../api/api'
-
-type LoadingStatus = 'error' | 'loading' | 'success'
+import { LoadingStatus } from './stores-utility-types'
 
 export class CurrentCardStore {
   constructor(cardId: string) {

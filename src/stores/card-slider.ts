@@ -1,14 +1,13 @@
 import { makeAutoObservable } from 'mobx'
 import { Cards, GetCardsParams } from '../api/api'
+import { api, getCards } from '../api'
+import { ActionToUpdateCards } from './stores-utility-types'
+import { EmptyFunction } from '../basic-utility-types'
 import {
-  api,
   CardsResponsePromise,
-  EmptyFunction,
   FnToCallAfterRequest,
-  getCards,
   RequestErrorsHandlers,
-} from '../api'
-import { ActionToUpdateCards } from './utility-types'
+} from '../api/api-utility-types'
 
 interface LoadCardsConfig {
   params: GetCardsParams

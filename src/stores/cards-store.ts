@@ -1,7 +1,8 @@
 import { makeAutoObservable } from 'mobx'
 import { Cards, SendedCard, UpdatedCard } from '../api/api'
-import { createCard, CreateCardResponsePromise, updateCard, UpdateCardResponsePromise } from '../api'
-import { ActionToUpdateCards } from './utility-types'
+import { createCard, updateCard } from '../api'
+import { ActionToUpdateCards } from './stores-utility-types'
+import { CreateCardResponsePromise, UpdateCardResponsePromise } from '../api/api-utility-types'
 
 export class CardsStore {
   constructor() {

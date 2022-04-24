@@ -1,7 +1,8 @@
 import { makeAutoObservable } from 'mobx'
-import { api, CardsResponsePromise, getCards } from '../api'
+import { api, getCards } from '../api'
 import { Cards, GetCardsParams, PublicUserInfo } from '../api/api'
-import { ActionToUpdateCards } from './utility-types'
+import { CardsResponsePromise } from '../api/api-utility-types'
+import { ActionToUpdateCards, LoadingStatus } from './stores-utility-types'
 
 interface UserInfo {
   name: string
@@ -9,7 +10,6 @@ interface UserInfo {
 interface UserCards {
   created: Cards
 }
-type UserLoadingState = 'error' | 'loading' | 'success'
 
 export class CurrentUserStore {
   constructor(userName: string) {
@@ -52,10 +52,11 @@ export class CurrentUserStore {
     return getCards({ params })
   }
 
-  userLoadingState: UserLoadingState = 'loading'
-  setUserLoadingState(value: UserLoadingState): void {
+  userLoadingState: LoadingStatus = 'loading'
+  setUserLoadingState(value: LoadingStatus): void {
     this.userLoadingState = value
   }
+
   loadUser(name: string): void {
     this.setUserLoadingState('loading')
 
