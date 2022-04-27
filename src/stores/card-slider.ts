@@ -2,19 +2,13 @@ import { makeAutoObservable } from 'mobx'
 import { Cards, GetCardsParams } from '../api/api'
 import { api, getCards } from '../api'
 import { ActionToUpdateCards } from './stores-utility-types'
-import { EmptyFunction } from '../basic-utility-types'
-import {
-  CardsResponsePromise,
-  FnToCallAfterRequest,
-  RequestErrorsHandlers,
-} from '../api/api-utility-types'
+import { Rename, RequiredBy } from '../basic-utility-types'
+import { CardsResponsePromise, FnToCallAfterRequest, GetCardsConfig } from '../api/api-utility-types'
 
-interface LoadCardsConfig {
-  params: GetCardsParams
-  fnWithUpdatingCards: FnToCallAfterRequest
-  errors?: RequestErrorsHandlers
-  anywayFn?: EmptyFunction
-}
+type LoadCardsConfig = RequiredBy<
+  Rename<GetCardsConfig, 'successFn', 'fnWithUpdatingCards'>,
+  'fnWithUpdatingCards'
+>
 
 interface SliderLoadCardsConfig {
   pagesToLoad: number
