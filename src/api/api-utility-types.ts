@@ -7,8 +7,12 @@ import {
   GetCardCountParams,
   GetCardsParams,
   HttpResponse,
+  LoginUserData,
+  LoginUserResponse,
   MessageResponse,
   PublicUserInfo,
+  RegisterUserData,
+  RegisterUserResponse,
   SendedCard,
   UpdateCardResponse,
   UpdatedCard,
@@ -23,6 +27,7 @@ export interface RequestErrorHandler {
 }
 export type RequestErrorsHandlers = Array<RequestErrorHandler>
 
+//!Cards
 //Get cards
 export interface GetCardsConfig {
   params: GetCardsParams
@@ -52,6 +57,15 @@ export type UpdateCardFn = (card: UpdatedCard) => UpdateCardResponsePromise
 export type GetCardCountResponsePromise = Promise<CardCountResponse>
 export type GetCardCountFn = (params: GetCardCountParams) => GetCardCountResponsePromise
 
+//!User
 //Get user info
 export type GetUserInfoResponsePromise = Promise<PublicUserInfo>
 export type GetUserInfoFn = (userName: string) => GetUserInfoResponsePromise
+
+//Register user
+export type RegisterUserResponsePromise = Promise<RegisterUserResponse>
+export type RegisterUserFn = (registerUserData: RegisterUserData) => RegisterUserResponsePromise
+
+//Login user
+export type LoginUserResponsePromise = Promise<LoginUserResponse>
+export type LoginUserFn = (loginUserData: LoginUserData) => LoginUserResponsePromise

@@ -6,6 +6,8 @@ import {
   GetCardFn,
   GetCardsFn,
   GetUserInfoFn,
+  LoginUserFn,
+  RegisterUserFn,
   UpdateCardFn,
 } from './api-utility-types'
 
@@ -71,4 +73,12 @@ export const getCardCount: GetCardCountFn = (params) => {
 //User
 export const getUserInfo: GetUserInfoFn = (userName) => {
   return api.userInfo.getUserInfo(userName).then((res) => res.data)
+}
+
+export const registerUser: RegisterUserFn = (registerUserData) => {
+  return api.register.registerUser(registerUserData).then((res) => res.data)
+}
+
+export const loginUser: LoginUserFn = (loginUserData) => {
+  return api.login.loginUser(loginUserData).then((res) => res.data)
 }

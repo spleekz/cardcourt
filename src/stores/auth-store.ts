@@ -1,6 +1,6 @@
 import { makePersistable } from 'mobx-persist-store'
 import { makeAutoObservable } from 'mobx'
-import { api } from '../api'
+import { api, loginUser, registerUser } from '../api'
 import { Me } from '../api/api'
 
 export class AuthStore {
@@ -36,17 +36,13 @@ export class AuthStore {
   }
 
   registerUser(name: string, password: string): Promise<void> {
-    return api.register.registerUser({ name, password }).then((res) => {
-      if (res.ok) {
-        this.setToken(res.data.token)
-      }
+    return registerUser({ name, password }).then((res) => {
+      this.setToken(res.token)
     })
   }
   loginUser(name: string, password: string): Promise<void> {
-    return api.login.loginUser({ name, password }).then((res) => {
-      if (res.ok) {
-        this.setToken(res.data.token)
-      }
+    return loginUser({ name, password }).then((res) => {
+      this.setToken(res.token)
     })
   }
   logout(): void {

@@ -21,17 +21,21 @@ export interface Token {
   token: string;
 }
 
-export interface RegisterUser {
+export interface RegisterUserData {
   name: string;
   password: string;
 }
 
-export interface LoginUser {
+export type RegisterUserResponse = Token;
+
+export interface LoginUserData {
   name: string;
   password: string;
 }
 
-export type FullUser = RegisterUser & PublicUser;
+export type LoginUserResponse = Token;
+
+export type FullUser = RegisterUserData & PublicUser;
 
 export interface PublicUserInfo {
   name: string;
@@ -147,15 +151,15 @@ export namespace Register {
    * @name RegisterUser
    * @summary Регистрация пользователя на сервере
    * @request POST:/register
-   * @response `200` `Token` Возвращает токен пользователя
+   * @response `200` `RegisterUserResponse` Возвращает токен пользователя
    * @response `default` `MessageResponse` Ошибка
    */
   export namespace RegisterUser {
     export type RequestParams = {};
     export type RequestQuery = {};
-    export type RequestBody = RegisterUser;
+    export type RequestBody = RegisterUserData;
     export type RequestHeaders = {};
-    export type ResponseBody = Token;
+    export type ResponseBody = RegisterUserResponse;
   }
 }
 
@@ -166,15 +170,15 @@ export namespace Login {
    * @name LoginUser
    * @summary Войти в свой аккаунт
    * @request POST:/login
-   * @response `200` `Token` Возвращает токен пользователя
+   * @response `200` `LoginUserResponse` Возвращает токен пользователя
    * @response `default` `MessageResponse` Ошибка
    */
   export namespace LoginUser {
     export type RequestParams = {};
     export type RequestQuery = {};
-    export type RequestBody = LoginUser;
+    export type RequestBody = LoginUserData;
     export type RequestHeaders = {};
-    export type ResponseBody = Token;
+    export type ResponseBody = LoginUserResponse;
   }
 }
 
@@ -546,11 +550,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name RegisterUser
      * @summary Регистрация пользователя на сервере
      * @request POST:/register
-     * @response `200` `Token` Возвращает токен пользователя
+     * @response `200` `RegisterUserResponse` Возвращает токен пользователя
      * @response `default` `MessageResponse` Ошибка
      */
-    registerUser: (data: RegisterUser, params: RequestParams = {}) =>
-      this.request<Token, MessageResponse>({
+    registerUser: (data: RegisterUserData, params: RequestParams = {}) =>
+      this.request<RegisterUserResponse, MessageResponse>({
         path: `/register`,
         method: "POST",
         body: data,
@@ -567,11 +571,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name LoginUser
      * @summary Войти в свой аккаунт
      * @request POST:/login
-     * @response `200` `Token` Возвращает токен пользователя
+     * @response `200` `LoginUserResponse` Возвращает токен пользователя
      * @response `default` `MessageResponse` Ошибка
      */
-    loginUser: (data: LoginUser, params: RequestParams = {}) =>
-      this.request<Token, MessageResponse>({
+    loginUser: (data: LoginUserData, params: RequestParams = {}) =>
+      this.request<LoginUserResponse, MessageResponse>({
         path: `/login`,
         method: "POST",
         body: data,
