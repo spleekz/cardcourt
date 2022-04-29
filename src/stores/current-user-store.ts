@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { api, getCards } from '../api'
+import { getCards, getUserInfo } from '../api'
 import { Cards, GetCardsParams, PublicUserInfo } from '../api/api'
 import { CardsResponsePromise } from '../api/api-utility-types'
 import { ActionToUpdateCards, LoadingStatus } from './stores-utility-types'
@@ -38,9 +38,7 @@ export class CurrentUserStore {
     return this.cards.created.length !== 0
   }
   loadInfo(name: string): Promise<PublicUserInfo> {
-    return api.userInfo.getUserInfo(name).then((res) => {
-      return res.data
-    })
+    return getUserInfo(name)
   }
   loadCreatedCards(name: string): CardsResponsePromise {
     const params: GetCardsParams = {

@@ -6,6 +6,7 @@ import {
   GetCardsParams,
   HttpResponse,
   MessageResponse,
+  PublicUserInfo,
   SendedCard,
   UpdateCardResponse,
   UpdatedCard,
@@ -44,3 +45,7 @@ export type DeleteCardFn = (id: string) => Promise<HttpResponse<MessageResponse,
 //Update card
 export type UpdateCardResponsePromise = Promise<UpdateCardResponse>
 export type UpdateCardFn = (card: UpdatedCard) => UpdateCardResponsePromise
+
+//Get user info
+export type GetUserInfoResponsePromise = Promise<PublicUserInfo>
+export type GetUserInfoFn = (userName: string) => GetUserInfoResponsePromise

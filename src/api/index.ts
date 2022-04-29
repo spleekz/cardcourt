@@ -1,5 +1,12 @@
 import { Api } from './api'
-import { CreateCardFn, DeleteCardFn, GetCardFn, GetCardsFn, UpdateCardFn } from './api-utility-types'
+import {
+  CreateCardFn,
+  DeleteCardFn,
+  GetCardFn,
+  GetCardsFn,
+  GetUserInfoFn,
+  UpdateCardFn,
+} from './api-utility-types'
 
 export const api = new Api({
   baseUrl: 'http://localhost:4400',
@@ -9,6 +16,7 @@ export const api = new Api({
   securityWorker: (token) => (token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
 })
 
+//Cards
 export const getCards: GetCardsFn = ({ params = {}, successFn, errors, anywayFn }) => {
   const { page = 1, pagesToLoad = 1, pageSize = 5, search = '', by = '' } = params
   return api.cards
@@ -53,4 +61,9 @@ export const deleteCard: DeleteCardFn = (id) => {
 
 export const updateCard: UpdateCardFn = (card) => {
   return api.card.updateCard(card).then((res) => res.data)
+}
+
+//User
+export const getUserInfo: GetUserInfoFn = (userName) => {
+  return api.userInfo.getUserInfo(userName).then((res) => res.data)
 }
