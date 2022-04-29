@@ -1,8 +1,10 @@
 import { EmptyFunction } from '../basic-utility-types'
 import {
   Card,
+  CardCountResponse,
   CardsResponse,
   CreateCardResponse,
+  GetCardCountParams,
   GetCardsParams,
   HttpResponse,
   MessageResponse,
@@ -45,6 +47,10 @@ export type DeleteCardFn = (id: string) => Promise<HttpResponse<MessageResponse,
 //Update card
 export type UpdateCardResponsePromise = Promise<UpdateCardResponse>
 export type UpdateCardFn = (card: UpdatedCard) => UpdateCardResponsePromise
+
+//Get card count
+export type GetCardCountResponsePromise = Promise<CardCountResponse>
+export type GetCardCountFn = (params: GetCardCountParams) => GetCardCountResponsePromise
 
 //Get user info
 export type GetUserInfoResponsePromise = Promise<PublicUserInfo>

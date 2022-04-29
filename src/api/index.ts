@@ -2,6 +2,7 @@ import { Api } from './api'
 import {
   CreateCardFn,
   DeleteCardFn,
+  GetCardCountFn,
   GetCardFn,
   GetCardsFn,
   GetUserInfoFn,
@@ -61,6 +62,10 @@ export const deleteCard: DeleteCardFn = (id) => {
 
 export const updateCard: UpdateCardFn = (card) => {
   return api.card.updateCard(card).then((res) => res.data)
+}
+
+export const getCardCount: GetCardCountFn = (params) => {
+  return api.cardCount.getCardCount(params).then((res) => res.data)
 }
 
 //User
