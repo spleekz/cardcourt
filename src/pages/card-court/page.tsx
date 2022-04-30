@@ -15,8 +15,8 @@ export const CardCourtPage: React.FC = registerPage(
     const [searchParams] = useSearchParams()
 
     //поток: вводим поиск -> сетаем его в url ->
-    //сетаем его в слайдер (если поиска нет, он заменится в слайдере на initial поиск) ->
-    //слайдер изнутри грузит карточки по новову запросу
+    //сетаем поиск в слайдер (если поиска нет, он заменится в слайдере на initial поиск) ->
+    //слайдер изнутри грузит карточки по новому запросу
     useEffect(() => {
       const search = searchParams.get('query')
       mainSlider.setSearchAndReset(search)
