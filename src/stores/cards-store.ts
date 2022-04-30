@@ -10,14 +10,13 @@ export class CardsStore {
   }
 
   cards: Cards = []
-  //Обновляем массив через push.apply, чтобы не терялась ссылка на него (требуется для слайдера)
+
   setCards: ActionToUpdateCards = (cards) => {
-    const prevCards = this.cards
-    prevCards.length = 0
-    prevCards.push.apply(prevCards, cards)
+    this.cards.length = 0
+    this.cards.push(...cards)
   }
   pushCards: ActionToUpdateCards = (cards) => {
-    this.cards.push.apply(this.cards, cards)
+    this.cards.push(...cards)
   }
 
   createCard(card: SendedCard): CreateCardResponsePromise {

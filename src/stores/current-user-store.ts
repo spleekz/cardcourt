@@ -24,12 +24,11 @@ export class CurrentUserStore {
     created: [],
   }
   setCreatedCards: ActionToUpdateCards = (cards) => {
-    const prevCards = this.cards.created
-    prevCards.length = 0
-    prevCards.push.apply(prevCards, cards)
+    this.cards.created.length = 0
+    this.cards.created.push(...cards)
   }
   pushCreatedCards: ActionToUpdateCards = (cards) => {
-    this.cards.created.push.apply(this.cards!.created, cards)
+    this.cards.created.push(...cards)
   }
   get userCreatedCardsAreFinded(): boolean {
     return this.cards.created.length !== 0
