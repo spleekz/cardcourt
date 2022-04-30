@@ -1,24 +1,24 @@
 import { EmptyFunction } from '../basic-utility-types'
 import {
-  Card,
-  CardCountResponse,
-  CardsResponse,
+  GetCardCountResponse,
+  GetCardsResponse,
   CreateCardResponse,
   GetCardCountParams,
   GetCardsParams,
-  HttpResponse,
   LoginUserData,
   LoginUserResponse,
-  MessageResponse,
-  PublicUserInfo,
+  MeResponse,
   RegisterUserData,
   RegisterUserResponse,
   SendedCard,
   UpdateCardResponse,
-  UpdatedCard,
+  DeleteCardResponse,
+  UpdateCardData,
+  GetCardResponse,
+  GetUserInfoResponse,
 } from './api'
 
-export type FnToCallAfterRequest = (response: CardsResponse) => void
+export type FnToCallAfterRequest = (response: GetCardsResponse) => void
 
 //Errors
 export interface RequestErrorHandler {
@@ -35,31 +35,32 @@ export interface GetCardsConfig {
   errors?: RequestErrorsHandlers
   anywayFn?: EmptyFunction
 }
-export type CardsResponsePromise = Promise<CardsResponse>
-export type GetCardsFn = (config: GetCardsConfig) => CardsResponsePromise
+export type GetCardsResponsePromise = Promise<GetCardsResponse>
+export type GetCardsFn = (config: GetCardsConfig) => GetCardsResponsePromise
 
 //Get card
-export type CardResponsePromise = Promise<Card>
-export type GetCardFn = (id: string) => CardResponsePromise
+export type GetCardResponsePromise = Promise<GetCardResponse>
+export type GetCardFn = (id: string) => GetCardResponsePromise
 
 //Create card
 export type CreateCardResponsePromise = Promise<CreateCardResponse>
 export type CreateCardFn = (card: SendedCard) => CreateCardResponsePromise
 
 //Delete card
-export type DeleteCardFn = (id: string) => Promise<HttpResponse<MessageResponse, MessageResponse>>
+export type DeleteCardResponsePromise = Promise<DeleteCardResponse>
+export type DeleteCardFn = (id: string) => DeleteCardResponsePromise
 
 //Update card
 export type UpdateCardResponsePromise = Promise<UpdateCardResponse>
-export type UpdateCardFn = (card: UpdatedCard) => UpdateCardResponsePromise
+export type UpdateCardFn = (card: UpdateCardData) => UpdateCardResponsePromise
 
 //Get card count
-export type GetCardCountResponsePromise = Promise<CardCountResponse>
+export type GetCardCountResponsePromise = Promise<GetCardCountResponse>
 export type GetCardCountFn = (params: GetCardCountParams) => GetCardCountResponsePromise
 
 //!User
 //Get user info
-export type GetUserInfoResponsePromise = Promise<PublicUserInfo>
+export type GetUserInfoResponsePromise = Promise<GetUserInfoResponse>
 export type GetUserInfoFn = (userName: string) => GetUserInfoResponsePromise
 
 //Register user
@@ -69,3 +70,7 @@ export type RegisterUserFn = (registerUserData: RegisterUserData) => RegisterUse
 //Login user
 export type LoginUserResponsePromise = Promise<LoginUserResponse>
 export type LoginUserFn = (loginUserData: LoginUserData) => LoginUserResponsePromise
+
+//Get me
+export type GetMeResponsePromise = Promise<MeResponse>
+export type GetMeFn = () => GetMeResponsePromise

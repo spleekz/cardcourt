@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-export interface MessageResponse {
+export interface Message {
   message: string;
 }
 
@@ -35,8 +35,6 @@ export interface LoginUserData {
 
 export type LoginUserResponse = Token;
 
-export type FullUser = RegisterUserData & PublicUser;
-
 export interface PublicUserInfo {
   name: string;
 }
@@ -50,11 +48,15 @@ export interface PublicUser {
   publicUserFeatures: PublicUserFeatures;
 }
 
+export type FullUser = RegisterUserData & PublicUser;
+
+export type GetUserInfoResponse = PublicUserInfo;
+
 export interface Me {
   name: string;
 }
 
-export type CreateCardResponse = Id;
+export type MeResponse = Me;
 
 export interface CardUI {
   bodyColor: string;
@@ -95,9 +97,19 @@ export interface SendedCard {
 
 export type Card = { author: CardAuthor; words: CardWords } & SendedCard & Id;
 
-export type DeletedCard = Id;
+export type GetCardResponse = Card;
+
+export type CreateCardData = SendedCard;
+
+export type CreateCardResponse = Id;
+
+export type DeleteCardData = Id;
+
+export type DeleteCardResponse = Message;
 
 export type UpdatedCard = Id & EditedCardFields & CardAuthorField;
+
+export type UpdateCardData = UpdatedCard;
 
 export interface UpdateCardResponse {
   updatedCard: Card;
@@ -105,15 +117,26 @@ export interface UpdateCardResponse {
 
 export type Cards = Card[];
 
-export interface CardCountResponse {
+export interface GetCardsResponse {
+  cards: Cards;
+  maxLoadedPage: number;
+  pageCount: number;
+}
+
+export interface GetCardCountResponse {
   pageCount: number;
   cardCount: number;
 }
 
-export interface CardsResponse {
-  cards: Cards;
-  maxLoadedPage: number;
-  pageCount: number;
+export interface GetCardCountParams {
+  /** Размер одной страницы (по умолчанию - 5) */
+  pageSize?: number;
+
+  /** Поисковый запрос */
+  search?: string;
+
+  /** Имя автора карточек */
+  by?: string;
 }
 
 export interface GetCardsParams {
@@ -133,17 +156,6 @@ export interface GetCardsParams {
   by?: string;
 }
 
-export interface GetCardCountParams {
-  /** Размер одной страницы (по умолчанию - 5) */
-  pageSize?: number;
-
-  /** Поисковый запрос */
-  search?: string;
-
-  /** Имя автора карточек */
-  by?: string;
-}
-
 export namespace Register {
   /**
    * No description
@@ -152,7 +164,7 @@ export namespace Register {
    * @summary Регистрация пользователя на сервере
    * @request POST:/register
    * @response `200` `RegisterUserResponse` Возвращает токен пользователя
-   * @response `default` `MessageResponse` Ошибка
+   * @response `default` `Message` Ошибка
    */
   export namespace RegisterUser {
     export type RequestParams = {};
@@ -171,7 +183,7 @@ export namespace Login {
    * @summary Войти в свой аккаунт
    * @request POST:/login
    * @response `200` `LoginUserResponse` Возвращает токен пользователя
-   * @response `default` `MessageResponse` Ошибка
+   * @response `default` `Message` Ошибка
    */
   export namespace LoginUser {
     export type RequestParams = {};
@@ -190,33 +202,14 @@ export namespace Me {
    * @summary Получить данные о себе с помощью токена
    * @request GET:/me
    * @secure
-   * @response `200` `Me` Ваши данные
+   * @response `200` `MeResponse` Ваши данные
    */
   export namespace GetMe {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = Me;
-  }
-}
-
-export namespace Cards {
-  /**
-   * No description
-   * @tags cards
-   * @name GetCards
-   * @summary Начиная со страницы page включительно, загрузить pagesToLoad страниц, имеющих размер pageSize и удовлетворяющих поисковому запросу search и автору by
-   * @request GET:/cards
-   * @response `200` `CardsResponse` Список карточек
-   * @response `default` `MessageResponse` Ошибка
-   */
-  export namespace GetCards {
-    export type RequestParams = {};
-    export type RequestQuery = { page?: number; pagesToLoad?: number; pageSize?: number; search?: string; by?: string };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = CardsResponse;
+    export type ResponseBody = MeResponse;
   }
 }
 
@@ -227,14 +220,33 @@ export namespace CardCount {
    * @name GetCardCount
    * @summary Получить количество страниц карточек, существующих по этому запросу
    * @request GET:/cardCount
-   * @response `200` `CardCountResponse` Количество страниц
+   * @response `200` `GetCardCountResponse` Количество страниц
    */
   export namespace GetCardCount {
     export type RequestParams = {};
     export type RequestQuery = { pageSize?: number; search?: string; by?: string };
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = CardCountResponse;
+    export type ResponseBody = GetCardCountResponse;
+  }
+}
+
+export namespace Cards {
+  /**
+   * No description
+   * @tags cards
+   * @name GetCards
+   * @summary Начиная со страницы page включительно, загрузить pagesToLoad страниц, имеющих размер pageSize и удовлетворяющих поисковому запросу search и автору by
+   * @request GET:/cards
+   * @response `200` `GetCardsResponse` Список карточек
+   * @response `default` `Message` Ошибка
+   */
+  export namespace GetCards {
+    export type RequestParams = {};
+    export type RequestQuery = { page?: number; pagesToLoad?: number; pageSize?: number; search?: string; by?: string };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = GetCardsResponse;
   }
 }
 
@@ -247,12 +259,12 @@ export namespace Card {
    * @request POST:/card
    * @secure
    * @response `200` `CreateCardResponse` Id новосозданной карточки
-   * @response `default` `MessageResponse` Ошибка
+   * @response `default` `Message` Ошибка
    */
   export namespace CreateCard {
     export type RequestParams = {};
     export type RequestQuery = {};
-    export type RequestBody = SendedCard;
+    export type RequestBody = CreateCardData;
     export type RequestHeaders = {};
     export type ResponseBody = CreateCardResponse;
   }
@@ -263,15 +275,15 @@ export namespace Card {
    * @summary Удалить карточку по id
    * @request DELETE:/card
    * @secure
-   * @response `200` `MessageResponse` Сообщение об удалении карточки
-   * @response `default` `MessageResponse` Ошибка
+   * @response `200` `DeleteCardResponse` Сообщение об удалении карточки
+   * @response `default` `Message` Ошибка
    */
   export namespace DeleteCard {
     export type RequestParams = {};
     export type RequestQuery = {};
-    export type RequestBody = DeletedCard;
+    export type RequestBody = DeleteCardData;
     export type RequestHeaders = {};
-    export type ResponseBody = MessageResponse;
+    export type ResponseBody = DeleteCardResponse;
   }
   /**
    * No description
@@ -285,7 +297,7 @@ export namespace Card {
   export namespace UpdateCard {
     export type RequestParams = {};
     export type RequestQuery = {};
-    export type RequestBody = UpdatedCard;
+    export type RequestBody = UpdateCardData;
     export type RequestHeaders = {};
     export type ResponseBody = UpdateCardResponse;
   }
@@ -295,15 +307,15 @@ export namespace Card {
    * @name GetCard
    * @summary Получить информацию о карточке по id
    * @request GET:/card/{cardId}
-   * @response `200` `Card` Информация о карточке
-   * @response `default` `MessageResponse` Ошибка
+   * @response `200` `GetCardResponse` Информация о карточке
+   * @response `default` `Message` Ошибка
    */
   export namespace GetCard {
     export type RequestParams = { cardId: string };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = Card;
+    export type ResponseBody = GetCardResponse;
   }
 }
 
@@ -314,15 +326,15 @@ export namespace UserInfo {
    * @name GetUserInfo
    * @summary Получить публичную информацию о пользователе
    * @request GET:/userInfo/{userName}
-   * @response `200` `PublicUserInfo` Информация о пользователе
-   * @response `default` `MessageResponse` Ошибка
+   * @response `200` `GetUserInfoResponse` Информация о пользователе
+   * @response `default` `Message` Ошибка
    */
   export namespace GetUserInfo {
     export type RequestParams = { userName: string };
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = PublicUserInfo;
+    export type ResponseBody = GetUserInfoResponse;
   }
 }
 
@@ -551,10 +563,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Регистрация пользователя на сервере
      * @request POST:/register
      * @response `200` `RegisterUserResponse` Возвращает токен пользователя
-     * @response `default` `MessageResponse` Ошибка
+     * @response `default` `Message` Ошибка
      */
     registerUser: (data: RegisterUserData, params: RequestParams = {}) =>
-      this.request<RegisterUserResponse, MessageResponse>({
+      this.request<RegisterUserResponse, Message>({
         path: `/register`,
         method: "POST",
         body: data,
@@ -572,10 +584,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Войти в свой аккаунт
      * @request POST:/login
      * @response `200` `LoginUserResponse` Возвращает токен пользователя
-     * @response `default` `MessageResponse` Ошибка
+     * @response `default` `Message` Ошибка
      */
     loginUser: (data: LoginUserData, params: RequestParams = {}) =>
-      this.request<LoginUserResponse, MessageResponse>({
+      this.request<LoginUserResponse, Message>({
         path: `/login`,
         method: "POST",
         body: data,
@@ -593,33 +605,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Получить данные о себе с помощью токена
      * @request GET:/me
      * @secure
-     * @response `200` `Me` Ваши данные
+     * @response `200` `MeResponse` Ваши данные
      */
     getMe: (params: RequestParams = {}) =>
-      this.request<Me, any>({
+      this.request<MeResponse, any>({
         path: `/me`,
         method: "GET",
         secure: true,
-        format: "json",
-        ...params,
-      }),
-  };
-  cards = {
-    /**
-     * No description
-     *
-     * @tags cards
-     * @name GetCards
-     * @summary Начиная со страницы page включительно, загрузить pagesToLoad страниц, имеющих размер pageSize и удовлетворяющих поисковому запросу search и автору by
-     * @request GET:/cards
-     * @response `200` `CardsResponse` Список карточек
-     * @response `default` `MessageResponse` Ошибка
-     */
-    getCards: (query: GetCardsParams, params: RequestParams = {}) =>
-      this.request<CardsResponse, MessageResponse>({
-        path: `/cards`,
-        method: "GET",
-        query: query,
         format: "json",
         ...params,
       }),
@@ -632,11 +624,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GetCardCount
      * @summary Получить количество страниц карточек, существующих по этому запросу
      * @request GET:/cardCount
-     * @response `200` `CardCountResponse` Количество страниц
+     * @response `200` `GetCardCountResponse` Количество страниц
      */
     getCardCount: (query: GetCardCountParams, params: RequestParams = {}) =>
-      this.request<CardCountResponse, any>({
+      this.request<GetCardCountResponse, any>({
         path: `/cardCount`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
+  cards = {
+    /**
+     * No description
+     *
+     * @tags cards
+     * @name GetCards
+     * @summary Начиная со страницы page включительно, загрузить pagesToLoad страниц, имеющих размер pageSize и удовлетворяющих поисковому запросу search и автору by
+     * @request GET:/cards
+     * @response `200` `GetCardsResponse` Список карточек
+     * @response `default` `Message` Ошибка
+     */
+    getCards: (query: GetCardsParams, params: RequestParams = {}) =>
+      this.request<GetCardsResponse, Message>({
+        path: `/cards`,
         method: "GET",
         query: query,
         format: "json",
@@ -653,10 +665,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/card
      * @secure
      * @response `200` `CreateCardResponse` Id новосозданной карточки
-     * @response `default` `MessageResponse` Ошибка
+     * @response `default` `Message` Ошибка
      */
-    createCard: (data: SendedCard, params: RequestParams = {}) =>
-      this.request<CreateCardResponse, MessageResponse>({
+    createCard: (data: CreateCardData, params: RequestParams = {}) =>
+      this.request<CreateCardResponse, Message>({
         path: `/card`,
         method: "POST",
         body: data,
@@ -674,11 +686,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Удалить карточку по id
      * @request DELETE:/card
      * @secure
-     * @response `200` `MessageResponse` Сообщение об удалении карточки
-     * @response `default` `MessageResponse` Ошибка
+     * @response `200` `DeleteCardResponse` Сообщение об удалении карточки
+     * @response `default` `Message` Ошибка
      */
-    deleteCard: (data: DeletedCard, params: RequestParams = {}) =>
-      this.request<MessageResponse, MessageResponse>({
+    deleteCard: (data: DeleteCardData, params: RequestParams = {}) =>
+      this.request<DeleteCardResponse, Message>({
         path: `/card`,
         method: "DELETE",
         body: data,
@@ -698,7 +710,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      * @response `200` `UpdateCardResponse` Обновленная карточка
      */
-    updateCard: (data: UpdatedCard, params: RequestParams = {}) =>
+    updateCard: (data: UpdateCardData, params: RequestParams = {}) =>
       this.request<UpdateCardResponse, any>({
         path: `/card`,
         method: "PUT",
@@ -716,11 +728,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GetCard
      * @summary Получить информацию о карточке по id
      * @request GET:/card/{cardId}
-     * @response `200` `Card` Информация о карточке
-     * @response `default` `MessageResponse` Ошибка
+     * @response `200` `GetCardResponse` Информация о карточке
+     * @response `default` `Message` Ошибка
      */
     getCard: (cardId: string, params: RequestParams = {}) =>
-      this.request<Card, MessageResponse>({
+      this.request<GetCardResponse, Message>({
         path: `/card/${cardId}`,
         method: "GET",
         format: "json",
@@ -735,11 +747,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GetUserInfo
      * @summary Получить публичную информацию о пользователе
      * @request GET:/userInfo/{userName}
-     * @response `200` `PublicUserInfo` Информация о пользователе
-     * @response `default` `MessageResponse` Ошибка
+     * @response `200` `GetUserInfoResponse` Информация о пользователе
+     * @response `default` `Message` Ошибка
      */
     getUserInfo: (userName: string, params: RequestParams = {}) =>
-      this.request<PublicUserInfo, MessageResponse>({
+      this.request<GetUserInfoResponse, Message>({
         path: `/userInfo/${userName}`,
         method: "GET",
         format: "json",

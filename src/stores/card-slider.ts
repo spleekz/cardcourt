@@ -3,7 +3,11 @@ import { Cards, GetCardsParams } from '../api/api'
 import { getCardCount, getCards } from '../api'
 import { ActionToUpdateCards } from './stores-utility-types'
 import { Rename, RequiredBy } from '../basic-utility-types'
-import { CardsResponsePromise, FnToCallAfterRequest, GetCardsConfig } from '../api/api-utility-types'
+import {
+  GetCardsResponsePromise,
+  FnToCallAfterRequest,
+  GetCardsConfig,
+} from '../api/api-utility-types'
 
 type LoadCardsConfig = RequiredBy<
   Rename<GetCardsConfig, 'successFn', 'fnWithUpdatingCards'>,
@@ -204,7 +208,7 @@ export class CardSlider {
     fnWithUpdatingCards,
     errors,
     anywayFn,
-  }: LoadCardsConfig): CardsResponsePromise {
+  }: LoadCardsConfig): GetCardsResponsePromise {
     const successFn: FnToCallAfterRequest = (data) => {
       fnWithUpdatingCards(data)
       if (data.maxLoadedPage > this.maxLoadedPage) {
@@ -222,7 +226,7 @@ export class CardSlider {
   get areCardsFinded(): boolean {
     return this.cards.length !== 0
   }
-  loadCards(): CardsResponsePromise {
+  loadCards(): GetCardsResponsePromise {
     this.setAreCardsLoading(true)
 
     const { pagesToLoad, actionToUpdateCards } = this.loadCardsConfig
@@ -244,7 +248,7 @@ export class CardSlider {
     return this.getCardForSlider(loadCardsСonfig)
   }
 
-  loadMoreCards(): CardsResponsePromise {
+  loadMoreCards(): GetCardsResponsePromise {
     const { pagesToLoad, actionToUpdateCards } = this.loadMoreCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadMoreCardsDefaultParams, pagesToLoad }

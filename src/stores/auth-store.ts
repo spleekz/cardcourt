@@ -1,6 +1,6 @@
 import { makePersistable } from 'mobx-persist-store'
 import { makeAutoObservable } from 'mobx'
-import { api, loginUser, registerUser } from '../api'
+import { api, getMe, loginUser, registerUser } from '../api'
 import { Me } from '../api/api'
 
 export class AuthStore {
@@ -24,11 +24,9 @@ export class AuthStore {
   loadMe(): void {
     this.setIsLoadingMe(true)
     api.setSecurityData(this.token)
-    api.me.getMe().then((res) => {
-      if (res.ok) {
-        this.setMe(res.data)
-        this.setIsLoadingMe(false)
-      }
+    getMe().then((res) => {
+      this.setMe(res)
+      this.setIsLoadingMe(false)
     })
   }
   setMe(me: Me | null): void {

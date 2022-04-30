@@ -1,12 +1,9 @@
 import { makeAutoObservable } from 'mobx'
 import { getCards, getUserInfo } from '../api'
 import { Cards, GetCardsParams, PublicUserInfo } from '../api/api'
-import { CardsResponsePromise } from '../api/api-utility-types'
+import { GetCardsResponsePromise, GetUserInfoResponsePromise } from '../api/api-utility-types'
 import { ActionToUpdateCards, LoadingStatus } from './stores-utility-types'
 
-interface UserInfo {
-  name: string
-}
 interface UserCards {
   created: Cards
 }
@@ -18,8 +15,8 @@ export class CurrentUserStore {
     this.loadUser(userName)
   }
 
-  info: UserInfo
-  setInfo(info: UserInfo): void {
+  info: PublicUserInfo
+  setInfo(info: PublicUserInfo): void {
     this.info = info
   }
 
@@ -37,10 +34,10 @@ export class CurrentUserStore {
   get userCreatedCardsAreFinded(): boolean {
     return this.cards.created.length !== 0
   }
-  loadInfo(name: string): Promise<PublicUserInfo> {
+  loadInfo(name: string): GetUserInfoResponsePromise {
     return getUserInfo(name)
   }
-  loadCreatedCards(name: string): CardsResponsePromise {
+  loadCreatedCards(name: string): GetCardsResponsePromise {
     const params: GetCardsParams = {
       pagesToLoad: 2,
       pageSize: 3,

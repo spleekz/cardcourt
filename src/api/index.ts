@@ -5,6 +5,7 @@ import {
   GetCardCountFn,
   GetCardFn,
   GetCardsFn,
+  GetMeFn,
   GetUserInfoFn,
   LoginUserFn,
   RegisterUserFn,
@@ -59,7 +60,7 @@ export const createCard: CreateCardFn = (card) => {
 }
 
 export const deleteCard: DeleteCardFn = (id) => {
-  return api.card.deleteCard({ _id: id })
+  return api.card.deleteCard({ _id: id }).then((res) => res.data)
 }
 
 export const updateCard: UpdateCardFn = (card) => {
@@ -81,4 +82,8 @@ export const registerUser: RegisterUserFn = (registerUserData) => {
 
 export const loginUser: LoginUserFn = (loginUserData) => {
   return api.login.loginUser(loginUserData).then((res) => res.data)
+}
+
+export const getMe: GetMeFn = () => {
+  return api.me.getMe().then((res) => res.data)
 }
