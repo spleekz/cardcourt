@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import PreloaderSVG from '../../svg/preloader.svg'
+import PreloaderSVG from '../../assets/svg/preloader.svg'
 import { PortalToBody } from '../portal-to-body'
 
 export const ScreenPreloader: React.FC = () => {
