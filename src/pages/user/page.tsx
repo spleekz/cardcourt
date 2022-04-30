@@ -39,11 +39,9 @@ export const UserPage: React.FC = registerPage(
 
           loadCardsConfig: {
             pagesToLoad: 2,
-            actionToUpdateCards: userStore.setCreatedCards,
           },
           loadMoreCardsConfig: {
             pagesToLoad: 2,
-            actionToUpdateCards: userStore.pushCreatedCards,
           },
         }
         setUserCardsSliderStore(() => createCardSlider(userCardsSliderStoreConfig))

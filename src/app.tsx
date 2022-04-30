@@ -34,11 +34,9 @@ export const App: React.FC = observer(() => {
 
       loadCardsConfig: {
         pagesToLoad: 2,
-        actionToUpdateCards: cardsStore.setCards,
       },
       loadMoreCardsConfig: {
         pagesToLoad: 2,
-        actionToUpdateCards: cardsStore.pushCards,
       },
     })
   )

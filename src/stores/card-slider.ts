@@ -16,7 +16,6 @@ type LoadCardsConfig = RequiredBy<
 
 interface SliderLoadCardsConfig {
   pagesToLoad: number
-  actionToUpdateCards: ActionToUpdateCards
 }
 
 interface ParamsForCardRequest {
@@ -43,6 +42,14 @@ export interface SliderConfig {
 
 export class CardSlider {
   cards: Cards = []
+
+  setCards: ActionToUpdateCards = (cards) => {
+    this.cards.length = 0
+    this.cards.push(...cards)
+  }
+  pushCards: ActionToUpdateCards = (cards) => {
+    this.cards.push(...cards)
+  }
 
   cardsToShow: number
   cardsToSlide: number
@@ -146,7 +153,7 @@ export class CardSlider {
             pageSize: 1,
           }
           const successFn: FnToCallAfterRequest = (data) => {
-            this.loadMoreCardsConfig.actionToUpdateCards(data.cards)
+            this.pushCards(data.cards)
             this.maxLoadedPage = this.cards.length / this.cardsToShow
           }
           //Догружаем карточки в хранилище
@@ -229,7 +236,7 @@ export class CardSlider {
   loadCards(): GetCardsResponsePromise {
     this.setAreCardsLoading(true)
 
-    const { pagesToLoad, actionToUpdateCards } = this.loadCardsConfig
+    const { pagesToLoad } = this.loadCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadCardsDefaultParams, pagesToLoad }
 
@@ -238,7 +245,7 @@ export class CardSlider {
     const loadCardsСonfig: LoadCardsConfig = {
       params: fullParams,
       fnWithUpdatingCards: (data) => {
-        actionToUpdateCards(data.cards)
+        this.setCards(data.cards)
         this.setAreCardsLoading(false)
         this.setPageCount(data.pageCount)
       },
@@ -249,13 +256,13 @@ export class CardSlider {
   }
 
   loadMoreCards(): GetCardsResponsePromise {
-    const { pagesToLoad, actionToUpdateCards } = this.loadMoreCardsConfig
+    const { pagesToLoad } = this.loadMoreCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadMoreCardsDefaultParams, pagesToLoad }
 
     const loadMoreCardsConfig: LoadCardsConfig = {
       params: fullParams,
-      fnWithUpdatingCards: (data) => actionToUpdateCards(data.cards),
+      fnWithUpdatingCards: (data) => this.pushCards(data.cards),
     }
 
     return this.getCardForSlider(loadMoreCardsConfig)
