@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
     "strictPropertyInitialization": false
   },
-  "include": ["src", "@types/basic-utility-types.d.ts"],
+  "include": ["src"],
   "files": ["@types/is-english.d.ts"]
 }
