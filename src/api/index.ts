@@ -1,4 +1,4 @@
-import { Api } from './api'
+import { Api, HttpResponse } from './api'
 import {
   CreateCardFn,
   DeleteCardFn,
@@ -8,6 +8,7 @@ import {
   GetMeFn,
   GetUserInfoFn,
   LoginUserFn,
+  PromiseHandlers,
   RegisterUserFn,
   UpdateCardFn,
 } from './api-utility-types'
@@ -20,21 +21,17 @@ export const api = new Api({
   securityWorker: (token) => (token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
 })
 
-//Cards
-export const getCards: GetCardsFn = ({ params = {}, successFn, errors, anywayFn }) => {
-  const { page = 1, pagesToLoad = 1, pageSize = 5, search = '', by = '' } = params
-  return api.cards
-    .getCards({ page, pagesToLoad, pageSize, search, by })
-    .then((res) => {
-      if (res.ok && successFn) {
-        successFn(res.data)
-      }
+export function handlePromise<PromiseData>(
+  promise: Promise<HttpResponse<PromiseData>>,
+  handlers?: PromiseHandlers<PromiseData>
+): Promise<PromiseData> {
+  const { success, errors, anyway } = handlers || {}
 
-      return {
-        cards: res.data.cards,
-        maxLoadedPage: res.data.maxLoadedPage,
-        pageCount: res.data.pageCount,
-      }
+  return promise
+    .then((res) => {
+      success?.(res.data)
+
+      return res.data
     })
     .catch((res) => {
       errors?.forEach((error) => {
@@ -42,48 +39,50 @@ export const getCards: GetCardsFn = ({ params = {}, successFn, errors, anywayFn 
           error.handle()
         }
       })
+
       return Promise.reject()
     })
-    .finally(() => anywayFn?.())
+    .finally(() => anyway?.())
 }
 
-export const getCard: GetCardFn = (id) => {
-  return api.card.getCard(id).then((res) => {
-    return res.data
-  })
+//Cards
+export const getCards: GetCardsFn = (params, handlers) => {
+  return handlePromise(api.cards.getCards(params), handlers)
 }
 
-export const createCard: CreateCardFn = (card) => {
-  return api.card.createCard(card).then((res) => {
-    return res.data
-  })
+export const getCard: GetCardFn = (id, handlers) => {
+  return handlePromise(api.card.getCard(id), handlers)
 }
 
-export const deleteCard: DeleteCardFn = (id) => {
-  return api.card.deleteCard({ _id: id }).then((res) => res.data)
+export const createCard: CreateCardFn = (card, handlers) => {
+  return handlePromise(api.card.createCard(card), handlers)
 }
 
-export const updateCard: UpdateCardFn = (card) => {
-  return api.card.updateCard(card).then((res) => res.data)
+export const deleteCard: DeleteCardFn = (id, handlers) => {
+  return handlePromise(api.card.deleteCard({ _id: id }), handlers)
 }
 
-export const getCardCount: GetCardCountFn = (params) => {
-  return api.cardCount.getCardCount(params).then((res) => res.data)
+export const updateCard: UpdateCardFn = (card, handlers) => {
+  return handlePromise(api.card.updateCard(card), handlers)
+}
+
+export const getCardCount: GetCardCountFn = (params, handlers) => {
+  return handlePromise(api.cardCount.getCardCount(params), handlers)
 }
 
 //User
-export const getUserInfo: GetUserInfoFn = (userName) => {
-  return api.userInfo.getUserInfo(userName).then((res) => res.data)
+export const getUserInfo: GetUserInfoFn = (userName, handlers) => {
+  return handlePromise(api.userInfo.getUserInfo(userName), handlers)
 }
 
-export const registerUser: RegisterUserFn = (registerUserData) => {
-  return api.register.registerUser(registerUserData).then((res) => res.data)
+export const registerUser: RegisterUserFn = (registerUserData, handlers) => {
+  return handlePromise(api.register.registerUser(registerUserData), handlers)
 }
 
-export const loginUser: LoginUserFn = (loginUserData) => {
-  return api.login.loginUser(loginUserData).then((res) => res.data)
+export const loginUser: LoginUserFn = (loginUserData, handlers) => {
+  return handlePromise(api.login.loginUser(loginUserData), handlers)
 }
 
-export const getMe: GetMeFn = () => {
-  return api.me.getMe().then((res) => res.data)
+export const getMe: GetMeFn = (handlers) => {
+  return handlePromise(api.me.getMe(), handlers)
 }

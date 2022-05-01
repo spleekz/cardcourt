@@ -1,16 +1,12 @@
 import { makeAutoObservable } from 'mobx'
-import { Cards, GetCardsParams } from '../api/api'
+import { Cards, GetCardsParams, GetCardsResponse } from '../api/api'
 import { getCardCount, getCards } from '../api'
 import { ActionToUpdateCards } from './stores-utility-types'
 import { Rename, RequiredBy } from '../basic-utility-types'
-import {
-  GetCardsResponsePromise,
-  FnToCallAfterRequest,
-  GetCardsConfig,
-} from '../api/api-utility-types'
+import { GetCardsResponsePromise, PromiseHandlers } from '../api/api-utility-types'
 
-type LoadCardsConfig = RequiredBy<
-  Rename<GetCardsConfig, 'successFn', 'fnWithUpdatingCards'>,
+type PromiseHandlersForSlider = RequiredBy<
+  Rename<PromiseHandlers<GetCardsResponse>, 'success', 'fnWithUpdatingCards'>,
   'fnWithUpdatingCards'
 >
 
@@ -148,18 +144,17 @@ export class CardSlider {
         //Если в конфиге нецелое число страниц и ещё есть карточки по этому запросу
         if (configCardCount % this.cardsToShow !== 0 && cardCount > configCardCount) {
           const loadCardsToFullPageParams: GetCardsParams = {
+            ...this.loadCardsDefaultParams,
             page: configCardCount + 1,
             pagesToLoad: this.cardsToShow - (configCardCount % this.cardsToShow),
             pageSize: 1,
           }
-          const successFn: FnToCallAfterRequest = (data) => {
-            this.pushCards(data.cards)
-            this.maxLoadedPage = this.cards.length / this.cardsToShow
-          }
           //Догружаем карточки в хранилище
-          getCards({
-            params: loadCardsToFullPageParams,
-            successFn,
+          getCards(loadCardsToFullPageParams, {
+            success: (data) => {
+              this.pushCards(data.cards)
+              this.maxLoadedPage = this.cards.length / this.cardsToShow
+            },
           })
         } else {
           //Если в конфиге целое число страниц
@@ -210,19 +205,24 @@ export class CardSlider {
   }
 
   //Общий вид запроса карточек для слайдера
-  private getCardForSlider({
-    params,
-    fnWithUpdatingCards,
-    errors,
-    anywayFn,
-  }: LoadCardsConfig): GetCardsResponsePromise {
-    const successFn: FnToCallAfterRequest = (data) => {
-      fnWithUpdatingCards(data)
-      if (data.maxLoadedPage > this.maxLoadedPage) {
-        this.setMaxLoadedPage(data.maxLoadedPage)
-      }
+  private getCardForSlider(
+    params: GetCardsParams,
+    handlers: PromiseHandlersForSlider
+  ): GetCardsResponsePromise {
+    const { fnWithUpdatingCards, anyway, errors } = handlers
+
+    const getCardsForSliderHandlers: PromiseHandlers<GetCardsResponse> = {
+      success: (data) => {
+        fnWithUpdatingCards(data)
+        if (data.maxLoadedPage > this.maxLoadedPage) {
+          this.setMaxLoadedPage(data.maxLoadedPage)
+        }
+      },
+      errors,
+      anyway,
     }
-    return getCards({ params, successFn, errors, anywayFn })
+
+    return getCards(params, getCardsForSliderHandlers)
   }
 
   areCardsLoading = true
@@ -240,19 +240,14 @@ export class CardSlider {
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadCardsDefaultParams, pagesToLoad }
 
-    const anywayFn = (): void => this.setAreCardsLoading(false)
-
-    const loadCardsСonfig: LoadCardsConfig = {
-      params: fullParams,
+    return this.getCardForSlider(fullParams, {
       fnWithUpdatingCards: (data) => {
         this.setCards(data.cards)
         this.setAreCardsLoading(false)
         this.setPageCount(data.pageCount)
       },
-      anywayFn,
-    }
-
-    return this.getCardForSlider(loadCardsСonfig)
+      anyway: () => this.setAreCardsLoading(false),
+    })
   }
 
   loadMoreCards(): GetCardsResponsePromise {
@@ -260,12 +255,9 @@ export class CardSlider {
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
     const fullParams = { ...this.loadMoreCardsDefaultParams, pagesToLoad }
 
-    const loadMoreCardsConfig: LoadCardsConfig = {
-      params: fullParams,
+    return this.getCardForSlider(fullParams, {
       fnWithUpdatingCards: (data) => this.pushCards(data.cards),
-    }
-
-    return this.getCardForSlider(loadMoreCardsConfig)
+    })
   }
 
   private reset(): void {

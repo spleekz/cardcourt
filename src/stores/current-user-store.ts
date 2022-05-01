@@ -43,7 +43,7 @@ export class CurrentUserStore {
       by: name,
     }
 
-    return getCards({ params })
+    return getCards(params)
   }
 
   userLoadingState: LoadingStatus = 'loading'
