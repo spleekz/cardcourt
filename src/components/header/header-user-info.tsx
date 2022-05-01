@@ -1,14 +1,16 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
 import { Avatar } from '../avatar'
 import { UserInfoPopover } from './user-info-popover'
 
 export const HeaderUserInfo: React.FC = observer(() => {
-  const { authStore, appStore } = useStore()
+  const { authStore } = useStore()
   const [isUserPopover, setIsUserPopover] = useState(false)
+
+  const location = useLocation()
 
   useEffect(() => {
     if (!authStore.token) {
@@ -18,7 +20,7 @@ export const HeaderUserInfo: React.FC = observer(() => {
 
   useEffect(() => {
     setIsUserPopover(false)
-  }, [appStore.page])
+  }, [location.key])
 
   return (
     <Container>
