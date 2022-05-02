@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { createContext, useContext, useLayoutEffect, useState } from 'react'
-import { Route, Routes } from 'react-router'
+import { Route, Routes, useLocation } from 'react-router'
 import styled, { createGlobalStyle } from 'styled-components'
 import { Header } from './components/header/header'
 import { CardCourtPage } from './pages/card-court/page'
@@ -18,6 +18,7 @@ export const useMainSlider = (): CardSlider => useContext(MainSliderContext)
 
 export const App: React.FC = observer(() => {
   const { appStore, cardsStore, authStore, createCardSlider } = useStore()
+  const location = useLocation()
 
   const [mainSlider] = useState<CardSlider>(() =>
     createCardSlider({
@@ -63,7 +64,7 @@ export const App: React.FC = observer(() => {
               <Route path='/card/:cardId' element={<CardPage />} />
               <Route path='card/:cardId/check' element={<CheckPage />} />
               <Route path='card/:cardId/edit' element={<EditCardPage />} />
-              <Route path='user/:userName' element={<UserPage />} />
+              <Route path='user/:userName' element={<UserPage key={location.key} />} />
             </Routes>
           </PageContainer>
         </AppContainer>
