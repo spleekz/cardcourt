@@ -23,15 +23,21 @@ export class CurrentCardStore {
   loadCard(id: string): void {
     this.setCardLoadingStatus('loading')
 
-    getCard(id)
-      .then((card) => {
-        this.setCard(card)
+    getCard(id, {
+      success: (data) => {
+        this.setCard(data)
         this.setCardLoadingStatus('success')
-      })
-      .catch(() => {
-        this.setCard(null)
-        this.setCardLoadingStatus('error')
-      })
+      },
+      errors: [
+        {
+          code: 404,
+          handle: () => {
+            this.setCard(null)
+            this.setCardLoadingStatus('error')
+          },
+        },
+      ],
+    })
   }
 
   deleteCard(): void {
