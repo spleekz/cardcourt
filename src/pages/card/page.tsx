@@ -9,35 +9,43 @@ import styled from 'styled-components'
 import { PencilIcon } from '../../components/icons/pencil-icon'
 import { Link } from 'react-router-dom'
 import { XIcon } from '../../components/icons/x-icon'
+import { CardNotFound } from '../../components/messages/errors/card-not-found'
+import { UnknownError } from '../../components/messages/errors/unknown-error'
 
 export const CardPage: React.FC = registerPage(
   observer(() => {
     const cardStore = useCardStoreFromURL()
     const { card } = cardStore
 
-    if (!card) {
-      return <ScreenPreloader />
-    }
-
     const cardHeight = 780
     const cardWidth = getCardWidthByHeight(cardHeight)
 
     return (
-      <Container>
-        <CardContainer>
-          <FullCard card={card} width={cardWidth} height={cardHeight} />
-          <Icons>
-            <Link to={`edit`}>
-              <Icon>
-                <PencilIcon />
-              </Icon>
-            </Link>
-            <Icon onClick={() => cardStore.deleteCard()}>
-              <XIcon />
-            </Icon>
-          </Icons>
-        </CardContainer>
-      </Container>
+      <>
+        {cardStore.cardIsLoaded && card ? (
+          <Container>
+            <CardContainer>
+              <FullCard card={card} width={cardWidth} height={cardHeight} />
+              <Icons>
+                <Link to={`edit`}>
+                  <Icon>
+                    <PencilIcon />
+                  </Icon>
+                </Link>
+                <Icon onClick={() => cardStore.deleteCard()}>
+                  <XIcon />
+                </Icon>
+              </Icons>
+            </CardContainer>
+          </Container>
+        ) : cardStore.cardIsLoading ? (
+          <ScreenPreloader />
+        ) : cardStore.cardNotFound ? (
+          <CardNotFound />
+        ) : (
+          <UnknownError />
+        )}
+      </>
     )
   }),
   { isRootPath: true }

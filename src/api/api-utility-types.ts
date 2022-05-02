@@ -20,16 +20,11 @@ import {
 
 //Обработка промиса
 export type FnToCallAfterRequest<T> = (response: T) => void
-
-export interface RequestErrorHandler {
-  code: number
-  handle: EmptyFunction
-}
-export type RequestErrorsHandlers = Array<RequestErrorHandler>
+export type ErrorFn = (error: { status: number }) => void
 
 export interface PromiseHandlers<PromiseData> {
   success?: FnToCallAfterRequest<PromiseData>
-  errors?: RequestErrorsHandlers
+  error?: ErrorFn
   anyway?: EmptyFunction
 }
 

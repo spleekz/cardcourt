@@ -1,7 +1,8 @@
 import { makeAutoObservable } from 'mobx'
 import { deleteCard, getCard } from '../api'
 import { Card } from '../api/api'
-import { LoadingStatus } from './stores-utility-types'
+import { isUnknownError } from '../utils/errors'
+import { LoadingState, LoadingStatus } from './stores-utility-types'
 
 export class CurrentCardStore {
   constructor(cardId: string) {
@@ -15,28 +16,54 @@ export class CurrentCardStore {
     this.card = card
   }
 
-  cardLoadingStatus: LoadingStatus = 'loading'
-  setCardLoadingStatus(status: LoadingStatus): void {
-    this.cardLoadingStatus = status
+  private loadingState: LoadingState = {
+    status: 'loading',
+    handledErrors: [404],
+    code: null,
+  }
+
+  get loadingStatus(): LoadingStatus {
+    return this.loadingState.status
+  }
+  private setLoadingStatus(status: LoadingStatus): void {
+    this.loadingState.status = status
+  }
+  private setLoadingCode(code: number): void {
+    this.loadingState.code = code
+  }
+
+  get cardIsLoading(): boolean {
+    return this.loadingState.status === 'loading'
+  }
+  get cardIsLoaded(): boolean {
+    return this.loadingState.status === 'success'
+  }
+  get cardLoadingFailed(): boolean {
+    return this.loadingState.status === 'error'
+  }
+  get cardNotFound(): boolean {
+    return this.loadingState.code === 404
+  }
+  get unknownError(): boolean {
+    return (
+      this.loadingState.code !== null &&
+      isUnknownError(this.loadingState.code, this.loadingState.handledErrors)
+    )
   }
 
   loadCard(id: string): void {
-    this.setCardLoadingStatus('loading')
+    this.setLoadingStatus('loading')
 
     getCard(id, {
       success: (data) => {
         this.setCard(data)
-        this.setCardLoadingStatus('success')
+        this.setLoadingStatus('success')
+        this.setLoadingCode(200)
       },
-      errors: [
-        {
-          code: 404,
-          handle: () => {
-            this.setCard(null)
-            this.setCardLoadingStatus('error')
-          },
-        },
-      ],
+      error: (error) => {
+        this.setLoadingCode(error.status)
+        this.setLoadingStatus('error')
+      },
     })
   }
 

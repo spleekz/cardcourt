@@ -4,7 +4,8 @@ import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
 import { CardSlider, SliderConfig } from '../../stores/card-slider'
 import { SliderWindow } from './slider-window'
-import { NoCardsFoundMessage } from './no-cards-found-message'
+import { NoCardsOnServer } from '../messages/info-messages/no-cards-on-server'
+import { NoCardsFound } from '../messages/info-messages/no-cards-found'
 
 interface NewSliderConfig {
   newSliderConfig: SliderConfig
@@ -52,8 +53,10 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
             </RightDirectionButton>
           )}
         </Container>
+      ) : slider.search === '' && slider.by === '' ? (
+        <NoCardsOnServer fontSize={45} />
       ) : (
-        <NoCardsFoundMessage search={slider.search} by={slider.by} />
+        <NoCardsFound search={slider.search} fontSize={45} />
       )}
     </>
   )

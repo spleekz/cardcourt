@@ -9,7 +9,8 @@ import { Slider } from '../../components/card-slider/slider'
 import { getCardHeightByWidth } from '../../utils/cards'
 import { SliderConfig, CardSlider } from '../../stores/card-slider'
 import { ScreenPreloader } from '../../components/icons/screen-preloader'
-import { UserErrorMessage } from './error-message'
+import { UserNotFound } from '../../components/messages/errors/user-not-found'
+import { UserHasNoCards } from '../../components/messages/info-messages/user-has-no-cards'
 
 export const UserPage: React.FC = registerPage(
   observer(() => {
@@ -24,7 +25,7 @@ export const UserPage: React.FC = registerPage(
 
     //Если пользователь существует и загрузился - создаём слайдер
     useEffect(() => {
-      if (userStore.userLoadingState === 'success') {
+      if (userStore.userIsLoaded) {
         const userCardsSliderStoreConfig: SliderConfig = {
           cards: userStore.cards.created,
           cardsToSlide: 3,
@@ -46,15 +47,15 @@ export const UserPage: React.FC = registerPage(
         }
         setUserCardsSliderStore(() => createCardSlider(userCardsSliderStoreConfig))
       }
-    }, [userStore.userLoadingState])
+    }, [userStore.userIsLoaded])
 
-    if (userStore.userLoadingState === 'loading') {
+    if (userStore.userIsLoading) {
       return <ScreenPreloader />
     }
 
     return (
       <>
-        {userStore.userLoadingState === 'success' ? (
+        {userStore.userIsLoaded ? (
           <Container>
             <UserInfo>
               <Avatar size={480} />
@@ -64,16 +65,16 @@ export const UserPage: React.FC = registerPage(
               </div>
             </UserInfo>
 
-            {userStore.userCreatedCardsAreFinded ? (
-              <UserCardsSlider>
-                {userCardsSliderStore && <Slider slider={userCardsSliderStore} />}
-              </UserCardsSlider>
-            ) : (
-              <UserErrorMessage text='У пользователя нет карточек' />
-            )}
+            <PlaceForUserCardsSlider>
+              {userStore.userCreatedCardsFound ? (
+                userCardsSliderStore && <Slider slider={userCardsSliderStore} />
+              ) : (
+                <UserHasNoCards fontSize={36} />
+              )}
+            </PlaceForUserCardsSlider>
           </Container>
         ) : (
-          <UserErrorMessage text='Пользователь не найден' />
+          <UserNotFound userName={userName} />
         )}
       </>
     )
@@ -107,7 +108,7 @@ const SubscribeButton = styled.button`
   font-size: 28px;
   border-radius: 6px;
 `
-const UserCardsSlider = styled.div`
+const PlaceForUserCardsSlider = styled.div`
   flex: 1 0 auto;
   display: flex;
   justify-content: center;

@@ -25,7 +25,7 @@ export function handlePromise<PromiseData>(
   promise: Promise<HttpResponse<PromiseData>>,
   handlers?: PromiseHandlers<PromiseData>
 ): Promise<PromiseData> {
-  const { success, errors, anyway } = handlers || {}
+  const { success, error, anyway } = handlers || {}
 
   return promise
     .then((res) => {
@@ -34,11 +34,7 @@ export function handlePromise<PromiseData>(
       return res.data
     })
     .catch((res) => {
-      errors?.forEach((error) => {
-        if (res.status === error.code) {
-          error.handle()
-        }
-      })
+      error?.(res)
 
       return Promise.reject()
     })

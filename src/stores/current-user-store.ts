@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { getCards, getUserInfo } from '../api'
 import { Cards, GetCardsParams, PublicUserInfo } from '../api/api'
 import { GetCardsResponsePromise, GetUserInfoResponsePromise } from '../api/api-utility-types'
-import { ActionToUpdateCards, LoadingStatus } from './stores-utility-types'
+import { ActionToUpdateCards, LoadingState, LoadingStatus } from './stores-utility-types'
 
 interface UserCards {
   created: Cards
@@ -30,11 +30,16 @@ export class CurrentUserStore {
   pushCreatedCards: ActionToUpdateCards = (cards) => {
     this.cards.created.push(...cards)
   }
-  get userCreatedCardsAreFinded(): boolean {
+  get userCreatedCardsFound(): boolean {
     return this.cards.created.length !== 0
   }
   loadInfo(name: string): GetUserInfoResponsePromise {
-    return getUserInfo(name)
+    return getUserInfo(name, {
+      error: (error) => {
+        this.setLoadingCode(error.status)
+        this.setLoadingStatus('error')
+      },
+    })
   }
   loadCreatedCards(name: string): GetCardsResponsePromise {
     const params: GetCardsParams = {
@@ -46,22 +51,41 @@ export class CurrentUserStore {
     return getCards(params)
   }
 
-  userLoadingState: LoadingStatus = 'loading'
-  setUserLoadingState(value: LoadingStatus): void {
-    this.userLoadingState = value
+  private loadingState: LoadingState = {
+    status: 'loading',
+    handledErrors: [404],
+    code: null,
+  }
+  private setLoadingStatus(status: LoadingStatus): void {
+    this.loadingState.status = status
+  }
+  private setLoadingCode(code: number): void {
+    this.loadingState.code = code
+  }
+
+  get userIsLoading(): boolean {
+    return this.loadingState.status === 'loading'
+  }
+  get userIsLoaded(): boolean {
+    return this.loadingState.status === 'success'
+  }
+  get userLoadingFailed(): boolean {
+    return this.loadingState.status === 'error'
+  }
+  get userNotFound(): boolean {
+    return this.loadingState.code === 404
   }
 
   loadUser(name: string): void {
-    this.setUserLoadingState('loading')
+    this.setLoadingStatus('loading')
 
-    this.loadInfo(name)
-      .then((infoResponse) => {
-        this.loadCreatedCards(name).then((createdCardsResponse) => {
-          this.setInfo(infoResponse)
-          this.setCreatedCards(createdCardsResponse.cards)
-          this.setUserLoadingState('success')
-        })
+    this.loadInfo(name).then((infoResponse) => {
+      this.loadCreatedCards(name).then((createdCardsResponse) => {
+        this.setInfo(infoResponse)
+        this.setCreatedCards(createdCardsResponse.cards)
+        this.setLoadingCode(200)
+        this.setLoadingStatus('success')
       })
-      .catch(() => this.setUserLoadingState('error'))
+    })
   }
 }

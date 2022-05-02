@@ -6,22 +6,31 @@ import { registerPage } from '../../hocs/register-page'
 import { ScreenPreloader } from '../../components/icons/screen-preloader'
 import { FormCard } from '../../components/card/variants/form-card/form-card'
 import { getCardWidthByHeight } from '../../utils/cards'
+import { CardNotFound } from '../../components/messages/errors/card-not-found'
+import { UnknownError } from '../../components/messages/errors/unknown-error'
 
 export const EditCardPage: React.FC = registerPage(
   observer(() => {
-    const { card } = useCardStoreFromURL()
-
-    if (!card) {
-      return <ScreenPreloader />
-    }
+    const cardStore = useCardStoreFromURL()
+    const { card } = cardStore
 
     const cardHeight = 780
     const cardWidth = getCardWidthByHeight(cardHeight)
 
     return (
-      <Container>
-        <FormCard card={card} width={cardWidth} height={cardHeight} />
-      </Container>
+      <>
+        {cardStore.cardIsLoaded && card ? (
+          <Container>
+            <FormCard card={card} width={cardWidth} height={cardHeight} />
+          </Container>
+        ) : cardStore.cardIsLoading ? (
+          <ScreenPreloader />
+        ) : cardStore.cardNotFound ? (
+          <CardNotFound />
+        ) : (
+          <UnknownError />
+        )}
+      </>
     )
   }),
   { isProtected: true }

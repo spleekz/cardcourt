@@ -209,20 +209,18 @@ export class CardSlider {
     params: GetCardsParams,
     handlers: PromiseHandlersForSlider
   ): GetCardsResponsePromise {
-    const { fnWithUpdatingCards, anyway, errors } = handlers
+    const { fnWithUpdatingCards, anyway, error } = handlers
 
-    const getCardsForSliderHandlers: PromiseHandlers<GetCardsResponse> = {
+    return getCards(params, {
       success: (data) => {
         fnWithUpdatingCards(data)
         if (data.maxLoadedPage > this.maxLoadedPage) {
           this.setMaxLoadedPage(data.maxLoadedPage)
         }
       },
-      errors,
+      error,
       anyway,
-    }
-
-    return getCards(params, getCardsForSliderHandlers)
+    })
   }
 
   areCardsLoading = true
