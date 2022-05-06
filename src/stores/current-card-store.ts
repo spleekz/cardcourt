@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { deleteCard, getCard } from '../api'
 import { Card } from '../api/api'
+import { StatusCodes } from '../api/api-utility-types'
 import { LoadingState } from './entities/loading-state'
 
 export class CurrentCardStore {
@@ -16,7 +17,7 @@ export class CurrentCardStore {
   }
 
   cardLoadingState = new LoadingState({
-    handledErrors: [404],
+    handledErrors: [StatusCodes.notFound],
   })
 
   loadCard(id: string): void {
@@ -26,7 +27,7 @@ export class CurrentCardStore {
       success: (data) => {
         this.setCard(data)
         this.cardLoadingState.setStatus('success')
-        this.cardLoadingState.setCode(200)
+        this.cardLoadingState.setCode(StatusCodes.ok)
       },
       error: (error) => {
         this.cardLoadingState.setCode(error.status)

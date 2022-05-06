@@ -18,6 +18,12 @@ import {
   GetUserInfoResponse,
 } from './api'
 
+//http коды
+export enum StatusCodes {
+  ok = 200,
+  notFound = 404,
+}
+
 //Обработка промиса
 export type FnToCallAfterRequest<T> = (response: T) => void
 export type ErrorFn = (error: { status: number }) => void

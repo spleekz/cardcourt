@@ -1,7 +1,11 @@
 import { makeAutoObservable } from 'mobx'
 import { getCards, getUserInfo } from '../api'
 import { Cards, GetCardsParams, PublicUserInfo } from '../api/api'
-import { GetCardsResponsePromise, GetUserInfoResponsePromise } from '../api/api-utility-types'
+import {
+  GetCardsResponsePromise,
+  GetUserInfoResponsePromise,
+  StatusCodes,
+} from '../api/api-utility-types'
 import { LoadingState } from './entities/loading-state'
 import { ActionToUpdateCards } from './stores-utility-types'
 
@@ -32,7 +36,7 @@ export class CurrentUserStore {
     this.cards.created.push(...cards)
   }
 
-  userLoadingState = new LoadingState({ handledErrors: [404] })
+  userLoadingState = new LoadingState({ handledErrors: [StatusCodes.notFound] })
   userCardsLoadingState = new LoadingState({ handledErrors: [] })
 
   loadInfo(name: string): GetUserInfoResponsePromise {
@@ -62,10 +66,10 @@ export class CurrentUserStore {
         this.setInfo(infoResponse)
         this.setCreatedCards(createdCardsResponse.cards)
 
-        this.userCardsLoadingState.setCode(200)
+        this.userCardsLoadingState.setCode(StatusCodes.ok)
         this.userCardsLoadingState.setStatus('success')
 
-        this.userLoadingState.setCode(200)
+        this.userLoadingState.setCode(StatusCodes.ok)
         this.userLoadingState.setStatus('success')
       })
     })

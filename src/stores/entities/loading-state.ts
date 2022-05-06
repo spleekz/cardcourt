@@ -1,14 +1,15 @@
 import { makeAutoObservable } from 'mobx'
+import { StatusCodes } from '../../api/api-utility-types'
 import { isUnknownError } from '../../utils/errors'
 
 interface FlowStateConfig {
-  handledErrors: Array<number>
+  handledErrors: Array<StatusCodes>
 }
 
 type LoadingStatus = 'error' | 'loading' | 'success'
 
 export class LoadingState {
-  handledErrors: Array<number> = []
+  handledErrors: Array<StatusCodes> = []
 
   constructor(config: FlowStateConfig) {
     const { handledErrors } = config
@@ -37,7 +38,7 @@ export class LoadingState {
     return this.status === 'error'
   }
   get notFound(): boolean {
-    return this.code !== null && this.code === 404
+    return this.code !== null && this.code === StatusCodes.notFound
   }
   get isUnknownError(): boolean {
     return this.code !== null && isUnknownError(this.code, this.handledErrors)
