@@ -6,6 +6,7 @@ import { CardSlider, SliderConfig } from '../../stores/card-slider'
 import { SliderWindow } from './slider-window'
 import { NoCardsOnServer } from '../messages/info-messages/no-cards-on-server'
 import { NoCardsFound } from '../messages/info-messages/no-cards-found'
+import { UnknownError } from '../messages/errors/unknown-error'
 
 interface NewSliderConfig {
   newSliderConfig: SliderConfig
@@ -31,7 +32,7 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
 
   return (
     <>
-      {slider.areCardsFinded ? (
+      {slider.firstLoadingState.isLoaded ? (
         <Container>
           {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
             <LeftDirectionButton onClick={slider.slideLeft} disabled={slider.page <= 1}>
@@ -53,10 +54,14 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
             </RightDirectionButton>
           )}
         </Container>
-      ) : slider.search === '' && slider.by === '' ? (
-        <NoCardsOnServer fontSize={45} />
+      ) : slider.cardsFound ? (
+        slider.searchingAllCards ? (
+          <NoCardsOnServer fontSize={45} />
+        ) : (
+          <NoCardsFound search={slider.search} fontSize={45} />
+        )
       ) : (
-        <NoCardsFound search={slider.search} fontSize={45} />
+        <UnknownError />
       )}
     </>
   )

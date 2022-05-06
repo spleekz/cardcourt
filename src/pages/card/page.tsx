@@ -22,7 +22,7 @@ export const CardPage: React.FC = registerPage(
 
     return (
       <>
-        {cardStore.cardIsLoaded && card ? (
+        {cardStore.cardLoadingState.isLoaded && card ? (
           <Container>
             <CardContainer>
               <FullCard card={card} width={cardWidth} height={cardHeight} />
@@ -38,9 +38,9 @@ export const CardPage: React.FC = registerPage(
               </Icons>
             </CardContainer>
           </Container>
-        ) : cardStore.cardIsLoading ? (
+        ) : cardStore.cardLoadingState.isLoading ? (
           <ScreenPreloader />
-        ) : cardStore.cardNotFound ? (
+        ) : cardStore.cardLoadingState.notFound ? (
           <CardNotFound />
         ) : (
           <UnknownError />

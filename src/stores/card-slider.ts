@@ -4,6 +4,7 @@ import { getCardCount, getCards } from '../api'
 import { ActionToUpdateCards } from './stores-utility-types'
 import { Rename, RequiredBy } from '../basic-utility-types'
 import { GetCardsResponsePromise, PromiseHandlers } from '../api/api-utility-types'
+import { LoadingState } from './entities/loading-state'
 
 type PromiseHandlersForSlider = RequiredBy<
   Rename<PromiseHandlers<GetCardsResponse>, 'success', 'fnWithUpdatingCards'>,
@@ -223,16 +224,16 @@ export class CardSlider {
     })
   }
 
-  areCardsLoading = true
-  setAreCardsLoading(value: boolean): void {
-    this.areCardsLoading = value
-  }
-
-  get areCardsFinded(): boolean {
+  firstLoadingState = new LoadingState({ handledErrors: [] })
+  get cardsFound(): boolean {
     return this.cards.length !== 0
   }
+  get searchingAllCards(): boolean {
+    return this.search === '' && this.by === ''
+  }
+
   loadCards(): GetCardsResponsePromise {
-    this.setAreCardsLoading(true)
+    this.firstLoadingState.setStatus('loading')
 
     const { pagesToLoad } = this.loadCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
@@ -241,10 +242,15 @@ export class CardSlider {
     return this.getCardForSlider(fullParams, {
       fnWithUpdatingCards: (data) => {
         this.setCards(data.cards)
-        this.setAreCardsLoading(false)
         this.setPageCount(data.pageCount)
+
+        this.firstLoadingState.setCode(200)
+        this.firstLoadingState.setStatus('success')
       },
-      anyway: () => this.setAreCardsLoading(false),
+      error: (error) => {
+        this.firstLoadingState.setCode(error.status)
+        this.firstLoadingState.setStatus('error')
+      },
     })
   }
 

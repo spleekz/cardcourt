@@ -22,7 +22,7 @@ export const CardCourtPage: React.FC = registerPage(
       mainSlider.setSearchAndReset(search)
     }, [searchParams])
 
-    if (mainSlider.areCardsLoading) {
+    if (mainSlider.firstLoadingState.isLoading) {
       return (
         <PortalToBody>
           <ScreenPreloader />

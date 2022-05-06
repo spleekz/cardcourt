@@ -1,8 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { deleteCard, getCard } from '../api'
 import { Card } from '../api/api'
-import { isUnknownError } from '../utils/errors'
-import { LoadingState, LoadingStatus } from './stores-utility-types'
+import { LoadingState } from './entities/loading-state'
 
 export class CurrentCardStore {
   constructor(cardId: string) {
@@ -16,53 +15,22 @@ export class CurrentCardStore {
     this.card = card
   }
 
-  private loadingState: LoadingState = {
-    status: 'loading',
+  cardLoadingState = new LoadingState({
     handledErrors: [404],
-    code: null,
-  }
-
-  get loadingStatus(): LoadingStatus {
-    return this.loadingState.status
-  }
-  private setLoadingStatus(status: LoadingStatus): void {
-    this.loadingState.status = status
-  }
-  private setLoadingCode(code: number): void {
-    this.loadingState.code = code
-  }
-
-  get cardIsLoading(): boolean {
-    return this.loadingState.status === 'loading'
-  }
-  get cardIsLoaded(): boolean {
-    return this.loadingState.status === 'success'
-  }
-  get cardLoadingFailed(): boolean {
-    return this.loadingState.status === 'error'
-  }
-  get cardNotFound(): boolean {
-    return this.loadingState.code === 404
-  }
-  get unknownError(): boolean {
-    return (
-      this.loadingState.code !== null &&
-      isUnknownError(this.loadingState.code, this.loadingState.handledErrors)
-    )
-  }
+  })
 
   loadCard(id: string): void {
-    this.setLoadingStatus('loading')
+    this.cardLoadingState.setStatus('loading')
 
     getCard(id, {
       success: (data) => {
         this.setCard(data)
-        this.setLoadingStatus('success')
-        this.setLoadingCode(200)
+        this.cardLoadingState.setStatus('success')
+        this.cardLoadingState.setCode(200)
       },
       error: (error) => {
-        this.setLoadingCode(error.status)
-        this.setLoadingStatus('error')
+        this.cardLoadingState.setCode(error.status)
+        this.cardLoadingState.setStatus('error')
       },
     })
   }
