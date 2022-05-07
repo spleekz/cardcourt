@@ -33,29 +33,29 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
   return (
     <>
       {slider.firstLoadingState.isLoaded ? (
-        <Container>
-          {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
-            <LeftDirectionButton onClick={slider.slideLeft} disabled={slider.page <= 1}>
-              Назад
-            </LeftDirectionButton>
-          )}
+        slider.cardsFound ? (
+          <Container>
+            {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
+              <LeftDirectionButton onClick={slider.slideLeft} disabled={slider.page <= 1}>
+                Назад
+              </LeftDirectionButton>
+            )}
 
-          <SliderWindow
-            cards={slider.cards}
-            cardWidth={slider.cardWidth}
-            cardHeight={slider.cardHeight}
-            cardsToShow={slider.cardsToShow}
-            sliderPosition={slider.position}
-          />
+            <SliderWindow
+              cards={slider.cards}
+              cardWidth={slider.cardWidth}
+              cardHeight={slider.cardHeight}
+              cardsToShow={slider.cardsToShow}
+              sliderPosition={slider.position}
+            />
 
-          {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
-            <RightDirectionButton onClick={slider.slideRigth} disabled={slider.onLastPage}>
-              Вперёд
-            </RightDirectionButton>
-          )}
-        </Container>
-      ) : slider.cardsFound ? (
-        slider.searchingAllCards ? (
+            {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
+              <RightDirectionButton onClick={slider.slideRigth} disabled={slider.onLastPage}>
+                Вперёд
+              </RightDirectionButton>
+            )}
+          </Container>
+        ) : slider.searchingAllCards ? (
           <NoCardsOnServer fontSize={45} />
         ) : (
           <NoCardsFound search={slider.search} fontSize={45} />

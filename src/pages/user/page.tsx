@@ -11,6 +11,7 @@ import { SliderConfig, CardSlider } from '../../stores/card-slider'
 import { ScreenPreloader } from '../../components/icons/screen-preloader'
 import { UserNotFound } from '../../components/messages/errors/user-not-found'
 import { UserHasNoCards } from '../../components/messages/info-messages/user-has-no-cards'
+import { UnknownError } from '../../components/messages/errors/unknown-error'
 
 export const UserPage: React.FC = registerPage(
   observer(() => {
@@ -55,7 +56,7 @@ export const UserPage: React.FC = registerPage(
 
     return (
       <>
-        {userStore.userLoadingState.isLoaded ? (
+        {userStore.userLoadingState.isLoaded && userCardsSliderStore ? (
           <Container>
             <UserInfo>
               <Avatar size={480} />
@@ -66,15 +67,17 @@ export const UserPage: React.FC = registerPage(
             </UserInfo>
 
             <PlaceForUserCardsSlider>
-              {userStore.userCardsLoadingState.isLoaded ? (
-                userCardsSliderStore && <Slider slider={userCardsSliderStore} />
+              {userCardsSliderStore.cardsFound ? (
+                <Slider slider={userCardsSliderStore} />
               ) : (
-                <UserHasNoCards fontSize={36} />
+                <UserHasNoCards fontSize={45} />
               )}
             </PlaceForUserCardsSlider>
           </Container>
-        ) : (
+        ) : userStore.userLoadingState.notFound ? (
           <UserNotFound userName={userName} />
+        ) : (
+          <UnknownError />
         )}
       </>
     )
