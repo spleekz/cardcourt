@@ -136,6 +136,9 @@ export class CardSlider {
     const configCardCount = config.cards.length
     //!Догружаем карточки до полной страницы, если возможно
     if (configCardCount !== 0) {
+      this.firstLoadingState.setCode(200)
+      this.firstLoadingState.setStatus('success')
+
       //Запрос за количеством карточек по этому запросу, чтобы узнать, все ли карточки есть в конфиге
       getCardCount({ pageSize: this.cardsToShow, search: this.search, by: this.by }).then((res) => {
         const { pageCount, cardCount } = res
@@ -243,7 +246,7 @@ export class CardSlider {
       fnWithUpdatingCards: (data) => {
         this.setCards(data.cards)
         this.setPageCount(data.pageCount)
-
+        
         this.firstLoadingState.setCode(200)
         this.firstLoadingState.setStatus('success')
       },
