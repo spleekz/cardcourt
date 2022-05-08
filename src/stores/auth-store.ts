@@ -2,6 +2,12 @@ import { makePersistable } from 'mobx-persist-store'
 import { makeAutoObservable } from 'mobx'
 import { api, getMe, loginUser, registerUser } from '../api'
 import { Me } from '../api/api'
+import {
+  LoginUserResponsePromise,
+  RegisterUserResponsePromise,
+  StatusCodes,
+} from '../api/api-utility-types'
+import { LoadingState } from './entities/loading-state'
 
 export class AuthStore {
   constructor() {
@@ -15,34 +21,70 @@ export class AuthStore {
   }
 
   me: Me | null = null
-
-  isLoadingMe = false
-  setIsLoadingMe(value: boolean): void {
-    this.isLoadingMe = value
-  }
-
+  meLoadingState = new LoadingState({ handledErrors: [] })
   loadMe(): void {
-    this.setIsLoadingMe(true)
+    this.meLoadingState.setStatus('loading')
     api.setSecurityData(this.token)
-    getMe().then((res) => {
-      this.setMe(res)
-      this.setIsLoadingMe(false)
+    getMe({
+      success: (data) => {
+        this.setMe(data)
+
+        this.meLoadingState.setCode(200)
+        this.meLoadingState.setStatus('success')
+      },
     })
   }
   setMe(me: Me | null): void {
     this.me = me
   }
 
-  registerUser(name: string, password: string): Promise<void> {
-    return registerUser({ name, password }).then((res) => {
-      this.setToken(res.token)
-    })
+  //! сейчас разделяем register state и login state
+  registerLoadingState = new LoadingState({
+    handledErrors: [StatusCodes.longRegisterName, StatusCodes.sameRegisterName],
+  })
+  registerUser(name: string, password: string): RegisterUserResponsePromise {
+    this.registerLoadingState.setStatus('loading')
+
+    return registerUser(
+      { name, password },
+      {
+        success: (data) => {
+          this.setToken(data.token)
+
+          this.registerLoadingState.setCode(200)
+          this.registerLoadingState.setStatus('success')
+        },
+        error: (error) => {
+          this.registerLoadingState.setCode(error.status)
+          this.registerLoadingState.setStatus('error')
+        },
+      }
+    )
   }
-  loginUser(name: string, password: string): Promise<void> {
-    return loginUser({ name, password }).then((res) => {
-      this.setToken(res.token)
-    })
+
+  loginLoadingState = new LoadingState({
+    handledErrors: [StatusCodes.wrongLoginName, StatusCodes.wrongPassword],
+  })
+  loginUser(name: string, password: string): LoginUserResponsePromise {
+    this.loginLoadingState.setStatus('loading')
+
+    return loginUser(
+      { name, password },
+      {
+        success: (data) => {
+          this.setToken(data.token)
+
+          this.loginLoadingState.setCode(200)
+          this.loginLoadingState.setStatus('success')
+        },
+        error: (error) => {
+          this.loginLoadingState.setCode(error.status)
+          this.loginLoadingState.setStatus('error')
+        },
+      }
+    )
   }
+
   logout(): void {
     this.setToken(null)
     this.setMe(null)

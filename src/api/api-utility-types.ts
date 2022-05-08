@@ -20,6 +20,12 @@ import {
 
 //http коды
 export enum StatusCodes {
+  longRegisterName = 459,
+  sameRegisterName = 460,
+
+  wrongLoginName = 461,
+  wrongPassword = 462,
+
   ok = 200,
   notFound = 404,
 }

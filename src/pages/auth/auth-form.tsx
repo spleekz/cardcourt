@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useStore } from '../../stores/root-store/context'
 import { observer } from 'mobx-react-lite'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { WrongPassword } from '../../components/messages/errors/wrong-password'
+import { WrongLoginName } from '../../components/messages/errors/wrong-login-name'
+import { UnknownError } from '../../components/messages/errors/unknown-error'
+import { SameRegisterName } from '../../components/messages/errors/same-register-name'
+import { LongRegisterName } from '../../components/messages/errors/long-register-name'
 
 interface AuthFormValues {
   name: string
@@ -15,6 +20,9 @@ export const AuthForm: React.FC = observer(() => {
   const { register, handleSubmit } = useForm<AuthFormValues>()
   const navigate = useNavigate()
   const location = useLocation()
+
+  const [registerName, setRegisterName] = useState('')
+  const [loginName, setLoginName] = useState('')
 
   const redirect = (): void => {
     if (authStore.token) {
@@ -28,37 +36,59 @@ export const AuthForm: React.FC = observer(() => {
     }
   }
 
-  const loginUser: SubmitHandler<AuthFormValues> = async ({ name, password }) => {
-    await authStore.loginUser(name, password)
-    redirect()
+  const registerUser: SubmitHandler<AuthFormValues> = ({ name, password }) => {
+    setRegisterName(name)
+    authStore.registerUser(name, password)
   }
-  const registerUser: SubmitHandler<AuthFormValues> = async ({ name, password }) => {
-    await authStore.registerUser(name, password)
+  const loginUser: SubmitHandler<AuthFormValues> = ({ name, password }) => {
+    setLoginName(name)
+    authStore.loginUser(name, password)
+  }
+
+  if (authStore.registerLoadingState.isLoaded || authStore.loginLoadingState.isLoaded) {
     redirect()
   }
 
   return (
     <Container>
-      <Title>Авторизация</Title>
-      <Form>
-        <Input placeholder='Логин' {...register('name', { required: true })} />
-        <Input type='password' placeholder='Пароль' {...register('password', { required: true })} />
-
-        <Buttons>
-          <Button type='submit' onClick={handleSubmit(loginUser)}>
-            Войти
-          </Button>
-
-          <Button type='submit' onClick={handleSubmit(registerUser)}>
-            Зарегистрироваться
-          </Button>
-        </Buttons>
-      </Form>
+      <FormBlock>
+        <Title>Авторизация</Title>
+        <Form>
+          <Input placeholder='Логин' {...register('name', { required: true })} />
+          <Input type='password' placeholder='Пароль' {...register('password', { required: true })} />
+          <Buttons>
+            <Button type='submit' onClick={handleSubmit(loginUser)}>
+              Войти
+            </Button>
+            <Button type='submit' onClick={handleSubmit(registerUser)}>
+              Зарегистрироваться
+            </Button>
+          </Buttons>
+          {(authStore.registerLoadingState.isLoadingFailed ||
+            authStore.loginLoadingState.isLoadingFailed) && (
+            <ErrorBlock>
+              {authStore.registerLoadingState.sameRegisterName && (
+                <SameRegisterName registerName={registerName} />
+              )}
+              {authStore.loginLoadingState.longRegisterName && <LongRegisterName />}
+              {authStore.loginLoadingState.wrongPassword && <WrongPassword />}
+              {authStore.loginLoadingState.wrongLoginName && <WrongLoginName loginName={loginName} />}
+              {(authStore.registerLoadingState.isUnknownError ||
+                authStore.loginLoadingState.isUnknownError) && <UnknownError withButton={false} />}
+            </ErrorBlock>
+          )}
+        </Form>
+      </FormBlock>
     </Container>
   )
 })
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`
+const FormBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -100,4 +130,12 @@ const Button = styled.button`
   background-color: #2e87ec;
   padding: 5px;
   border-radius: 3px;
+`
+const ErrorBlock = styled.div`
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `

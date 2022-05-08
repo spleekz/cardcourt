@@ -1,12 +1,13 @@
 import { makeAutoObservable } from 'mobx'
 import { StatusCodes } from '../../api/api-utility-types'
+import { notNull } from '../../utils/basic'
 import { isUnknownError } from '../../utils/errors'
+
+type LoadingStatus = 'initial' | 'loading' | 'success' | 'error'
 
 interface FlowStateConfig {
   handledErrors: Array<StatusCodes>
 }
-
-type LoadingStatus = 'error' | 'loading' | 'success'
 
 export class LoadingState {
   handledErrors: Array<StatusCodes> = []
@@ -18,7 +19,7 @@ export class LoadingState {
     makeAutoObservable(this)
   }
 
-  status: LoadingStatus = 'loading'
+  status: LoadingStatus = 'initial'
   setStatus(status: LoadingStatus): void {
     this.status = status
   }
@@ -28,6 +29,7 @@ export class LoadingState {
     this.code = code
   }
 
+  //Основные статусы
   get isLoaded(): boolean {
     return this.status === 'success'
   }
@@ -38,9 +40,25 @@ export class LoadingState {
     return this.status === 'error'
   }
   get notFound(): boolean {
-    return this.code !== null && this.code === StatusCodes.notFound
+    return this.code === StatusCodes.notFound
   }
+
+  //Доп.статусы
+  get longRegisterName(): boolean {
+    return this.code === StatusCodes.longRegisterName
+  }
+  get sameRegisterName(): boolean {
+    return this.code === StatusCodes.sameRegisterName
+  }
+
+  get wrongLoginName(): boolean {
+    return this.code === StatusCodes.wrongLoginName
+  }
+  get wrongPassword(): boolean {
+    return this.code === StatusCodes.wrongPassword
+  }
+
   get isUnknownError(): boolean {
-    return this.code !== null && isUnknownError(this.code, this.handledErrors)
+    return notNull(this.code) && isUnknownError(this.code, this.handledErrors)
   }
 }

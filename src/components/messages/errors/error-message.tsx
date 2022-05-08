@@ -4,15 +4,18 @@ import styled from 'styled-components'
 
 interface Props {
   text: string
+  withButton?: boolean
 }
 
-export const ErrorMessage: React.FC<Props> = ({ text }) => {
+export const ErrorMessage: React.FC<Props> = ({ text, withButton = false }) => {
   return (
     <Container>
       <ErrorText>{text}</ErrorText>
-      <OnMainPageButton>
-        <Link to={`/`}>На главную</Link>
-      </OnMainPageButton>
+      {withButton && (
+        <OnMainPageButton>
+          <Link to={`/`}>На главную</Link>
+        </OnMainPageButton>
+      )}
     </Container>
   )
 }
@@ -28,7 +31,6 @@ const ErrorText = styled.div`
   font-size: 32px;
   color: #ffffff;
   background-color: #d41c1cdf;
-  border-radius: 6px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 24px;
