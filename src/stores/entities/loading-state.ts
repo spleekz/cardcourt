@@ -6,6 +6,7 @@ import { isUnknownError } from '../../utils/errors'
 type LoadingStatus = 'initial' | 'loading' | 'success' | 'error'
 
 interface FlowStateConfig {
+  initialStatus?: LoadingStatus
   handledErrors: Array<StatusCodes>
 }
 
@@ -13,7 +14,9 @@ export class LoadingState {
   handledErrors: Array<StatusCodes> = []
 
   constructor(config: FlowStateConfig) {
-    const { handledErrors } = config
+    const { initialStatus = 'initial', handledErrors } = config
+
+    this.setStatus(initialStatus)
     this.handledErrors = handledErrors
 
     makeAutoObservable(this)

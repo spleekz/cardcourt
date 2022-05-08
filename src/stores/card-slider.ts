@@ -227,7 +227,7 @@ export class CardSlider {
     })
   }
 
-  firstLoadingState = new LoadingState({ handledErrors: [] })
+  firstLoadingState = new LoadingState({ initialStatus: 'loading', handledErrors: [] })
   get cardsFound(): boolean {
     return this.cards.length !== 0
   }
@@ -246,7 +246,7 @@ export class CardSlider {
       fnWithUpdatingCards: (data) => {
         this.setCards(data.cards)
         this.setPageCount(data.pageCount)
-        
+
         this.firstLoadingState.setCode(200)
         this.firstLoadingState.setStatus('success')
       },

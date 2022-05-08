@@ -36,8 +36,11 @@ export class CurrentUserStore {
     this.cards.created.push(...cards)
   }
 
-  userLoadingState = new LoadingState({ handledErrors: [StatusCodes.notFound] })
-  userCardsLoadingState = new LoadingState({ handledErrors: [] })
+  userLoadingState = new LoadingState({
+    initialStatus: 'loading',
+    handledErrors: [StatusCodes.notFound],
+  })
+  userCardsLoadingState = new LoadingState({ initialStatus: 'loading', handledErrors: [] })
 
   loadInfo(name: string): GetUserInfoResponsePromise {
     return getUserInfo(name, {

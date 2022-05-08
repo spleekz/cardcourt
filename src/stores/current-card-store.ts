@@ -17,6 +17,7 @@ export class CurrentCardStore {
   }
 
   cardLoadingState = new LoadingState({
+    initialStatus: 'loading',
     handledErrors: [StatusCodes.notFound],
   })
 
