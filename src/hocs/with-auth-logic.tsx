@@ -28,11 +28,11 @@ export const withAuthLogic = (Component: React.FC): React.FC => {
     }
 
     useEffect(() => {
-      if (registrationStore.loadingState.isLoaded || loginStore.loadingState.isLoaded) {
+      if (registrationStore.loadingState.success || loginStore.loadingState.success) {
         const redirectPath = location.state?.prevPath || '/'
         navigate(redirectPath)
       }
-    }, [registrationStore.loadingState.isLoaded, loginStore.loadingState.isLoaded])
+    }, [registrationStore.loadingState.success, loginStore.loadingState.success])
 
     return (
       <>
@@ -40,7 +40,7 @@ export const withAuthLogic = (Component: React.FC): React.FC => {
           <Component />
         </AuthContext.Provider>
 
-        {(registrationStore.loadingState.isLoading || loginStore.loadingState.isLoading) && (
+        {(registrationStore.loadingState.loading || loginStore.loadingState.loading) && (
           <ScreenPreloader blackout={true} />
         )}
       </>

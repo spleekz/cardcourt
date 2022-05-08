@@ -14,7 +14,7 @@ export const NewCardPage: React.FC = registerPage(
     const cardHeight = 780
     const cardWidth = getCardWidthByHeight(cardHeight)
 
-    if (authStore.meLoadingState.isLoading) {
+    if (authStore.meLoadingState.loading) {
       return <ScreenPreloader />
     }
 

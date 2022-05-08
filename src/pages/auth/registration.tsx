@@ -45,11 +45,11 @@ export const RegistrationPage: React.FC = registerPage(
               {...register('password', { required: true })}
             />
             <AuthFormButton onClick={handleSubmit(registerUser)}>Зарегистрироваться</AuthFormButton>
-            {loadingState.isLoadingFailed && (
+            {loadingState.error && (
               <AuthFormErrorBlock>
                 {loadingState.longRegisterName && <LongRegisterName />}
                 {loadingState.sameRegisterName && <SameRegisterName registerName={registerName} />}
-                {loadingState.isUnknownError && <UnknownError withButton={false} />}
+                {loadingState.unknownError && <UnknownError withButton={false} />}
               </AuthFormErrorBlock>
             )}
           </AuthForm>

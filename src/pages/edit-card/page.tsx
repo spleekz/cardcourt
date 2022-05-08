@@ -19,11 +19,11 @@ export const EditCardPage: React.FC = registerPage(
 
     return (
       <>
-        {cardStore.cardLoadingState.isLoaded && card ? (
+        {cardStore.cardLoadingState.success && card ? (
           <Container>
             <FormCard card={card} width={cardWidth} height={cardHeight} />
           </Container>
-        ) : cardStore.cardLoadingState.isLoading ? (
+        ) : cardStore.cardLoadingState.loading ? (
           <ScreenPreloader />
         ) : cardStore.cardLoadingState.notFound ? (
           <CardNotFound />

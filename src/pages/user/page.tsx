@@ -26,7 +26,7 @@ export const UserPage: React.FC = registerPage(
 
     //Если пользователь существует и загрузился - создаём слайдер
     useEffect(() => {
-      if (userStore.userLoadingState.isLoaded) {
+      if (userStore.userLoadingState.success) {
         const userCardsSliderStoreConfig: SliderConfig = {
           cards: userStore.cards.created,
           cardsToSlide: 3,
@@ -48,15 +48,15 @@ export const UserPage: React.FC = registerPage(
         }
         setUserCardsSliderStore(() => createCardSlider(userCardsSliderStoreConfig))
       }
-    }, [userStore.userLoadingState.isLoaded])
+    }, [userStore.userLoadingState.success])
 
-    if (userStore.userLoadingState.isLoading) {
+    if (userStore.userLoadingState.loading) {
       return <ScreenPreloader />
     }
 
     return (
       <>
-        {userStore.userLoadingState.isLoaded && userCardsSliderStore ? (
+        {userStore.userLoadingState.success && userCardsSliderStore ? (
           <Container>
             <UserInfo>
               <Avatar size={480} />

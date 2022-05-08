@@ -33,20 +33,20 @@ export class LoadingState {
   }
 
   //Основные статусы
-  get isLoaded(): boolean {
+  get success(): boolean {
     return this.status === 'success'
   }
-  get isLoading(): boolean {
+  get loading(): boolean {
     return this.status === 'loading'
   }
-  get isLoadingFailed(): boolean {
+  get error(): boolean {
     return this.status === 'error'
   }
+
   get notFound(): boolean {
     return this.code === StatusCodes.notFound
   }
 
-  //Доп.статусы
   get longRegisterName(): boolean {
     return this.code === StatusCodes.longRegisterName
   }
@@ -61,7 +61,7 @@ export class LoadingState {
     return this.code === StatusCodes.wrongPassword
   }
 
-  get isUnknownError(): boolean {
+  get unknownError(): boolean {
     return notNull(this.code) && isUnknownError(this.code, this.handledErrors)
   }
 }

@@ -47,11 +47,11 @@ export const LoginPage: React.FC = registerPage(
             <AuthFormButton type='submit' onClick={handleSubmit(loginUser)}>
               Войти
             </AuthFormButton>
-            {loadingState.isLoadingFailed && (
+            {loadingState.error && (
               <AuthFormErrorBlock>
                 {loadingState.wrongLoginName && <WrongLoginName loginName={loginName} />}
                 {loadingState.wrongPassword && <WrongPassword />}
-                {loadingState.isUnknownError && <UnknownError withButton={false} />}
+                {loadingState.unknownError && <UnknownError withButton={false} />}
               </AuthFormErrorBlock>
             )}
           </AuthForm>

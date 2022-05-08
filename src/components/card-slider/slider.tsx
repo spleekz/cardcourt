@@ -32,7 +32,7 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
 
   return (
     <>
-      {slider.firstLoadingState.isLoaded ? (
+      {slider.firstLoadingState.success ? (
         slider.cardsFound ? (
           <Container>
             {slider.cards.length > 0 && slider.pageCount === 1 ? null : (
