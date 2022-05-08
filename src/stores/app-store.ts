@@ -4,7 +4,7 @@ export type Page = 'main' | 'card' | 'new' | 'edit' | 'check' | 'login' | 'regis
 
 export class AppStore {
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this, {}, { autoBind: true })
   }
 
   page: Page = 'main'

@@ -15,7 +15,7 @@ interface UserCards {
 
 export class CurrentUserStore {
   constructor(userName: string) {
-    makeAutoObservable(this)
+    makeAutoObservable(this, {}, { autoBind: true })
 
     this.loadUser(userName)
   }

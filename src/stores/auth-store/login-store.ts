@@ -14,7 +14,7 @@ export class LoginStore {
   constructor(config: LoginStoreConfig) {
     this.authStore = config.authStore
 
-    makeAutoObservable(this)
+    makeAutoObservable(this,{},{autoBind:true})
   }
 
   loadingState = new LoadingState({
