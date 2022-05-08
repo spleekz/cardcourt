@@ -7,7 +7,7 @@ import { Avatar } from '../avatar'
 import { UserInfoPopover } from './user-info-popover'
 
 export const HeaderUserInfo: React.FC = observer(() => {
-  const { authStore } = useStore()
+  const { appStore, authStore } = useStore()
   const [isUserPopover, setIsUserPopover] = useState(false)
 
   const location = useLocation()
@@ -32,9 +32,11 @@ export const HeaderUserInfo: React.FC = observer(() => {
           {isUserPopover && <UserInfoPopover />}
         </UserBlock>
       ) : (
-        <>
-          Вы не авторизованы! <Link to='/login'>Авторизация</Link>
-        </>
+        !appStore.onAuthPage && (
+          <>
+            Вы не авторизованы! <Link to='/login'>Авторизация</Link>
+          </>
+        )
       )}
     </Container>
   )

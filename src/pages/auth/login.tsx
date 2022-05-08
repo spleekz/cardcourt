@@ -8,6 +8,7 @@ import { WrongLoginName } from '../../components/messages/errors/wrong-login-nam
 import { WrongPassword } from '../../components/messages/errors/wrong-password'
 import { AuthForm } from './auth-form'
 import { useAuthContext, withAuthLogic } from '../../hocs/with-auth-logic'
+import { registerPage } from '../../hocs/register-page'
 import {
   AuthFormButton,
   AuthFormErrorBlock,
@@ -20,7 +21,7 @@ interface LoginFormValues {
   password: string
 }
 
-export const LoginPage: React.FC = withAuthLogic(
+export const LoginPage: React.FC = registerPage(withAuthLogic(
   observer(() => {
     const { login } = useAuthContext()
     const { loadingState } = login
@@ -59,6 +60,8 @@ export const LoginPage: React.FC = withAuthLogic(
       </Container>
     )
   })
+),
+
 )
 
 const Container = styled.div`

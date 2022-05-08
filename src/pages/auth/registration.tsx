@@ -8,6 +8,7 @@ import { SameRegisterName } from '../../components/messages/errors/same-register
 import { UnknownError } from '../../components/messages/errors/unknown-error'
 import { AuthForm } from './auth-form'
 import { useAuthContext, withAuthLogic } from '../../hocs/with-auth-logic'
+import { registerPage } from '../../hocs/register-page'
 import {
   AuthFormButton,
   AuthFormErrorBlock,
@@ -20,7 +21,7 @@ interface RegisterUserValues {
   password: string
 }
 
-export const RegistrationPage: React.FC = withAuthLogic(
+export const RegistrationPage: React.FC = registerPage(withAuthLogic(
   observer(() => {
     const { registration } = useAuthContext()
     const { loadingState } = registration
@@ -57,7 +58,7 @@ export const RegistrationPage: React.FC = withAuthLogic(
       </Container>
     )
   })
-)
+))
 
 const Container = styled.div`
   flex: 1 0 auto;
