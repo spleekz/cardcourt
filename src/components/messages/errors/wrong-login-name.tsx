@@ -6,5 +6,5 @@ interface Props {
 }
 
 export const WrongLoginName: React.FC<Props> = ({ loginName }) => {
-  return <ErrorMessage text={`Пользователь ${loginName} не найден`} />
+  return <ErrorMessage text={`Пользователь ${loginName} не найден`} withButton={false} />
 }

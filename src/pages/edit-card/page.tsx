@@ -28,7 +28,7 @@ export const EditCardPage: React.FC = registerPage(
         ) : cardStore.cardLoadingState.notFound ? (
           <CardNotFound />
         ) : (
-          <UnknownError />
+          <UnknownError withButton={true} />
         )}
       </>
     )

@@ -1,6 +1,10 @@
 import React from 'react'
 import { ErrorMessage } from './error-message'
 
-export const UnknownError: React.FC = () => {
-  return <ErrorMessage text={`Неизвестная ошибка`} />
+interface Props {
+  withButton: boolean
+}
+
+export const UnknownError: React.FC<Props> = ({ withButton }) => {
+  return <ErrorMessage text={`Неизвестная ошибка`} withButton={withButton} />
 }

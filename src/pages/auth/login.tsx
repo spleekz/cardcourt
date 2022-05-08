@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, {  useState } from 'react'
+import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -21,47 +21,47 @@ interface LoginFormValues {
   password: string
 }
 
-export const LoginPage: React.FC = registerPage(withAuthLogic(
-  observer(() => {
-    const { login } = useAuthContext()
-    const { loadingState } = login
+export const LoginPage: React.FC = registerPage(
+  withAuthLogic(
+    observer(() => {
+      const { login } = useAuthContext()
+      const { loadingState } = login
 
-    const { register, handleSubmit } = useForm<LoginFormValues>()
-    const [loginName, setLoginName] = useState('')
+      const { register, handleSubmit } = useForm<LoginFormValues>()
+      const [loginName, setLoginName] = useState('')
 
-    const loginUser: SubmitHandler<LoginFormValues> = ({ name, password }) => {
-      setLoginName(name)
-      login.loginUser(name, password)
-    }
+      const loginUser: SubmitHandler<LoginFormValues> = ({ name, password }) => {
+        setLoginName(name)
+        login.loginUser(name, password)
+      }
 
-    return (
-      <Container>
-        <AuthForm title='Вход'>
-          <AuthFormInput placeholder='Логин' {...register('name', { required: true })} />
-          <AuthFormInput
-            placeholder='Пароль'
-            type='password'
-            {...register('password', { required: true })}
-          />
-          <AuthFormButton type='submit' onClick={handleSubmit(loginUser)}>
-            Войти
-          </AuthFormButton>
-          {loadingState.isLoadingFailed && (
-            <AuthFormErrorBlock>
-              {loadingState.wrongLoginName && <WrongLoginName loginName={loginName} />}
-              {loadingState.wrongPassword && <WrongPassword />}
-              {loadingState.isUnknownError && <UnknownError withButton={false} />}
-            </AuthFormErrorBlock>
-          )}
-        </AuthForm>
-        <ToAnotherWayOfAuth>
-          Нет аккаунта? <Link to='/registration'>Зарегистрируйтесь</Link>
-        </ToAnotherWayOfAuth>
-      </Container>
-    )
-  })
-),
-
+      return (
+        <Container>
+          <AuthForm title='Вход'>
+            <AuthFormInput placeholder='Логин' {...register('name', { required: true })} />
+            <AuthFormInput
+              placeholder='Пароль'
+              type='password'
+              {...register('password', { required: true })}
+            />
+            <AuthFormButton type='submit' onClick={handleSubmit(loginUser)}>
+              Войти
+            </AuthFormButton>
+            {loadingState.isLoadingFailed && (
+              <AuthFormErrorBlock>
+                {loadingState.wrongLoginName && <WrongLoginName loginName={loginName} />}
+                {loadingState.wrongPassword && <WrongPassword />}
+                {loadingState.isUnknownError && <UnknownError withButton={false} />}
+              </AuthFormErrorBlock>
+            )}
+          </AuthForm>
+          <ToAnotherWayOfAuth>
+            Нет аккаунта? <Link to='/registration'>Зарегистрируйтесь</Link>
+          </ToAnotherWayOfAuth>
+        </Container>
+      )
+    })
+  )
 )
 
 const Container = styled.div`

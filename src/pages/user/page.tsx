@@ -77,7 +77,7 @@ export const UserPage: React.FC = registerPage(
         ) : userStore.userLoadingState.notFound ? (
           <UserNotFound userName={userName} />
         ) : (
-          <UnknownError />
+          <UnknownError withButton={true} />
         )}
       </>
     )

@@ -4,10 +4,10 @@ import styled from 'styled-components'
 
 interface Props {
   text: string
-  withButton?: boolean
+  withButton: boolean
 }
 
-export const ErrorMessage: React.FC<Props> = ({ text, withButton = false }) => {
+export const ErrorMessage: React.FC<Props> = ({ text, withButton }) => {
   return (
     <Container>
       <ErrorText>{text}</ErrorText>

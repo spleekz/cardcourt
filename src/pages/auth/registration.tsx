@@ -21,44 +21,46 @@ interface RegisterUserValues {
   password: string
 }
 
-export const RegistrationPage: React.FC = registerPage(withAuthLogic(
-  observer(() => {
-    const { registration } = useAuthContext()
-    const { loadingState } = registration
+export const RegistrationPage: React.FC = registerPage(
+  withAuthLogic(
+    observer(() => {
+      const { registration } = useAuthContext()
+      const { loadingState } = registration
 
-    const { register, handleSubmit } = useForm<RegisterUserValues>()
-    const [registerName, setRegisterName] = useState('')
+      const { register, handleSubmit } = useForm<RegisterUserValues>()
+      const [registerName, setRegisterName] = useState('')
 
-    const registerUser: SubmitHandler<RegisterUserValues> = ({ name, password }) => {
-      setRegisterName(name)
-      registration.registerUser(name, password)
-    }
+      const registerUser: SubmitHandler<RegisterUserValues> = ({ name, password }) => {
+        setRegisterName(name)
+        registration.registerUser(name, password)
+      }
 
-    return (
-      <Container>
-        <AuthForm title='Регистрация'>
-          <AuthFormInput placeholder='Придумайте логин' {...register('name', { required: true })} />
-          <AuthFormInput
-            placeholder='Придумайте пароль'
-            type='password'
-            {...register('password', { required: true })}
-          />
-          <AuthFormButton onClick={handleSubmit(registerUser)}>Зарегистрироваться</AuthFormButton>
-          {loadingState.isLoadingFailed && (
-            <AuthFormErrorBlock>
-              {loadingState.longRegisterName && <LongRegisterName />}
-              {loadingState.sameRegisterName && <SameRegisterName registerName={registerName} />}
-              {loadingState.isUnknownError && <UnknownError />}
-            </AuthFormErrorBlock>
-          )}
-        </AuthForm>
-        <ToAnotherWayOfAuth>
-          Уже зарегистрированы? <Link to='/login'>Войдите</Link>
-        </ToAnotherWayOfAuth>
-      </Container>
-    )
-  })
-))
+      return (
+        <Container>
+          <AuthForm title='Регистрация'>
+            <AuthFormInput placeholder='Придумайте логин' {...register('name', { required: true })} />
+            <AuthFormInput
+              placeholder='Придумайте пароль'
+              type='password'
+              {...register('password', { required: true })}
+            />
+            <AuthFormButton onClick={handleSubmit(registerUser)}>Зарегистрироваться</AuthFormButton>
+            {loadingState.isLoadingFailed && (
+              <AuthFormErrorBlock>
+                {loadingState.longRegisterName && <LongRegisterName />}
+                {loadingState.sameRegisterName && <SameRegisterName registerName={registerName} />}
+                {loadingState.isUnknownError && <UnknownError withButton={false} />}
+              </AuthFormErrorBlock>
+            )}
+          </AuthForm>
+          <ToAnotherWayOfAuth>
+            Уже зарегистрированы? <Link to='/login'>Войдите</Link>
+          </ToAnotherWayOfAuth>
+        </Container>
+      )
+    })
+  )
+)
 
 const Container = styled.div`
   flex: 1 0 auto;

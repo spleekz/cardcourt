@@ -61,7 +61,7 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
           <NoCardsFound search={slider.search} fontSize={45} />
         )
       ) : (
-        <UnknownError />
+        <UnknownError withButton={false} />
       )}
     </>
   )
