@@ -9,9 +9,10 @@ import { CheckPage } from './pages/check/page'
 import { EditCardPage } from './pages/edit-card/page'
 import { useStore } from './stores/root-store/context'
 import { CardPage } from './pages/card/page'
-import { AuthPage } from './pages/auth/page'
 import { UserPage } from './pages/user/page'
 import { CardSlider } from './stores/card-slider'
+import { RegistrationPage } from './pages/auth/registration'
+import { LoginPage } from './pages/auth/login'
 
 export const MainSliderContext = createContext<CardSlider>({} as CardSlider)
 export const useMainSlider = (): CardSlider => useContext(MainSliderContext)
@@ -59,7 +60,8 @@ export const App: React.FC = observer(() => {
           <PageContainer>
             <Routes>
               <Route path='/' element={<CardCourtPage />} />
-              <Route path='/auth' element={<AuthPage />} />
+              <Route path='/registration' element={<RegistrationPage />} />
+              <Route path='/login' element={<LoginPage />} />
               <Route path='card/new' element={<NewCardPage />} />
               <Route path='/card/:cardId' element={<CardPage />} />
               <Route path='card/:cardId/check' element={<CheckPage />} />

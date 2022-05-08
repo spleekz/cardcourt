@@ -24,6 +24,8 @@ export function registerPage<Props>(
     const tokenFromStorage = (JSON.parse(localStorage.getItem('authStore')!) as { token: string })
       .token
 
+    const loginPath = '/login'
+
     useEffect(() => {
       if (page) {
         appStore.setPage(page as Page)
@@ -35,7 +37,7 @@ export function registerPage<Props>(
       if (!isFirstEffectRun) {
         if (isProtected) {
           if (!tokenFromStorage) {
-            navigate('/auth')
+            navigate(loginPath)
           }
         }
       }
@@ -48,7 +50,7 @@ export function registerPage<Props>(
           tokenFromStorage ? (
             <WrappedComponent {...props} />
           ) : (
-            <Navigate to={'/auth'} state={{ prevPath: location.pathname }} />
+            <Navigate to={loginPath} state={{ prevPath: location.pathname }} />
           )
         ) : (
           <WrappedComponent {...props} />

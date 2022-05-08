@@ -33,7 +33,7 @@ export const HeaderUserInfo: React.FC = observer(() => {
         </UserBlock>
       ) : (
         <>
-          Вы не авторизованы! <Link to='/auth'>Авторизация</Link>
+          Вы не авторизованы! <Link to='/login'>Авторизация</Link>
         </>
       )}
     </Container>

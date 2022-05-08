@@ -1,10 +1,10 @@
 import { CardsStore } from '../cards-store'
 import { CheckStore } from '../check-store'
 import { AppStore } from '../app-store'
-import { AuthStore } from '../auth-store'
 import { CardSlider, SliderConfig } from '../card-slider'
 import { CurrentUserStore } from '../current-user-store'
 import { CurrentCardStore } from '../current-card-store'
+import { AuthStore } from '../auth-store/auth-store'
 
 export class RootStore {
   appStore: AppStore = new AppStore()
