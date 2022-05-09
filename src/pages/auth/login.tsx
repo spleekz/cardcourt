@@ -16,6 +16,8 @@ import {
   ToAnotherWayOfAuth,
   ToAnotherWayOfAuthLink,
 } from './shared-components'
+import { useStore } from '../../stores/root-store/context'
+import { YouAlreadyLoggedIn } from '../../components/messages/errors/you-already-logged-in'
 
 interface LoginFormValues {
   name: string
@@ -25,21 +27,38 @@ interface LoginFormValues {
 export const LoginPage: React.FC = registerPage(
   withAuthLogic(
     observer(() => {
+      const { authStore } = useStore()
+
       const { login } = useAuthContext()
       const { loadingState } = login
 
       const { register, handleSubmit } = useForm<LoginFormValues>()
       const [loginName, setLoginName] = useState('')
 
+      const [localError, setIsLocalError] = useState(false)
+      const [loginNameTheSame, setLoginNameTheSame] = useState(false)
+
       const loginUser: SubmitHandler<LoginFormValues> = ({ name, password }) => {
-        setLoginName(name)
-        login.loginUser(name, password)
+        const trimmedName = name.trim()
+        setLoginName(trimmedName)
+        if (authStore.me?.name === trimmedName) {
+          setIsLocalError(true)
+          setLoginNameTheSame(true)
+        } else {
+          login.loginUser(trimmedName, password)
+          setIsLocalError(false)
+          setLoginNameTheSame(false)
+        }
       }
 
       return (
         <Container>
           <AuthForm title='Вход'>
-            <AuthFormInput placeholder='Логин' {...register('name', { required: true })} />
+            <AuthFormInput
+              placeholder='Логин'
+              maxLength={14}
+              {...register('name', { required: true })}
+            />
             <AuthFormInput
               placeholder='Пароль'
               type='password'
@@ -48,10 +67,11 @@ export const LoginPage: React.FC = registerPage(
             <AuthFormButton type='submit' onClick={handleSubmit(loginUser)}>
               Войти
             </AuthFormButton>
-            {loadingState.error && (
+            {(loadingState.error || localError) && (
               <AuthFormErrorBlock>
                 {loadingState.wrongLoginName && <WrongLoginName loginName={loginName} />}
                 {loadingState.wrongPassword && <WrongPassword />}
+                {loginNameTheSame && <YouAlreadyLoggedIn />}
                 {loadingState.unknownError && <UnknownError withButton={false} />}
               </AuthFormErrorBlock>
             )}

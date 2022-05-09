@@ -32,14 +32,19 @@ export const RegistrationPage: React.FC = registerPage(
       const [registerName, setRegisterName] = useState('')
 
       const registerUser: SubmitHandler<RegisterUserValues> = ({ name, password }) => {
-        setRegisterName(name)
-        registration.registerUser(name, password)
+        const trimmedName = name.trim()
+        setRegisterName(trimmedName)
+        registration.registerUser(trimmedName, password)
       }
 
       return (
         <Container>
           <AuthForm title='Регистрация'>
-            <AuthFormInput placeholder='Придумайте логин' {...register('name', { required: true })} />
+            <AuthFormInput
+              placeholder='Придумайте логин'
+              maxLength={14}
+              {...register('name', { required: true })}
+            />
             <AuthFormInput
               placeholder='Придумайте пароль'
               type='password'
