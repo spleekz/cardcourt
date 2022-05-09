@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useStore } from '../../stores/root-store/context'
 import { Avatar } from '../avatar'
-import { UserInfoPopover } from './user-info-popover'
+import { MeMenuPopover } from '../popovers/list-popover/variants/me-menu'
 
 export const HeaderUserInfo: React.FC = observer(() => {
   const { appStore, authStore } = useStore()
@@ -29,7 +29,7 @@ export const HeaderUserInfo: React.FC = observer(() => {
           <AvatarBlock onClick={() => setIsUserPopover(!isUserPopover)}>
             <Avatar size={48} />
           </AvatarBlock>
-          {isUserPopover && <UserInfoPopover />}
+          {isUserPopover && <MeMenuPopover />}
         </UserBlock>
       ) : (
         !appStore.onAuthPage && (
