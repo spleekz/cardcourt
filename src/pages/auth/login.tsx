@@ -14,6 +14,7 @@ import {
   AuthFormErrorBlock,
   AuthFormInput,
   ToAnotherWayOfAuth,
+  ToAnotherWayOfAuthLink,
 } from './shared-components'
 
 interface LoginFormValues {
@@ -56,7 +57,10 @@ export const LoginPage: React.FC = registerPage(
             )}
           </AuthForm>
           <ToAnotherWayOfAuth>
-            Нет аккаунта? <Link to='/registration'>Зарегистрируйтесь</Link>
+            Нет аккаунта?{' '}
+            <Link to='/registration'>
+              <ToAnotherWayOfAuthLink>Зарегистрируйтесь</ToAnotherWayOfAuthLink>
+            </Link>
           </ToAnotherWayOfAuth>
         </Container>
       )

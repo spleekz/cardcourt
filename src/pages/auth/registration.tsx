@@ -14,6 +14,7 @@ import {
   AuthFormErrorBlock,
   AuthFormInput,
   ToAnotherWayOfAuth,
+  ToAnotherWayOfAuthLink,
 } from './shared-components'
 
 interface RegisterUserValues {
@@ -54,7 +55,10 @@ export const RegistrationPage: React.FC = registerPage(
             )}
           </AuthForm>
           <ToAnotherWayOfAuth>
-            Уже зарегистрированы? <Link to='/login'>Войдите</Link>
+            Уже зарегистрированы?{' '}
+            <Link to='/login'>
+              <ToAnotherWayOfAuthLink>Войдите</ToAnotherWayOfAuthLink>
+            </Link>
           </ToAnotherWayOfAuth>
         </Container>
       )

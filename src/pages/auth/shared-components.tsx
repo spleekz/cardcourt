@@ -30,3 +30,6 @@ export const ToAnotherWayOfAuth = styled.div`
   font-weight: bold;
   background-color: #fff;
 `
+export const ToAnotherWayOfAuthLink = styled.span`
+  text-decoration: underline;
+`
