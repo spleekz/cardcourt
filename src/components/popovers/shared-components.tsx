@@ -1,13 +1,15 @@
 import styled from 'styled-components'
 
-export const ListPopoverContainer = styled.div<{
+export interface PopoverContainerProps {
   width: string
   height?: string
   top?: number
   left?: number
   bottom?: number
   right?: number
-}>`
+}
+
+export const PopoverContainer = styled.div<PopoverContainerProps>`
   position: absolute;
   top: ${(props) => props.top && `${props.top}px`};
   left: ${(props) => props.left && `${props.left}px`};
@@ -21,10 +23,10 @@ export const ListPopoverContainer = styled.div<{
   color: #000000;
   background-color: #fff;
 `
-export const ListPopoverList = styled.div`
+export const PopoverList = styled.div`
   margin: 12px 0;
 `
-export const ListPopoverListItem = styled.div`
+export const PopoverListItem = styled.div`
   font-size: 20px;
   padding: 2px 10px;
   background-color: #fff;
