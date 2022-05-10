@@ -1,13 +1,12 @@
 import React from 'react'
 import { Card } from '../../../api/api'
+import { PartialBy } from '../../../basic-utility-types'
 
 interface PropsForCardVariant {
   card: Card
   width: number
   height: number
 }
-
-type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export type PropsForCardForm = PartialBy<PropsForCardVariant, 'card'>
 

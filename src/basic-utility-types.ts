@@ -12,3 +12,5 @@ export type RequiredBy<Type, Key extends keyof Type> = Omit<Type, Key> &
   Required<{
     [P in Key]: NotUndefinded<Type[Key]>
   }>
+
+export type PartialBy<Type, Key extends keyof Type> = Omit<Type, Key> & Partial<Pick<Type, Key>>
