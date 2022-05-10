@@ -52,7 +52,7 @@ export const App: React.FC = observer(() => {
 
   return (
     <>
-      <GlobalStyles isPopup={appStore.isAnyPopupOpened} />
+      <GlobalStyles isPopup={appStore.isPopupOpened} />
       <MainSliderContext.Provider value={mainSlider}>
         <AppContainer>
           <Header />

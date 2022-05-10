@@ -15,8 +15,8 @@ export class AppStore {
     return this.page === 'login' || this.page === 'registration'
   }
 
-  isAnyPopupOpened = false
-  setIsAnyPopupOpened(value: boolean): void {
-    this.isAnyPopupOpened = value
+  isPopupOpened = false
+  setIsPopupOpened(value: boolean): void {
+    this.isPopupOpened = value
   }
 }

@@ -10,7 +10,7 @@ import { CardTemplate } from '../../template'
 import { CardVariantComponent, PropsForCardForm } from '../types'
 import { FormCardBody } from './body/body'
 import cardConfig from '../../../../stores/card-config.json'
-import { CardDonePopup } from '../../../popups/card-done'
+import { CardDonePopup } from '../../../popups/popup-with-custom-close/variants/card-done'
 
 export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
   ({ card = null, width, height }) => {
@@ -19,10 +19,10 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
     const isEditCard = card !== null
 
     //!CardDonePopup
-    const [isDone, setIsDone] = useState(false)
+    const [isCardDonePopupShown, setIsCardDonePopupShown] = useState(false)
     const [cardIdForRedirect, setCardIdForRedirect] = useState<string | null>(null)
     const showCardDonePopup = (cardId: string): void => {
-      setIsDone(true)
+      setIsCardDonePopupShown(true)
       setCardIdForRedirect(cardId)
     }
     const cardDonePopupTitle = isEditCard ? 'Карточка обновлена!' : 'Карточка создана'
@@ -117,7 +117,7 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
           </Form>
         </FormProvider>
 
-        {isDone && cardIdForRedirect && (
+        {isCardDonePopupShown && cardIdForRedirect && (
           <CardDonePopup title={cardDonePopupTitle} cardId={cardIdForRedirect} />
         )}
       </>
