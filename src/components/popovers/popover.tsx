@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useRef } from 'react'
 import { EmptyFunction } from '../../basic-utility-types'
 import { useClickOutside } from '../../hooks/use-click-outside'
+import { useLocationChange } from '../../hooks/use-location-change'
 import { PopoverContainer, PopoverContainerProps } from './shared-components'
 
 export type PopoverProps = PopoverContainerProps & { onClose: EmptyFunction }
@@ -21,16 +21,7 @@ export const Popover: React.FC<PopoverProps> = ({
 
   useClickOutside({ ref: popoverRef, fn: onClose })
 
-  const location = useLocation()
-
-  const [isFirstEffectRun, setIsFirstEffectRun] = useState(true)
-  useEffect(() => {
-    if (isFirstEffectRun) {
-      setIsFirstEffectRun(false)
-    } else {
-      onClose()
-    }
-  }, [location.key])
+  useLocationChange(onClose)
 
   return (
     <PopoverContainer
