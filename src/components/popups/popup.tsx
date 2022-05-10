@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { EmptyFunction } from '../../basic-utility-types'
+import { useLocationChange } from '../../hooks/use-location-change'
 import { useStore } from '../../stores/root-store/context'
 import { XIcon } from '../icons/x-icon'
 import { PortalToBody } from '../portal-to-body'
@@ -29,6 +30,10 @@ export const Popup: React.FC<PopupProps> = observer(
         afterClose?.()
       }
     }, [])
+
+    useLocationChange(() => {
+      onClose?.()
+    })
 
     return (
       <PortalToBody>
