@@ -3,17 +3,24 @@ import { Popup, PopupProps } from '../popup'
 
 export type DefaultPopupProps = Omit<PopupProps, 'withCloseButton'>
 
-//DefaultPopup - обёртка над Popup, с обязательным onClose
+//DefaultPopup - обёртка над Popup, где withCloseButton = true
 export const DefaultPopup: React.FC<DefaultPopupProps> = ({
   width,
   height,
   title,
-  onClose,
+  fnForClosing,
   afterClose,
   children,
 }) => {
   return (
-    <Popup width={width} height={height} title={title} onClose={onClose} afterClose={afterClose}>
+    <Popup
+      width={width}
+      height={height}
+      title={title}
+      fnForClosing={fnForClosing}
+      afterClose={afterClose}
+      withCloseButton={true}
+    >
       {children}
     </Popup>
   )

@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { EmptyFunction, RequiredBy } from '../../../basic-utility-types'
-import { Popup, PopupProps } from '../popup'
+import { EmptyFunction } from '../../../basic-utility-types'
+import { Popup, PopupTypeProps } from '../popup'
 
-//onClose - действие, чтобы закрыть попап
+//fnForClosing - действие, чтобы закрыть попап
 //onAccept / onReject - ТОЛЬКО то, что происходит при принятии / отклонеии
-type ConfirmPopupProps = RequiredBy<PopupProps, 'onClose'> & {
+type ConfirmPopupProps = PopupTypeProps & {
   accept: EmptyFunction
   reject: EmptyFunction
   acceptText: string
@@ -16,18 +16,18 @@ export const ConfirmPopup: React.FC<ConfirmPopupProps> = ({
   width,
   height,
   title,
-  onClose,
+  fnForClosing,
+  afterClose,
   accept,
   reject,
   acceptText,
   rejectText,
-  afterClose,
   children,
 }) => {
   const withClose = (fn: EmptyFunction): EmptyFunction => {
     return () => {
       fn()
-      onClose()
+      fnForClosing()
     }
   }
 
@@ -35,7 +35,14 @@ export const ConfirmPopup: React.FC<ConfirmPopupProps> = ({
   const onReject = withClose(reject)
 
   return (
-    <Popup width={width} height={height} title={title} afterClose={afterClose}>
+    <Popup
+      width={width}
+      height={height}
+      title={title}
+      afterClose={afterClose}
+      fnForClosing={fnForClosing}
+      withCloseButton={false}
+    >
       {children}
       <ButtonsContainer>
         <AcceptButton onClick={onAccept}>{acceptText}</AcceptButton>

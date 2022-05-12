@@ -11,10 +11,10 @@ interface CardDoneProps {
 export const CardDonePopup: React.FC<PopupWithCustomCloseVariantProps<CardDoneProps>> = ({
   title,
   cardId,
-  actionToClosePopup,
+  fnForClosing,
 }) => {
   return (
-    <PopupWithCustomClose width={'610px'} height={'330px'} title={title} onClose={actionToClosePopup}>
+    <PopupWithCustomClose width={'610px'} height={'330px'} title={title} fnForClosing={fnForClosing}>
       <Message>Куда идём дальше?</Message>
       <ButtonsList>
         <NavLink to='/'>

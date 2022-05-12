@@ -119,7 +119,7 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
 
         {isCardDonePopupShown && cardIdForRedirect && (
           <CardDonePopup
-            actionToClosePopup={() => setIsCardDonePopupShown(false)}
+            fnForClosing={() => setIsCardDonePopupShown(false)}
             title={cardDonePopupTitle}
             cardId={cardIdForRedirect}
           />

@@ -1,24 +1,27 @@
 import React from 'react'
-import { EmptyFunction, RequiredBy } from '../../../basic-utility-types'
-import { useLocationChange } from '../../../hooks/use-location-change'
-import { Popup, PopupProps } from '../popup'
+import { EmptyFunction } from '../../../basic-utility-types'
+import { Popup, PopupTypeProps } from '../popup'
 
-export type PopupWithCustomCloseProps = RequiredBy<PopupProps, 'onClose'>
-export type PopupWithCustomCloseVariantProps<T> = { actionToClosePopup: EmptyFunction } & T
+export type PopupWithCustomCloseVariantProps<T> = { fnForClosing: EmptyFunction } & T
 
-//Обёртка над Popup, которая принимает onClose, но не передает его в попап
-export const PopupWithCustomClose: React.FC<PopupWithCustomCloseProps> = ({
+//Обёртка над Popup, где withCloseButton = false
+export const PopupWithCustomClose: React.FC<PopupTypeProps> = ({
   width,
   height,
   title,
-  onClose,
+  fnForClosing,
   afterClose,
   children,
 }) => {
-  useLocationChange(onClose)
-
   return (
-    <Popup width={width} height={height} title={title} afterClose={afterClose}>
+    <Popup
+      width={width}
+      height={height}
+      title={title}
+      fnForClosing={fnForClosing}
+      afterClose={afterClose}
+      withCloseButton={false}
+    >
       {children}
     </Popup>
   )

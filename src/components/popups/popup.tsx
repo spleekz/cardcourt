@@ -13,17 +13,20 @@ export interface PopupProps {
   width: string
   height: string
   title: string
+  fnForClosing: EmptyFunction
+  withCloseButton: boolean
   afterClose?: EmptyFunction
-  onClose?: EmptyFunction
 }
 
+export type PopupTypeProps = Omit<PopupProps, 'withCloseButton'>
+export type PopupVariantProps<T> = PopupProps & T
+
 export const Popup: React.FC<PopupProps> = observer(
-  ({ width, height, title, onClose, afterClose, children }) => {
+  ({ width, height, title, fnForClosing, withCloseButton, afterClose, children }) => {
     const { appStore } = useStore()
 
     useEffect(() => {
       appStore.setIsPopupOpened(true)
-
       return () => {
         appStore.setIsPopupOpened(false)
         //Если попап исчезает, то выполнить функцию после закрытия
@@ -31,9 +34,7 @@ export const Popup: React.FC<PopupProps> = observer(
       }
     }, [])
 
-    useLocationChange(() => {
-      onClose?.()
-    })
+    useLocationChange(fnForClosing)
 
     return (
       <PortalToBody>
@@ -41,8 +42,8 @@ export const Popup: React.FC<PopupProps> = observer(
           <PopupBlock width={width} height={height}>
             <PopupTitleBlock>
               <PopupTitle>{title}</PopupTitle>
-              {onClose && (
-                <ClosePopupButton onClick={onClose}>
+              {withCloseButton && (
+                <ClosePopupButton onClick={fnForClosing}>
                   <XIcon />
                 </ClosePopupButton>
               )}
