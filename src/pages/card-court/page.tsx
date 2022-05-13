@@ -1,13 +1,10 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
 import { registerPage } from '../../hocs/register-page'
-import { Search } from './search'
-import { Court } from './court/court'
 import { useMainSlider } from '../../app'
-import { ScreenPreloader } from '../../components/icons/screen-preloader'
 import { useSearchParams } from 'react-router-dom'
-import { PortalToBody } from '../../components/portal-to-body'
+import { content } from '../../utils/page-content'
+import { CardCourtPageOriginalContent } from './original-content'
 
 export const CardCourtPage: React.FC = registerPage(
   observer(() => {
@@ -22,28 +19,11 @@ export const CardCourtPage: React.FC = registerPage(
       mainSlider.setSearchAndReset(search)
     }, [searchParams])
 
-    if (mainSlider.firstLoadingState.loading) {
-      return (
-        <PortalToBody>
-          <ScreenPreloader />
-        </PortalToBody>
-      )
-    }
+    const pageContent = content({
+      loading: mainSlider.firstLoadingState.loading,
+      original: <CardCourtPageOriginalContent />,
+    })
 
-    return (
-      <Container>
-        <Search />
-        <Court />
-      </Container>
-    )
+    return pageContent
   })
 )
-
-const Container = styled.div`
-  flex: 1 0 auto;
-  position: relative;
-  top: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`

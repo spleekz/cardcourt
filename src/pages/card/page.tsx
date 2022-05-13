@@ -1,86 +1,30 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import { registerPage } from '../../hocs/register-page'
-import { ScreenPreloader } from '../../components/icons/screen-preloader'
 import { useCardStoreFromURL } from '../../hooks/use-card-store-from-url'
-import { getCardWidthByHeight } from '../../utils/cards'
-import { FullCard } from '../../components/card/variants/full-card'
-import styled from 'styled-components'
-import { PencilIcon } from '../../components/icons/pencil-icon'
-import { Link } from 'react-router-dom'
-import { XIcon } from '../../components/icons/x-icon'
 import { CardNotFound } from '../../components/messages/errors/card-not-found'
+import { content } from '../../utils/page-content'
 import { UnknownError } from '../../components/messages/errors/unknown-error'
+import { CardPageOriginalContent } from './original-content'
 
 export const CardPage: React.FC = registerPage(
   observer(() => {
     const cardStore = useCardStoreFromURL()
-    const { card } = cardStore
+    const loadingState = cardStore.cardLoadingState
 
-    const cardHeight = 780
-    const cardWidth = getCardWidthByHeight(cardHeight)
+    const pageContent = content({
+      loading: loadingState.loading,
+      original: <CardPageOriginalContent cardStore={cardStore} />,
+      variants: [
+        { state: loadingState.notFound, element: <CardNotFound /> },
+        {
+          state: loadingState.unknownError,
+          element: <UnknownError withButton={true} />,
+        },
+      ],
+    })
 
-    return (
-      <>
-        {cardStore.cardLoadingState.success && card ? (
-          <Container>
-            <CardContainer>
-              <FullCard card={card} width={cardWidth} height={cardHeight} />
-              <Icons>
-                <Link to={`edit`}>
-                  <Icon>
-                    <PencilIcon />
-                  </Icon>
-                </Link>
-                <Icon onClick={() => cardStore.deleteCard()}>
-                  <XIcon />
-                </Icon>
-              </Icons>
-            </CardContainer>
-          </Container>
-        ) : cardStore.cardLoadingState.loading ? (
-          <ScreenPreloader />
-        ) : cardStore.cardLoadingState.notFound ? (
-          <CardNotFound />
-        ) : (
-          <UnknownError withButton={true} />
-        )}
-      </>
-    )
+    return pageContent
   }),
   { isRootPath: true }
 )
-
-const Container = styled.div`
-  flex: 1 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-const CardContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-const Icons = styled.div`
-  align-self: flex-start;
-  margin-left: 16px;
-`
-const Icon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 60px;
-  height: 60px;
-  background-color: #f6f6f6;
-  border-radius: 8px;
-  margin-bottom: 10px;
-
-  svg {
-    width: 30px;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-`

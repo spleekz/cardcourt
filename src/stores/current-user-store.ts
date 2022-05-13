@@ -14,13 +14,15 @@ interface UserCards {
 }
 
 export class CurrentUserStore {
+  info: PublicUserInfo
+
   constructor(userName: string) {
     makeAutoObservable(this, {}, { autoBind: true })
 
-    this.loadUser(userName)
+    this.setInfo({ name: userName })
+    this.loadUser()
   }
 
-  info: PublicUserInfo
   setInfo(info: PublicUserInfo): void {
     this.info = info
   }
@@ -60,7 +62,9 @@ export class CurrentUserStore {
     return getCards(params)
   }
 
-  loadUser(name: string): void {
+  loadUser(): void {
+    const name = this.info.name
+
     this.userLoadingState.setStatus('loading')
     this.userCardsLoadingState.setStatus('loading')
 
