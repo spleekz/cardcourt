@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { StatusCodes } from '../../api/api-utility-types'
 import { notNull } from '../../utils/basic'
-import { isUnknownError } from '../../utils/errors'
+import { isErrorCode, isUnknownError } from '../../utils/server-codes'
 
 type LoadingStatus = 'initial' | 'loading' | 'success' | 'error'
 
@@ -32,7 +32,6 @@ export class LoadingState {
     this.code = code
   }
 
-  //Основные статусы
   get success(): boolean {
     return this.status === 'success'
   }
@@ -62,6 +61,8 @@ export class LoadingState {
   }
 
   get unknownError(): boolean {
-    return notNull(this.code) && isUnknownError(this.code, this.handledErrors)
+    return (
+      notNull(this.code) && isErrorCode(this.code) && isUnknownError(this.code, this.handledErrors)
+    )
   }
 }
