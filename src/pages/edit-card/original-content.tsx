@@ -1,23 +1,21 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { Card } from '../../api/api'
 import { FormCard } from '../../components/card/variants/form-card/form-card'
 import { getCardWidthByHeight } from '../../utils/cards'
+import { useEditedCardStore } from './page'
 
-interface Props {
-  card: Card | null
-}
+export const EditCardPageOriginalContent: React.FC = observer(() => {
+  const editedCardStore = useEditedCardStore()
 
-export const EditCardPageOriginalContent: React.FC<Props> = observer(({ card }) => {
   const cardHeight = 780
   const cardWidth = getCardWidthByHeight(cardHeight)
 
   return (
     <>
-      {card && (
+      {editedCardStore.card && (
         <Container>
-          <FormCard card={card} width={cardWidth} height={cardHeight} />
+          <FormCard cardStore={editedCardStore} width={cardWidth} height={cardHeight} />
         </Container>
       )}
     </>

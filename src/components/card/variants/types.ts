@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from '../../../api/api'
-import { PartialBy } from '../../../basic-utility-types'
+import { CurrentCardStore } from '../../../stores/current-card-store'
 
 interface PropsForCardVariant {
   card: Card
@@ -8,7 +8,11 @@ interface PropsForCardVariant {
   height: number
 }
 
-export type PropsForCardForm = PartialBy<PropsForCardVariant, 'card'>
+export type PropsForCardForm = {
+  cardStore?: CurrentCardStore
+  width: number
+  height: number
+}
 
 export type CardVariantComponent<
   T extends PropsForCardVariant | PropsForCardForm = PropsForCardVariant

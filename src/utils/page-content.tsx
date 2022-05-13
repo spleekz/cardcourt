@@ -1,7 +1,7 @@
 import React from 'react'
 import { ScreenPreloader } from '../components/icons/screen-preloader'
 
-interface StateAndElement {
+interface Variant {
   state: boolean
   element: JSX.Element
 }
@@ -9,7 +9,7 @@ interface StateAndElement {
 interface Config {
   loading?: boolean
   original: JSX.Element
-  variants?: Array<StateAndElement>
+  variants?: Array<Variant>
 }
 
 export const content = (config: Config): JSX.Element => {
@@ -20,9 +20,9 @@ export const content = (config: Config): JSX.Element => {
   }
 
   let content: JSX.Element = original
-  variants?.forEach(({ state, element }) => {
-    if (state) {
-      content = element
+  variants?.forEach((variant) => {
+    if (variant.state) {
+      content = variant.element
     }
   })
 

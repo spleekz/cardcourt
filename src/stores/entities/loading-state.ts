@@ -60,6 +60,10 @@ export class LoadingState {
     return this.code === StatusCodes.wrongPassword
   }
 
+  get notAuthorOfCard(): boolean {
+    return this.code === StatusCodes.notAuthorOfCard
+  }
+
   get unknownError(): boolean {
     return (
       notNull(this.code) && isErrorCode(this.code) && isUnknownError(this.code, this.handledErrors)

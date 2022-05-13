@@ -13,8 +13,9 @@ import cardConfig from '../../../../stores/card-config.json'
 import { CardDonePopup } from '../../../popups/popup-with-custom-close/variants/card-done'
 
 export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
-  ({ card = null, width, height }) => {
+  ({ cardStore = null, width, height }) => {
     const { cardsStore, authStore } = useStore()
+    const card = cardStore?.card || null
 
     const isEditCard = card !== null
 
@@ -76,7 +77,7 @@ export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
         ...card!,
         ...updatableFields,
       }
-      cardsStore.updateCard(fullUpdatedCard).then(({ updatedCard }) => {
+      cardStore!.updateCard(fullUpdatedCard).then(({ updatedCard }) => {
         showCardDonePopup(updatedCard._id)
       })
     }
