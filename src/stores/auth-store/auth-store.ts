@@ -18,7 +18,7 @@ export class AuthStore {
   }
 
   me: Me | null = null
-  meLoadingState = new LoadingState({ handledErrors: [] })
+  meLoadingState = new LoadingState({ handledErrors: [], initialStatus: 'loading' })
   loadMe(): void {
     this.meLoadingState.setStatus('loading')
     api.setSecurityData(this.token)
