@@ -4,17 +4,23 @@ import { registerPage } from '../../hocs/register-page'
 import { useStore } from '../../stores/root-store/context'
 import { content } from '../../utils/page-content'
 import { NewCardPageOriginalContent } from './original-content'
+import { ScreenPreloader } from '../../components/icons/screen-preloader'
 
 export const NewCardPage: React.FC = registerPage(
   observer(() => {
-    const { authStore } = useStore()
+    const { authStore, cardsStore } = useStore()
 
     const pageContent = content({
       loading: authStore.meLoadingState.loading,
       original: <NewCardPageOriginalContent />,
     })
 
-    return pageContent
+    return (
+      <>
+        {pageContent}
+        {cardsStore.cardCreatingLoadingState.loading && <ScreenPreloader />}
+      </>
+    )
   }),
   { isProtected: true }
 )

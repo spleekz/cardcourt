@@ -4,13 +4,22 @@ import styled from 'styled-components'
 
 interface Props {
   text: string
+  height?: string
+  fontSize?: number
   withButton: boolean
 }
 
-export const ErrorMessage: React.FC<Props> = ({ text, withButton }) => {
+export const ErrorMessage: React.FC<Props> = ({
+  text,
+  height = '100%',
+  fontSize = 32,
+  withButton,
+}) => {
   return (
     <Container>
-      <ErrorText>{text}</ErrorText>
+      <ErrorText height={height} fontSize={fontSize}>
+        {text}
+      </ErrorText>
       {withButton && (
         <OnMainPageButton>
           <Link to={`/`}>На главную</Link>
@@ -25,10 +34,11 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `
-const ErrorText = styled.div`
+const ErrorText = styled.div<{ fontSize: number; height: string }>`
   width: 100%;
+  height: ${(props) => props.height};
   padding: 10px;
-  font-size: 32px;
+  font-size: ${(props) => `${props.fontSize}px`};
   color: #ffffff;
   background-color: #d41c1cdf;
   font-weight: bold;

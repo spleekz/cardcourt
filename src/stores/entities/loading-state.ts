@@ -64,6 +64,10 @@ export class LoadingState {
     return this.code === StatusCodes.notCardAuthor
   }
 
+  get sameCardName(): boolean {
+    return this.code == StatusCodes.sameCardName
+  }
+
   get unknownError(): boolean {
     return (
       notNull(this.code) && isErrorCode(this.code) && isUnknownError(this.code, this.handledErrors)

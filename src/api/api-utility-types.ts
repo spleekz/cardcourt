@@ -28,6 +28,8 @@ export enum StatusCodes {
 
   notCardAuthor = 463,
 
+  sameCardName = 464,
+
   ok = 200,
   notFound = 404,
 }

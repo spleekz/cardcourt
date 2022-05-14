@@ -11,6 +11,7 @@ import { CardVariantComponent, PropsForCardFormVariant } from '../types'
 import { FormCardBody } from './body/body'
 import cardConfig from '../../../../stores/card-config.json'
 import { CardDonePopup } from '../../../popups/popup-with-custom-close/variants/card-done'
+import { SameCardName } from '../../../messages/errors/same-card-name'
 
 export const FormCard: CardVariantComponent<PropsForCardFormVariant> = observer(
   ({ cardStore = null, width, height }) => {
@@ -86,6 +87,12 @@ export const FormCard: CardVariantComponent<PropsForCardFormVariant> = observer(
       <>
         <FormProvider {...methods}>
           <Form onSubmit={methods.handleSubmit(isEditCard ? updateCard : createNewCard)}>
+            {cardsStore.cardCreatingLoadingState.sameCardName && (
+              <ErrorBlock>
+                <SameCardName />
+              </ErrorBlock>
+            )}
+
             <CardTemplate
               width={width}
               height={height}
@@ -132,6 +139,7 @@ export const FormCard: CardVariantComponent<PropsForCardFormVariant> = observer(
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  position: relative;
 `
 const CardHeading = styled.div`
   padding: 10px 15px;
@@ -147,3 +155,11 @@ const CardAuthor = styled(CardAuthorDiv)`
   font-size: 22px;
 `
 const SubmitButton = styled(CardFooterButton)``
+const ErrorBlock = styled.div`
+  position: absolute;
+  top: -50px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+`
