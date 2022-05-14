@@ -1,11 +1,17 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { EmptyFunction } from '../../basic-utility-types'
 import { useClickOutside } from '../../hooks/use-click-outside'
 import { useLocationChange } from '../../hooks/use-location-change'
 import { PopoverContainer, PopoverContainerProps } from './shared-components'
 
-export type PopoverProps = PopoverContainerProps & { onClose: EmptyFunction }
-export type PopoverVariantProps = Pick<PopoverProps, 'onClose'>
+interface PopoverState {
+  isOpened: boolean
+  fnForClosing: EmptyFunction
+  afterClose?: EmptyFunction
+}
+
+export type PopoverProps = PopoverContainerProps & PopoverState
+export type PopoverVariantProps = PopoverState
 
 export const Popover: React.FC<PopoverProps> = ({
   width,
@@ -14,14 +20,26 @@ export const Popover: React.FC<PopoverProps> = ({
   left,
   bottom,
   right,
-  onClose,
+  fnForClosing,
+  afterClose,
+  isOpened,
   children,
 }) => {
   const popoverRef = useRef<HTMLDivElement>(null)
 
-  useClickOutside({ ref: popoverRef, fn: onClose })
+  useEffect(() => {
+    return () => {
+      afterClose?.()
+    }
+  }, [])
 
-  useLocationChange(onClose)
+  useClickOutside({ ref: popoverRef, fn: fnForClosing })
+
+  useLocationChange(fnForClosing)
+
+  if (!isOpened) {
+    return null
+  }
 
   return (
     <PopoverContainer

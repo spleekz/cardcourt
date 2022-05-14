@@ -1,20 +1,28 @@
 import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { PopupWithCustomClose, PopupWithCustomCloseVariantProps } from '../popup-with-custom-close'
+import { PopupVariantProps } from '../../popup'
+import { PopupWithCustomClose } from '../popup-with-custom-close'
 
 interface CardDoneProps {
   title: string
-  cardId: string
+  cardId: string | null
 }
 
-export const CardDonePopup: React.FC<PopupWithCustomCloseVariantProps<CardDoneProps>> = ({
+export const CardDonePopup: React.FC<PopupVariantProps<CardDoneProps>> = ({
   title,
   cardId,
+  isOpened,
   fnForClosing,
 }) => {
   return (
-    <PopupWithCustomClose width={'610px'} height={'330px'} title={title} fnForClosing={fnForClosing}>
+    <PopupWithCustomClose
+      width={'610px'}
+      height={'330px'}
+      title={title}
+      isOpened={isOpened}
+      fnForClosing={fnForClosing}
+    >
       <Message>Куда идём дальше?</Message>
       <ButtonsList>
         <NavLink to='/'>

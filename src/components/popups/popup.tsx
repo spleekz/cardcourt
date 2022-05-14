@@ -13,16 +13,18 @@ export interface PopupProps {
   width: string
   height: string
   title: string
+  isOpened: boolean
   fnForClosing: EmptyFunction
   withCloseButton: boolean
   afterClose?: EmptyFunction
 }
 
+export type PopupState = Pick<PopupProps, 'fnForClosing' | 'afterClose' | 'isOpened'>
 export type PopupTypeProps = Omit<PopupProps, 'withCloseButton'>
-export type PopupVariantProps<T> = PopupProps & T
+export type PopupVariantProps<T> = PopupState & T
 
 export const Popup: React.FC<PopupProps> = observer(
-  ({ width, height, title, fnForClosing, withCloseButton, afterClose, children }) => {
+  ({ width, height, title, isOpened, fnForClosing, withCloseButton, afterClose, children }) => {
     const { appStore } = useStore()
 
     useEffect(() => {
@@ -35,6 +37,10 @@ export const Popup: React.FC<PopupProps> = observer(
     }, [])
 
     useLocationChange(fnForClosing)
+
+    if (!isOpened) {
+      return null
+    }
 
     return (
       <PortalToBody>

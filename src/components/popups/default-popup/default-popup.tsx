@@ -8,6 +8,7 @@ export const DefaultPopup: React.FC<DefaultPopupProps> = ({
   width,
   height,
   title,
+  isOpened,
   fnForClosing,
   afterClose,
   children,
@@ -17,6 +18,7 @@ export const DefaultPopup: React.FC<DefaultPopupProps> = ({
       width={width}
       height={height}
       title={title}
+      isOpened={isOpened}
       fnForClosing={fnForClosing}
       afterClose={afterClose}
       withCloseButton={true}

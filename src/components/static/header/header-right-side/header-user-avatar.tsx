@@ -11,7 +11,7 @@ export const HeaderUserAvatar: React.FC = () => {
       <AvatarBlock onClick={() => setMeMenuPopoverShown(true)}>
         <Avatar size={48} />
       </AvatarBlock>
-      {meMenuPopoverShown && <MeMenuPopover onClose={() => setMeMenuPopoverShown(false)} />}
+      <MeMenuPopover isOpened={meMenuPopoverShown} fnForClosing={() => setMeMenuPopoverShown(false)} />
     </Container>
   )
 }

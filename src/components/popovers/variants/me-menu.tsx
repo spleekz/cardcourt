@@ -7,25 +7,34 @@ import { Link } from 'react-router-dom'
 import { Popover, PopoverVariantProps } from '../popover'
 import { PopoverList, PopoverListItem } from '../shared-components'
 
-export const MeMenuPopover: React.FC<PopoverVariantProps> = observer(({ onClose }) => {
-  const { authStore } = useStore()
+export const MeMenuPopover: React.FC<PopoverVariantProps> = observer(
+  ({ fnForClosing, afterClose, isOpened }) => {
+    const { authStore } = useStore()
 
-  return (
-    <Popover width={'200px'} top={70} left={-140} onClose={onClose}>
-      <Header>
-        <Avatar size={50} />
-        <UserName>{authStore.me?.name}</UserName>
-      </Header>
-      <Hr />
-      <PopoverList>
-        <PopoverListItem>
-          <Link to={`/user/${authStore.me?.name}`}>Мой профиль</Link>
-        </PopoverListItem>
-        <PopoverListItem onClick={authStore.logout}>Выйти</PopoverListItem>
-      </PopoverList>
-    </Popover>
-  )
-})
+    return (
+      <Popover
+        width={'200px'}
+        top={70}
+        left={-140}
+        fnForClosing={fnForClosing}
+        afterClose={afterClose}
+        isOpened={isOpened}
+      >
+        <Header>
+          <Avatar size={50} />
+          <UserName>{authStore.me?.name}</UserName>
+        </Header>
+        <Hr />
+        <PopoverList>
+          <PopoverListItem>
+            <Link to={`/user/${authStore.me?.name}`}>Мой профиль</Link>
+          </PopoverListItem>
+          <PopoverListItem onClick={authStore.logout}>Выйти</PopoverListItem>
+        </PopoverList>
+      </Popover>
+    )
+  }
+)
 
 const Header = styled.div`
   display: flex;

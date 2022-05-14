@@ -10,9 +10,11 @@ export const AskToDoAuth: React.FC = () => {
       <DoAuthContainer onClick={() => setWaysOfAuthPopoverShown(true)}>
         Совершить акт авторизации
       </DoAuthContainer>
-      {waysOfAuthPopoverShown && (
-        <ChooseAuthWayPopup onClose={() => setWaysOfAuthPopoverShown(false)} />
-      )}
+
+      <ChooseAuthWayPopup
+        isOpened={waysOfAuthPopoverShown}
+        fnForClosing={() => setWaysOfAuthPopoverShown(false)}
+      />
     </Container>
   )
 }

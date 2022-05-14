@@ -16,6 +16,7 @@ export const ConfirmPopup: React.FC<ConfirmPopupProps> = ({
   width,
   height,
   title,
+  isOpened,
   fnForClosing,
   afterClose,
   accept,
@@ -39,6 +40,7 @@ export const ConfirmPopup: React.FC<ConfirmPopupProps> = ({
       width={width}
       height={height}
       title={title}
+      isOpened={isOpened}
       afterClose={afterClose}
       fnForClosing={fnForClosing}
       withCloseButton={false}
