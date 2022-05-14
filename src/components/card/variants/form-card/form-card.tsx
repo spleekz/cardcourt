@@ -7,12 +7,12 @@ import { useStore } from '../../../../stores/root-store/context'
 import { CardAuthorDiv, CardNameInput } from '../../card-shared-components/heading'
 import { CardFooterButton } from '../../card-shared-components/footer'
 import { CardTemplate } from '../../template'
-import { CardVariantComponent, PropsForCardForm } from '../types'
+import { CardVariantComponent, PropsForCardFormVariant } from '../types'
 import { FormCardBody } from './body/body'
 import cardConfig from '../../../../stores/card-config.json'
 import { CardDonePopup } from '../../../popups/popup-with-custom-close/variants/card-done'
 
-export const FormCard: CardVariantComponent<PropsForCardForm> = observer(
+export const FormCard: CardVariantComponent<PropsForCardFormVariant> = observer(
   ({ cardStore = null, width, height }) => {
     const { cardsStore, authStore } = useStore()
     const card = cardStore?.card || null
