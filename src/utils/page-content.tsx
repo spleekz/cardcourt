@@ -1,5 +1,6 @@
 import React from 'react'
 import { ScreenPreloader } from '../components/icons/screen-preloader'
+import { useStore } from '../stores/root-store/context'
 
 interface Variant {
   state: boolean
@@ -13,11 +14,13 @@ interface Config {
 }
 
 export const content = (config: Config): JSX.Element => {
+  const { authStore } = useStore()
+
   const { loading, original, variants } = config
 
   let content: JSX.Element = original
 
-  if (loading) {
+  if (loading || (authStore.me && authStore.meLoadingState.loading)) {
     return <ScreenPreloader />
   } else {
     variants?.forEach((variant) => {

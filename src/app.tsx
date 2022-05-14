@@ -13,7 +13,6 @@ import { UserPage } from './pages/user/page'
 import { CardSlider } from './stores/card-slider'
 import { RegistrationPage } from './pages/auth/registration'
 import { LoginPage } from './pages/auth/login'
-import { ScreenPreloader } from './components/icons/screen-preloader'
 
 export const MainSliderContext = createContext<CardSlider>({} as CardSlider)
 export const useMainSlider = (): CardSlider => useContext(MainSliderContext)
@@ -57,22 +56,19 @@ export const App: React.FC = observer(() => {
       <MainSliderContext.Provider value={mainSlider}>
         <AppContainer>
           <Header />
-          {!authStore.meLoadingState.loading ? (
-            <PageContainer>
-              <Routes>
-                <Route path='/' element={<CardCourtPage />} />
-                <Route path='/registration' element={<RegistrationPage />} />
-                <Route path='/login' element={<LoginPage />} />
-                <Route path='card/new' element={<NewCardPage />} />
-                <Route path='/card/:cardId' element={<CardPage />} />
-                <Route path='card/:cardId/check' element={<CheckPage />} />
-                <Route path='card/:cardId/edit' element={<EditCardPage />} />
-                <Route path='user/:userName' element={<UserPage key={location.key} />} />
-              </Routes>
-            </PageContainer>
-          ) : (
-            <ScreenPreloader />
-          )}
+
+          <PageContainer>
+            <Routes>
+              <Route path='/' element={<CardCourtPage />} />
+              <Route path='/registration' element={<RegistrationPage />} />
+              <Route path='/login' element={<LoginPage />} />
+              <Route path='card/new' element={<NewCardPage />} />
+              <Route path='/card/:cardId' element={<CardPage />} />
+              <Route path='card/:cardId/check' element={<CheckPage />} />
+              <Route path='card/:cardId/edit' element={<EditCardPage />} />
+              <Route path='user/:userName' element={<UserPage key={location.key} />} />
+            </Routes>
+          </PageContainer>
         </AppContainer>
       </MainSliderContext.Provider>
     </>
