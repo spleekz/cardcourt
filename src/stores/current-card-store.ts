@@ -2,18 +2,26 @@ import { makeAutoObservable } from 'mobx'
 import { deleteCard, getCard, updateCard } from '../api'
 import { Card, UpdatedCard } from '../api/api'
 import { StatusCodes, UpdateCardResponsePromise } from '../api/api-utility-types'
+import { AuthStore } from './auth-store/auth-store'
 import { LoadingState } from './entities/loading-state'
 
 export class CurrentCardStore {
-  constructor(cardId: string) {
+  authStore: AuthStore
+
+  constructor(cardId: string, authStore: AuthStore) {
     makeAutoObservable(this, {}, { autoBind: true })
 
+    this.authStore = authStore
     this.loadCard(cardId)
   }
 
   card: Card | null
   setCard(card: Card | null): void {
     this.card = card
+  }
+
+  get meIsAuthor(): boolean {
+    return this.card?.author.name === this.authStore.me?.name
   }
 
   cardLoadingState = new LoadingState({

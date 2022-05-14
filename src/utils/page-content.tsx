@@ -15,16 +15,17 @@ interface Config {
 export const content = (config: Config): JSX.Element => {
   const { loading, original, variants } = config
 
+  let content: JSX.Element = original
+
   if (loading) {
     return <ScreenPreloader />
+  } else {
+    variants?.forEach((variant) => {
+      if (variant.state) {
+        content = variant.element
+      }
+    })
   }
-
-  let content: JSX.Element = original
-  variants?.forEach((variant) => {
-    if (variant.state) {
-      content = variant.element
-    }
-  })
 
   return content
 }

@@ -24,16 +24,18 @@ export const CardPageOriginalContent: React.FC<Props> = observer(({ cardStore })
         <Container>
           <CardContainer>
             <FullCard card={card} width={cardWidth} height={cardHeight} />
-            <Icons>
-              <Link to={`edit`}>
-                <Icon>
-                  <PencilIcon />
+            {cardStore.meIsAuthor && (
+              <Icons>
+                <Link to={`edit`}>
+                  <Icon>
+                    <PencilIcon />
+                  </Icon>
+                </Link>
+                <Icon onClick={() => cardStore.deleteCard()}>
+                  <XIcon />
                 </Icon>
-              </Link>
-              <Icon onClick={() => cardStore.deleteCard()}>
-                <XIcon />
-              </Icon>
-            </Icons>
+              </Icons>
+            )}
           </CardContainer>
         </Container>
       )}

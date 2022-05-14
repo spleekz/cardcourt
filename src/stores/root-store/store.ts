@@ -20,7 +20,7 @@ export class RootStore {
   createCheckStore(): CheckStore {
     return new CheckStore()
   }
-  createCurrentCardStore(cardId: string): CurrentCardStore {
-    return new CurrentCardStore(cardId)
+  createCurrentCardStore = (cardId: string): CurrentCardStore => {
+    return new CurrentCardStore(cardId, this.authStore)
   }
 }

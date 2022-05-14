@@ -19,9 +19,13 @@ export const EditCardPage: React.FC = registerPage(
     const cardStore = useCardStoreFromURL()
 
     const pageContent = content({
-      loading: cardStore.cardLoadingState.loading,
+      loading: cardStore.cardLoadingState.loading || cardStore.authStore.meLoadingState.loading,
       original: <EditCardPageOriginalContent />,
       variants: [
+        {
+          state: !cardStore.meIsAuthor,
+          element: <NotAuthorOfCard />,
+        },
         {
           state: cardStore.cardLoadingState.notFound,
           element: <CardNotFound />,
