@@ -7,7 +7,7 @@ import { UnknownError } from '../../components/messages/errors/unknown-error'
 import { content } from '../../utils/page-content'
 import { EditCardPageOriginalContent } from './original-content'
 import { UpdatedCardNotExists } from '../../components/messages/errors/updated-card-not-exists'
-import { NotAuthorOfCard } from '../../components/messages/errors/not-author-of-card'
+import { NotCardAuthor } from '../../components/messages/errors/not-card-author'
 import { CurrentCardStore } from '../../stores/current-card-store'
 import { ScreenPreloader } from '../../components/icons/screen-preloader'
 
@@ -24,7 +24,7 @@ export const EditCardPage: React.FC = registerPage(
       variants: [
         {
           state: !cardStore.meIsAuthor,
-          element: <NotAuthorOfCard />,
+          element: <NotCardAuthor />,
         },
         {
           state: cardStore.cardLoadingState.notFound,
@@ -35,8 +35,8 @@ export const EditCardPage: React.FC = registerPage(
           element: <UpdatedCardNotExists />,
         },
         {
-          state: cardStore.cardUpdatingState.notAuthorOfCard,
-          element: <NotAuthorOfCard />,
+          state: cardStore.cardUpdatingState.notCardAuthor,
+          element: <NotCardAuthor />,
         },
         {
           state: cardStore.cardLoadingState.unknownError || cardStore.cardUpdatingState.unknownError,

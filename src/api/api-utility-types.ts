@@ -26,7 +26,7 @@ export enum StatusCodes {
   wrongLoginName = 461,
   wrongPassword = 462,
 
-  notAuthorOfCard = 463,
+  notCardAuthor = 463,
 
   ok = 200,
   notFound = 404,

@@ -60,8 +60,8 @@ export class LoadingState {
     return this.code === StatusCodes.wrongPassword
   }
 
-  get notAuthorOfCard(): boolean {
-    return this.code === StatusCodes.notAuthorOfCard
+  get notCardAuthor(): boolean {
+    return this.code === StatusCodes.notCardAuthor
   }
 
   get unknownError(): boolean {

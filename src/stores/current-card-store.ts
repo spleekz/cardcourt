@@ -46,7 +46,7 @@ export class CurrentCardStore {
   }
 
   cardUpdatingState = new LoadingState({
-    handledErrors: [StatusCodes.notFound, StatusCodes.notAuthorOfCard],
+    handledErrors: [StatusCodes.notFound, StatusCodes.notCardAuthor],
   })
 
   updateCard(card: UpdatedCard): UpdateCardResponsePromise {
