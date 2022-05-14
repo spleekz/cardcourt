@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { createContext, useContext } from 'react'
+import React from 'react'
 import { useCardStoreFromURL } from '../../hooks/use-card-store-from-url'
 import { registerPage } from '../../hocs/register-page'
 import { CardNotFound } from '../../components/messages/errors/card-not-found'
@@ -8,11 +8,7 @@ import { content } from '../../utils/page-content'
 import { EditCardPageOriginalContent } from './original-content'
 import { UpdatedCardNotExists } from '../../components/messages/errors/updated-card-not-exists'
 import { NotCardAuthor } from '../../components/messages/errors/not-card-author'
-import { CurrentCardStore } from '../../stores/current-card-store'
 import { ScreenPreloader } from '../../components/icons/screen-preloader'
-
-const EditedCardStoreContext = createContext<CurrentCardStore>({} as CurrentCardStore)
-export const useEditedCardStore = (): CurrentCardStore => useContext(EditedCardStoreContext)
 
 export const EditCardPage: React.FC = registerPage(
   observer(() => {
@@ -20,7 +16,7 @@ export const EditCardPage: React.FC = registerPage(
 
     const pageContent = content({
       loading: cardStore.cardLoadingState.loading || cardStore.authStore.meLoadingState.loading,
-      original: <EditCardPageOriginalContent />,
+      original: <EditCardPageOriginalContent editedCardStore={cardStore} />,
       variants: [
         {
           state: !cardStore.meIsAuthor,
@@ -46,10 +42,10 @@ export const EditCardPage: React.FC = registerPage(
     })
 
     return (
-      <EditedCardStoreContext.Provider value={cardStore}>
+      <>
         {pageContent}
         {cardStore.cardUpdatingState.loading && <ScreenPreloader />}
-      </EditedCardStoreContext.Provider>
+      </>
     )
   }),
   { isProtected: true }
