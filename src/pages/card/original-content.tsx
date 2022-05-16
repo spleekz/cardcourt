@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { getCardWidthByHeight } from '../../utils/cards'
@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom'
 import { PencilIcon } from '../../components/icons/pencil-icon'
 import { XIcon } from '../../components/icons/x-icon'
 import { CurrentCardStore } from '../../stores/current-card-store'
+import { CardDeletedPopup } from '../../components/popups/popup-with-custom-close/variants/card-deleted'
+import { ConfirmPopup } from '../../components/popups/confirm-popup/confirm-popup'
 
 interface Props {
   cardStore: CurrentCardStore
@@ -18,26 +20,54 @@ export const CardPageOriginalContent: React.FC<Props> = observer(({ cardStore })
   const cardHeight = 780
   const cardWidth = getCardWidthByHeight(cardHeight)
 
+  const [cardDeleteConfirmPopupShown, setCardDeketeConfirmPopupShown] = useState(false)
+  const [cardDeletedPopupShown, setCardDeletedPopupShown] = useState(false)
+
   return (
     <>
       {card && (
-        <Container>
-          <CardContainer>
-            <FullCard card={card} width={cardWidth} height={cardHeight} />
-            {cardStore.meIsAuthor && (
-              <Icons>
-                <Link to={`edit`}>
-                  <Icon>
-                    <PencilIcon />
+        <>
+          <Container>
+            <CardContainer>
+              <FullCard card={card} width={cardWidth} height={cardHeight} />
+              {cardStore.meIsAuthor && (
+                <Icons>
+                  <Link to={`edit`}>
+                    <Icon>
+                      <PencilIcon />
+                    </Icon>
+                  </Link>
+                  <Icon onClick={() => setCardDeketeConfirmPopupShown(true)}>
+                    <XIcon />
                   </Icon>
-                </Link>
-                <Icon onClick={() => cardStore.deleteCard()}>
-                  <XIcon />
-                </Icon>
-              </Icons>
-            )}
-          </CardContainer>
-        </Container>
+                </Icons>
+              )}
+            </CardContainer>
+          </Container>
+          <ConfirmPopup
+            width={'600px'}
+            height={'260px'}
+            title={
+              <>
+                Вы уверены, что хотите удалить карточку <Bold>{card.name}</Bold>?
+              </>
+            }
+            acceptText={'Да'}
+            accept={() =>
+              cardStore.deleteCard().then(() => {
+                setCardDeletedPopupShown(true)
+              })
+            }
+            rejectText={'Нет'}
+            reject={() => setCardDeketeConfirmPopupShown(false)}
+            fnForClosing={() => setCardDeketeConfirmPopupShown(false)}
+            isOpened={cardDeleteConfirmPopupShown}
+          />
+          <CardDeletedPopup
+            fnForClosing={() => setCardDeletedPopupShown(false)}
+            isOpened={cardDeletedPopupShown}
+          />
+        </>
       )}
     </>
   )
@@ -75,4 +105,7 @@ const Icon = styled.div`
   &:hover {
     cursor: pointer;
   }
+`
+const Bold = styled.span`
+  font-weight: bold;
 `

@@ -17,6 +17,7 @@ export const PopupBlock = styled.div<{ width: string; height: string }>`
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   padding: 25px;
@@ -26,6 +27,6 @@ export const PopupBlock = styled.div<{ width: string; height: string }>`
 `
 export const PopupTitle = styled.div`
   font-size: 32px;
-  font-weight: bold;
   color: #000000;
+  text-align: center;
 `

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { EmptyFunction } from '../../basic-utility-types'
+import { AnyObject, EmptyFunction } from '../../basic-utility-types'
 import { useLocationChange } from '../../hooks/use-location-change'
 import { useStore } from '../../stores/root-store/context'
 import { XIcon } from '../icons/x-icon'
@@ -12,7 +12,7 @@ import { PopupBlock, PopupContainer, PopupTitle } from './shared-components'
 export interface PopupProps {
   width: string
   height: string
-  title: string
+  title: string | JSX.Element
   isOpened: boolean
   fnForClosing: EmptyFunction
   withCloseButton: boolean
@@ -21,7 +21,7 @@ export interface PopupProps {
 
 export type PopupState = Pick<PopupProps, 'fnForClosing' | 'afterClose' | 'isOpened'>
 export type PopupTypeProps = Omit<PopupProps, 'withCloseButton'>
-export type PopupVariantProps<T> = PopupState & T
+export type PopupVariantProps<T = AnyObject> = PopupState & T
 
 export const Popup: React.FC<PopupProps> = observer(
   ({ width, height, title, isOpened, fnForClosing, withCloseButton, afterClose, children }) => {

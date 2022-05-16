@@ -1,7 +1,11 @@
 import { makeAutoObservable } from 'mobx'
 import { deleteCard, getCard, updateCard } from '../api'
 import { Card, UpdatedCard } from '../api/api'
-import { StatusCodes, UpdateCardResponsePromise } from '../api/api-utility-types'
+import {
+  DeleteCardResponsePromise,
+  StatusCodes,
+  UpdateCardResponsePromise,
+} from '../api/api-utility-types'
 import { AuthStore } from './auth-store/auth-store'
 import { LoadingState } from './entities/loading-state'
 
@@ -64,7 +68,22 @@ export class CurrentCardStore {
     })
   }
 
-  deleteCard(): void {
-    deleteCard(this.card!._id)
+  cardDeletingState = new LoadingState({
+    handledErrors: [StatusCodes.notFound, StatusCodes.notCardAuthor],
+  })
+
+  deleteCard(): DeleteCardResponsePromise {
+    this.cardDeletingState.setStatus('loading')
+
+    return deleteCard(this.card!._id, {
+      success: () => {
+        this.cardDeletingState.setCode(200)
+        this.cardDeletingState.setStatus('success')
+      },
+      error: (error) => {
+        this.cardDeletingState.setCode(error.status)
+        this.cardDeletingState.setStatus('error')
+      },
+    })
   }
 }

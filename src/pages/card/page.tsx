@@ -6,11 +6,14 @@ import { CardNotFound } from '../../components/messages/errors/card-not-found'
 import { content } from '../../utils/page-content'
 import { UnknownError } from '../../components/messages/errors/unknown-error'
 import { CardPageOriginalContent } from './original-content'
+import { ScreenPreloader } from '../../components/icons/screen-preloader'
+import { NotCardAuthor } from '../../components/messages/errors/not-card-author'
 
 export const CardPage: React.FC = registerPage(
   observer(() => {
     const cardStore = useCardStoreFromURL()
     const loadingState = cardStore.cardLoadingState
+    const deletingState = cardStore.cardDeletingState
 
     const pageContent = content({
       loading: loadingState.loading,
@@ -18,13 +21,22 @@ export const CardPage: React.FC = registerPage(
       variants: [
         { state: loadingState.notFound, element: <CardNotFound /> },
         {
+          state: deletingState.notCardAuthor,
+          element: <NotCardAuthor />,
+        },
+        {
           state: loadingState.unknownError,
           element: <UnknownError withButton={true} />,
         },
       ],
     })
 
-    return pageContent
+    return (
+      <>
+        {pageContent}
+        {cardStore.cardDeletingState.loading && <ScreenPreloader />}
+      </>
+    )
   }),
   { isRootPath: true }
 )
