@@ -65,8 +65,8 @@ export class CurrentUserStore {
   loadUser(): void {
     const name = this.info.name
 
-    this.userLoadingState.setStatus('loading')
-    this.userCardsLoadingState.setStatus('loading')
+    this.userLoadingState.setCode(null)
+    this.userCardsLoadingState.setCode(null)
 
     this.loadInfo(name).then((infoResponse) => {
       this.loadCreatedCards(name).then((createdCardsResponse) => {
@@ -74,10 +74,8 @@ export class CurrentUserStore {
         this.setCreatedCards(createdCardsResponse.cards)
 
         this.userCardsLoadingState.setCode(StatusCodes.ok)
-        this.userCardsLoadingState.setStatus('success')
 
         this.userLoadingState.setCode(StatusCodes.ok)
-        this.userLoadingState.setStatus('success')
       })
     })
   }

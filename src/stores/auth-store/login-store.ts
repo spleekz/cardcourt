@@ -14,14 +14,14 @@ export class LoginStore {
   constructor(config: LoginStoreConfig) {
     this.authStore = config.authStore
 
-    makeAutoObservable(this,{},{autoBind:true})
+    makeAutoObservable(this, {}, { autoBind: true })
   }
 
   loadingState = new LoadingState({
     handledErrors: [StatusCodes.wrongLoginName, StatusCodes.wrongPassword],
   })
   loginUser(name: string, password: string): LoginUserResponsePromise {
-    this.loadingState.setStatus('loading')
+    this.loadingState.setCode(null)
 
     return loginUser(
       { name, password },
@@ -29,12 +29,10 @@ export class LoginStore {
         success: (data) => {
           this.authStore.setToken(data.token)
 
-          this.loadingState.setCode(200)
-          this.loadingState.setStatus('success')
+          this.loadingState.setCode(StatusCodes.ok)
         },
         error: (error) => {
           this.loadingState.setCode(error.status)
-          this.loadingState.setStatus('error')
         },
       }
     )

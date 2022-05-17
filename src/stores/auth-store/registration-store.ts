@@ -21,7 +21,7 @@ export class RegistrationStore {
     handledErrors: [StatusCodes.longRegisterName, StatusCodes.sameRegisterName],
   })
   registerUser(name: string, password: string): RegisterUserResponsePromise {
-    this.loadingState.setStatus('loading')
+    this.loadingState.setCode(null)
 
     return registerUser(
       { name, password },
@@ -29,12 +29,10 @@ export class RegistrationStore {
         success: (data) => {
           this.authStore.setToken(data.token)
 
-          this.loadingState.setCode(200)
-          this.loadingState.setStatus('success')
+          this.loadingState.setCode(StatusCodes.ok)
         },
         error: (error) => {
           this.loadingState.setCode(error.status)
-          this.loadingState.setStatus('error')
         },
       }
     )

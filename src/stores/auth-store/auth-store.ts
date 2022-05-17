@@ -5,6 +5,7 @@ import { LoadingState } from '../entities/loading-state'
 import { Me } from '../../api/api'
 import { RegistrationStore } from './registration-store'
 import { LoginStore } from './login-store'
+import { StatusCodes } from '../../api/api-utility-types'
 
 export class AuthStore {
   constructor() {
@@ -20,14 +21,14 @@ export class AuthStore {
   me: Me | null = null
   meLoadingState = new LoadingState({ handledErrors: [], initialStatus: 'loading' })
   loadMe(): void {
-    this.meLoadingState.setStatus('loading')
+    this.meLoadingState.setCode(null)
+
     api.setSecurityData(this.token)
     getMe({
       success: (data) => {
         this.setMe(data)
 
-        this.meLoadingState.setCode(200)
-        this.meLoadingState.setStatus('success')
+        this.meLoadingState.setCode(StatusCodes.ok)
       },
     })
   }

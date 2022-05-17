@@ -1,9 +1,9 @@
 import { makeAutoObservable } from 'mobx'
 import { StatusCodes } from '../../api/api-utility-types'
 import { notNull } from '../../utils/basic'
-import { isErrorCode, isUnknownError } from '../../utils/server-codes'
+import { getStatusByCode, isErrorCode, isUnknownError } from '../../utils/server-codes'
 
-type LoadingStatus = 'initial' | 'loading' | 'success' | 'error'
+export type LoadingStatus = 'initial' | 'loading' | 'success' | 'error'
 
 interface FlowStateConfig {
   initialStatus?: LoadingStatus
@@ -30,6 +30,7 @@ export class LoadingState {
   code: number | null = null
   setCode(code: number | null): void {
     this.code = code
+    this.setStatus(getStatusByCode(code))
   }
 
   get success(): boolean {

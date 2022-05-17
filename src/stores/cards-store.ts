@@ -16,16 +16,14 @@ export class CardsStore {
   })
 
   createCard(card: SendedCard): CreateCardResponsePromise {
-    this.cardCreatingLoadingState.setStatus('loading')
+    this.cardCreatingLoadingState.setCode(null)
 
     return createCard(card, {
       success: () => {
-        this.cardCreatingLoadingState.setCode(200)
-        this.cardCreatingLoadingState.setStatus('success')
+        this.cardCreatingLoadingState.setCode(StatusCodes.ok)
       },
       error: (error) => {
         this.cardCreatingLoadingState.setCode(error.status)
-        this.cardCreatingLoadingState.setStatus('error')
       },
     })
   }

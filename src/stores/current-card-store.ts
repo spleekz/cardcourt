@@ -34,17 +34,16 @@ export class CurrentCardStore {
   })
 
   loadCard(id: string): void {
-    this.cardLoadingState.setStatus('loading')
+    this.cardLoadingState.setCode(null)
 
     getCard(id, {
       success: (data) => {
         this.setCard(data)
-        this.cardLoadingState.setStatus('success')
+
         this.cardLoadingState.setCode(StatusCodes.ok)
       },
       error: (error) => {
         this.cardLoadingState.setCode(error.status)
-        this.cardLoadingState.setStatus('error')
       },
     })
   }
@@ -54,16 +53,14 @@ export class CurrentCardStore {
   })
 
   updateCard(card: UpdatedCard): UpdateCardResponsePromise {
-    this.cardUpdatingState.setStatus('loading')
+    this.cardUpdatingState.setCode(null)
 
     return updateCard(card, {
       success: () => {
-        this.cardUpdatingState.setCode(200)
-        this.cardUpdatingState.setStatus('success')
+        this.cardUpdatingState.setCode(StatusCodes.ok)
       },
       error: (error) => {
         this.cardUpdatingState.setCode(error.status)
-        this.cardUpdatingState.setStatus('error')
       },
     })
   }
@@ -73,16 +70,14 @@ export class CurrentCardStore {
   })
 
   deleteCard(): DeleteCardResponsePromise {
-    this.cardDeletingState.setStatus('loading')
+    this.cardDeletingState.setCode(null)
 
     return deleteCard(this.card!._id, {
       success: () => {
-        this.cardDeletingState.setCode(200)
-        this.cardDeletingState.setStatus('success')
+        this.cardDeletingState.setCode(StatusCodes.ok)
       },
       error: (error) => {
         this.cardDeletingState.setCode(error.status)
-        this.cardDeletingState.setStatus('error')
       },
     })
   }

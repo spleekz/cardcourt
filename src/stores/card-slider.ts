@@ -3,7 +3,7 @@ import { Cards, GetCardsParams, GetCardsResponse } from '../api/api'
 import { getCardCount, getCards } from '../api'
 import { ActionToUpdateCards } from './stores-utility-types'
 import { Rename, RequiredBy } from '../basic-utility-types'
-import { GetCardsResponsePromise, PromiseHandlers } from '../api/api-utility-types'
+import { GetCardsResponsePromise, PromiseHandlers, StatusCodes } from '../api/api-utility-types'
 import { LoadingState } from './entities/loading-state'
 
 type PromiseHandlersForSlider = RequiredBy<
@@ -136,8 +136,7 @@ export class CardSlider {
     const configCardCount = config.cards.length
     //!Догружаем карточки до полной страницы, если возможно
     if (configCardCount !== 0) {
-      this.firstLoadingState.setCode(200)
-      this.firstLoadingState.setStatus('success')
+      this.firstLoadingState.setCode(StatusCodes.ok)
 
       //Запрос за количеством карточек по этому запросу, чтобы узнать, все ли карточки есть в конфиге
       getCardCount({ pageSize: this.cardsToShow, search: this.search, by: this.by }).then((res) => {
@@ -236,7 +235,7 @@ export class CardSlider {
   }
 
   loadCards(): GetCardsResponsePromise {
-    this.firstLoadingState.setStatus('loading')
+    this.firstLoadingState.setCode(null)
 
     const { pagesToLoad } = this.loadCardsConfig
     //Ставим дефолтные параметры вместо тех, которые пользователь не указывает
@@ -247,8 +246,7 @@ export class CardSlider {
         this.setCards(data.cards)
         this.setPageCount(data.pageCount)
 
-        this.firstLoadingState.setCode(200)
-        this.firstLoadingState.setStatus('success')
+        this.firstLoadingState.setCode(StatusCodes.ok)
       },
       error: (error) => {
         this.firstLoadingState.setCode(error.status)
