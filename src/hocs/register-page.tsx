@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useStore } from '../stores/root-store/context'
 import { withoutSlash } from '../utils/strings'
 import { Page } from '../stores/app-store'
 import { observer } from 'mobx-react-lite'
+import { useSkipForFirstEffectRun } from '../hooks/use-skip-for-first-effect-run'
 
 interface RegisterPageOptions {
   isProtected?: boolean
@@ -32,16 +33,12 @@ export function registerPage<Props>(
       }
     }, [pathname])
 
-    const [isFirstEffectRun, setIsFirstEffectRun] = useState(true)
-    useEffect(() => {
-      if (!isFirstEffectRun) {
-        if (isProtected) {
-          if (!tokenFromStorage) {
-            navigate(loginPath)
-          }
+    useSkipForFirstEffectRun(() => {
+      if (isProtected) {
+        if (!tokenFromStorage) {
+          navigate(loginPath)
         }
       }
-      setIsFirstEffectRun(false)
     }, [authStore.token])
 
     return (
