@@ -28,7 +28,9 @@ export const Popup: React.FC<PopupProps> = observer(
     const { appStore } = useStore()
 
     useEffect(() => {
-      appStore.setIsPopupOpened(true)
+      if (isOpened) {
+        appStore.setIsPopupOpened(true)
+      }
       return () => {
         appStore.setIsPopupOpened(false)
         //Если попап исчезает, то выполнить функцию после закрытия
