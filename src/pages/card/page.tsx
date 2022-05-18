@@ -11,7 +11,7 @@ import { NotCardAuthor } from '../../components/messages/errors/not-card-author'
 
 export const CardPage: React.FC = registerPage(
   observer(() => {
-    const cardStore = useCardStoreFromURL()
+    const { cardStore } = useCardStoreFromURL()
     const loadingState = cardStore.cardLoadingState
     const deletingState = cardStore.cardDeletingState
 

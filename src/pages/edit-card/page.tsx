@@ -12,7 +12,7 @@ import { ScreenPreloader } from '../../components/icons/screen-preloader'
 
 export const EditCardPage: React.FC = registerPage(
   observer(() => {
-    const cardStore = useCardStoreFromURL()
+    const {cardStore} = useCardStoreFromURL()
 
     const pageContent = content({
       loading: cardStore.cardLoadingState.loading || cardStore.authStore.meLoadingState.loading,
