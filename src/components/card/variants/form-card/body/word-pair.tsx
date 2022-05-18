@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { XLg } from 'react-bootstrap-icons'
 import styled from 'styled-components'
 import { SendedCardWords } from '../../../../../api/api'
@@ -12,6 +12,8 @@ interface IFormWordPair {
 }
 
 export const FormWordPair: React.FC<IFormWordPair> = ({ removePair, fields, index }) => {
+  const [isHighlighting, setIsHighlighting] = useState(false)
+
   const deleteWordPair = (): void => {
     if (fields.length !== 1) {
       removePair()
@@ -19,14 +21,19 @@ export const FormWordPair: React.FC<IFormWordPair> = ({ removePair, fields, inde
   }
 
   return (
-    <Container>
+    <Container highlightOnHover={isHighlighting} highlightColor={'#ff5252e3'}>
       <WordPairBlock>
         <FormWordInput inputValue={fields[index].en} index={index} lang='en' />
         <Dash>—</Dash>
         <FormWordInput inputValue={fields[index].ru} index={index} lang='ru' />
       </WordPairBlock>
 
-      <DeletePairButton type='button' onClick={deleteWordPair}>
+      <DeletePairButton
+        type='button'
+        onClick={deleteWordPair}
+        onMouseEnter={() => setIsHighlighting(true)}
+        onMouseLeave={() => setIsHighlighting(false)}
+      >
         <XLg size={30} />
       </DeletePairButton>
     </Container>
