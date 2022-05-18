@@ -39,6 +39,7 @@ export const FormCardBody: React.FC<PropsForBody> = ({
         ref={topRef}
         style={{
           height: '10px',
+          position: 'absolute',
         }}
       />
 
