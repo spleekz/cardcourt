@@ -6,6 +6,7 @@ import { Slider } from '../../components/card-slider/slider'
 import { UserHasNoCards } from '../../components/messages/info-messages/user-has-no-cards'
 import { Avatar } from '../../components/avatar'
 import { CurrentUserStore } from '../../stores/current-user-store'
+import { PageContentContainer } from '../../components/utility/styled'
 
 interface Props {
   createdCardsSlider: CardSlider | null
@@ -40,9 +41,8 @@ export const UserPageOriginalContent: React.FC<Props> = observer(
   }
 )
 
-const Container = styled.div`
+const Container = styled(PageContentContainer)`
   display: flex;
-  flex: 1 0 auto;
   position: relative;
 `
 const UserInfo = styled.div`

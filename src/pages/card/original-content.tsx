@@ -8,6 +8,7 @@ import { CurrentCardStore } from '../../stores/current-card-store'
 import { CardDeletedPopup } from '../../components/popups/popup-with-custom-close/variants/card-deleted'
 import { ConfirmPopup } from '../../components/popups/confirm-popup/confirm-popup'
 import { Pencil, Trash } from 'react-bootstrap-icons'
+import { Bold, CenteredContainer, CenteredPageContent } from '../../components/utility/styled'
 
 interface Props {
   cardStore: CurrentCardStore
@@ -26,8 +27,8 @@ export const CardPageOriginalContent: React.FC<Props> = observer(({ cardStore })
     <>
       {card && (
         <>
-          <Container>
-            <CardContainer>
+          <CenteredPageContent>
+            <CenteredContainer>
               <FullCard card={card} width={cardWidth} height={cardHeight} />
               {cardStore.meIsAuthor && (
                 <Icons>
@@ -41,8 +42,8 @@ export const CardPageOriginalContent: React.FC<Props> = observer(({ cardStore })
                   </Icon>
                 </Icons>
               )}
-            </CardContainer>
-          </Container>
+            </CenteredContainer>
+          </CenteredPageContent>
 
           <ConfirmPopup
             width={'600px'}
@@ -74,17 +75,6 @@ export const CardPageOriginalContent: React.FC<Props> = observer(({ cardStore })
   )
 })
 
-const Container = styled.div`
-  flex: 1 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-const CardContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
 const Icons = styled.div`
   align-self: flex-start;
   margin-left: 16px;
@@ -106,7 +96,4 @@ const Icon = styled.div`
   &:hover {
     cursor: pointer;
   }
-`
-const Bold = styled.span`
-  font-weight: bold;
 `

@@ -25,6 +25,7 @@ export const AuthFormErrorBlock = styled.div`
   bottom: 0;
 `
 export const ToAnotherWayOfAuth = styled.div`
+  display: inline-block;
   padding: 7px;
   font-size: 25px;
   font-weight: bold;

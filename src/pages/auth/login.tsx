@@ -18,6 +18,7 @@ import {
 } from './shared-components'
 import { useStore } from '../../stores/root-store/context'
 import { YouAlreadyLoggedIn } from '../../components/messages/errors/you-already-logged-in'
+import { CenteredPageContent } from '../../components/utility/styled'
 
 interface LoginFormValues {
   name: string
@@ -52,46 +53,42 @@ export const LoginPage: React.FC = registerPage(
       }
 
       return (
-        <Container>
-          <AuthForm title='Вход'>
-            <AuthFormInput
-              placeholder='Логин'
-              maxLength={14}
-              {...register('name', { required: true })}
-            />
-            <AuthFormInput
-              placeholder='Пароль'
-              type='password'
-              {...register('password', { required: true })}
-            />
-            <AuthFormButton type='submit' onClick={handleSubmit(loginUser)}>
-              Войти
-            </AuthFormButton>
-            {(loadingState.error || localError) && (
-              <AuthFormErrorBlock>
-                {loadingState.wrongLoginName && <WrongLoginName loginName={loginName} />}
-                {loadingState.wrongPassword && <WrongPassword />}
-                {loginNameTheSame && <YouAlreadyLoggedIn />}
-                {loadingState.unknownError && <UnknownError withButton={false} />}
-              </AuthFormErrorBlock>
-            )}
-          </AuthForm>
-          <ToAnotherWayOfAuth>
-            Нет аккаунта?{' '}
-            <Link to='/registration'>
-              <ToAnotherWayOfAuthLink>Зарегистрируйтесь</ToAnotherWayOfAuthLink>
-            </Link>
-          </ToAnotherWayOfAuth>
-        </Container>
+        <CenteredPageContent>
+          <FormContainer>
+            <AuthForm title='Вход'>
+              <AuthFormInput
+                placeholder='Логин'
+                maxLength={14}
+                {...register('name', { required: true })}
+              />
+              <AuthFormInput
+                placeholder='Пароль'
+                type='password'
+                {...register('password', { required: true })}
+              />
+              <AuthFormButton type='submit' onClick={handleSubmit(loginUser)}>
+                Войти
+              </AuthFormButton>
+              {(loadingState.error || localError) && (
+                <AuthFormErrorBlock>
+                  {loadingState.wrongLoginName && <WrongLoginName loginName={loginName} />}
+                  {loadingState.wrongPassword && <WrongPassword />}
+                  {loginNameTheSame && <YouAlreadyLoggedIn />}
+                  {loadingState.unknownError && <UnknownError withButton={false} />}
+                </AuthFormErrorBlock>
+              )}
+            </AuthForm>
+            <ToAnotherWayOfAuth>
+              Нет аккаунта?{' '}
+              <Link to='/registration'>
+                <ToAnotherWayOfAuthLink>Зарегистрируйтесь</ToAnotherWayOfAuthLink>
+              </Link>
+            </ToAnotherWayOfAuth>
+          </FormContainer>
+        </CenteredPageContent>
       )
     })
   )
 )
 
-const Container = styled.div`
-  flex: 1 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`
+const FormContainer = styled.div``
