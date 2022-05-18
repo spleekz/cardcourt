@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { AnyObject, EmptyFunction } from '../../basic-utility-types'
 import { useLocationChange } from '../../hooks/use-location-change'
 import { useStore } from '../../stores/root-store/context'
-import { PortalToBody } from '../portal-to-body'
+import { PortalToBody } from '../utility/portal-to-body'
 import { PopupBlock, PopupContainer, PopupTitle } from './shared-components'
 
 //afterClose - функция, выполняющаяся при закрытии попапа любым способом
