@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScreenPreloader } from '../components/icons/screen-preloader'
+import { ScreenPreloader } from '../assets/svg/components/screen-preloader'
 import { useStore } from '../stores/root-store/context'
 
 interface Variant {

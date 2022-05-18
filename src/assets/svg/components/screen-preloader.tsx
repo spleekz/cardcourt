@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import PreloaderSVG from '../../assets/svg/preloader.svg'
-import { PortalToBody } from '../portal-to-body'
+import PreloaderSVG from '../../svg/preloader.svg'
+import { PortalToBody } from '../../../components/portal-to-body'
 
 interface Props {
   blackout?: boolean

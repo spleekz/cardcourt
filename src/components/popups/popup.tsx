@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
+import { XLg } from 'react-bootstrap-icons'
 import styled from 'styled-components'
 import { AnyObject, EmptyFunction } from '../../basic-utility-types'
 import { useLocationChange } from '../../hooks/use-location-change'
 import { useStore } from '../../stores/root-store/context'
-import { XIcon } from '../icons/x-icon'
 import { PortalToBody } from '../portal-to-body'
 import { PopupBlock, PopupContainer, PopupTitle } from './shared-components'
 
@@ -52,7 +52,7 @@ export const Popup: React.FC<PopupProps> = observer(
               <PopupTitle>{title}</PopupTitle>
               {withCloseButton && (
                 <ClosePopupButton onClick={fnForClosing}>
-                  <XIcon />
+                  <XLg size={35} />
                 </ClosePopupButton>
               )}
             </PopupTitleBlock>

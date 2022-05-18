@@ -4,11 +4,10 @@ import styled from 'styled-components'
 import { getCardWidthByHeight } from '../../utils/cards'
 import { FullCard } from '../../components/card/variants/full-card'
 import { Link } from 'react-router-dom'
-import { PencilIcon } from '../../components/icons/pencil-icon'
-import { XIcon } from '../../components/icons/x-icon'
 import { CurrentCardStore } from '../../stores/current-card-store'
 import { CardDeletedPopup } from '../../components/popups/popup-with-custom-close/variants/card-deleted'
 import { ConfirmPopup } from '../../components/popups/confirm-popup/confirm-popup'
+import { Pencil, Trash } from 'react-bootstrap-icons'
 
 interface Props {
   cardStore: CurrentCardStore
@@ -34,16 +33,17 @@ export const CardPageOriginalContent: React.FC<Props> = observer(({ cardStore })
                 <Icons>
                   <Link to={`edit`}>
                     <Icon>
-                      <PencilIcon />
+                      <Pencil size={30} />
                     </Icon>
                   </Link>
                   <Icon onClick={() => setCardDeketeConfirmPopupShown(true)}>
-                    <XIcon />
+                    <Trash size={30} />
                   </Icon>
                 </Icons>
               )}
             </CardContainer>
           </Container>
+
           <ConfirmPopup
             width={'600px'}
             height={'260px'}
@@ -63,6 +63,7 @@ export const CardPageOriginalContent: React.FC<Props> = observer(({ cardStore })
             fnForClosing={() => setCardDeketeConfirmPopupShown(false)}
             isOpened={cardDeleteConfirmPopupShown}
           />
+
           <CardDeletedPopup
             fnForClosing={() => setCardDeletedPopupShown(false)}
             isOpened={cardDeletedPopupShown}

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ScreenPreloader } from '../components/icons/screen-preloader'
+import { ScreenPreloader } from '../assets/svg/components/screen-preloader'
 import { LoginStore } from '../stores/auth-store/login-store'
 import { RegistrationStore } from '../stores/auth-store/registration-store'
 import { useStore } from '../stores/root-store/context'

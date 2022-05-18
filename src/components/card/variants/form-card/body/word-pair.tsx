@@ -1,7 +1,7 @@
 import React from 'react'
+import { XLg } from 'react-bootstrap-icons'
 import styled from 'styled-components'
 import { SendedCardWords } from '../../../../../api/api'
-import { XIcon } from '../../../../icons/x-icon'
 import { CardWordPairBlock } from '../../../card-shared-components/body'
 import { FormWordInput } from './word-input/word-input'
 
@@ -27,7 +27,7 @@ export const FormWordPair: React.FC<IFormWordPair> = ({ removePair, fields, inde
       </WordPairBlock>
 
       <DeletePairButton type='button' onClick={deleteWordPair}>
-        <XIcon />
+        <XLg size={30} />
       </DeletePairButton>
     </Container>
   )

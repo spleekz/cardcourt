@@ -8,7 +8,7 @@ import { content } from '../../utils/page-content'
 import { EditCardPageOriginalContent } from './original-content'
 import { UpdatedCardNotExists } from '../../components/messages/errors/updated-card-not-exists'
 import { NotCardAuthor } from '../../components/messages/errors/not-card-author'
-import { ScreenPreloader } from '../../components/icons/screen-preloader'
+import { ScreenPreloader } from '../../assets/svg/components/screen-preloader'
 
 export const EditCardPage: React.FC = registerPage(
   observer(() => {

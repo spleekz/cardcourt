@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
+import { Search as SearchIcon } from 'react-bootstrap-icons'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { SearchIcon } from '../../components/icons/search-icon'
 
 export const Search: React.FC = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -26,7 +26,7 @@ export const Search: React.FC = observer(() => {
       <Input value={search} onChange={(e) => setSearch(e.target.value)} onKeyPress={handleEnter} />
 
       <SearchButton onClick={setSearchToUrl}>
-        <SearchIcon />
+        <SearchIcon size={22} />
       </SearchButton>
     </Container>
   )

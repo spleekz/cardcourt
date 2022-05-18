@@ -6,7 +6,7 @@ import { CardNotFound } from '../../components/messages/errors/card-not-found'
 import { content } from '../../utils/page-content'
 import { UnknownError } from '../../components/messages/errors/unknown-error'
 import { CardPageOriginalContent } from './original-content'
-import { ScreenPreloader } from '../../components/icons/screen-preloader'
+import { ScreenPreloader } from '../../assets/svg/components/screen-preloader'
 import { NotCardAuthor } from '../../components/messages/errors/not-card-author'
 
 export const CardPage: React.FC = registerPage(
