@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { CardSlider } from '../../stores/card-slider'
 import { Slider } from '../../components/card-slider/slider'
 import { UserHasNoCards } from '../../components/messages/info-messages/user-has-no-cards'
-import { Avatar } from '../../components/avatar'
+import { Avatar } from '../../components/static/avatar'
 import { CurrentUserStore } from '../../stores/current-user-store'
 import { PageContentContainer } from '../../components/utility/styled'
 

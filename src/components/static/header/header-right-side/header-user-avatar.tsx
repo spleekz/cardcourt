@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Avatar } from '../../../avatar'
+import { Avatar } from '../../avatar'
 import { MeMenuPopover } from '../../../popovers/variants/me-menu'
 
 export const HeaderUserAvatar: React.FC = () => {
