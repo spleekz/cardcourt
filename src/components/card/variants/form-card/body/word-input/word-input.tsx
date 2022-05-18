@@ -12,7 +12,7 @@ interface IFormWordInput {
 }
 
 export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, lang }) => {
-  const { register } = useFormContext()
+  const { register, setValue } = useFormContext()
 
   const [isInputOnFocus, setIsInputOnFocus] = useState<boolean>(false)
   const [isInputOnHover, setIsInputOnHover] = useState<boolean>(false)
@@ -26,7 +26,11 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, lan
 
   const onInputBlur = (): void => {
     setIsInputOnFocus(false)
-    setIsInputEmpty(inputValue.trim() === '')
+
+    const trimmedInputValue = inputValue.trim()
+    setValue(`words.${index}.${lang}`, trimmedInputValue)
+
+    setIsInputEmpty(trimmedInputValue === '')
   }
 
   return (

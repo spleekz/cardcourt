@@ -62,6 +62,11 @@ export const FormCard: CardVariantComponent<PropsForCardFormVariant> = observer(
       }, 0)
     }
 
+    const onCardNameInputBlur = (): void => {
+      const { name } = methods.getValues()
+      methods.setValue('name', name.trim())
+    }
+
     //!Функции для сабмита
     const createNewCard: SubmitHandler<SendedCard> = (card) => {
       card.ui = {
@@ -104,6 +109,7 @@ export const FormCard: CardVariantComponent<PropsForCardFormVariant> = observer(
                   {...methods.register(`name` as const, { required: true })}
                   placeholder='Введите название карточки'
                   maxLength={27}
+                  onBlur={onCardNameInputBlur}
                 />
                 <CardAuthor>{isEditCard ? card.author.name : authStore.me?.name}</CardAuthor>
               </CardHeading>
