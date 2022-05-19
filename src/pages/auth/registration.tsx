@@ -12,11 +12,12 @@ import { registerPage } from '../../hocs/register-page'
 import {
   AuthButton,
   AuthFormErrorBlock,
-  AuthFormInput,
   ToAnotherWayOfAuth,
   ToAnotherWayOfAuthLink,
 } from './shared-components'
 import { CenteredPageContent } from '../../components/utility/styled'
+import { LoginInput } from './shared-form-fields/login-input'
+import { PasswordInput } from './shared-form-fields/password-input'
 
 interface RegisterUserValues {
   name: string
@@ -29,13 +30,8 @@ export const RegistrationPage: React.FC = registerPage(
       const { registration } = useAuthContext()
       const { loadingState } = registration
 
-      const { register, handleSubmit, getValues, setValue } = useForm<RegisterUserValues>()
+      const formMethods = useForm<RegisterUserValues>()
       const [registerName, setRegisterName] = useState('')
-
-      const onLoginInputBlur = (): void => {
-        const { name } = getValues()
-        setValue('name', name.trim())
-      }
 
       const registerUser: SubmitHandler<RegisterUserValues> = ({ name, password }) => {
         setRegisterName(name)
@@ -46,18 +42,11 @@ export const RegistrationPage: React.FC = registerPage(
         <CenteredPageContent>
           <FormContainer>
             <AuthForm title='Регистрация'>
-              <AuthFormInput
-                {...register('name', { required: true })}
-                placeholder='Придумайте логин'
-                maxLength={14}
-                onBlur={onLoginInputBlur}
-              />
-              <AuthFormInput
-                placeholder='Придумайте пароль'
-                type='password'
-                {...register('password', { required: true })}
-              />
-              <AuthButton onClick={handleSubmit(registerUser)}>Зарегистрироваться</AuthButton>
+              <LoginInput formMethods={formMethods} />
+              <PasswordInput formMethods={formMethods} />
+              <AuthButton onClick={formMethods.handleSubmit(registerUser)}>
+                Зарегистрироваться
+              </AuthButton>
               {loadingState.error && (
                 <AuthFormErrorBlock>
                   {loadingState.longRegisterName && <LongRegisterName />}

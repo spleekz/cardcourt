@@ -12,13 +12,14 @@ import { registerPage } from '../../hocs/register-page'
 import {
   AuthButton,
   AuthFormErrorBlock,
-  AuthFormInput,
   ToAnotherWayOfAuth,
   ToAnotherWayOfAuthLink,
 } from './shared-components'
 import { useStore } from '../../stores/root-store/context'
 import { YouAlreadyLoggedIn } from '../../components/messages/errors/you-already-logged-in'
 import { CenteredPageContent } from '../../components/utility/styled'
+import { LoginInput } from './shared-form-fields/login-input'
+import { PasswordInput } from './shared-form-fields/password-input'
 
 interface LoginFormValues {
   name: string
@@ -33,7 +34,7 @@ export const LoginPage: React.FC = registerPage(
       const { login } = useAuthContext()
       const { loadingState } = login
 
-      const { register, handleSubmit, getValues, setValue } = useForm<LoginFormValues>()
+      const formMethods = useForm<LoginFormValues>()
       const [loginName, setLoginName] = useState('')
 
       const [localError, setIsLocalError] = useState(false)
@@ -51,27 +52,13 @@ export const LoginPage: React.FC = registerPage(
         }
       }
 
-      const onLoginInputBlur = (): void => {
-        const { name } = getValues()
-        setValue('name', name.trim())
-      }
-
       return (
         <CenteredPageContent>
           <FormContainer>
             <AuthForm title='Вход'>
-              <AuthFormInput
-                {...register('name', { required: true })}
-                placeholder='Логин'
-                maxLength={14}
-                onBlur={onLoginInputBlur}
-              />
-              <AuthFormInput
-                placeholder='Пароль'
-                type='password'
-                {...register('password', { required: true })}
-              />
-              <AuthButton type='submit' onClick={handleSubmit(loginUser)}>
+              <LoginInput formMethods={formMethods} />
+              <PasswordInput formMethods={formMethods} />
+              <AuthButton type='submit' onClick={formMethods.handleSubmit(loginUser)}>
                 Войти
               </AuthButton>
               {(loadingState.error || localError) && (
