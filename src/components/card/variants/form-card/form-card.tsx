@@ -106,7 +106,7 @@ export const FormCard: CardVariantComponent<PropsForCardFormVariant> = observer(
             >
               <CardHeading>
                 <CardName
-                  {...methods.register(`name` as const, { required: true })}
+                  {...methods.register(`name`, { required: true })}
                   placeholder='Введите название карточки'
                   maxLength={27}
                   onBlur={onCardNameInputBlur}

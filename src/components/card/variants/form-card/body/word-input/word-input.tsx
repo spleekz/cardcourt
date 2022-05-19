@@ -35,7 +35,7 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, lan
 
   return (
     <WordInput
-      {...register(`words.${index}.${lang}` as const, {
+      {...register(`words.${index}.${lang}`, {
         required: true,
         validate: (v) => validateInputLanguage(v),
       })}
