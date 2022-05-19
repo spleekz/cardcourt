@@ -39,7 +39,6 @@ const Title = styled.div`
 `
 const Form = styled.form`
   margin: auto;
-  justify-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
