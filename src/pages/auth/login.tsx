@@ -10,7 +10,7 @@ import { AuthForm } from './auth-form'
 import { useAuthContext, withAuthLogic } from '../../hocs/with-auth-logic'
 import { registerPage } from '../../hocs/register-page'
 import {
-  AuthFormButton,
+  AuthButton,
   AuthFormErrorBlock,
   AuthFormInput,
   ToAnotherWayOfAuth,
@@ -66,9 +66,9 @@ export const LoginPage: React.FC = registerPage(
                 type='password'
                 {...register('password', { required: true })}
               />
-              <AuthFormButton type='submit' onClick={handleSubmit(loginUser)}>
+              <AuthButton type='submit' onClick={handleSubmit(loginUser)}>
                 Войти
-              </AuthFormButton>
+              </AuthButton>
               {(loadingState.error || localError) && (
                 <AuthFormErrorBlock>
                   {loadingState.wrongLoginName && <WrongLoginName loginName={loginName} />}

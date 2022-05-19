@@ -1,4 +1,7 @@
+import React from 'react'
 import styled from 'styled-components'
+import { BlueButton } from '../../components/buttons/blue-button'
+import { ColorButtonProps } from '../../components/buttons/button'
 
 export const AuthFormInput = styled.input`
   margin-bottom: 16px;
@@ -8,14 +11,6 @@ export const AuthFormInput = styled.input`
   font-weight: bold;
   padding: 3px;
 `
-export const AuthFormButton = styled.button`
-  font-size: 27px;
-  margin-right: 15px;
-  color: #ffffff;
-  background-color: #2e87ec;
-  padding: 5px;
-  border-radius: 3px;
-`
 export const AuthFormErrorBlock = styled.div`
   position: absolute;
   margin-left: auto;
@@ -24,6 +19,10 @@ export const AuthFormErrorBlock = styled.div`
   right: 0;
   bottom: 0;
 `
+export const AuthButton: React.FC<ColorButtonProps> = (props) => {
+  return <BlueButton fontSize={27} {...props} />
+}
+
 export const ToAnotherWayOfAuth = styled.div`
   display: inline-block;
   padding: 7px;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { BlueButton } from '../../../buttons/blue-button'
 import { PopupVariantProps } from '../../popup'
 import { PopupWithCustomClose } from '../popup-with-custom-close'
 
@@ -13,17 +13,9 @@ export const CardDeletedPopup: React.FC<PopupVariantProps> = ({ fnForClosing, is
       fnForClosing={fnForClosing}
       isOpened={isOpened}
     >
-      <RedirectButton>
+      <BlueButton fontSize={32}>
         <Link to='/'>На главную</Link>
-      </RedirectButton>
+      </BlueButton>
     </PopupWithCustomClose>
   )
 }
-
-const RedirectButton = styled.button`
-  margin: 0 20px;
-  padding: 10px;
-  font-size: 32px;
-  background-color: #2e87ec;
-  color: #ffffff;
-`
