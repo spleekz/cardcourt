@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom'
 import { PopupVariantProps } from '../../popup'
 import { PopupWithCustomClose } from '../popup-with-custom-close'
 import { BlueButton } from '../../../buttons/blue-button'
-import { ColorButtonProps } from '../../../buttons/button'
 
 interface CardDoneProps {
   title: string
@@ -47,6 +46,7 @@ const ButtonsList = styled.div`
   justify-content: space-between;
   margin: 25px 0 0 0;
 `
-const RedirectButton: React.FC<ColorButtonProps> = (props) => {
-  return <BlueButton fontSize={32} marginLeft={15} marginRight={15} {...props} />
-}
+const RedirectButton = styled(BlueButton)`
+  font-size: 32px;
+  margin: 0 15px;
+`

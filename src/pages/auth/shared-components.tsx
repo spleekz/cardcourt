@@ -1,7 +1,5 @@
-import React from 'react'
 import styled from 'styled-components'
 import { BlueButton } from '../../components/buttons/blue-button'
-import { ColorButtonProps } from '../../components/buttons/button'
 
 export const AuthFormInput = styled.input`
   margin-bottom: 16px;
@@ -19,10 +17,9 @@ export const AuthFormErrorBlock = styled.div`
   right: 0;
   bottom: 0;
 `
-export const AuthButton: React.FC<ColorButtonProps> = (props) => {
-  return <BlueButton fontSize={27} {...props} />
-}
-
+export const AuthButton = styled(BlueButton)`
+  font-size: 27px;
+`
 export const ToAnotherWayOfAuth = styled.div`
   display: inline-block;
   padding: 7px;
