@@ -214,12 +214,23 @@ export class CardSlider {
   ): GetCardsResponsePromise {
     const { fnWithUpdatingCards, anyway, error } = handlers
 
+    //!Код ниже помогает избежать ошибок при быстром скролле слайдера (maxLoadedPage устанавливается синхронно)
+    //Обычно: Сразу сдвигаем maxLoadedPage на pagesToLoad
+    if (this.pageCount - this.maxLoadedPage >= this.loadMoreCardsConfig.pagesToLoad) {
+      this.setMaxLoadedPage(this.maxLoadedPage + this.loadMoreCardsConfig.pagesToLoad)
+    } else {
+      //Если ещё не узнали pageCount то maxLoadedPage = pagesToLoad
+      if (this.pageCount === 0) {
+        this.setMaxLoadedPage(this.loadMoreCardsConfig.pagesToLoad)
+      } else {
+        //Пример: остается 2 старницы, а грузятся по 3 => сразу ставим maxLoadedPage на последнюю страницу
+        this.setMaxLoadedPage(this.pageCount)
+      }
+    }
+
     return getCards(params, {
       success: (data) => {
         fnWithUpdatingCards(data)
-        if (data.maxLoadedPage > this.maxLoadedPage) {
-          this.setMaxLoadedPage(data.maxLoadedPage)
-        }
       },
       error,
       anyway,
