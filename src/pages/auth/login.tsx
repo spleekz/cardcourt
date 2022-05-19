@@ -33,23 +33,27 @@ export const LoginPage: React.FC = registerPage(
       const { login } = useAuthContext()
       const { loadingState } = login
 
-      const { register, handleSubmit } = useForm<LoginFormValues>()
+      const { register, handleSubmit, getValues, setValue } = useForm<LoginFormValues>()
       const [loginName, setLoginName] = useState('')
 
       const [localError, setIsLocalError] = useState(false)
       const [loginNameTheSame, setLoginNameTheSame] = useState(false)
 
       const loginUser: SubmitHandler<LoginFormValues> = ({ name, password }) => {
-        const trimmedName = name.trim()
-        setLoginName(trimmedName)
-        if (authStore.me?.name === trimmedName) {
+        setLoginName(name)
+        if (authStore.me?.name === name) {
           setIsLocalError(true)
           setLoginNameTheSame(true)
         } else {
-          login.loginUser(trimmedName, password)
+          login.loginUser(name, password)
           setIsLocalError(false)
           setLoginNameTheSame(false)
         }
+      }
+
+      const onLoginInputBlur = (): void => {
+        const { name } = getValues()
+        setValue('name', name.trim())
       }
 
       return (
@@ -57,9 +61,10 @@ export const LoginPage: React.FC = registerPage(
           <FormContainer>
             <AuthForm title='Вход'>
               <AuthFormInput
+                {...register('name', { required: true })}
                 placeholder='Логин'
                 maxLength={14}
-                {...register('name', { required: true })}
+                onBlur={onLoginInputBlur}
               />
               <AuthFormInput
                 placeholder='Пароль'

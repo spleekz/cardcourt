@@ -29,13 +29,17 @@ export const RegistrationPage: React.FC = registerPage(
       const { registration } = useAuthContext()
       const { loadingState } = registration
 
-      const { register, handleSubmit } = useForm<RegisterUserValues>()
+      const { register, handleSubmit, getValues, setValue } = useForm<RegisterUserValues>()
       const [registerName, setRegisterName] = useState('')
 
+      const onLoginInputBlur = (): void => {
+        const { name } = getValues()
+        setValue('name', name.trim())
+      }
+
       const registerUser: SubmitHandler<RegisterUserValues> = ({ name, password }) => {
-        const trimmedName = name.trim()
-        setRegisterName(trimmedName)
-        registration.registerUser(trimmedName, password)
+        setRegisterName(name)
+        registration.registerUser(name, password)
       }
 
       return (
@@ -43,9 +47,10 @@ export const RegistrationPage: React.FC = registerPage(
           <FormContainer>
             <AuthForm title='Регистрация'>
               <AuthFormInput
+                {...register('name', { required: true })}
                 placeholder='Придумайте логин'
                 maxLength={14}
-                {...register('name', { required: true })}
+                onBlur={onLoginInputBlur}
               />
               <AuthFormInput
                 placeholder='Придумайте пароль'
