@@ -1,17 +1,22 @@
-import { observer } from 'mobx-react-lite'
 import React, { useLayoutEffect, useRef, useState } from 'react'
+
+import { observer } from 'mobx-react-lite'
 import { FormProvider, SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import styled from 'styled-components'
-import { SendedCard, UpdatedCard } from '../../../../api/api'
-import { useStore } from '../../../../stores/root-store/context'
-import { CardAuthorDiv, CardNameInput } from '../../card-shared-components/heading'
-import { CardFooterButton } from '../../card-shared-components/footer'
-import { CardTemplate } from '../../template'
+
+import { CardFooterButton } from 'components/card/card-shared-components/footer'
+import { CardAuthorDiv, CardNameInput } from 'components/card/card-shared-components/heading'
+import { CardTemplate } from 'components/card/template'
+import { SameCardName } from 'components/messages/errors/same-card-name'
+import { CardDonePopup } from 'components/popups/popup-with-custom-close/variants/card-done'
+
+import { SendedCard, UpdatedCard } from 'api/api'
+
+import cardConfig from 'stores/card-config.json'
+import { useStore } from 'stores/root-store/context'
+
 import { CardVariantComponent, PropsForCardFormVariant } from '../types'
 import { FormCardBody } from './body/body'
-import cardConfig from '../../../../stores/card-config.json'
-import { CardDonePopup } from '../../../popups/popup-with-custom-close/variants/card-done'
-import { SameCardName } from '../../../messages/errors/same-card-name'
 
 export const FormCard: CardVariantComponent<PropsForCardFormVariant> = observer(
   ({ cardStore = null, width, height }) => {
@@ -139,7 +144,7 @@ export const FormCard: CardVariantComponent<PropsForCardFormVariant> = observer(
         />
       </>
     )
-  }
+  },
 )
 
 const Form = styled.form`

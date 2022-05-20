@@ -1,9 +1,13 @@
-import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
-import { registerPage } from '../../hocs/register-page'
-import { useMainSlider } from '../../app'
+
+import { useMainSlider } from 'app'
+import { observer } from 'mobx-react-lite'
 import { useSearchParams } from 'react-router-dom'
-import { content } from '../../utils/page-content'
+
+import { registerPage } from 'hocs/register-page'
+
+import { content } from 'utils/page-content'
+
 import { CardCourtPageOriginalContent } from './original-content'
 
 export const CardCourtPage: React.FC = registerPage(
@@ -25,5 +29,5 @@ export const CardCourtPage: React.FC = registerPage(
     })
 
     return pageContent
-  })
+  }),
 )

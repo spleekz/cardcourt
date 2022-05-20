@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+
 import { CardWordPairBlock } from '../card-shared-components/body'
 import { CardAuthorDiv, CardNameDiv } from '../card-shared-components/heading'
 import { CardTemplate } from '../template'

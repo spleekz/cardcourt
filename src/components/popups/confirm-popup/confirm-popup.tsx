@@ -1,6 +1,8 @@
 import React from 'react'
+
+import { EmptyFunction } from 'basic-utility-types'
 import styled from 'styled-components'
-import { EmptyFunction } from '../../../basic-utility-types'
+
 import { Popup, PopupTypeProps } from '../popup'
 
 //fnForClosing - действие, чтобы закрыть попап

@@ -1,11 +1,13 @@
 import React from 'react'
+
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { CardAuthorDiv, CardNameDiv } from '../card-shared-components/heading'
-import { CardFooterButton } from '../card-shared-components/footer'
-import { CardTemplate } from '../template'
-import { CardVariantComponent } from './types'
-import { CardWordPairBlock } from '../card-shared-components/body'
+
+import { CardWordPairBlock } from 'components/card/card-shared-components/body'
+import { CardFooterButton } from 'components/card/card-shared-components/footer'
+import { CardAuthorDiv, CardNameDiv } from 'components/card/card-shared-components/heading'
+import { CardTemplate } from 'components/card/template'
+import { CardVariantComponent } from 'components/card/variants/types'
 
 export const FullCard: CardVariantComponent = ({ card, width, height }) => {
   const wordPairs = card.words.map((word) => {

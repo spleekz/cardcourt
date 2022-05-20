@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from 'react'
-import { EmptyFunction } from '../../basic-utility-types'
-import { useClickOutside } from '../../hooks/use-click-outside'
-import { useLocationChange } from '../../hooks/use-location-change'
+
+import { EmptyFunction } from 'basic-utility-types'
+
+import { useClickOutside } from 'hooks/use-click-outside'
+import { useLocationChange } from 'hooks/use-location-change'
+
 import { PopoverContainer, PopoverContainerProps } from './shared-components'
 
 interface PopoverState {

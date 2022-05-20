@@ -1,11 +1,14 @@
-import { makePersistable } from 'mobx-persist-store'
 import { makeAutoObservable } from 'mobx'
-import { api, getMe } from '../../api'
-import { LoadingState } from '../entities/loading-state'
-import { Me } from '../../api/api'
-import { RegistrationStore } from './registration-store'
+import { makePersistable } from 'mobx-persist-store'
+
+import { api, getMe } from 'api'
+import { Me } from 'api/api'
+import { StatusCodes } from 'api/api-utility-types'
+
+import { LoadingState } from 'stores/entities/loading-state'
+
 import { LoginStore } from './login-store'
-import { StatusCodes } from '../../api/api-utility-types'
+import { RegistrationStore } from './registration-store'
 
 export class AuthStore {
   constructor() {

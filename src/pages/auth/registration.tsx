@@ -1,21 +1,25 @@
-import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
+
+import { observer } from 'mobx-react-lite'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { LongRegisterName } from '../../components/messages/errors/long-register-name'
-import { SameRegisterName } from '../../components/messages/errors/same-register-name'
-import { UnknownError } from '../../components/messages/errors/unknown-error'
+
+import { LongRegisterName } from 'components/messages/errors/long-register-name'
+import { SameRegisterName } from 'components/messages/errors/same-register-name'
+import { UnknownError } from 'components/messages/errors/unknown-error'
+import { CenteredPageContent } from 'components/utility/styled'
+
+import { registerPage } from 'hocs/register-page'
+import { useAuthContext, withAuthLogic } from 'hocs/with-auth-logic'
+
 import { AuthForm } from './auth-form'
-import { useAuthContext, withAuthLogic } from '../../hocs/with-auth-logic'
-import { registerPage } from '../../hocs/register-page'
 import {
   AuthButton,
   AuthFormErrorBlock,
   ToAnotherWayOfAuth,
   ToAnotherWayOfAuthLink,
 } from './shared-components'
-import { CenteredPageContent } from '../../components/utility/styled'
 import { LoginInput } from './shared-form-fields/login-input'
 import { PasswordInput } from './shared-form-fields/password-input'
 
@@ -64,8 +68,8 @@ export const RegistrationPage: React.FC = registerPage(
           </FormContainer>
         </CenteredPageContent>
       )
-    })
-  )
+    }),
+  ),
 )
 
 const FormContainer = styled.div``

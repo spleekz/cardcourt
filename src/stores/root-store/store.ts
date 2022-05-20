@@ -1,10 +1,10 @@
-import { CardsStore } from '../cards-store'
-import { CheckStore } from '../check-store'
-import { AppStore } from '../app-store'
-import { CardSlider, SliderConfig } from '../card-slider'
-import { CurrentUserStore } from '../current-user-store'
-import { CurrentCardStore } from '../current-card-store'
-import { AuthStore } from '../auth-store/auth-store'
+import { AppStore } from 'stores/app-store'
+import { AuthStore } from 'stores/auth-store/auth-store'
+import { CardSlider, SliderConfig } from 'stores/card-slider'
+import { CardsStore } from 'stores/cards-store'
+import { CheckStore } from 'stores/check-store'
+import { CurrentCardStore } from 'stores/current-card-store'
+import { CurrentUserStore } from 'stores/current-user-store'
 
 export class RootStore {
   appStore: AppStore = new AppStore()

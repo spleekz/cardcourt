@@ -1,0 +1,23 @@
+{
+  "printWidth": 103,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "semi": false,
+  "importOrder": [
+    "^react$",
+    "<THIRD_PARTY_MODULES>",
+    "^pages/(.*)$",
+    "^components/(.*)$",
+    "^api(.*)$",
+    "^stores/(.*)$",
+    "^hooks/(.*)$",
+    "^hocs/(.*)$",
+    "^utils/(.*)$",
+    "^assets/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}

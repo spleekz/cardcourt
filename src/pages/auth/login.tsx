@@ -1,23 +1,28 @@
-import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
+
+import { observer } from 'mobx-react-lite'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { UnknownError } from '../../components/messages/errors/unknown-error'
-import { WrongLoginName } from '../../components/messages/errors/wrong-login-name'
-import { WrongPassword } from '../../components/messages/errors/wrong-password'
+
+import { UnknownError } from 'components/messages/errors/unknown-error'
+import { WrongLoginName } from 'components/messages/errors/wrong-login-name'
+import { WrongPassword } from 'components/messages/errors/wrong-password'
+import { YouAlreadyLoggedIn } from 'components/messages/errors/you-already-logged-in'
+import { CenteredPageContent } from 'components/utility/styled'
+
+import { useStore } from 'stores/root-store/context'
+
+import { registerPage } from 'hocs/register-page'
+import { useAuthContext, withAuthLogic } from 'hocs/with-auth-logic'
+
 import { AuthForm } from './auth-form'
-import { useAuthContext, withAuthLogic } from '../../hocs/with-auth-logic'
-import { registerPage } from '../../hocs/register-page'
 import {
   AuthButton,
   AuthFormErrorBlock,
   ToAnotherWayOfAuth,
   ToAnotherWayOfAuthLink,
 } from './shared-components'
-import { useStore } from '../../stores/root-store/context'
-import { YouAlreadyLoggedIn } from '../../components/messages/errors/you-already-logged-in'
-import { CenteredPageContent } from '../../components/utility/styled'
 import { LoginInput } from './shared-form-fields/login-input'
 import { PasswordInput } from './shared-form-fields/password-input'
 
@@ -79,8 +84,8 @@ export const LoginPage: React.FC = registerPage(
           </FormContainer>
         </CenteredPageContent>
       )
-    })
-  )
+    }),
+  ),
 )
 
 const FormContainer = styled.div``

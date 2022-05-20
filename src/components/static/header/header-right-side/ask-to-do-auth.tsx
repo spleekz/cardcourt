@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+
 import styled from 'styled-components'
-import { ChooseAuthWayPopup } from '../../../popovers/variants/choose-auth-way'
+
+import { ChooseAuthWayPopup } from 'components/popovers/variants/choose-auth-way'
 
 export const AskToDoAuth: React.FC = () => {
   const [waysOfAuthPopoverShown, setWaysOfAuthPopoverShown] = useState(false)

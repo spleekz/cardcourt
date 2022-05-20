@@ -1,10 +1,12 @@
+import { Rename, RequiredBy } from 'basic-utility-types'
 import { makeAutoObservable } from 'mobx'
-import { Cards, GetCardsParams, GetCardsResponse } from '../api/api'
-import { getCardCount, getCards } from '../api'
-import { ActionToUpdateCards } from './stores-utility-types'
-import { Rename, RequiredBy } from '../basic-utility-types'
-import { GetCardsResponsePromise, PromiseHandlers, StatusCodes } from '../api/api-utility-types'
+
+import { getCardCount, getCards } from 'api'
+import { Cards, GetCardsParams, GetCardsResponse } from 'api/api'
+import { GetCardsResponsePromise, PromiseHandlers, StatusCodes } from 'api/api-utility-types'
+
 import { LoadingState } from './entities/loading-state'
+import { ActionToUpdateCards } from './stores-utility-types'
 
 type PromiseHandlersForSlider = RequiredBy<
   Rename<PromiseHandlers<GetCardsResponse>, 'success', 'fnWithUpdatingCards'>,
@@ -210,7 +212,7 @@ export class CardSlider {
   //Общий вид запроса карточек для слайдера
   private getCardForSlider(
     params: GetCardsParams,
-    handlers: PromiseHandlersForSlider
+    handlers: PromiseHandlersForSlider,
   ): GetCardsResponsePromise {
     const { fnWithUpdatingCards, anyway, error } = handlers
 

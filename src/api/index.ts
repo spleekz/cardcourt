@@ -23,7 +23,7 @@ export const api = new Api({
 
 export function handlePromise<PromiseData>(
   promise: Promise<HttpResponse<PromiseData>>,
-  handlers?: PromiseHandlers<PromiseData>
+  handlers?: PromiseHandlers<PromiseData>,
 ): Promise<PromiseData> {
   const { success, error, anyway } = handlers || {}
 

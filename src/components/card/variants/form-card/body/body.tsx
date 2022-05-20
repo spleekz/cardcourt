@@ -1,7 +1,10 @@
 import React, { RefObject } from 'react'
+
 import { FieldArrayWithId } from 'react-hook-form'
 import styled from 'styled-components'
-import { SendedCard, SendedCardWords } from '../../../../../api/api'
+
+import { SendedCard, SendedCardWords } from 'api/api'
+
 import { FormWordPair } from './word-pair'
 
 interface PropsForBody {

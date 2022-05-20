@@ -1,12 +1,16 @@
-import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
+
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { useStore } from '../../stores/root-store/context'
-import { CardSlider, SliderConfig } from '../../stores/card-slider'
+
+import { UnknownError } from 'components/messages/errors/unknown-error'
+import { NoCardsFound } from 'components/messages/info-messages/no-cards-found'
+import { NoCardsOnServer } from 'components/messages/info-messages/no-cards-on-server'
+
+import { CardSlider, SliderConfig } from 'stores/card-slider'
+import { useStore } from 'stores/root-store/context'
+
 import { SliderWindow } from './slider-window'
-import { NoCardsOnServer } from '../messages/info-messages/no-cards-on-server'
-import { NoCardsFound } from '../messages/info-messages/no-cards-found'
-import { UnknownError } from '../messages/errors/unknown-error'
 
 interface NewSliderConfig {
   newSliderConfig: SliderConfig
@@ -17,7 +21,7 @@ interface Slider {
 }
 
 function CardSliderComponent(
-  props: React.PropsWithChildren<NewSliderConfig>
+  props: React.PropsWithChildren<NewSliderConfig>,
 ): React.ReactElement | null
 function CardSliderComponent(props: React.PropsWithChildren<Slider>): React.ReactElement | null
 
@@ -27,7 +31,7 @@ function CardSliderComponent(props: NewSliderConfig | Slider): React.ReactElemen
   const isNewSlider = !('slider' in props)
 
   const [slider] = useState<CardSlider>(
-    !isNewSlider ? props.slider : () => createCardSlider(props.newSliderConfig)
+    !isNewSlider ? props.slider : () => createCardSlider(props.newSliderConfig),
   )
 
   return (

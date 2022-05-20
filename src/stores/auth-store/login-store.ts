@@ -1,7 +1,10 @@
 import { makeAutoObservable } from 'mobx'
-import { loginUser } from '../../api'
-import { LoginUserResponsePromise, StatusCodes } from '../../api/api-utility-types'
-import { LoadingState } from '../entities/loading-state'
+
+import { loginUser } from 'api'
+import { LoginUserResponsePromise, StatusCodes } from 'api/api-utility-types'
+
+import { LoadingState } from 'stores/entities/loading-state'
+
 import { AuthStore } from './auth-store'
 
 interface LoginStoreConfig {
@@ -34,7 +37,7 @@ export class LoginStore {
         error: (error) => {
           this.loadingState.setCode(error.status)
         },
-      }
+      },
     )
   }
 }

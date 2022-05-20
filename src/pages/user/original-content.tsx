@@ -1,12 +1,15 @@
 import React from 'react'
+
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { CardSlider } from '../../stores/card-slider'
-import { Slider } from '../../components/card-slider/slider'
-import { UserHasNoCards } from '../../components/messages/info-messages/user-has-no-cards'
-import { Avatar } from '../../components/static/avatar'
-import { CurrentUserStore } from '../../stores/current-user-store'
-import { PageContentContainer } from '../../components/utility/styled'
+
+import { Slider } from 'components/card-slider/slider'
+import { UserHasNoCards } from 'components/messages/info-messages/user-has-no-cards'
+import { Avatar } from 'components/static/avatar'
+import { PageContentContainer } from 'components/utility/styled'
+
+import { CardSlider } from 'stores/card-slider'
+import { CurrentUserStore } from 'stores/current-user-store'
 
 interface Props {
   createdCardsSlider: CardSlider | null
@@ -38,7 +41,7 @@ export const UserPageOriginalContent: React.FC<Props> = observer(
         )}
       </>
     )
-  }
+  },
 )
 
 const Container = styled(PageContentContainer)`

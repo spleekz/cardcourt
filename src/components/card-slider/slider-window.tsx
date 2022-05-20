@@ -1,7 +1,10 @@
 import React from 'react'
+
 import styled from 'styled-components'
-import { Cards } from '../../api/api'
-import { SliderCard } from '../card/variants/slider-card'
+
+import { SliderCard } from 'components/card/variants/slider-card'
+
+import { Cards } from 'api/api'
 
 interface Props {
   cards: Cards

@@ -1,11 +1,13 @@
 import { makeAutoObservable } from 'mobx'
-import { getCards, getUserInfo } from '../api'
-import { Cards, GetCardsParams, PublicUserInfo } from '../api/api'
+
+import { getCards, getUserInfo } from 'api'
+import { Cards, GetCardsParams, PublicUserInfo } from 'api/api'
 import {
   GetCardsResponsePromise,
   GetUserInfoResponsePromise,
   StatusCodes,
-} from '../api/api-utility-types'
+} from 'api/api-utility-types'
+
 import { LoadingState } from './entities/loading-state'
 import { ActionToUpdateCards } from './stores-utility-types'
 

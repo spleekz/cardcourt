@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { AuthFormInput } from '../shared-components'
 import { PropsForFormFields } from './types'
 

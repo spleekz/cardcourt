@@ -1,8 +1,10 @@
 import React from 'react'
+
+import { App } from 'app'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
-import { App } from './app'
-import { RootStoreProvider } from './stores/root-store/context'
+
+import { RootStoreProvider } from 'stores/root-store/context'
 
 ReactDOM.render(
   <BrowserRouter>
@@ -10,5 +12,5 @@ ReactDOM.render(
       <App />
     </RootStoreProvider>
   </BrowserRouter>,
-  document.getElementById('root')
+  document.getElementById('root'),
 )

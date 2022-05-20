@@ -1,9 +1,11 @@
 import React from 'react'
+
+import { useMainSlider } from 'app'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Slider } from '../../../components/card-slider/slider'
-import { useMainSlider } from '../../../app'
+import styled from 'styled-components'
+
+import { Slider } from 'components/card-slider/slider'
 
 export const Court: React.FC = observer(() => {
   const mainSlider = useMainSlider()

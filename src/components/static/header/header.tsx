@@ -1,7 +1,9 @@
 import React from 'react'
+
+import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { observer } from 'mobx-react-lite'
+
 import { HeaderRightSide } from './header-right-side/header-right-side'
 
 export const Header: React.FC = observer(() => {

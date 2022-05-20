@@ -1,7 +1,10 @@
-import { observer } from 'mobx-react-lite'
 import React from 'react'
+
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { useStore } from '../../../../stores/root-store/context'
+
+import { useStore } from 'stores/root-store/context'
+
 import { AskToDoAuth } from './ask-to-do-auth'
 import { HeaderUserAvatar } from './header-user-avatar'
 

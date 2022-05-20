@@ -1,14 +1,21 @@
-import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
-import { registerPage } from '../../hocs/register-page'
-import { useStore } from '../../stores/root-store/context'
-import { getCardHeightByWidth } from '../../utils/cards'
-import { SliderConfig, CardSlider } from '../../stores/card-slider'
-import { content } from '../../utils/page-content'
+
+import { observer } from 'mobx-react-lite'
+
+import { UnknownError } from 'components/messages/errors/unknown-error'
+import { UserNotFound } from 'components/messages/errors/user-not-found'
+
+import { CardSlider, SliderConfig } from 'stores/card-slider'
+import { useStore } from 'stores/root-store/context'
+
+import { useUserStoreFromUrl } from 'hooks/use-user-store-from-url'
+
+import { registerPage } from 'hocs/register-page'
+
+import { getCardHeightByWidth } from 'utils/cards'
+import { content } from 'utils/page-content'
+
 import { UserPageOriginalContent } from './original-content'
-import { useUserStoreFromUrl } from '../../hooks/use-user-store-from-url'
-import { UserNotFound } from '../../components/messages/errors/user-not-found'
-import { UnknownError } from '../../components/messages/errors/unknown-error'
 
 export const UserPage: React.FC = registerPage(
   observer(() => {
@@ -17,7 +24,7 @@ export const UserPage: React.FC = registerPage(
 
     const { createCardSlider } = useStore()
     const [userCreatedCardsSliderStore, setUserCreatedCardsSliderStore] = useState<CardSlider | null>(
-      null
+      null,
     )
     const cardWidthForSlider = 340
     const cardHeightForSlider = getCardHeightByWidth(cardWidthForSlider)
@@ -64,5 +71,5 @@ export const UserPage: React.FC = registerPage(
 
     return pageContent
   }),
-  { isRootPath: true }
+  { isRootPath: true },
 )

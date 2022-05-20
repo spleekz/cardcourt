@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { BlueButton } from '../../components/buttons/blue-button'
+
+import { BlueButton } from 'components/buttons/blue-button'
 
 export const AuthFormInput = styled.input`
   margin-bottom: 16px;

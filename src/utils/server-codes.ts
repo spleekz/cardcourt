@@ -1,4 +1,4 @@
-import { LoadingStatus } from '../stores/entities/loading-state'
+import { LoadingStatus } from 'stores/entities/loading-state'
 
 export const isSuccessCode = (code: number): boolean => {
   return code / 100 === 2

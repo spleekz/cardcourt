@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Popup, PopupTypeProps } from '../popup'
 
 //Обёртка над Popup, где withCloseButton = false

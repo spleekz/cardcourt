@@ -1,7 +1,9 @@
 import { makeAutoObservable } from 'mobx'
-import { StatusCodes } from '../../api/api-utility-types'
-import { notNull } from '../../utils/basic'
-import { getStatusByCode, isErrorCode, isUnknownError } from '../../utils/server-codes'
+
+import { StatusCodes } from 'api/api-utility-types'
+
+import { notNull } from 'utils/basic'
+import { getStatusByCode, isErrorCode, isUnknownError } from 'utils/server-codes'
 
 export type LoadingStatus = 'initial' | 'loading' | 'success' | 'error'
 

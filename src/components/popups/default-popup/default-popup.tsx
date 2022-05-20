@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Popup, PopupProps } from '../popup'
 
 export type DefaultPopupProps = Omit<PopupProps, 'withCloseButton'>

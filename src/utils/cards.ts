@@ -1,4 +1,4 @@
-import cardConfig from '../stores/card-config.json'
+import cardConfig from 'stores/card-config.json'
 
 const widthToHeight = cardConfig.width / cardConfig.height
 const heightToWidth = cardConfig.height / cardConfig.width

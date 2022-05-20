@@ -1,6 +1,8 @@
 import React from 'react'
-import { ScreenPreloader } from '../assets/svg/components/screen-preloader'
-import { useStore } from '../stores/root-store/context'
+
+import { useStore } from 'stores/root-store/context'
+
+import { ScreenPreloader } from 'assets/svg/components/screen-preloader'
 
 interface Variant {
   state: boolean

@@ -1,9 +1,13 @@
 import React from 'react'
-import styled from 'styled-components'
+
 import { observer } from 'mobx-react-lite'
-import { useStore } from '../../../stores/root-store/context'
-import { Avatar } from '../../static/avatar'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+import { Avatar } from 'components/static/avatar'
+
+import { useStore } from 'stores/root-store/context'
+
 import { Popover, PopoverVariantProps } from '../popover'
 import { PopoverList, PopoverListItem } from '../shared-components'
 
@@ -33,7 +37,7 @@ export const MeMenuPopover: React.FC<PopoverVariantProps> = observer(
         </PopoverList>
       </Popover>
     )
-  }
+  },
 )
 
 const Header = styled.div`

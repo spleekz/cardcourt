@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
+
 import { XLg } from 'react-bootstrap-icons'
 import styled from 'styled-components'
-import { SendedCardWords } from '../../../../../api/api'
-import { CardWordPairBlock } from '../../../card-shared-components/body'
+
+import { CardWordPairBlock } from 'components/card/card-shared-components/body'
+
+import { SendedCardWords } from 'api/api'
+
 import { FormWordInput } from './word-input/word-input'
 
 interface IFormWordPair {

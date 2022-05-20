@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { InfoMessage, InfoMessageVariantProps } from './info-messages'
 
 export const NoCardsOnServer: React.FC<InfoMessageVariantProps> = ({ fontSize }) => {

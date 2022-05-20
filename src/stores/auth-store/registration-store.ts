@@ -1,7 +1,10 @@
 import { makeAutoObservable } from 'mobx'
-import { registerUser } from '../../api'
-import { RegisterUserResponsePromise, StatusCodes } from '../../api/api-utility-types'
-import { LoadingState } from '../entities/loading-state'
+
+import { registerUser } from 'api'
+import { RegisterUserResponsePromise, StatusCodes } from 'api/api-utility-types'
+
+import { LoadingState } from 'stores/entities/loading-state'
+
 import { AuthStore } from './auth-store'
 
 interface RegistrationStoreConfig {
@@ -34,7 +37,7 @@ export class RegistrationStore {
         error: (error) => {
           this.loadingState.setCode(error.status)
         },
-      }
+      },
     )
   }
 }

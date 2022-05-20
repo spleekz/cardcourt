@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
-import { EmptyFunction } from '../basic-utility-types'
+
+import { EmptyFunction } from 'basic-utility-types'
 
 interface Config {
   ref: React.MutableRefObject<HTMLDivElement | null>

@@ -1,18 +1,22 @@
-import { observer } from 'mobx-react-lite'
 import React, { createContext, useContext, useLayoutEffect, useState } from 'react'
-import { Route, Routes, useLocation } from 'react-router'
+
+import { observer } from 'mobx-react-lite'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components'
-import { Header } from './components/static/header/header'
-import { CardCourtPage } from './pages/card-court/page'
-import { NewCardPage } from './pages/new-card/page'
-import { CheckPage } from './pages/check/page'
-import { EditCardPage } from './pages/edit-card/page'
-import { useStore } from './stores/root-store/context'
-import { CardPage } from './pages/card/page'
-import { UserPage } from './pages/user/page'
-import { CardSlider } from './stores/card-slider'
-import { RegistrationPage } from './pages/auth/registration'
-import { LoginPage } from './pages/auth/login'
+
+import { LoginPage } from 'pages/auth/login'
+import { RegistrationPage } from 'pages/auth/registration'
+import { CardCourtPage } from 'pages/card-court/page'
+import { CardPage } from 'pages/card/page'
+import { CheckPage } from 'pages/check/page'
+import { EditCardPage } from 'pages/edit-card/page'
+import { NewCardPage } from 'pages/new-card/page'
+import { UserPage } from 'pages/user/page'
+
+import { Header } from 'components/static/header/header'
+
+import { CardSlider } from 'stores/card-slider'
+import { useStore } from 'stores/root-store/context'
 
 export const MainSliderContext = createContext<CardSlider>({} as CardSlider)
 export const useMainSlider = (): CardSlider => useContext(MainSliderContext)
@@ -40,7 +44,7 @@ export const App: React.FC = observer(() => {
       loadMoreCardsConfig: {
         pagesToLoad: 2,
       },
-    })
+    }),
   )
 
   //useLayoutEffect, т.к. useEffect приводит к визуальным багам

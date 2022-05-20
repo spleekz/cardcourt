@@ -1,18 +1,25 @@
-import { observer } from 'mobx-react-lite'
 import React from 'react'
-import { useCardStoreFromURL } from '../../hooks/use-card-store-from-url'
-import { registerPage } from '../../hocs/register-page'
-import { CardNotFound } from '../../components/messages/errors/card-not-found'
-import { UnknownError } from '../../components/messages/errors/unknown-error'
-import { content } from '../../utils/page-content'
+
+import { observer } from 'mobx-react-lite'
+
+import { CardNotFound } from 'components/messages/errors/card-not-found'
+import { NotCardAuthor } from 'components/messages/errors/not-card-author'
+import { UnknownError } from 'components/messages/errors/unknown-error'
+import { UpdatedCardNotExists } from 'components/messages/errors/updated-card-not-exists'
+
+import { useCardStoreFromURL } from 'hooks/use-card-store-from-url'
+
+import { registerPage } from 'hocs/register-page'
+
+import { content } from 'utils/page-content'
+
+import { ScreenPreloader } from 'assets/svg/components/screen-preloader'
+
 import { EditCardPageOriginalContent } from './original-content'
-import { UpdatedCardNotExists } from '../../components/messages/errors/updated-card-not-exists'
-import { NotCardAuthor } from '../../components/messages/errors/not-card-author'
-import { ScreenPreloader } from '../../assets/svg/components/screen-preloader'
 
 export const EditCardPage: React.FC = registerPage(
   observer(() => {
-    const {cardStore} = useCardStoreFromURL()
+    const { cardStore } = useCardStoreFromURL()
 
     const pageContent = content({
       loading: cardStore.cardLoadingState.loading || cardStore.authStore.meLoadingState.loading,
@@ -48,5 +55,5 @@ export const EditCardPage: React.FC = registerPage(
       </>
     )
   }),
-  { isProtected: true }
+  { isProtected: true },
 )

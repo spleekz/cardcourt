@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
+
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
-import { getCardWidthByHeight } from '../../utils/cards'
-import { FullCard } from '../../components/card/variants/full-card'
-import { Link } from 'react-router-dom'
-import { CurrentCardStore } from '../../stores/current-card-store'
-import { CardDeletedPopup } from '../../components/popups/popup-with-custom-close/variants/card-deleted'
-import { ConfirmPopup } from '../../components/popups/confirm-popup/confirm-popup'
 import { Pencil, Trash } from 'react-bootstrap-icons'
-import { Bold, CenteredContainer, CenteredPageContent } from '../../components/utility/styled'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+import { FullCard } from 'components/card/variants/full-card'
+import { ConfirmPopup } from 'components/popups/confirm-popup/confirm-popup'
+import { CardDeletedPopup } from 'components/popups/popup-with-custom-close/variants/card-deleted'
+import { Bold, CenteredContainer, CenteredPageContent } from 'components/utility/styled'
+
+import { CurrentCardStore } from 'stores/current-card-store'
+
+import { getCardWidthByHeight } from 'utils/cards'
 
 interface Props {
   cardStore: CurrentCardStore

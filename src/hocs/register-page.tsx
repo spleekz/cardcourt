@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
-import { useStore } from '../stores/root-store/context'
-import { withoutSlash } from '../utils/strings'
-import { Page } from '../stores/app-store'
+
 import { observer } from 'mobx-react-lite'
-import { useSkipForFirstEffectRun } from '../hooks/use-skip-for-first-effect-run'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+
+import { Page } from 'stores/app-store'
+import { useStore } from 'stores/root-store/context'
+
+import { useSkipForFirstEffectRun } from 'hooks/use-skip-for-first-effect-run'
+
+import { withoutSlash } from 'utils/strings'
 
 interface RegisterPageOptions {
   isProtected?: boolean
@@ -13,7 +17,7 @@ interface RegisterPageOptions {
 
 export function registerPage<Props>(
   WrappedComponent: React.FC<Props>,
-  { isProtected = false, isRootPath = false }: RegisterPageOptions = {}
+  { isProtected = false, isRootPath = false }: RegisterPageOptions = {},
 ): React.FC<Props> {
   const Component: React.FC<Props> = (props) => {
     const { appStore, authStore } = useStore()

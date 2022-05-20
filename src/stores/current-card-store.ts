@@ -1,11 +1,13 @@
 import { makeAutoObservable } from 'mobx'
-import { deleteCard, getCard, updateCard } from '../api'
-import { Card, UpdatedCard } from '../api/api'
+
+import { deleteCard, getCard, updateCard } from 'api'
+import { Card, UpdatedCard } from 'api/api'
 import {
   DeleteCardResponsePromise,
   StatusCodes,
   UpdateCardResponsePromise,
-} from '../api/api-utility-types'
+} from 'api/api-utility-types'
+
 import { AuthStore } from './auth-store/auth-store'
 import { LoadingState } from './entities/loading-state'
 

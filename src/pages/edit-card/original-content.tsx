@@ -1,9 +1,13 @@
 import React from 'react'
+
 import { observer } from 'mobx-react-lite'
-import { FormCard } from '../../components/card/variants/form-card/form-card'
-import { getCardWidthByHeight } from '../../utils/cards'
-import { CurrentCardStore } from '../../stores/current-card-store'
-import { CenteredPageContent } from '../../components/utility/styled'
+
+import { FormCard } from 'components/card/variants/form-card/form-card'
+import { CenteredPageContent } from 'components/utility/styled'
+
+import { CurrentCardStore } from 'stores/current-card-store'
+
+import { getCardWidthByHeight } from 'utils/cards'
 
 interface Props {
   editedCardStore: CurrentCardStore

@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
-import { CardWord, CardWords } from '../api/api'
+
+import { CardWord, CardWords } from 'api/api'
 
 export type Lang = 'ru' | 'en'
 

@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+
+import isEnglish from 'is-english'
 import { useFormContext } from 'react-hook-form'
 import styled from 'styled-components'
-import { Lang } from '../../../../../../stores/check-store'
-import isEnglish from 'is-english'
+
+import { Lang } from 'stores/check-store'
+
 import { getCursorState, getInputBGC, getInputBoxShadow } from './utils'
 
 interface IFormWordInput {

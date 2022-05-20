@@ -1,8 +1,10 @@
 import React from 'react'
+
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { Search } from './search'
+
 import { Court } from './court/court'
+import { Search } from './search'
 
 export const CardCourtPageOriginalContent: React.FC = observer(() => {
   return (
