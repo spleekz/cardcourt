@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { EmptyFunction } from 'basic-utility-types'
+import { AnyObject, EmptyFunction } from 'basic-utility-types'
+import { useCallbackRef } from 'use-callback-ref'
 
 import { useClickOutside } from 'hooks/use-click-outside'
 import { useLocationChange } from 'hooks/use-location-change'
@@ -28,7 +29,11 @@ export const Popover: React.FC<PopoverProps> = ({
   isOpened,
   children,
 }) => {
-  const popoverRef = useRef<HTMLDivElement>(null)
+  const [, forceUpdate] = useState<AnyObject>()
+
+  const popoverRef = useCallbackRef<HTMLDivElement>(null, () => {
+    forceUpdate({})
+  })
 
   useEffect(() => {
     return () => {
