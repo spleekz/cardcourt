@@ -11,3 +11,18 @@ export const withoutSlash = (string: string, getFirst = false): string => {
 export const normalizeString = (string: string): string => {
   return string.trim().toLowerCase()
 }
+
+type PluralizeConfig = { one: string; two: string; many: string }
+export const pluralize = (config: PluralizeConfig, count: number): string => {
+  const { one, two, many } = config
+
+  if (count % 100 < 10 || count % 100 > 20) {
+    if (count % 10 === 1) {
+      return one
+    } else if (count % 10 > 0 && count % 10 < 5) {
+      return two
+    } else return many
+  } else {
+    return many
+  }
+}

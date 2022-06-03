@@ -4,6 +4,8 @@ import { ColoredCardName } from 'pages/card-check/shared-components'
 
 import { Card } from 'api/api'
 
+import { pluralize } from 'utils/strings'
+
 type Config = {
   card: Card
   wordsCount: number
@@ -21,9 +23,18 @@ export const getResultTitle = ({ card, wordsCount, correctWordsCount }: Config):
       Вы перевели все слова карточки <ColoredCardName card={card} /> неправильно 😭
     </>
   )
+
+  const wordForm = pluralize(
+    {
+      one: 'слова',
+      two: 'слов',
+      many: 'слов',
+    },
+    wordsCount,
+  )
   const defaultResultText: JSX.Element = (
     <>
-      Вы правильно перевели {correctWordsCount}/{wordsCount} слов из карточки{' '}
+      Вы правильно перевели {correctWordsCount}/{wordsCount} {wordForm} из карточки{' '}
       <ColoredCardName card={card} />
     </>
   )
