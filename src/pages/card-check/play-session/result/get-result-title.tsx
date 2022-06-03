@@ -1,5 +1,7 @@
 import React from 'react'
 
+import styled from 'styled-components'
+
 import { ColoredCardName } from 'pages/card-check/shared-components'
 
 import { Card } from 'api/api'
@@ -12,7 +14,16 @@ type Config = {
   correctWordsCount: number
 }
 
+type CorrectWordsCountColors = {
+  bad: string
+  normal: string
+  good: string
+  excellent: string
+}
+
 export const getResultTitle = ({ card, wordsCount, correctWordsCount }: Config): JSX.Element => {
+  const correctWordsPercent = (correctWordsCount / wordsCount) * 100
+
   const allCorrectWordsResultText: JSX.Element = (
     <>
       Вы правильно перевели все слова из карточки <ColoredCardName card={card} /> 🎉
@@ -24,7 +35,24 @@ export const getResultTitle = ({ card, wordsCount, correctWordsCount }: Config):
     </>
   )
 
-  const wordForm = pluralize(
+  const correctWordsCountColors: CorrectWordsCountColors = {
+    bad: '#ff3333',
+    normal: '#eae70b',
+    good: '#7fb33b',
+    excellent: '#33b633',
+  }
+
+  const { bad, normal, good, excellent } = correctWordsCountColors
+  const correctWordsCountColor =
+    correctWordsPercent <= 30
+      ? bad
+      : correctWordsPercent <= 50
+      ? normal
+      : correctWordsPercent <= 70
+      ? good
+      : excellent
+
+  const wordsCountForm = pluralize(
     {
       one: 'слова',
       two: 'слов',
@@ -34,15 +62,18 @@ export const getResultTitle = ({ card, wordsCount, correctWordsCount }: Config):
   )
   const defaultResultText: JSX.Element = (
     <>
-      Вы правильно перевели {correctWordsCount}/{wordsCount} {wordForm} из карточки{' '}
-      <ColoredCardName card={card} />
+      Вы правильно перевели{' '}
+      <WordsResult color={correctWordsCountColor}>
+        {correctWordsCount}/{wordsCount}
+      </WordsResult>{' '}
+      {wordsCountForm} из карточки <ColoredCardName card={card} />
     </>
   )
 
   let resultTitleText: JSX.Element
-  if (correctWordsCount === 0) {
+  if (correctWordsPercent === 0) {
     resultTitleText = noCorrectWordResultText
-  } else if (correctWordsCount === wordsCount) {
+  } else if (correctWordsPercent === 100) {
     resultTitleText = allCorrectWordsResultText
   } else {
     resultTitleText = defaultResultText
@@ -50,3 +81,7 @@ export const getResultTitle = ({ card, wordsCount, correctWordsCount }: Config):
 
   return resultTitleText
 }
+
+const WordsResult = styled.span<{ color: string }>`
+  color: ${(props) => props.color};
+`
