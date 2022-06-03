@@ -4,7 +4,7 @@ import isEnglish from 'is-english'
 import { useFormContext } from 'react-hook-form'
 import styled from 'styled-components'
 
-import { Lang } from 'stores/check-store'
+import { Lang } from 'stores/stores-utility-types'
 
 import { getCursorState, getInputBGC, getInputBoxShadow } from './utils'
 

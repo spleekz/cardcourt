@@ -7,3 +7,7 @@ export const withoutSlash = (string: string, getFirst = false): string => {
     return withoutSlash[withoutSlash.length - 1]
   }
 }
+
+export const normalizeString = (string: string): string => {
+  return string.trim().toLowerCase()
+}

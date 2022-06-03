@@ -6,9 +6,9 @@ import styled, { createGlobalStyle } from 'styled-components'
 
 import { LoginPage } from 'pages/auth/login'
 import { RegistrationPage } from 'pages/auth/registration'
+import { CardCheckPage } from 'pages/card-check/page'
 import { CardCourtPage } from 'pages/card-court/page'
 import { CardPage } from 'pages/card/page'
-import { CheckPage } from 'pages/check/page'
 import { EditCardPage } from 'pages/edit-card/page'
 import { NewCardPage } from 'pages/new-card/page'
 import { UserPage } from 'pages/user/page'
@@ -68,7 +68,7 @@ export const App: React.FC = observer(() => {
               <Route path='/login' element={<LoginPage />} />
               <Route path='card/new' element={<NewCardPage />} />
               <Route path='/card/:cardId' element={<CardPage />} />
-              <Route path='card/:cardId/check' element={<CheckPage />} />
+              <Route path='/card/:cardId/check' element={<CardCheckPage />} />
               <Route path='card/:cardId/edit' element={<EditCardPage />} />
               <Route path='user/:userName' element={<UserPage key={location.key} />} />
             </Routes>
