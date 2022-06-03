@@ -2,7 +2,7 @@ import React from 'react'
 
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { CardCheckBlockTemplate } from 'pages/card-check/check-block-template'
 import { useCheckStore } from 'pages/card-check/original-content'
@@ -34,12 +34,14 @@ export const CardCheckResult: React.FC = observer(() => {
       </>
       <>
         <RedirectButtons>
-          <RedirectButton onClick={checkStore.goToSettings}>Повторить проверку</RedirectButton>
-          <StyledLink to={`/card/${checkStore.card._id}`}>
-            <RedirectButton>На страницу карточки</RedirectButton>
-          </StyledLink>
           <StyledLink to={'/'}>
             <RedirectButton>На главную</RedirectButton>
+          </StyledLink>
+          <RedirectButton withMargin={true} onClick={checkStore.goToSettings}>
+            Повторить проверку
+          </RedirectButton>
+          <StyledLink to={`/card/${checkStore.card._id}`}>
+            <RedirectButton>На страницу карточки</RedirectButton>
           </StyledLink>
         </RedirectButtons>
       </>
@@ -51,17 +53,14 @@ const ContentContainer = styled.div``
 const Sections = styled.div``
 const RedirectButtons = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `
-const redirectElements = css`
+const RedirectButton = styled(BlueButton)<{ withMargin?: boolean }>`
+  font-size: 26px;
+  margin: ${(props) => props.withMargin && `0 8px`};
   width: 300px;
   height: 60px;
-  font-size: 26px;
-  margin: 0 8px;
-`
-const RedirectButton = styled(BlueButton)`
-  ${redirectElements}
 `
 const StyledLink = styled(Link)`
-  ${redirectElements}
+  font-size: 26px;
 `
