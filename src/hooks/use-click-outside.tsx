@@ -8,7 +8,7 @@ interface Config {
 }
 
 export const useClickOutside = ({ ref, fn }: Config): void => {
-  const handleClickOutsidePopover = useCallback((event: MouseEvent): void => {
+  const handleClickOutside = useCallback((event: MouseEvent): void => {
     if (!ref.current?.contains(event.target as Node)) {
       fn()
     }
@@ -16,9 +16,9 @@ export const useClickOutside = ({ ref, fn }: Config): void => {
 
   useEffect(() => {
     if (ref.current) {
-      document.addEventListener('click', handleClickOutsidePopover)
+      document.addEventListener('click', handleClickOutside)
     }
 
-    return () => document.removeEventListener('click', handleClickOutsidePopover)
+    return () => document.removeEventListener('click', handleClickOutside)
   }, [ref.current])
 }
