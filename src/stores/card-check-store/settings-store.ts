@@ -7,6 +7,15 @@ interface CheckMode {
   isSelected: boolean
   label: string
 }
+
+export type CheckDifficultyValue = 'easy' | 'hard'
+
+type CheckDifficulty = {
+  value: CheckDifficultyValue
+  isSelected: boolean
+  label: string
+}
+
 export class CardCheckSettingsStore {
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true })
@@ -33,7 +42,6 @@ export class CardCheckSettingsStore {
       }
     })
   }
-
   get langForTyping(): Lang {
     const lang: Lang = this.checkModes.reduce((acc, checkMode) => {
       if (checkMode.isSelected === true) {
@@ -50,5 +58,40 @@ export class CardCheckSettingsStore {
     } else {
       return 'en'
     }
+  }
+
+  checkDifficulties: Array<CheckDifficulty> = [
+    {
+      value: 'easy',
+      isSelected: false,
+      label: 'Изян',
+    },
+    {
+      value: 'hard',
+      isSelected: true,
+      label: 'Трайхарди',
+    },
+  ]
+  setCheckDifficulty(selectedDifficultyValue: CheckDifficultyValue): void {
+    this.checkDifficulties.forEach((difficulty) => {
+      if (difficulty.value === selectedDifficultyValue) {
+        difficulty.isSelected = true
+      } else {
+        difficulty.isSelected = false
+      }
+    })
+  }
+  get difficulty(): CheckDifficultyValue {
+    const currentDifficulty: CheckDifficultyValue = this.checkDifficulties.reduce(
+      (acc, difficulty) => {
+        if (difficulty.isSelected) {
+          acc = difficulty.value
+        }
+        return acc
+      },
+      'hard' as CheckDifficultyValue,
+    )
+
+    return currentDifficulty
   }
 }

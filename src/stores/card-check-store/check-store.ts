@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 
 import { Card } from 'api/api'
 
-import { CardCheckPlaySessionStore } from './play-session-store'
+import { CardCheckPlaySessionStore } from './play-session/play-session-store'
 import { CardCheckSettingsStore } from './settings-store'
 
 export type CheckState = 'settings' | 'session'

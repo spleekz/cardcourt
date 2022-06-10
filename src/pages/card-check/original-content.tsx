@@ -9,8 +9,8 @@ import { Card } from 'api/api'
 import { CardCheckStore } from 'stores/card-check-store/check-store'
 import { useStore } from 'stores/root-store/context'
 
-import { CardCheckPlaySession } from './play-session/play-session'
-import { CardCheckSettings } from './settings/settings'
+import { CardCheckPlaySession } from './page-variants/play-session/play-session'
+import { CardCheckSettings } from './page-variants/settings/settings'
 
 export interface CardCheckPagesProps {
   checkStore: CardCheckStore

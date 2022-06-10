@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import { CardCheckBlockTemplate } from 'pages/card-check/check-block-template'
+import { CardCheckBlockTemplate } from 'pages/card-check/components/check-block-template'
+import { PlayInput } from 'pages/card-check/components/play-input-variants/play-input'
 
 import { Button } from 'components/buttons/button'
 
@@ -14,17 +15,11 @@ export const CardCheckPlay: React.FC = observer(() => {
 
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.code === 'Enter') {
-      if (playSession.userInputValue.trim() !== '') {
+      if (playSession.userInput.value.trim() !== '') {
         playSession.checkUserTranslate()
       }
     }
   }
-
-  const userInputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    userInputRef.current?.focus()
-  }, [playSession.currentWordIndex])
 
   return (
     <CardCheckBlockTemplate width={1100} height={550}>
@@ -33,16 +28,13 @@ export const CardCheckPlay: React.FC = observer(() => {
         <ContentContainer>
           <PlayField>
             <InterfaceForPlay>
-              <UserInputBlock>
-                <WordToBeTranslated>{playSession.shownWord}</WordToBeTranslated>
-                <UserInput
-                  ref={userInputRef}
-                  value={playSession.userInputValue}
-                  onChange={(e) => playSession.setUserInputValue(e.target.value)}
-                  onKeyPress={handleEnter}
-                />
-                <SkipWordButton onClick={playSession.skipCurrentWord}>Я не помню 😢</SkipWordButton>
-              </UserInputBlock>
+              <WordToBeTranslated>{playSession.shownWord}</WordToBeTranslated>
+              <PlayInput
+                inputStore={playSession.userInput}
+                value={playSession.userInput.value}
+                onKeyPress={handleEnter}
+              />
+              <SkipWordButton onClick={playSession.skipCurrentWord}>Я не помню 😢</SkipWordButton>
             </InterfaceForPlay>
           </PlayField>
         </ContentContainer>
@@ -59,12 +51,9 @@ const ContentContainer = styled.div`
 `
 const PlayField = styled.div``
 const InterfaceForPlay = styled.div`
-  display: flex;
-  justify-content: center;
-`
-const UserInputBlock = styled.div`
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
 `
 const WordToBeTranslated = styled.div`
@@ -77,15 +66,11 @@ const WordToBeTranslated = styled.div`
   margin-bottom: 30px;
   text-align: center;
 `
-const UserInput = styled.input`
-  border: 2px solid #373737;
-  font-size: 48px;
-  padding: 4px;
-  border-radius: 6px;
-  margin-right: 20px;
-`
 const SkipWordButton = styled(Button)`
+  position: absolute;
+  bottom: -90px;
   font-size: 28px;
+  margin-top: 20px;
   color: #2e87ec;
   background-color: #fafbfc;
   border: none;

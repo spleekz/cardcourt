@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react'
 
 import { observer } from 'mobx-react-lite'
 
-import { CardCheckPlaySessionStore } from 'stores/card-check-store/play-session-store'
+import { CardCheckPlaySessionStore } from 'stores/card-check-store/play-session/play-session-store'
 
 import { CardCheckPlay } from './play/play'
 import { CardCheckResult } from './result/result'

@@ -5,7 +5,9 @@ import { Card, CardWord, CardWords } from 'api/api'
 
 import { normalizeString } from 'utils/strings'
 
-import { CardCheckSettingsStore } from './settings-store'
+import { CardCheckSettingsStore } from '../settings-store'
+import { EasyInputStore } from './easy-input-store'
+import { HardInputStore } from './hard-input-store'
 
 interface CardCheckPlaySessionConfig {
   card: Card
@@ -16,7 +18,7 @@ type SessionState = 'play' | 'result'
 
 export class CardCheckPlaySessionStore {
   card: Card
-  settings: CardCheckSettingsStore
+  private settings: CardCheckSettingsStore = new CardCheckSettingsStore()
 
   constructor({ card, settings }: CardCheckPlaySessionConfig) {
     this.card = card
@@ -35,14 +37,6 @@ export class CardCheckPlaySessionStore {
     this.setSessionState('result')
   }
 
-  userInputValue = ''
-  setUserInputValue(value: string): void {
-    this.userInputValue = value
-  }
-  clearUserInputValue(): void {
-    this.setUserInputValue('')
-  }
-
   words: CardWords = []
   setWords(words: CardWords): void {
     this.words = words
@@ -55,6 +49,20 @@ export class CardCheckPlaySessionStore {
     this.shuffleWords()
   }
 
+  get userInput(): EasyInputStore | HardInputStore {
+    return this.settings.difficulty === 'easy'
+      ? new EasyInputStore({ initialValue: this.translateForShownWord })
+      : new HardInputStore()
+  }
+
+  clearUserInput(): void {
+    if (this.userInput instanceof HardInputStore) {
+      this.userInput.clearInput()
+    } else if (this.userInput instanceof EasyInputStore) {
+      this.userInput.clearInput({ newValue: this.translateForShownWord })
+    }
+  }
+
   currentWordIndex = 0
   goToNextWord(): void {
     if (this.currentWordIndex < this.words.length - 1) {
@@ -62,7 +70,8 @@ export class CardCheckPlaySessionStore {
     } else {
       this.stopPlay()
     }
-    this.clearUserInputValue()
+
+    this.clearUserInput()
   }
   skipCurrentWord(): void {
     this.setUserTranslateIsError()
@@ -76,7 +85,7 @@ export class CardCheckPlaySessionStore {
     this.goToNextWord()
   }
   checkUserTranslate(): void {
-    const normalizedUserTranslate = normalizeString(this.userInputValue)
+    const normalizedUserTranslate = normalizeString(this.userInput.value)
     const normalizedTranslateForShownWord = normalizeString(this.translateForShownWord)
 
     if (normalizedUserTranslate === normalizedTranslateForShownWord) {

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { CardCheckBlockTemplate } from 'pages/card-check/check-block-template'
+import { CardCheckBlockTemplate } from 'pages/card-check/components/check-block-template'
 import { useCheckStore } from 'pages/card-check/original-content'
 
 import { BlueButton } from 'components/buttons/blue-button'

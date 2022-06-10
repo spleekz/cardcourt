@@ -5,11 +5,12 @@ import styled from 'styled-components'
 
 import { BlueButton } from 'components/buttons/blue-button'
 
+import { CheckDifficultyValue } from 'stores/card-check-store/settings-store'
 import { Lang } from 'stores/stores-utility-types'
 
-import { CardCheckBlockTemplate } from '../check-block-template'
-import { CardCheckPagesProps } from '../original-content'
-import { ColoredCardName } from '../shared-components'
+import { CardCheckBlockTemplate } from '../../components/check-block-template'
+import { CardCheckPagesProps } from '../../original-content'
+import { ColoredCardName } from '../../components/shared-components'
 
 export const CardCheckSettings: React.FC<CardCheckPagesProps> = observer(({ checkStore }) => {
   const { card, settings } = checkStore
@@ -35,6 +36,21 @@ export const CardCheckSettings: React.FC<CardCheckPagesProps> = observer(({ chec
                 )
               })}
             </CheckMode>
+            <Setting>
+              <SettingTitle>Выберите сложность</SettingTitle>
+              <CheckDifficulty
+                value={settings.difficulty}
+                onChange={(e) => settings.setCheckDifficulty(e.target.value as CheckDifficultyValue)}
+              >
+                {settings.checkDifficulties.map((difficulty) => {
+                  return (
+                    <CheckDifficultyOption key={difficulty.value} value={difficulty.value}>
+                      {difficulty.label}
+                    </CheckDifficultyOption>
+                  )
+                })}
+              </CheckDifficulty>
+            </Setting>
           </Setting>
         </CheckSettings>
       </>
@@ -61,7 +77,7 @@ const SettingTitle = styled.div`
   font-size: 36px;
   text-align: center;
 `
-const CheckMode = styled.select`
+const CheckSettingSelect = styled.select`
   padding: 5px;
   font-size: 24px;
   margin: 15px 0;
@@ -70,7 +86,11 @@ const CheckMode = styled.select`
     cursor: pointer;
   }
 `
-const CheckModeOption = styled.option``
+const CheckSettingOption = styled.option``
+const CheckMode = styled(CheckSettingSelect)``
+const CheckModeOption = styled(CheckSettingOption)``
+const CheckDifficulty = styled(CheckSettingSelect)``
+const CheckDifficultyOption = styled(CheckSettingOption)``
 const FooterContainer = styled.div`
   display: flex;
   justify-content: center;

@@ -3,8 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { useCheckStore } from 'pages/card-check/original-content'
-import { usePlaySession } from 'pages/card-check/play-session/play-session'
 
+import { usePlaySession } from '../../../play-session'
 import { ErrorWord } from './error-word'
 
 export const ResultErrorWords: React.FC = () => {
