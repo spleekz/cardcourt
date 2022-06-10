@@ -41,7 +41,7 @@ export const Popup: React.FC<PopupProps> = observer(
         //Если попап исчезает, то выполнить функцию после закрытия
         afterClose?.()
       }
-    }, [])
+    }, [isOpened])
 
     useLocationChange(fnForClosing)
 
