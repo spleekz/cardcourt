@@ -222,7 +222,7 @@ export class EasyInputStore {
 
   //Реальное значение инпута (незаполненные буквы -> _)
   get value(): string {
-    return this.words.reduce((valueAcc, wordCells, index) => {
+    return this.words.reduce((valueAcc, wordCells, wordIndex) => {
       const fullWord = wordCells.reduce((wordAcc, letterCell) => {
         if (letterCell.letter === '') {
           return (wordAcc += '_')
@@ -230,7 +230,7 @@ export class EasyInputStore {
         return (wordAcc += letterCell.letter)
       }, '')
       //Добавление пробелов между словами
-      if (index < this.words.length) {
+      if (wordIndex <= this.words.length - 2) {
         return (valueAcc += fullWord + ' ')
       }
       return (valueAcc += fullWord)
