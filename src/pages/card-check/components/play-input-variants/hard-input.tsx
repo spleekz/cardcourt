@@ -26,7 +26,7 @@ export const HardPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
   return (
     <StyledInput
       ref={inputRef}
-      placeholder={`hard input`}
+      placeholder={`Напечатайте перевод`}
       onChange={onInputChange}
       value={value}
       onKeyPress={onKeyPress}
@@ -35,8 +35,9 @@ export const HardPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
 })
 
 const StyledInput = styled.input`
+  width: 580px;
   border: 2px solid #373737;
-  font-size: 48px;
+  font-size: 40px;
   padding: 4px;
   border-radius: 6px;
   margin-right: 20px;
