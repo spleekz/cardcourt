@@ -5,7 +5,7 @@ export class HardInputStore {
     makeAutoObservable(this, {}, { autoBind: true })
   }
 
-  value: string
+  value = ''
   setValue(value: string): void {
     this.value = value
   }
