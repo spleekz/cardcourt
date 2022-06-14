@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx'
 
 import { Card, CardWord, CardWords } from 'api/api'
 
-import { normalizeString } from 'utils/strings'
+import { normalizeString, removeSkips } from 'utils/strings'
 
 import { CardCheckSettingsStore } from '../settings-store'
 import { EasyInputStore } from './easy-input-store'
@@ -15,6 +15,23 @@ interface CardCheckPlaySessionConfig {
 }
 
 type SessionState = 'play' | 'result'
+
+type ResultWordStatus = 'correct' | 'error' | 'skipped'
+
+type NotSkippedResultWord = {
+  status: ResultWordStatus
+  wordToBeTranslated: string
+  correctTranslate: string
+  userTranslate: string
+  _id: string
+}
+type SkippedResultWord = Omit<NotSkippedResultWord, 'userTranslate'>
+export type ResultWord = SkippedResultWord | NotSkippedResultWord
+type ResultWords = Array<ResultWord>
+
+export function isNotSkippedResultWord(resultWord: ResultWord): resultWord is NotSkippedResultWord {
+  return (resultWord as NotSkippedResultWord).userTranslate !== undefined
+}
 
 export class CardCheckPlaySessionStore {
   card: Card
@@ -74,25 +91,24 @@ export class CardCheckPlaySessionStore {
     this.clearUserInput()
   }
   skipCurrentWord(): void {
-    this.setUserTranslateIsError()
-  }
-  setUserTranslateIsCorrect(): void {
-    this.updateCorrectWords(this.currentWord)
-    this.goToNextWord()
-  }
-  setUserTranslateIsError(): void {
-    this.updateErrorWords(this.currentWord)
+    this.updateResultWords('skipped')
     this.goToNextWord()
   }
   checkUserTranslate(): void {
-    const normalizedUserTranslate = normalizeString(this.userInput.value)
+    const normalizedUserTranslate = normalizeString(removeSkips(this.userInput.value))
     const normalizedTranslateForShownWord = normalizeString(this.translateForShownWord)
 
-    if (normalizedUserTranslate === normalizedTranslateForShownWord) {
-      this.setUserTranslateIsCorrect()
-    } else {
-      this.setUserTranslateIsError()
+    if (normalizedUserTranslate === '') {
+      return
     }
+
+    if (normalizedUserTranslate === normalizedTranslateForShownWord) {
+      this.updateResultWords('correct')
+    } else {
+      this.updateResultWords('error')
+    }
+
+    this.goToNextWord()
   }
 
   get currentWord(): CardWord {
@@ -113,23 +129,31 @@ export class CardCheckPlaySessionStore {
     }
   }
 
-  correctWords: CardWords = []
-  updateCorrectWords(word: CardWord): void {
-    this.correctWords.push(word)
+  resultWords: ResultWords = []
+  updateResultWords(status: ResultWordStatus): void {
+    const resultWordWithoutUserTranslate: ResultWord = {
+      status,
+      wordToBeTranslated: this.shownWord,
+      correctTranslate: this.translateForShownWord,
+      _id: this.currentWord._id,
+    }
+
+    if (status === 'skipped') {
+      this.resultWords.push(resultWordWithoutUserTranslate)
+    } else {
+      this.resultWords.push({
+        ...resultWordWithoutUserTranslate,
+        userTranslate: this.userInput.value,
+      })
+    }
   }
 
-  errorWords: CardWords = []
-  updateErrorWords(word: CardWord): void {
-    this.errorWords.push(word)
+  get correctWords(): ResultWords {
+    return this.resultWords.filter((resultWord) => resultWord.status === 'correct')
   }
-
-  get wordsCount(): number {
-    return this.words.length
-  }
-  get correctWordsCount(): number {
-    return this.correctWords.length
-  }
-  get errorWordsCount(): number {
-    return this.errorWords.length
+  get incorrectWords(): ResultWords {
+    return this.resultWords.filter(
+      (resultWord) => resultWord.status === 'error' || resultWord.status === 'skipped',
+    )
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
@@ -11,12 +11,16 @@ import { BlueButton } from 'components/buttons/blue-button'
 
 import { usePlaySession } from '../play-session'
 import { getResultTitle } from './get-result-title'
-import { ResultErrorWords } from './sections/error-words/error-words'
+import { ResultIncorrectWords } from './sections/incorrect-words/incorrect-words'
 
 export const CardCheckResult: React.FC = observer(() => {
   const checkStore = useCheckStore()
   const { card } = checkStore
   const playSession = usePlaySession()
+
+  useEffect(() => {
+    return () => checkStore.deletePlaySession()
+  }, [])
 
   const resultTitleText = getResultTitle({
     card,
@@ -29,7 +33,7 @@ export const CardCheckResult: React.FC = observer(() => {
       <>{resultTitleText}</>
       <>
         <ContentContainer>
-          <Sections>{playSession.errorWords.length > 0 && <ResultErrorWords />}</Sections>
+          <Sections>{playSession.incorrectWords.length > 0 && <ResultIncorrectWords />}</Sections>
         </ContentContainer>
       </>
       <>

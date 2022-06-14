@@ -26,3 +26,10 @@ export const pluralize = (config: PluralizeConfig, count: number): string => {
     return many
   }
 }
+
+export const removeSkips = (string: string): string => {
+  return string
+    .split('')
+    .filter((letter) => letter !== '_')
+    .join('')
+}

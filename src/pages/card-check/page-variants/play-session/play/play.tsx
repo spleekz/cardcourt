@@ -15,9 +15,7 @@ export const CardCheckPlay: React.FC = observer(() => {
 
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.code === 'Enter') {
-      if (playSession.userInput.value.trim() !== '') {
-        playSession.checkUserTranslate()
-      }
+      playSession.checkUserTranslate()
     }
   }
 
