@@ -8,11 +8,14 @@ interface Config {
 }
 
 export const useClickOutside = ({ ref, fn }: Config): void => {
-  const handleClickOutside = useCallback((event: MouseEvent): void => {
-    if (!ref.current?.contains(event.target as Node)) {
-      fn()
-    }
-  }, [])
+  const handleClickOutside = useCallback(
+    (event: MouseEvent): void => {
+      if (!ref.current?.contains(event.target as Node)) {
+        fn()
+      }
+    },
+    [fn],
+  )
 
   useEffect(() => {
     if (ref.current) {
@@ -20,5 +23,5 @@ export const useClickOutside = ({ ref, fn }: Config): void => {
     }
 
     return () => document.removeEventListener('click', handleClickOutside)
-  }, [ref.current])
+  }, [ref.current, handleClickOutside])
 }
