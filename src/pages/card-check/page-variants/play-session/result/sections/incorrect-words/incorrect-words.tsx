@@ -7,7 +7,7 @@ import { ResultIncorrectWord } from './incorrect-word'
 
 export const ResultIncorrectWords: React.FC = () => {
   const playSession = usePlaySession()
-  //!ПОДРОБНОСТИ
+
   return (
     <Container>
       <Title>Вы ошиблись в словах:</Title>
