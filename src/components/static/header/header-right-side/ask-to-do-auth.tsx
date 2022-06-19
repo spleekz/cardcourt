@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import styled from 'styled-components'
 
-import { ChooseAuthWayPopup } from 'components/popovers/variants/choose-auth-way'
+import { ChooseAuthWayPopover } from 'components/popovers/variants/choose-auth-way'
 
 export const AskToDoAuth: React.FC = () => {
   const [waysOfAuthPopoverShown, setWaysOfAuthPopoverShown] = useState(false)
@@ -13,7 +13,7 @@ export const AskToDoAuth: React.FC = () => {
         Совершить акт авторизации
       </DoAuthContainer>
 
-      <ChooseAuthWayPopup
+      <ChooseAuthWayPopover
         isOpened={waysOfAuthPopoverShown}
         fnForClosing={() => setWaysOfAuthPopoverShown(false)}
       />

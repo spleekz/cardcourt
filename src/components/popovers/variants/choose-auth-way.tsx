@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { Popover, PopoverVariantProps } from '../popover'
 import { PopoverList, PopoverListItem } from '../shared-components'
 
-export const ChooseAuthWayPopup: React.FC<PopoverVariantProps> = ({
+export const ChooseAuthWayPopover: React.FC<PopoverVariantProps> = ({
   fnForClosing,
   afterClose,
   isOpened,
