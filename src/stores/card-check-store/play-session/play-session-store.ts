@@ -36,12 +36,21 @@ export function isNotSkippedResultWord(resultWord: ResultWord): resultWord is No
 export class CardCheckPlaySessionStore {
   card: Card
   private settings: CardCheckSettingsStore = new CardCheckSettingsStore()
+  userInput: EasyInputStore | HardInputStore
 
   constructor({ card, settings }: CardCheckPlaySessionConfig) {
     this.card = card
-    this.settings = settings
 
     this.setAndShuffleWords()
+
+    this.settings = settings
+
+    this.userInput =
+      this.settings.difficulty === 'easy'
+        ? new EasyInputStore({
+            initialValue: this.translateForShownWord,
+          })
+        : new HardInputStore()
 
     makeAutoObservable(this, {}, { autoBind: true })
   }
@@ -66,12 +75,6 @@ export class CardCheckPlaySessionStore {
     this.shuffleWords()
   }
 
-  get userInput(): EasyInputStore | HardInputStore {
-    return this.settings.difficulty === 'easy'
-      ? new EasyInputStore({ initialValue: this.translateForShownWord })
-      : new HardInputStore()
-  }
-
   clearUserInput(): void {
     if (this.userInput instanceof HardInputStore) {
       this.userInput.clearInput()
@@ -87,7 +90,6 @@ export class CardCheckPlaySessionStore {
     } else {
       this.stopPlay()
     }
-
     this.clearUserInput()
   }
   skipCurrentWord(): void {

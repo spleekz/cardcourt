@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { CellPosition, EasyInputStore } from 'stores/card-check-store/play-session/easy-input-store'
 
 import { useClickOutside } from 'hooks/use-click-outside'
+import { usePressedKeys } from 'hooks/use-pressed-keys'
+import { useShortcut } from 'hooks/use-shortcut'
 
 import { PlayInputProps } from './play-input'
 
@@ -15,7 +17,7 @@ type AddCellRefToArrayConfig = { ref: HTMLInputElement | null; position: CellPos
 type Props = PlayInputProps<EasyInputStore>
 
 export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onKeyPress }) => {
-  //Преобразование value для отрисовки в ячейках
+  //!Преобразование value для отрисовки в клетках
   const valueWithoutSpaces = value.split(' ').join('')
   const valueWithoutSpacesAndSkips = Array.from({ length: valueWithoutSpaces.length }, (_, index) => {
     if (valueWithoutSpaces[index] && valueWithoutSpaces[index] !== '_') {
@@ -24,7 +26,7 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
     return ''
   })
 
-  //Массив рефов инпутов
+  //!Массив рефов инпутов
   const inputCellsRefs = useRef<InputCellsRefs>([])
 
   const addCellRefToArray = ({ ref, position }: AddCellRefToArrayConfig): void => {
@@ -42,11 +44,34 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
     }
   }, [inputStore.currentCellPosition])
 
-  //Обработка клика вне инпутов
+  //!Обработка клика вне инпутов
   const inputRef = useRef<HTMLInputElement>(null)
-  useClickOutside({ ref: inputRef, fn: inputStore.unfocusInput })
+  useClickOutside({
+    ref: inputRef,
+    fn: inputStore.unfocusAndUnselectCells,
+  })
 
-  //Обработчики нажатий
+  //!Сочетания клавиш для выделения клеток
+  const [selectAllCellsKeyDown, selectAllCellsKeyUp] = useShortcut(
+    ['ControlLeft', 'KeyA'],
+    inputStore.selectAllCells,
+  )
+
+  const [shiftArrowRightKeyDown, shiftArrowRightKeyUp] = useShortcut(
+    ['ShiftLeft', 'ArrowRight'],
+    inputStore.onShiftArrowRight,
+    { repeatable: true },
+  )
+
+  const [shiftArrowLeftKeyDown, shiftArrowLeftKeyUp] = useShortcut(
+    ['ShiftLeft', 'ArrowLeft'],
+    inputStore.onShiftArrowLeft,
+    { repeatable: true },
+  )
+
+  //!Обработчики
+  const [inputPressedKeys, addInputPressedKey, deleteInputPressedKey] = usePressedKeys()
+
   const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.code === 'Backspace') {
       e.preventDefault()
@@ -60,24 +85,42 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
     }
   }
   const handleArrows = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.code === 'ArrowLeft') {
-      inputStore.goToPrevCell()
-    }
-    if (e.code === 'ArrowRight') {
-      inputStore.goToNextCell()
+    //Если нажаты ТОЛЬКО стрелки (не в сочетании с другими клавишами)
+    if (inputPressedKeys.size === 1) {
+      if (e.code === 'ArrowLeft') {
+        inputStore.onArrowLeft()
+      }
+      if (e.code === 'ArrowRight') {
+        inputStore.onArrowRight()
+      }
     }
   }
 
   const handleKeysDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    addInputPressedKey(e.code)
+
     handleArrows(e)
     handleBackspace(e)
     handleDeleteKey(e)
+
+    selectAllCellsKeyDown(e)
+    shiftArrowRightKeyDown(e)
+    shiftArrowLeftKeyDown(e)
   }
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    inputStore.onSettingLetter(e.target.value)
+  const handleKeysUp = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    deleteInputPressedKey(e.code)
+
+    selectAllCellsKeyUp(e)
+    shiftArrowRightKeyUp(e)
+    shiftArrowLeftKeyUp(e)
   }
 
-  //Порядковый номер ячейки
+  const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    onKeyPress(e)
+    inputStore.onKeyPress(e.key)
+  }
+
+  //Порядковый номер клетки
   let cellOrderNumber = -1
 
   return (
@@ -95,10 +138,11 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
                   key={cellIndex}
                   value={valueWithoutSpacesAndSkips[cellOrderNumber]}
                   focused={cell.focused}
+                  selected={cell.selected}
                   onClick={() => inputStore.setCurrentCellPosition({ wordIndex, cellIndex })}
-                  onChange={onInputChange}
-                  onKeyPress={onKeyPress}
+                  onKeyPress={onKeyPressHandler}
                   onKeyDown={handleKeysDown}
+                  onKeyUp={handleKeysUp}
                 />
               )
             })}
@@ -113,7 +157,7 @@ const Container = styled.div``
 const WordContainer = styled.span`
   margin: 0 21px;
 `
-const InputCell = styled.input<{ focused: boolean }>`
+const InputCell = styled.input<{ focused: boolean; selected: boolean }>`
   width: 50px;
   height: 70px;
   font-size: 40px;
@@ -121,6 +165,6 @@ const InputCell = styled.input<{ focused: boolean }>`
   text-align: center;
   border: 2px solid #373737;
   border-radius: 6px;
-  background-color: ${(props) => props.focused && '#85ffac'};
+  background-color: ${(props) => (props.focused && '#85ffac') || (props.selected && '#fffb85')};
   caret-color: transparent;
 `
