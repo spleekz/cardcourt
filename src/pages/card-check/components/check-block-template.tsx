@@ -26,10 +26,10 @@ export const CardCheckBlockTemplate: React.FC<Props> = ({ width, height, childre
   return (
     <Container width={width} height={height}>
       {containerResizeListener}
-      <CardCheckBlockTitle>
+      <CardCheckBlockHeading>
         {titleResizeListener}
         {title}
-      </CardCheckBlockTitle>
+      </CardCheckBlockHeading>
       <CardCheckBlockContent height={contentHeight}>{content}</CardCheckBlockContent>
       <CardCheckBlockFooter footerProvided={Boolean(footer)}>
         {footerResizeListener}
@@ -49,7 +49,7 @@ const Container = styled.div<{ width: number; height: number }>`
   border-radius: 16px;
   box-shadow: 0px 0px 16px 5px rgba(34, 60, 80, 0.2);
 `
-export const CardCheckBlockTitle = styled.div`
+export const CardCheckBlockHeading = styled.div`
   position: relative;
   padding: 16px;
   font-size: 35px;
