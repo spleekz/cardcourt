@@ -18,7 +18,7 @@ export const CardCheckSettings: React.FC<CardCheckPagesProps> = observer(({ chec
   return (
     <CardCheckBlockTemplate width={1100} height={550}>
       <>
-        Настройте проверку для карточки <ColoredCardName card={card} />
+        Настройте проверку для карточки <ColoredCardName cardName={card.name} cardUI={card.ui} />
       </>
       <>
         <CheckSettings>

@@ -24,15 +24,13 @@ type CorrectWordsCountColors = {
 export const getResultTitle = ({ card, wordsCount, correctWordsCount }: Config): JSX.Element => {
   const correctWordsPercent = (correctWordsCount / wordsCount) * 100
 
+  const ColoredNameOfCard = <ColoredCardName cardName={card.name} cardUI={card.ui} />
+
   const allCorrectWordsResultText: JSX.Element = (
-    <>
-      Вы правильно перевели все слова из карточки <ColoredCardName card={card} /> 🎉
-    </>
+    <>Вы правильно перевели все слова из карточки {ColoredNameOfCard} 🎉</>
   )
   const noCorrectWordResultText: JSX.Element = (
-    <>
-      Вы перевели все слова карточки <ColoredCardName card={card} /> неправильно 😭
-    </>
+    <>Вы перевели все слова карточки {ColoredNameOfCard} неправильно 😭</>
   )
 
   const correctWordsCountColors: CorrectWordsCountColors = {
@@ -66,7 +64,7 @@ export const getResultTitle = ({ card, wordsCount, correctWordsCount }: Config):
       <WordsResult color={correctWordsCountColor}>
         {correctWordsCount}/{wordsCount}
       </WordsResult>{' '}
-      {wordsCountForm} из карточки <ColoredCardName card={card} />
+      {wordsCountForm} из карточки {ColoredNameOfCard}
     </>
   )
 
