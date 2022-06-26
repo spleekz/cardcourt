@@ -37,4 +37,9 @@ export class CardCheckStore {
   deletePlaySession(): void {
     this.playSession = null
   }
+
+  endPlaySession(): void {
+    this.setCheckState('settings')
+    this.deletePlaySession()
+  }
 }

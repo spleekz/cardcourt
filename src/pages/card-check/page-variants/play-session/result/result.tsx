@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
@@ -17,10 +17,6 @@ export const CardCheckResult: React.FC = observer(() => {
   const checkStore = useCheckStore()
   const { card } = checkStore
   const playSession = usePlaySession()
-
-  useEffect(() => {
-    return () => checkStore.deletePlaySession()
-  }, [])
 
   const resultTitleText = getResultTitle({
     card,
@@ -41,7 +37,7 @@ export const CardCheckResult: React.FC = observer(() => {
           <StyledLink to={'/'}>
             <RedirectButton>На главную</RedirectButton>
           </StyledLink>
-          <RedirectButton withMargin={true} onClick={checkStore.goToSettings}>
+          <RedirectButton withMargin={true} onClick={checkStore.endPlaySession}>
             Повторить проверку
           </RedirectButton>
           <StyledLink to={`/card/${checkStore.card._id}`}>
