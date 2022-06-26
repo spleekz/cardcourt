@@ -124,11 +124,7 @@ export class CardCheckPlaySessionStore {
     }
   }
   get translateForShownWord(): string {
-    if (this.settings.langForShowing === 'en') {
-      return this.currentWord.ru
-    } else {
-      return this.currentWord.en
-    }
+    return this.currentWord[this.settings.langForTyping]
   }
 
   resultWords: ResultWords = []
