@@ -320,7 +320,7 @@ export class EasyInputStore {
   }
 
   //!Обработчики
-  onKeyPress(letter: string): void {
+  onChange(letter: string): void {
     if (letter !== ' ') {
       //Если есть выделенные клетки
       if (this.selectedCells.length > 0) {

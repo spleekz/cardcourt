@@ -115,9 +115,9 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
     shiftArrowLeftKeyUp(e)
   }
 
-  const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    onKeyPress(e)
-    inputStore.onKeyPress(e.key)
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { data } = e.nativeEvent as InputEvent
+    inputStore.onChange(data!)
   }
 
   //Порядковый номер клетки
@@ -136,11 +136,12 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
                     addCellRefToArray({ ref: cellRef, position: { wordIndex, cellIndex } })
                   }
                   key={cellIndex}
+                  onChange={handleOnChange}
                   value={valueWithoutSpacesAndSkips[cellOrderNumber]}
                   focused={cell.focused}
                   selected={cell.selected}
                   onClick={() => inputStore.setCurrentCellPosition({ wordIndex, cellIndex })}
-                  onKeyPress={onKeyPressHandler}
+                  onKeyPress={onKeyPress}
                   onKeyDown={handleKeysDown}
                   onKeyUp={handleKeysUp}
                 />
