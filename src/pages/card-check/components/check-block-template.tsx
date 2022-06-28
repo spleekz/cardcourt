@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 
 import useResizeAware from 'react-resize-aware'
 import styled from 'styled-components'
@@ -10,29 +10,29 @@ type Props = {
 
 export const CardCheckBlockTemplate: React.FC<Props> = ({ width, height, children }) => {
   const childrenArray = React.Children.toArray(children)
-  const [title, content, footer] = childrenArray
+  const [heading, content, footer] = childrenArray
 
-  const [containerResizeListener, containerSize] = useResizeAware()
-  const containerHeight = containerSize.height ?? 0
+  const [containerSizeListener, containerSize] = useResizeAware()
+  const [contentHeight, setContentHeight] = useState(0)
 
-  const [titleResizeListener, titleSize] = useResizeAware()
-  const titleHeight = titleSize.height ?? 0
+  const headingRef = useRef<HTMLDivElement>(null)
+  const footerRef = useRef<HTMLDivElement>(null)
 
-  const [footerResizeListener, footerSize] = useResizeAware()
-  const footerHeight = footerSize.height ?? 0
+  useLayoutEffect(() => {
+    if (headingRef.current || footerRef.current) {
+      const headingHeight = headingRef.current?.getBoundingClientRect().height ?? 0
+      const footerHeight = footerRef.current?.getBoundingClientRect().height ?? 0
 
-  const contentHeight = containerHeight - (titleHeight + footerHeight)
+      setContentHeight(Number(containerSize.height) - (headingHeight + footerHeight))
+    }
+  }, [containerSize.height, containerSize.width])
 
   return (
-    <Container width={width} height={height}>
-      {containerResizeListener}
-      <CardCheckBlockHeading>
-        {titleResizeListener}
-        {title}
-      </CardCheckBlockHeading>
+    <Container width={width} height={containerSize.height === null ? height : containerSize.height}>
+      {containerSizeListener}
+      <CardCheckBlockHeading ref={headingRef}>{heading}</CardCheckBlockHeading>
       <CardCheckBlockContent height={contentHeight}>{content}</CardCheckBlockContent>
-      <CardCheckBlockFooter footerProvided={Boolean(footer)}>
-        {footerResizeListener}
+      <CardCheckBlockFooter ref={footerRef} footerProvided={Boolean(footer)}>
         {footer}
       </CardCheckBlockFooter>
     </Container>
