@@ -4,7 +4,7 @@ import { Card } from 'api/api'
 
 import { CurrentCardStore } from 'stores/current-card-store'
 
-interface PropsForEveryCardVariant {
+type PropsForEveryCardVariant = {
   width: number
   height: number
 }

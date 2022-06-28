@@ -11,7 +11,7 @@ import {
 import { LoadingState } from './entities/loading-state'
 import { ActionToUpdateCards } from './stores-utility-types'
 
-interface UserCards {
+type UserCards = {
   created: Cards
 }
 

@@ -23,7 +23,7 @@ import {
 import { LoginInput } from './shared-form-fields/login-input'
 import { PasswordInput } from './shared-form-fields/password-input'
 
-interface RegisterUserValues {
+type RegisterUserValues = {
   name: string
   password: string
 }

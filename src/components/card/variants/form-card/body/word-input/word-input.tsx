@@ -8,7 +8,7 @@ import { Lang } from 'stores/stores-utility-types'
 
 import { getCursorState, getInputBGC, getInputBoxShadow } from './utils'
 
-interface IFormWordInput {
+type IFormWordInput = {
   inputValue: string
   index: number
   lang: Lang
@@ -55,7 +55,7 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, lan
   )
 }
 
-interface IWordInputProps {
+type IWordInputProps = {
   isOnFocus: boolean
   isOnHover: boolean
   isEmpty: boolean

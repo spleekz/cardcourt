@@ -12,11 +12,11 @@ import { useStore } from 'stores/root-store/context'
 import { CardCheckPlaySession } from './page-variants/play-session/play-session'
 import { CardCheckSettings } from './page-variants/settings/settings'
 
-export interface CardCheckPagesProps {
+export type CardCheckPagesProps = {
   checkStore: CardCheckStore
 }
 
-interface Props {
+type Props = {
   card: Card
 }
 

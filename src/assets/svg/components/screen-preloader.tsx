@@ -6,7 +6,7 @@ import { PortalToBody } from 'components/utility/portal-to-body'
 
 import PreloaderSVG from '../preloader.svg'
 
-interface Props {
+type Props = {
   blackout?: boolean
 }
 

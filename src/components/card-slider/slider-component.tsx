@@ -7,7 +7,7 @@ import { CardSlider } from 'stores/card-slider'
 
 import { SliderWindow } from './slider-window'
 
-interface Props {
+type Props = {
   slider: CardSlider
 }
 

@@ -9,7 +9,7 @@ import { useStore } from 'stores/root-store/context'
 
 import { ScreenPreloader } from 'assets/svg/components/screen-preloader'
 
-interface AuthContextValue {
+type AuthContextValue = {
   login: LoginStore
   registration: RegistrationStore
 }

@@ -13,16 +13,16 @@ type PromiseHandlersForSlider = RequiredBy<
   'fnWithUpdatingCards'
 >
 
-interface SliderLoadCardsConfig {
+type SliderLoadCardsConfig = {
   pagesToLoad: number
 }
 
-interface ParamsForCardRequest {
+type ParamsForCardRequest = {
   search: string
   by: string
 }
 
-export interface SliderConfig {
+export type SliderConfig = {
   //Ссылка на карточки
   cards: Cards
 

@@ -9,7 +9,7 @@ import { CurrentCardStore } from 'stores/current-card-store'
 
 import { getCardWidthByHeight } from 'utils/cards'
 
-interface Props {
+type Props = {
   editedCardStore: CurrentCardStore
 }
 

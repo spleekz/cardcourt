@@ -9,7 +9,7 @@ import { CardCheckSettingsStore } from '../settings-store'
 import { EasyInputStore } from './easy-input-store'
 import { HardInputStore } from './hard-input-store'
 
-interface CardCheckPlaySessionConfig {
+type CardCheckPlaySessionConfig = {
   card: Card
   settings: CardCheckSettingsStore
 }

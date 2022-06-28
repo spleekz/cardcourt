@@ -9,7 +9,7 @@ import { SendedCardWords } from 'api/api'
 
 import { FormWordInput } from './word-input/word-input'
 
-interface IFormWordPair {
+type IFormWordPair = {
   removePair: () => void
   fields: SendedCardWords
   index: number

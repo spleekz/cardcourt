@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 
 import styled from 'styled-components'
 
-interface Props {
+type Props = {
   width: number
   height: number
   bodyColor: string

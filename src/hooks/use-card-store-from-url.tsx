@@ -7,7 +7,7 @@ import { Card } from 'api/api'
 import { CurrentCardStore } from 'stores/current-card-store'
 import { useStore } from 'stores/root-store/context'
 
-interface UseCardStoreFromURLReturnValue {
+type UseCardStoreFromURLReturnValue = {
   cardStore: CurrentCardStore
   card: Card | null
 }

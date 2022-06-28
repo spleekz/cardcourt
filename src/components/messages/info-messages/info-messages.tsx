@@ -2,7 +2,7 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-interface InfoMessageProps {
+type InfoMessageProps = {
   text: string
   fontSize?: number
 }

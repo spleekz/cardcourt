@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { CardUI } from 'api/api'
 
-interface ColoredCardNameProps {
+type ColoredCardNameProps = {
   cardName: string
   cardUI: CardUI
 }

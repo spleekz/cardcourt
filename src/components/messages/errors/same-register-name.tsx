@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ErrorMessage } from './error-message'
 
-interface Props {
+type Props = {
   registerName: string
 }
 

@@ -7,7 +7,7 @@ import { LoadingState } from 'stores/entities/loading-state'
 
 import { AuthStore } from './auth-store'
 
-interface LoginStoreConfig {
+type LoginStoreConfig = {
   authStore: AuthStore
 }
 

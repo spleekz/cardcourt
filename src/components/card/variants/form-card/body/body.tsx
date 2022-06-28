@@ -7,7 +7,7 @@ import { SendedCard, SendedCardWords } from 'api/api'
 
 import { FormWordPair } from './word-pair'
 
-interface PropsForBody {
+type PropsForBody = {
   fields: FieldArrayWithId<SendedCard, 'words', 'id'>[]
   watchedFields: SendedCardWords
   remove: (index: number) => void

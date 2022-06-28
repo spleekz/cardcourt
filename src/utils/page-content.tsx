@@ -4,12 +4,12 @@ import { useStore } from 'stores/root-store/context'
 
 import { ScreenPreloader } from 'assets/svg/components/screen-preloader'
 
-interface Variant {
+type Variant = {
   state: boolean
   element: JSX.Element
 }
 
-interface Config {
+type Config = {
   loading?: boolean
   original: JSX.Element
   variants?: Array<Variant>

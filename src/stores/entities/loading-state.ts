@@ -7,7 +7,7 @@ import { getStatusByCode, isErrorCode, isUnknownError } from 'utils/server-codes
 
 export type LoadingStatus = 'initial' | 'loading' | 'success' | 'error'
 
-interface FlowStateConfig {
+type FlowStateConfig = {
   initialStatus?: LoadingStatus
   handledErrors: Array<StatusCodes>
 }

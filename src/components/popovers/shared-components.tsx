@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export interface PopoverContainerProps {
+export type PopoverContainerProps = {
   width: string
   height?: string
   top?: number

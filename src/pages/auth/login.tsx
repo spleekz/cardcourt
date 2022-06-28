@@ -26,7 +26,7 @@ import {
 import { LoginInput } from './shared-form-fields/login-input'
 import { PasswordInput } from './shared-form-fields/password-input'
 
-interface LoginFormValues {
+type LoginFormValues = {
   name: string
   password: string
 }

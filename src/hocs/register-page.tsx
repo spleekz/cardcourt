@@ -10,7 +10,7 @@ import { useSkipForFirstEffectRun } from 'hooks/use-skip-for-first-effect-run'
 
 import { withoutSlash } from 'utils/strings'
 
-interface RegisterPageOptions {
+type RegisterPageOptions = {
   isProtected?: boolean
   isRootPath?: boolean
 }

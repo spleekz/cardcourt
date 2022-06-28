@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react'
 
 import { RootStore } from './store'
 
-interface RootStoreProviderProps {
+type RootStoreProviderProps = {
   children: React.ReactNode
 }
 

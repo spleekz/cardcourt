@@ -39,7 +39,7 @@ export enum StatusCodes {
 export type FnToCallAfterRequest<T> = (response: T) => void
 export type ErrorFn = (error: { status: number }) => void
 
-export interface PromiseHandlers<PromiseData> {
+export type PromiseHandlers<PromiseData> = {
   success?: FnToCallAfterRequest<PromiseData>
   error?: ErrorFn
   anyway?: EmptyFunction

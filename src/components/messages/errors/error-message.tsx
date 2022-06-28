@@ -3,7 +3,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-interface Props {
+type Props = {
   text: string
   height?: string
   fontSize?: number

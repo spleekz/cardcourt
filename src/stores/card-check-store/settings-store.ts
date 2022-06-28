@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 
 import { Lang } from 'stores/stores-utility-types'
 
-interface CheckMode {
+type CheckMode = {
   langForTyping: Lang
   isSelected: boolean
   label: string

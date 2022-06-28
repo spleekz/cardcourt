@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { EmptyFunction } from 'basic-utility-types'
 
-interface Config {
+type Config = {
   ref: React.RefObject<HTMLElement | null>
   fn: EmptyFunction
 }

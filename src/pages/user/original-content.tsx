@@ -11,7 +11,7 @@ import { PageContentContainer } from 'components/utility/styled'
 import { CardSlider } from 'stores/card-slider'
 import { CurrentUserStore } from 'stores/current-user-store'
 
-interface Props {
+type Props = {
   createdCardsSlider: CardSlider | null
   userStore: CurrentUserStore
 }

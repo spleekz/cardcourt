@@ -14,7 +14,7 @@ import { useLocationChange } from 'hooks/use-location-change'
 import { PopupBlock, PopupContainer, PopupTitle } from './shared-components'
 
 //afterClose - функция, выполняющаяся при закрытии попапа любым способом
-export interface PopupProps {
+export type PopupProps = {
   width: string
   height: string
   title: string | JSX.Element

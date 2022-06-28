@@ -7,7 +7,7 @@ import { useLocationChange } from 'hooks/use-location-change'
 
 import { PopoverContainer, PopoverContainerProps } from './shared-components'
 
-interface PopoverState {
+type PopoverState = {
   isOpened: boolean
   fnForClosing: EmptyFunction
   afterClose?: EmptyFunction

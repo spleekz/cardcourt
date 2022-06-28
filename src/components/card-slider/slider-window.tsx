@@ -6,7 +6,7 @@ import { SliderCard } from 'components/card/variants/slider-card'
 
 import { Cards } from 'api/api'
 
-interface Props {
+type Props = {
   cards: Cards
   cardWidth: number
   cardHeight: number

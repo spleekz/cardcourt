@@ -13,11 +13,11 @@ import { content } from 'utils/page-content'
 
 import { SliderComponent } from './slider-component'
 
-interface NewSliderConfig {
+type NewSliderConfig = {
   newSliderConfig: SliderConfig
 }
 
-interface Slider {
+type Slider = {
   slider: CardSlider
 }
 

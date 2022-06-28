@@ -8,7 +8,7 @@ import { PopupVariantProps } from 'components/popups/popup'
 
 import { PopupWithCustomClose } from '../popup-with-custom-close'
 
-interface CardDoneProps {
+type CardDoneProps = {
   title: string
   cardId: string | null
 }

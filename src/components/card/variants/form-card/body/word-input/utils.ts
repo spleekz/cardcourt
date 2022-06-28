@@ -1,4 +1,4 @@
-interface InputState {
+type InputState = {
   isOnHover: boolean
   isOnFocus: boolean
   isEmpty: boolean

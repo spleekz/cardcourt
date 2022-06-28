@@ -7,7 +7,7 @@ import { CardCheckPlaySessionStore } from 'stores/card-check-store/play-session/
 import { CardCheckPlay } from './play/play'
 import { CardCheckResult } from './result/result'
 
-interface Props {
+type Props = {
   playSession: CardCheckPlaySessionStore
 }
 
