@@ -330,10 +330,12 @@ export class EasyInputStore {
         this.unselectAllCells()
       }
 
-      if (this.cellAfterCurrent && this.cellAfterCurrent.cell.letter === '') {
-        this.setCurrentLetterAndGoToNextCell(letter)
-      } else {
-        this.setCurrentLetter(letter)
+      if (this.currentLetter === '') {
+        if (this.cellAfterCurrent && this.cellAfterCurrent.cell.letter === '') {
+          this.setCurrentLetterAndGoToNextCell(letter)
+        } else {
+          this.setCurrentLetter(letter)
+        }
       }
     }
   }
