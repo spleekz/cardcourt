@@ -16,9 +16,9 @@ export const useClickOutside = ({ ref, fn }: Config): void => {
     }
 
     if (ref.current) {
-      document.addEventListener('click', handleClickOutside)
+      document.addEventListener('click', handleClickOutside, true)
     }
 
-    return () => document.removeEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside, true)
   }, [fn])
 }
