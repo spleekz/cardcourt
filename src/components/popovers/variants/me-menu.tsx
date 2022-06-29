@@ -12,7 +12,7 @@ import { Popover, PopoverVariantProps } from '../popover'
 import { PopoverList, PopoverListItem } from '../shared-components'
 
 export const MeMenuPopover: React.FC<PopoverVariantProps> = observer(
-  ({ fnForClosing, afterClose, isOpened }) => {
+  ({ fnForClosing, afterClose, isOpened, elementForActivating }) => {
     const { authStore } = useStore()
 
     return (
@@ -23,6 +23,7 @@ export const MeMenuPopover: React.FC<PopoverVariantProps> = observer(
         fnForClosing={fnForClosing}
         afterClose={afterClose}
         isOpened={isOpened}
+        elementForActivating={elementForActivating}
       >
         <Header>
           <Avatar size={50} />

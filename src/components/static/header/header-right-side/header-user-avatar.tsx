@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 import styled from 'styled-components'
 
@@ -7,13 +7,21 @@ import { Avatar } from 'components/static/avatar'
 
 export const HeaderUserAvatar: React.FC = () => {
   const [meMenuPopoverShown, setMeMenuPopoverShown] = useState(false)
+  const elementToActivateMeMenuPopover = useRef<HTMLDivElement>(null)
 
   return (
     <Container>
-      <AvatarBlock onClick={() => setMeMenuPopoverShown(true)}>
+      <AvatarBlock
+        ref={elementToActivateMeMenuPopover}
+        onClick={() => setMeMenuPopoverShown((prev) => !prev)}
+      >
         <Avatar size={48} />
       </AvatarBlock>
-      <MeMenuPopover isOpened={meMenuPopoverShown} fnForClosing={() => setMeMenuPopoverShown(false)} />
+      <MeMenuPopover
+        isOpened={meMenuPopoverShown}
+        fnForClosing={() => setMeMenuPopoverShown(false)}
+        elementForActivating={elementToActivateMeMenuPopover}
+      />
     </Container>
   )
 }

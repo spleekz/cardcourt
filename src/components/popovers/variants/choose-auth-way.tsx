@@ -9,6 +9,7 @@ export const ChooseAuthWayPopover: React.FC<PopoverVariantProps> = ({
   fnForClosing,
   afterClose,
   isOpened,
+  elementForActivating,
 }) => {
   return (
     <Popover
@@ -17,6 +18,7 @@ export const ChooseAuthWayPopover: React.FC<PopoverVariantProps> = ({
       fnForClosing={fnForClosing}
       afterClose={afterClose}
       isOpened={isOpened}
+      elementForActivating={elementForActivating}
     >
       <PopoverList>
         <PopoverListItem>

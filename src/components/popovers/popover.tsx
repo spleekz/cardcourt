@@ -11,6 +11,9 @@ type PopoverState = {
   isOpened: boolean
   fnForClosing: EmptyFunction
   afterClose?: EmptyFunction
+  //Элемент, при клике на который показывается поповер
+  //Такой элемент должен открывать/закрывать поповер и не считаться кликом вне поповера
+  elementForActivating?: React.RefObject<HTMLElement | null>
 }
 
 export type PopoverProps = PopoverContainerProps & PopoverState
@@ -26,6 +29,7 @@ export const Popover: React.FC<PopoverProps> = ({
   fnForClosing,
   afterClose,
   isOpened,
+  elementForActivating,
   children,
 }) => {
   const popoverRef = useRef<HTMLDivElement>(null)
@@ -36,7 +40,12 @@ export const Popover: React.FC<PopoverProps> = ({
     }
   }, [])
 
-  useClickOutside({ ref: popoverRef, fn: fnForClosing })
+  //Хук вызовется в ЛЮБОМ случае
+  if (elementForActivating) {
+    useClickOutside({ ref: [popoverRef, elementForActivating], fn: fnForClosing })
+  } else {
+    useClickOutside({ ref: popoverRef, fn: fnForClosing })
+  }
 
   useLocationChange(fnForClosing)
 

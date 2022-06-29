@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 import styled from 'styled-components'
 
@@ -7,15 +7,23 @@ import { ChooseAuthWayPopover } from 'components/popovers/variants/choose-auth-w
 export const AskToDoAuth: React.FC = () => {
   const [waysOfAuthPopoverShown, setWaysOfAuthPopoverShown] = useState(false)
 
+  const elementToActivateAuthWayPopover = useRef<HTMLSpanElement>(null)
+
   return (
     <Container>
-      <DoAuthContainer onClick={() => setWaysOfAuthPopoverShown(true)}>
+      <DoAuthContainer
+        ref={elementToActivateAuthWayPopover}
+        onClick={() => {
+          setWaysOfAuthPopoverShown((prev) => !prev)
+        }}
+      >
         Совершить акт авторизации
       </DoAuthContainer>
 
       <ChooseAuthWayPopover
         isOpened={waysOfAuthPopoverShown}
         fnForClosing={() => setWaysOfAuthPopoverShown(false)}
+        elementForActivating={elementToActivateAuthWayPopover}
       />
     </Container>
   )
