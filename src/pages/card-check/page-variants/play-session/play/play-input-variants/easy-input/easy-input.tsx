@@ -9,7 +9,7 @@ import { useClickOutside } from 'hooks/use-click-outside'
 import { usePressedKeys } from 'hooks/use-pressed-keys'
 import { useShortcut } from 'hooks/use-shortcut'
 
-import { PlayInputProps } from '../play-input'
+import { PlayInputProps } from '../../play-input'
 import { InputCell } from './input-cell'
 
 type InputCellsRefs = Array<Array<HTMLInputElement | null>>

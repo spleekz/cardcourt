@@ -8,9 +8,9 @@ import { BlueButton } from 'components/buttons/blue-button'
 import { CheckDifficultyValue } from 'stores/card-check-store/settings-store'
 import { Lang } from 'stores/stores-utility-types'
 
-import { CardCheckBlockTemplate } from '../../components/check-block-template'
-import { ColoredCardName } from '../../components/shared-components'
 import { CardCheckPagesProps } from '../../original-content'
+import { CardCheckBlockTemplate } from '../components/check-block-template'
+import { ColoredCardName } from '../components/shared-components'
 
 export const CardCheckSettings: React.FC<CardCheckPagesProps> = observer(({ checkStore }) => {
   const { card, settings } = checkStore

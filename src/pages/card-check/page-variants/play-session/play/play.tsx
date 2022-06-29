@@ -4,12 +4,12 @@ import { observer } from 'mobx-react-lite'
 import { ArrowLeft } from 'react-bootstrap-icons'
 import styled from 'styled-components'
 
-import { CardCheckBlockTemplate } from 'pages/card-check/components/check-block-template'
-import { PlayInput } from 'pages/card-check/components/play-input-variants/play-input'
 import { useCheckStore } from 'pages/card-check/original-content'
 
 import { Button } from 'components/buttons/button'
 
+import { CardCheckBlockTemplate } from '../../components/check-block-template'
+import { PlayInput } from './play-input'
 import { usePlaySession } from '../play-session'
 
 export const CardCheckPlay: React.FC = observer(() => {

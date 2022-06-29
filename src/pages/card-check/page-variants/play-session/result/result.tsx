@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { CardCheckBlockTemplate } from 'pages/card-check/components/check-block-template'
 import { useCheckStore } from 'pages/card-check/original-content'
 
 import { BlueButton } from 'components/buttons/blue-button'
@@ -12,6 +11,7 @@ import { BlueButton } from 'components/buttons/blue-button'
 import { usePlaySession } from '../play-session'
 import { getResultTitle } from './get-result-title'
 import { ResultIncorrectWords } from './sections/incorrect-words/incorrect-words'
+import { CardCheckBlockTemplate } from '../../components/check-block-template'
 
 export const CardCheckResult: React.FC = observer(() => {
   const checkStore = useCheckStore()

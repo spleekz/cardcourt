@@ -2,11 +2,10 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-import { ColoredCardName } from 'pages/card-check/components/shared-components'
-
 import { Card } from 'api/api'
 
 import { pluralize } from 'utils/strings'
+import { ColoredCardName } from '../../components/shared-components'
 
 type Config = {
   card: Card

@@ -7,7 +7,7 @@ import { usePlaySession } from 'pages/card-check/page-variants/play-session/play
 
 import { HardInputStore } from 'stores/card-check-store/play-session/hard-input-store'
 
-import { PlayInputProps } from './play-input'
+import { PlayInputProps } from '../play-input'
 
 type Props = PlayInputProps<HardInputStore>
 
