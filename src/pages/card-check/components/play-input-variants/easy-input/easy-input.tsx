@@ -9,7 +9,8 @@ import { useClickOutside } from 'hooks/use-click-outside'
 import { usePressedKeys } from 'hooks/use-pressed-keys'
 import { useShortcut } from 'hooks/use-shortcut'
 
-import { PlayInputProps } from './play-input'
+import { PlayInputProps } from '../play-input'
+import { InputCell } from './input-cell'
 
 type InputCellsRefs = Array<Array<HTMLInputElement | null>>
 type AddCellRefToArrayConfig = { ref: HTMLInputElement | null; position: CellPosition }
@@ -132,9 +133,9 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
               cellOrderNumber = cellOrderNumber + 1
               return (
                 <InputCell
-                  ref={(cellRef) =>
+                  ref={(cellRef) => {
                     addCellRefToArray({ ref: cellRef, position: { wordIndex, cellIndex } })
-                  }
+                  }}
                   key={cellIndex}
                   onChange={handleOnChange}
                   value={valueWithoutSpacesAndSkips[cellOrderNumber]}
@@ -154,18 +155,10 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
   )
 })
 
-const Container = styled.div``
-const WordContainer = styled.span`
-  margin: 0 21px;
+const Container = styled.div`
+  display: flex;
 `
-const InputCell = styled.input<{ focused: boolean; selected: boolean }>`
-  width: 50px;
-  height: 70px;
-  font-size: 40px;
-  margin: 0 10px;
-  text-align: center;
-  border: 2px solid #373737;
-  border-radius: 6px;
-  background-color: ${(props) => (props.focused && '#85ffac') || (props.selected && '#fffb85')};
-  caret-color: transparent;
+const WordContainer = styled.span`
+  display: flex;
+  margin: 0 21px;
 `
