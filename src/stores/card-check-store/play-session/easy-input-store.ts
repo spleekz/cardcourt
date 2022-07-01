@@ -108,14 +108,14 @@ export class EasyInputStore {
     return null
   }
 
-  isFirstCell(position: CellPosition | null): boolean {
-    return position !== null && position.wordIndex === 0 && position.cellIndex === 0
+  isFirstCell(cellPosition: CellPosition | null): boolean {
+    return cellPosition !== null && cellPosition.wordIndex === 0 && cellPosition.cellIndex === 0
   }
-  isLastCell(position: CellPosition | null): boolean {
+  isLastCell(cellPosition: CellPosition | null): boolean {
     return (
-      position !== null &&
-      position.wordIndex === this.words.length - 1 &&
-      position.cellIndex === this.words[position.wordIndex].length - 1
+      cellPosition !== null &&
+      cellPosition.wordIndex === this.words.length - 1 &&
+      cellPosition.cellIndex === this.words[cellPosition.wordIndex].length - 1
     )
   }
 
