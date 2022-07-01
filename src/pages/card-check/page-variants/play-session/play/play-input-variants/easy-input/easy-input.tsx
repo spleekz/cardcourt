@@ -71,6 +71,10 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
   )
 
   //!Обработчики
+  const handleCellClick = (cellPosition: CellPosition): void => {
+    inputStore.onCellClick(cellPosition)
+  }
+
   const [inputPressedKeys, addInputPressedKey, deleteInputPressedKey] = usePressedKeys()
 
   const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -141,7 +145,7 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
                   value={valueWithoutSpacesAndSkips[cellOrderNumber]}
                   focused={cell.focused}
                   selected={cell.selected}
-                  onClick={() => inputStore.setCurrentCellPosition({ wordIndex, cellIndex })}
+                  onClick={() => handleCellClick({ wordIndex, cellIndex })}
                   onKeyPress={onKeyPress}
                   onKeyDown={handleKeysDown}
                   onKeyUp={handleKeysUp}

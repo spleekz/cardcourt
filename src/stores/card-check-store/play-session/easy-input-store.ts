@@ -15,10 +15,6 @@ export type CellPosition = {
   cellIndex: number
 }
 
-type SetCurrentCellPositionOptions = {
-  focusOnThisCell?: boolean
-}
-
 type CellWithPosition = {
   cell: Cell
   position: CellPosition
@@ -123,10 +119,7 @@ export class EasyInputStore {
 
   //!Позиция текущей клетки
   currentCellPosition: CellPosition | null = { wordIndex: 0, cellIndex: 0 }
-  setCurrentCellPosition(
-    position: CellPosition | null,
-    options?: SetCurrentCellPositionOptions,
-  ): void {
+  setCurrentCellPosition(position: CellPosition | null): void {
     if (position === null) {
       this.currentCellPosition = null
     } else {
@@ -134,13 +127,13 @@ export class EasyInputStore {
         position.wordIndex <= this.words.length - 1 &&
         position.cellIndex <= this.words[position.wordIndex].length - 1
       ) {
-        const { focusOnThisCell = true } = options ?? {}
         this.currentCellPosition = position
-        if (focusOnThisCell) {
-          this.focusOnCurrentCell()
-        }
       }
     }
+  }
+  setCurrentCellPositionAndFocusOnThisCell(position: CellPosition): void {
+    this.setCurrentCellPosition(position)
+    this.focusOnCurrentCell()
   }
 
   get isCurrentCellFirst(): boolean {
@@ -189,12 +182,12 @@ export class EasyInputStore {
   //!Установка и удаление букв
   goToNextCell(): void {
     if (this.cellAfterCurrent) {
-      this.setCurrentCellPosition(this.cellAfterCurrent.position)
+      this.setCurrentCellPositionAndFocusOnThisCell(this.cellAfterCurrent.position)
     }
   }
   goToPrevCell(): void {
     if (this.cellBeforeCurrent) {
-      this.setCurrentCellPosition(this.cellBeforeCurrent.position)
+      this.setCurrentCellPositionAndFocusOnThisCell(this.cellBeforeCurrent.position)
     }
   }
   setLetter({ cellPosition, letter }: SetLetterConfig): void {
@@ -231,7 +224,7 @@ export class EasyInputStore {
   }
   clearInput({ newValue }: { newValue: string }): void {
     this.setEmptyCells(newValue)
-    this.setCurrentCellPosition({ wordIndex: 0, cellIndex: 0 })
+    this.setCurrentCellPositionAndFocusOnThisCell({ wordIndex: 0, cellIndex: 0 })
   }
   setEmptyCells(value: string): void {
     this.words = value.split(' ').map((word) => {
@@ -267,6 +260,13 @@ export class EasyInputStore {
     return null
   }
 
+  get firstSelectedCellPosition(): CellPosition | null {
+    if (this.selectedCells.length > 0) {
+      return this.selectedCells[0]
+    }
+    return null
+  }
+
   get cellAfterCurrentSelected(): CellWithPosition | null {
     return this.getNextCell(this.currentSelectedCellPosition)
   }
@@ -294,10 +294,23 @@ export class EasyInputStore {
     }
   }
 
+  startSelection({ direction }: { direction: SelectionDirection }): void {
+    this.unfocusAllCells()
+    this.selectCurrentCell()
+    this.setSelectionDirection(direction)
+  }
+  endSelection(): void {
+    if (this.currentSelectedCellPosition) {
+      this.setCurrentCellPositionAndFocusOnThisCell(this.currentSelectedCellPosition)
+      this.unselectCurrentSelectedCell()
+      this.setSelectionDirection(null)
+    }
+  }
+
   selectAllCells(): void {
     this.selectedCells = []
     this.setSelectionDirection('right')
-    this.setCurrentCellPosition({ wordIndex: 0, cellIndex: 0 }, { focusOnThisCell: false })
+    this.setCurrentCellPosition({ wordIndex: 0, cellIndex: 0 })
     this.words.forEach((word, wordIndex) => {
       word.forEach((_, cellIndex) => {
         const cellPosition = { wordIndex, cellIndex }
@@ -320,16 +333,17 @@ export class EasyInputStore {
   }
 
   //!Обработчики
+  onCellClick(cellPosition: CellPosition): void {
+    this.setCurrentCellPositionAndFocusOnThisCell(cellPosition)
+  }
+
   onChange(letter: string): void {
     if (letter !== ' ') {
       //Если есть выделенные клетки
       if (this.selectedCells.length > 0) {
-        this.selectedCells.forEach((selectedCellPosition) => {
-          this.deleteLetter(selectedCellPosition)
-        })
+        this.deleteMultipleLetters(this.selectedCells)
         this.unselectAllCells()
       }
-
       if (this.currentLetter === '') {
         if (this.cellAfterCurrent && this.cellAfterCurrent.cell.letter === '') {
           this.setCurrentLetterAndGoToNextCell(letter)
@@ -368,53 +382,73 @@ export class EasyInputStore {
   }
 
   onArrowRight(): void {
-    if (this.currentSelectedCellPosition) {
-      //Поставить курсор на последнюю выделенную клетку
-      this.setCurrentCellPosition(this.currentSelectedCellPosition)
-    } else {
+    if (this.selectedCells.length === 0) {
       this.goToNextCell()
+    } else {
+      //Сделать текущей клеткой самую правую выделенную
+      if (this.selectionDirection === 'right') {
+        if (this.currentSelectedCellPosition) {
+          this.setCurrentCellPositionAndFocusOnThisCell(this.currentSelectedCellPosition)
+        }
+      } else {
+        if (this.firstSelectedCellPosition) {
+          this.setCurrentCellPositionAndFocusOnThisCell(this.firstSelectedCellPosition)
+        }
+      }
     }
   }
   onArrowLeft(): void {
-    if (this.currentSelectedCellPosition) {
-      //Поставить курсор на последнюю выделенную клетку
-      this.setCurrentCellPosition(this.currentSelectedCellPosition)
-    } else {
+    if (this.selectedCells.length === 0) {
       this.goToPrevCell()
+    } else {
+      //Сфокусироваться на самой левой выделенной клетке (она уже текущая в обоих случаях)
+      if (this.selectionDirection === 'right') {
+        this.focusOnCurrentCell()
+      } else {
+        this.focusOnCurrentCell()
+      }
     }
   }
 
   onShiftArrowRight(): void {
-    if (this.selectedCells.length === 0 && !this.isCurrentCellLast) {
-      this.selectCurrentCell()
-      this.setSelectionDirection('right')
+    //Если нет выделенных клеток
+    if (this.selectedCells.length === 0) {
+      this.startSelection({ direction: 'right' })
     } else {
-      if (this.cellAfterCurrentSelected) {
-        //Снимаем выделение с текущей клетки, если клетки выделялись влево
-        if (this.selectionDirection === 'left') {
-          this.unselectCurrentSelectedCell()
-          //Т.к при выделении влево текущей клеткой становится последняя выделенная
-          this.setCurrentCellPosition(this.currentSelectedCellPosition, { focusOnThisCell: false })
+      //Снять выделение с текущей клетки, если выделение начиналось влево
+      if (this.selectionDirection === 'left') {
+        if (this.selectedCells.length === 1) {
+          this.endSelection()
         } else {
-          //При выделении вправо текущей клеткой становится та, с которой началось выделение
+          this.unselectCurrentSelectedCell()
+          //Обновляем текущую клетку, т.к. при выделении влево текущая клетка - последняя выделенная
+          this.setCurrentCellPosition(this.currentSelectedCellPosition)
+        }
+      } else {
+        if (this.cellAfterCurrentSelected) {
           this.selectCell(this.cellAfterCurrentSelected.position)
+          //Не обновляем текущую клетку, т.к. при выделении вправо текущая клетка - та, с которой началось выделение
         }
       }
     }
   }
   onShiftArrowLeft(): void {
-    if (this.selectedCells.length === 0 && !this.isCurrentCellFirst) {
-      this.selectCurrentCell()
-      this.setSelectionDirection('left')
+    //Если нет выделенных клеток
+    if (this.selectedCells.length === 0) {
+      this.startSelection({ direction: 'left' })
     } else {
-      if (this.cellBeforeCurrentSelected) {
-        //Снимаем выделение с текущей клетки, если клетки выделялись вправо
-        if (this.selectionDirection === 'right') {
-          this.unselectCurrentSelectedCell()
+      //Снять выделение с текущей клетки, если выделение начиналось вправо
+      if (this.selectionDirection === 'right') {
+        if (this.selectedCells.length === 1) {
+          this.endSelection()
         } else {
+          this.unselectCurrentSelectedCell()
+        }
+      } else {
+        if (this.cellBeforeCurrentSelected) {
           this.selectCell(this.cellBeforeCurrentSelected.position)
-          //При выделении влево текущей клеткой становится последняя выделенная
-          this.setCurrentCellPosition(this.currentSelectedCellPosition, { focusOnThisCell: false })
+          //Обновляем текущую клетку, т.к. при выделении влево текущая клетка - последняя выделенная
+          this.setCurrentCellPosition(this.currentSelectedCellPosition)
         }
       }
     }
