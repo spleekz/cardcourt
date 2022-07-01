@@ -1,5 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 
+import { areSameObjects } from 'utils/objects'
+
 type EasyInputStoreConfig = {
   initialValue: string
 }
@@ -115,6 +117,13 @@ export class EasyInputStore {
       position.wordIndex === this.words.length - 1 &&
       position.cellIndex === this.words[position.wordIndex].length - 1
     )
+  }
+
+  isCellCurrentSelected(cellPosition: CellPosition): boolean {
+    if (this.currentSelectedCellPosition) {
+      return areSameObjects(cellPosition, this.currentSelectedCellPosition)
+    }
+    return false
   }
 
   //!Позиция текущей клетки

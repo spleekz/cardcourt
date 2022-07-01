@@ -8,6 +8,7 @@ type Props = {
   value: string
   focused: boolean
   selected: boolean
+  currentSelected: boolean
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onClick: () => void
   onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void
@@ -16,12 +17,20 @@ type Props = {
 }
 
 export const InputCell = observer<Props, HTMLInputElement | null>(
-  ({ value, focused, selected, onChange, onClick, onKeyPress, onKeyDown, onKeyUp }, ref) => {
+  (
+    { value, focused, selected, currentSelected, onChange, onClick, onKeyPress, onKeyDown, onKeyUp },
+    ref,
+  ) => {
     return (
       <Container>
         {focused && (
           <Caret>
             <CaretDownFill size={28} />
+          </Caret>
+        )}
+        {currentSelected && (
+          <Caret>
+            <CaretDownFill size={28} stroke={'#000000'} fill={'#ecb500'} />
           </Caret>
         )}
         <Cell

@@ -134,17 +134,19 @@ export const EasyPlayInput: React.FC<Props> = observer(({ inputStore, value, onK
         return (
           <WordContainer key={wordIndex}>
             {word.map((cell, cellIndex) => {
+              const cellPosition: CellPosition = { wordIndex, cellIndex }
               cellOrderNumber = cellOrderNumber + 1
               return (
                 <InputCell
                   ref={(cellRef) => {
-                    addCellRefToArray({ ref: cellRef, position: { wordIndex, cellIndex } })
+                    addCellRefToArray({ ref: cellRef, position: cellPosition })
                   }}
                   key={cellIndex}
                   onChange={handleOnChange}
                   value={valueWithoutSpacesAndSkips[cellOrderNumber]}
                   focused={cell.focused}
                   selected={cell.selected}
+                  currentSelected={inputStore.isCellCurrentSelected(cellPosition)}
                   onClick={() => handleCellClick({ wordIndex, cellIndex })}
                   onKeyPress={onKeyPress}
                   onKeyDown={handleKeysDown}
