@@ -10,20 +10,36 @@ export type PlayInputProps<InputStoreType extends EasyInputStore | HardInputStor
   inputStore: InputStoreType
   value: string
   onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  highlighting: boolean
+  highlightColor: string | null
 }
 
 export const PlayInput: React.FC<PlayInputProps<EasyInputStore | HardInputStore>> = ({
   inputStore,
   value,
+  highlighting,
+  highlightColor,
   onKeyPress,
 }) => {
   return (
     <>
       {inputStore instanceof EasyInputStore && (
-        <EasyPlayInput inputStore={inputStore} value={value} onKeyPress={onKeyPress} />
+        <EasyPlayInput
+          inputStore={inputStore}
+          value={value}
+          highlighting={highlighting}
+          highlightColor={highlightColor}
+          onKeyPress={onKeyPress}
+        />
       )}
       {inputStore instanceof HardInputStore && (
-        <HardPlayInput inputStore={inputStore} value={value} onKeyPress={onKeyPress} />
+        <HardPlayInput
+          inputStore={inputStore}
+          value={value}
+          highlighting={highlighting}
+          highlightColor={highlightColor}
+          onKeyPress={onKeyPress}
+        />
       )}
     </>
   )

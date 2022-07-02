@@ -6,6 +6,8 @@ import styled from 'styled-components'
 
 type Props = {
   value: string
+  highlighting: boolean
+  highlightColor: string | null
   focused: boolean
   selected: boolean
   currentSelected: boolean
@@ -18,7 +20,19 @@ type Props = {
 
 export const InputCell = observer<Props, HTMLInputElement | null>(
   (
-    { value, focused, selected, currentSelected, onChange, onClick, onKeyPress, onKeyDown, onKeyUp },
+    {
+      value,
+      highlighting,
+      highlightColor,
+      focused,
+      selected,
+      currentSelected,
+      onChange,
+      onClick,
+      onKeyPress,
+      onKeyDown,
+      onKeyUp,
+    },
     ref,
   ) => {
     return (
@@ -36,6 +50,8 @@ export const InputCell = observer<Props, HTMLInputElement | null>(
         <Cell
           ref={ref}
           value={value}
+          highlighting={highlighting}
+          highlightColor={highlightColor}
           onChange={onChange}
           onClick={onClick}
           onKeyPress={onKeyPress}
@@ -53,7 +69,11 @@ InputCell.displayName = 'InputCell'
 const Container = styled.div`
   position: relative;
 `
-const Cell = styled.input<{ selected: boolean }>`
+const Cell = styled.input<{
+  selected: boolean
+  highlighting: boolean
+  highlightColor: string | null
+}>`
   width: 50px;
   height: 70px;
   font-size: 40px;
@@ -61,8 +81,10 @@ const Cell = styled.input<{ selected: boolean }>`
   text-align: center;
   border: 2px solid #373737;
   border-radius: 6px;
-  background-color: ${(props) => props.selected && '#fffb85'};
+  background-color: ${(props) =>
+    (props.highlightColor && props.highlightColor) || (props.selected && '#fffb85')};
   caret-color: transparent;
+  transition: ${(props) => props.highlighting && '0.3s'};
 `
 const Caret = styled.div`
   position: absolute;

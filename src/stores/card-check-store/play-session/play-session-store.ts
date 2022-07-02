@@ -96,7 +96,7 @@ export class CardCheckPlaySessionStore {
     this.updateResultWords('skipped')
     this.goToNextWord()
   }
-  checkUserTranslate(): void {
+  checkUserTranslate(): boolean | undefined {
     const normalizedUserTranslate = normalizeString(removeSkips(this.userInput.value))
     const normalizedTranslateForShownWord = normalizeString(this.translateForShownWord)
 
@@ -106,11 +106,11 @@ export class CardCheckPlaySessionStore {
 
     if (normalizedUserTranslate === normalizedTranslateForShownWord) {
       this.updateResultWords('correct')
+      return true
     } else {
       this.updateResultWords('error')
+      return false
     }
-
-    this.goToNextWord()
   }
 
   get currentWord(): CardWord {
