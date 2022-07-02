@@ -12,7 +12,7 @@ import { PlayInputProps } from '../play-input'
 type Props = PlayInputProps<HardInputStore>
 
 export const HardPlayInput: React.FC<Props> = observer(
-  ({ inputStore, value, highlighting, highlightColor, onKeyPress }) => {
+  ({ inputStore, value, highlighting, highlightColor, enterHandler }) => {
     const playSession = usePlaySession()
 
     const inputRef = useRef<HTMLInputElement>(null)
@@ -32,7 +32,7 @@ export const HardPlayInput: React.FC<Props> = observer(
         highlightColor={highlightColor}
         placeholder={`Напечатайте перевод`}
         onChange={onInputChange}
-        onKeyPress={onKeyPress}
+        onKeyPress={enterHandler}
       />
     )
   },

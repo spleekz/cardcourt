@@ -9,7 +9,7 @@ import { HardPlayInput } from './play-input-variants/hard-input'
 export type PlayInputProps<InputStoreType extends EasyInputStore | HardInputStore> = {
   inputStore: InputStoreType
   value: string
-  onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  enterHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void
   highlighting: boolean
   highlightColor: string | null
 }
@@ -19,7 +19,7 @@ export const PlayInput: React.FC<PlayInputProps<EasyInputStore | HardInputStore>
   value,
   highlighting,
   highlightColor,
-  onKeyPress,
+  enterHandler,
 }) => {
   return (
     <>
@@ -29,7 +29,7 @@ export const PlayInput: React.FC<PlayInputProps<EasyInputStore | HardInputStore>
           value={value}
           highlighting={highlighting}
           highlightColor={highlightColor}
-          onKeyPress={onKeyPress}
+          enterHandler={enterHandler}
         />
       )}
       {inputStore instanceof HardInputStore && (
@@ -38,7 +38,7 @@ export const PlayInput: React.FC<PlayInputProps<EasyInputStore | HardInputStore>
           value={value}
           highlighting={highlighting}
           highlightColor={highlightColor}
-          onKeyPress={onKeyPress}
+          enterHandler={enterHandler}
         />
       )}
     </>
