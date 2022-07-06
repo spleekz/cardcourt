@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { EmptyFunction } from 'basic-utility-types'
 
@@ -6,10 +6,11 @@ export const useSkipForFirstEffectRun = (
   fn: EmptyFunction,
   deps: React.DependencyList | undefined,
 ): void => {
-  const [isFirstEffect, setIsFirstEffect] = useState(true)
+  const isFirstEffectRun = useRef(true)
+
   useEffect(() => {
-    if (isFirstEffect) {
-      setIsFirstEffect(false)
+    if (isFirstEffectRun.current) {
+      isFirstEffectRun.current = false
     } else {
       fn()
     }
