@@ -109,7 +109,9 @@ export const CardCheckPlay: React.FC = observer(() => {
                 value={playSession.userInput.value}
                 enterHandler={handleEnter}
               />
-              <SkipWordButton onClick={onSkipWordButtonClick}>Я не помню 😢</SkipWordButton>
+              <SkipWordButton disabled={inputHighlighting} onClick={onSkipWordButtonClick}>
+                Я не помню 😢
+              </SkipWordButton>
             </InterfaceForPlay>
           </PlayField>
         </ContentContainer>
