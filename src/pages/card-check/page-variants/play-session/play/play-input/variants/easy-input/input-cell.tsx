@@ -5,6 +5,7 @@ import { CaretDownFill } from 'react-bootstrap-icons'
 import styled from 'styled-components'
 
 type Props = {
+  readonly?: boolean
   value: string
   highlighting: boolean
   highlightColor: string | null
@@ -21,6 +22,7 @@ type Props = {
 export const InputCell = observer<Props, HTMLInputElement | null>(
   (
     {
+      readonly,
       value,
       highlighting,
       highlightColor,
@@ -49,15 +51,16 @@ export const InputCell = observer<Props, HTMLInputElement | null>(
         )}
         <Cell
           ref={ref}
+          readOnly={readonly}
           value={value}
           highlighting={highlighting}
           highlightColor={highlightColor}
+          selected={selected}
           onChange={onChange}
           onClick={onClick}
           onKeyPress={onKeyPress}
           onKeyDown={onKeyDown}
           onKeyUp={onKeyUp}
-          selected={selected}
         />
       </Container>
     )

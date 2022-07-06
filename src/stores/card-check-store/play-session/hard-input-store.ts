@@ -2,6 +2,8 @@ import { makeAutoObservable } from 'mobx'
 
 export class HardInputStore {
   constructor() {
+    this.focusInput()
+
     makeAutoObservable(this, {}, { autoBind: true })
   }
 
@@ -11,5 +13,14 @@ export class HardInputStore {
   }
   clearInput(): void {
     this.setValue('')
+    this.focusInput()
+  }
+
+  isInputFocused = false
+  focusInput(): void {
+    this.isInputFocused = true
+  }
+  unfocusInput(): void {
+    this.isInputFocused = false
   }
 }

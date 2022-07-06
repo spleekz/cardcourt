@@ -3,34 +3,41 @@ import React, { useEffect, useRef } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import { usePlaySession } from 'pages/card-check/page-variants/play-session/play-session'
-
 import { HardInputStore } from 'stores/card-check-store/play-session/hard-input-store'
 
-import { PlayInputProps } from '../play-input'
+import { useClickOutside } from 'hooks/use-click-outside'
+
+import { PlayInputProps } from '../../play-input'
 
 type Props = PlayInputProps<HardInputStore>
 
 export const HardPlayInput: React.FC<Props> = observer(
-  ({ inputStore, value, highlighting, highlightColor, enterHandler }) => {
-    const playSession = usePlaySession()
-
+  ({ inputStore, readonly, value, highlighting, highlightColor, enterHandler }) => {
     const inputRef = useRef<HTMLInputElement>(null)
 
+    useClickOutside({ ref: inputRef, fn: inputStore.unfocusInput })
+
     useEffect(() => {
-      inputRef.current?.focus()
-    }, [playSession.currentWordIndex])
+      if (inputStore.isInputFocused) {
+        inputRef.current?.focus()
+      } else {
+        inputRef.current?.blur()
+      }
+    }, [inputStore.isInputFocused])
 
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
       inputStore.setValue(e.target.value)
     }
+
     return (
       <StyledInput
         ref={inputRef}
+        readOnly={readonly}
         value={value}
         highlighting={highlighting}
         highlightColor={highlightColor}
         placeholder={`Напечатайте перевод`}
+        onClick={inputStore.focusInput}
         onChange={onInputChange}
         onKeyPress={enterHandler}
       />

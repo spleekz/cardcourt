@@ -9,7 +9,7 @@ import { useClickOutside } from 'hooks/use-click-outside'
 import { usePressedKeys } from 'hooks/use-pressed-keys'
 import { useShortcut } from 'hooks/use-shortcut'
 
-import { PlayInputProps } from '../../play-input'
+import { PlayInputProps } from '../../../play-input'
 import { InputCell } from './input-cell'
 
 type InputCellsRefs = Array<Array<HTMLInputElement | null>>
@@ -18,7 +18,7 @@ type AddCellRefToArrayConfig = { ref: HTMLInputElement | null; position: CellPos
 type Props = PlayInputProps<EasyInputStore>
 
 export const EasyPlayInput: React.FC<Props> = observer(
-  ({ inputStore, value, highlighting, highlightColor, enterHandler }) => {
+  ({ inputStore, value, highlighting, highlightColor, enterHandler, readonly }) => {
     //!Преобразование value для отрисовки в клетках
     const valueWithoutSpaces = value.split(' ').join('')
     const valueWithoutSpacesAndSkips = Array.from(
@@ -43,17 +43,25 @@ export const EasyPlayInput: React.FC<Props> = observer(
     }
 
     useEffect(() => {
-      if (inputStore.currentCellPosition) {
-        const { wordIndex, cellIndex } = inputStore.currentCellPosition
-        inputCellsRefs.current[wordIndex][cellIndex]?.focus()
+      if (inputStore.isInputFocused) {
+        if (inputStore.currentCellPosition) {
+          const { wordIndex, cellIndex } = inputStore.currentCellPosition
+          inputCellsRefs.current[wordIndex][cellIndex]?.focus()
+        }
+      } else {
+        inputCellsRefs.current.forEach((word) => {
+          word.forEach((cell) => {
+            cell?.blur()
+          })
+        })
       }
-    }, [inputStore.currentCellPosition])
+    }, [inputStore.isInputFocused])
 
     //!Обработка клика вне инпутов
     const inputRef = useRef<HTMLInputElement>(null)
     useClickOutside({
       ref: inputRef,
-      fn: inputStore.unfocusAndUnselectCells,
+      fn: inputStore.unfocusInput,
     })
 
     //!Сочетания клавиш для выделения клеток
@@ -75,10 +83,6 @@ export const EasyPlayInput: React.FC<Props> = observer(
     )
 
     //!Обработчики
-    const handleCellClick = (cellPosition: CellPosition): void => {
-      inputStore.onCellClick(cellPosition)
-    }
-
     const [inputPressedKeys, addInputPressedKey, deleteInputPressedKey] = usePressedKeys()
 
     const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -124,6 +128,11 @@ export const EasyPlayInput: React.FC<Props> = observer(
       shiftArrowLeftKeyUp(e)
     }
 
+    const handleCellClick = (cellPosition: CellPosition): void => {
+      if (!readonly) {
+        inputStore.onCellClick(cellPosition)
+      }
+    }
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
       const { data } = e.nativeEvent as InputEvent
       inputStore.onChange(data!)
@@ -152,6 +161,7 @@ export const EasyPlayInput: React.FC<Props> = observer(
                     focused={cell.focused}
                     selected={cell.selected}
                     currentSelected={inputStore.isCellCurrentSelected(cellPosition)}
+                    readonly={readonly}
                     onChange={handleOnChange}
                     onClick={() => handleCellClick({ wordIndex, cellIndex })}
                     onKeyPress={enterHandler}

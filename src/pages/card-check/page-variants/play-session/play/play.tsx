@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
+import { animated, useTransition } from '@react-spring/web'
 import { observer } from 'mobx-react-lite'
 import { ArrowLeft } from 'react-bootstrap-icons'
 import styled from 'styled-components'
@@ -8,16 +9,16 @@ import { useCheckStore } from 'pages/card-check/original-content'
 
 import { Button } from 'components/buttons/button'
 
-import { EasyInputStore } from 'stores/card-check-store/play-session/easy-input-store'
-
 import { CardCheckBlockTemplate } from '../../components/check-block-template'
 import { usePlaySession } from '../play-session'
 import { PlayInput } from './play-input'
+import { InputUnfocusedWarning } from './play-input/warnings/input-unfocused-warning'
 
 export const CardCheckPlay: React.FC = observer(() => {
   const checkStore = useCheckStore()
   const playSession = usePlaySession()
 
+  //!Подсветка инпута
   const [inputHighlighting, setInputHighlighting] = useState(false)
   const [inputHighlightColor, setInputHighlightColor] = useState<string | null>(null)
 
@@ -39,11 +40,28 @@ export const CardCheckPlay: React.FC = observer(() => {
     return highlightInput('#e54545d1')
   }
 
+  //!Предупреждение, что пользователь убрал фокус с инпута
+  const [isInputUnfocusedWarningShown, setIsInputUnfocusedWarningShown] = useState(
+    !playSession.userInput.isInputFocused,
+  )
+  //Синхронизация isInputUnfocusedWarningShown с состоянием фокуса инпута
+  useEffect(() => {
+    if (!inputHighlighting) {
+      setIsInputUnfocusedWarningShown(!playSession.userInput.isInputFocused)
+    }
+  }, [playSession.userInput.isInputFocused])
+
+  const inputUnfocusedWarningTransition = useTransition(isInputUnfocusedWarningShown, {
+    from: { y: 110 },
+    enter: { y: 0 },
+    leave: { y: 110 },
+  })
+
+  //!Обработчики
   const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
     if (e.code === 'Enter') {
-      if (playSession.userInput instanceof EasyInputStore) {
-        playSession.userInput.unfocusAndUnselectCells()
-      }
+      playSession.unfocusUserInput()
+      setIsInputUnfocusedWarningShown(false)
 
       const isUserTranslateCorrect = playSession.checkUserTranslate()
 
@@ -61,8 +79,14 @@ export const CardCheckPlay: React.FC = observer(() => {
     }
   }
 
+  const onSkipWordButtonClick = (): void => {
+    //Анфокус при нажатии на кнопку пропуска слова не считается за то, что пользователь убрал фокус с инпута
+    setIsInputUnfocusedWarningShown(false)
+    playSession.skipCurrentWord()
+  }
+
   return (
-    <CardCheckBlockTemplate width={1100} height={550}>
+    <CardCheckBlockTemplate width={1100} height={550} absoluteFooterPosition={true}>
       <>
         <AbortSessionBlock>
           <AbortSessionButton onClick={checkStore.endPlaySession} title={'Вернуться к настройкам'}>
@@ -78,17 +102,27 @@ export const CardCheckPlay: React.FC = observer(() => {
             <InterfaceForPlay>
               <WordToBeTranslated>{playSession.shownWord}</WordToBeTranslated>
               <PlayInput
+                readonly={inputHighlighting}
                 highlighting={inputHighlighting}
                 highlightColor={inputHighlightColor}
                 inputStore={playSession.userInput}
                 value={playSession.userInput.value}
                 enterHandler={handleEnter}
               />
-              <SkipWordButton onClick={playSession.skipCurrentWord}>Я не помню 😢</SkipWordButton>
+              <SkipWordButton onClick={onSkipWordButtonClick}>Я не помню 😢</SkipWordButton>
             </InterfaceForPlay>
           </PlayField>
         </ContentContainer>
       </>
+      {inputUnfocusedWarningTransition((style, item) => {
+        return (
+          item && (
+            <animated.div style={style}>
+              <InputUnfocusedWarning />
+            </animated.div>
+          )
+        )
+      })}
     </CardCheckBlockTemplate>
   )
 })

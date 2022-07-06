@@ -3,14 +3,24 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 import useResizeAware from 'react-resize-aware'
 import styled from 'styled-components'
 
+import { isEmptyElement } from 'utils/react'
+
 type Props = {
   width: number
   height: number
+  absoluteFooterPosition?: boolean
 }
 
-export const CardCheckBlockTemplate: React.FC<Props> = ({ width, height, children }) => {
+export const CardCheckBlockTemplate: React.FC<Props> = ({
+  width,
+  height,
+  absoluteFooterPosition,
+  children,
+}) => {
   const childrenArray = React.Children.toArray(children)
   const [heading, content, footer] = childrenArray
+
+  const footerProvided = !isEmptyElement(footer)
 
   const [containerSizeListener, containerSize] = useResizeAware()
   const [contentHeight, setContentHeight] = useState(0)
@@ -32,9 +42,11 @@ export const CardCheckBlockTemplate: React.FC<Props> = ({ width, height, childre
       {containerSizeListener}
       <CardCheckBlockHeading ref={headingRef}>{heading}</CardCheckBlockHeading>
       <CardCheckBlockContent height={contentHeight}>{content}</CardCheckBlockContent>
-      <CardCheckBlockFooter ref={footerRef} footerProvided={Boolean(footer)}>
-        {footer}
-      </CardCheckBlockFooter>
+      {footerProvided && (
+        <CardCheckBlockFooter ref={footerRef} absolutePosition={absoluteFooterPosition}>
+          {footer}
+        </CardCheckBlockFooter>
+      )}
     </Container>
   )
 }
@@ -48,6 +60,7 @@ const Container = styled.div<{ width: number; height: number }>`
   background-color: #fafbfc;
   border-radius: 16px;
   box-shadow: 0px 0px 16px 5px rgba(34, 60, 80, 0.2);
+  overflow: hidden;
 `
 export const CardCheckBlockHeading = styled.div`
   position: relative;
@@ -62,8 +75,10 @@ export const CardCheckBlockContent = styled.div<{ height: number }>`
   padding: 10px 16px;
   overflow: auto;
 `
-export const CardCheckBlockFooter = styled.div<{ footerProvided: boolean }>`
-  position: relative;
+export const CardCheckBlockFooter = styled.div<{ absolutePosition?: boolean }>`
+  position: ${(props) => (props.absolutePosition ? 'absolute' : 'relative')};
   bottom: 0;
-  padding: ${(props) => props.footerProvided && `10px 16px 16px 16px`};
+  right: 0;
+  left: 0;
+  padding: ${(props) => !props.absolutePosition && '10px 16px 16px 16px'};
 `

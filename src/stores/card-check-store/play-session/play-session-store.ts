@@ -75,12 +75,15 @@ export class CardCheckPlaySessionStore {
     this.shuffleWords()
   }
 
-  clearUserInput(): void {
+  clearUserInputForNewValue(): void {
     if (this.userInput instanceof HardInputStore) {
       this.userInput.clearInput()
     } else if (this.userInput instanceof EasyInputStore) {
-      this.userInput.clearInput({ newValue: this.translateForShownWord })
+      this.userInput.setEmptyCells(this.translateForShownWord)
     }
+  }
+  unfocusUserInput(): void {
+    this.userInput.unfocusInput()
   }
 
   currentWordIndex = 0
@@ -90,7 +93,7 @@ export class CardCheckPlaySessionStore {
     } else {
       this.stopPlay()
     }
-    this.clearUserInput()
+    this.clearUserInputForNewValue()
   }
   skipCurrentWord(): void {
     this.updateResultWords('skipped')

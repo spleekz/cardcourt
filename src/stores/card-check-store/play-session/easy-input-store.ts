@@ -187,6 +187,21 @@ export class EasyInputStore {
       })
     })
   }
+  unfocusInput(): void {
+    this.setCurrentCellPosition(null)
+    this.unfocusAllCells()
+    this.unselectAllCells()
+  }
+
+  get isInputFocused(): boolean {
+    return (
+      this.words.some((word) => {
+        return word.some((cell) => {
+          return cell.focused === true
+        })
+      }) || this.selectedCells.length > 0
+    )
+  }
 
   //!Установка и удаление букв
   goToNextCell(): void {
@@ -227,13 +242,12 @@ export class EasyInputStore {
   }
 
   //!Очищение инпута
-  unfocusInput(): void {
-    this.setCurrentCellPosition(null)
-    this.unfocusAllCells()
-  }
-  clearInput({ newValue }: { newValue: string }): void {
-    this.setEmptyCells(newValue)
-    this.setCurrentCellPositionAndFocusOnThisCell({ wordIndex: 0, cellIndex: 0 })
+  clearInput(): void {
+    this.words.forEach((word) => {
+      word.forEach((cell) => {
+        cell.letter = ''
+      })
+    })
   }
   setEmptyCells(value: string): void {
     this.words = value.split(' ').map((word) => {
@@ -245,7 +259,7 @@ export class EasyInputStore {
         }
       })
     })
-    this.focusOnCurrentCell()
+    this.setCurrentCellPositionAndFocusOnThisCell({ wordIndex: 0, cellIndex: 0 })
   }
 
   //!Выделение клеток
@@ -336,11 +350,6 @@ export class EasyInputStore {
       })
     })
   }
-  unfocusAndUnselectCells(): void {
-    this.unfocusAllCells()
-    this.unselectAllCells()
-  }
-
   //!Обработчики
   onCellClick(cellPosition: CellPosition): void {
     this.setCurrentCellPositionAndFocusOnThisCell(cellPosition)
