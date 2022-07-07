@@ -11,7 +11,7 @@ import { Button } from 'components/buttons/button'
 
 import { CardCheckBlockTemplate } from '../../components/check-block-template'
 import { usePlaySession } from '../play-session'
-import { PlayInput } from './play-input'
+import { PlayInput } from './play-input/play-input'
 import { InputUnfocusedWarning } from './play-input/warnings/input-unfocused-warning'
 
 export const CardCheckPlay: React.FC = observer(() => {

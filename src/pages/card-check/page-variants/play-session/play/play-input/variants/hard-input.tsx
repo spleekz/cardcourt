@@ -7,7 +7,7 @@ import { HardInputStore } from 'stores/card-check-store/play-session/hard-input-
 
 import { useClickOutside } from 'hooks/use-click-outside'
 
-import { PlayInputProps } from '../../play-input'
+import { PlayInputProps } from '../play-input'
 
 type Props = PlayInputProps<HardInputStore>
 
