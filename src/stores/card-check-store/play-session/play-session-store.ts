@@ -6,8 +6,8 @@ import { Card, CardWord, CardWords } from 'api/api'
 import { normalizeString, removeSkips } from 'utils/strings'
 
 import { CardCheckSettingsStore } from '../settings-store'
-import { EasyInputStore } from './easy-input-store'
-import { HardInputStore } from './hard-input-store'
+import { CelledInputStore } from './celled-input-store'
+import { DefaultInputStore } from './default-input-store'
 
 type CardCheckPlaySessionConfig = {
   card: Card
@@ -36,7 +36,7 @@ export function isNotSkippedResultWord(resultWord: ResultWord): resultWord is No
 export class CardCheckPlaySessionStore {
   card: Card
   private settings: CardCheckSettingsStore = new CardCheckSettingsStore()
-  userInput: EasyInputStore | HardInputStore
+  userInput: CelledInputStore | DefaultInputStore
 
   constructor({ card, settings }: CardCheckPlaySessionConfig) {
     this.card = card
@@ -47,10 +47,10 @@ export class CardCheckPlaySessionStore {
 
     this.userInput =
       this.settings.difficulty === 'easy'
-        ? new EasyInputStore({
+        ? new CelledInputStore({
             initialValue: this.translateForShownWord,
           })
-        : new HardInputStore()
+        : new DefaultInputStore()
 
     makeAutoObservable(this, {}, { autoBind: true })
   }
@@ -76,9 +76,9 @@ export class CardCheckPlaySessionStore {
   }
 
   clearUserInputForNewValue(): void {
-    if (this.userInput instanceof HardInputStore) {
+    if (this.userInput instanceof DefaultInputStore) {
       this.userInput.clearInput()
-    } else if (this.userInput instanceof EasyInputStore) {
+    } else if (this.userInput instanceof CelledInputStore) {
       this.userInput.setEmptyCells(this.translateForShownWord)
     }
   }

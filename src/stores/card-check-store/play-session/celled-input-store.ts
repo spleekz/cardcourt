@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 
 import { areSameObjects } from 'utils/objects'
 
-type EasyInputStoreConfig = {
+type CelledInputStoreConfig = {
   initialValue: string
 }
 
@@ -29,8 +29,8 @@ type SetLetterConfig = {
 
 type SelectionDirection = 'left' | 'right'
 
-export class EasyInputStore {
-  constructor(config: EasyInputStoreConfig) {
+export class CelledInputStore {
+  constructor(config: CelledInputStoreConfig) {
     this.setEmptyCells(config.initialValue)
 
     makeAutoObservable(this, {}, { autoBind: true })

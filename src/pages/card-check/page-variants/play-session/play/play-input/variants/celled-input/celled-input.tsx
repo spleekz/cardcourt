@@ -3,7 +3,10 @@ import React, { useEffect, useRef } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import { CellPosition, EasyInputStore } from 'stores/card-check-store/play-session/easy-input-store'
+import {
+  CellPosition,
+  CelledInputStore,
+} from 'stores/card-check-store/play-session/celled-input-store'
 
 import { useClickOutside } from 'hooks/use-click-outside'
 import { usePressedKeys } from 'hooks/use-pressed-keys'
@@ -15,9 +18,9 @@ import { InputCell } from './input-cell'
 type InputCellsRefs = Array<Array<HTMLInputElement | null>>
 type AddCellRefToArrayConfig = { ref: HTMLInputElement | null; position: CellPosition }
 
-type Props = PlayInputProps<EasyInputStore>
+type Props = PlayInputProps<CelledInputStore>
 
-export const EasyPlayInput: React.FC<Props> = observer(
+export const CelledPlayInput: React.FC<Props> = observer(
   ({ inputStore, readonly, value, enterHandler, styles }) => {
     //!Преобразование value для отрисовки в клетках
     const valueWithoutSpaces = value.split(' ').join('')

@@ -3,15 +3,15 @@ import React, { useEffect, useRef } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import { HardInputStore } from 'stores/card-check-store/play-session/hard-input-store'
+import { DefaultInputStore } from 'stores/card-check-store/play-session/default-input-store'
 
 import { useClickOutside } from 'hooks/use-click-outside'
 
 import { PlayInputProps } from '../play-input'
 
-type Props = PlayInputProps<HardInputStore>
+type Props = PlayInputProps<DefaultInputStore>
 
-export const HardPlayInput: React.FC<Props> = observer(
+export const DefaultPlayInput: React.FC<Props> = observer(
   ({ inputStore, readonly, value, enterHandler, styles }) => {
     const inputRef = useRef<HTMLInputElement>(null)
 

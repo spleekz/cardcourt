@@ -2,13 +2,13 @@ import React from 'react'
 
 import * as CSS from 'csstype'
 
-import { EasyInputStore } from 'stores/card-check-store/play-session/easy-input-store'
-import { HardInputStore } from 'stores/card-check-store/play-session/hard-input-store'
+import { CelledInputStore } from 'stores/card-check-store/play-session/celled-input-store'
+import { DefaultInputStore } from 'stores/card-check-store/play-session/default-input-store'
 
-import { EasyPlayInput } from './variants/easy-input/easy-input'
-import { HardPlayInput } from './variants/hard-input'
+import { CelledPlayInput } from './variants/celled-input/celled-input'
+import { DefaultPlayInput } from './variants/default-input'
 
-export type PlayInputProps<InputStoreType extends EasyInputStore | HardInputStore> = {
+export type PlayInputProps<InputStoreType extends CelledInputStore | DefaultInputStore> = {
   inputStore: InputStoreType
   value: string
   enterHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void
@@ -16,7 +16,7 @@ export type PlayInputProps<InputStoreType extends EasyInputStore | HardInputStor
   styles?: CSS.Properties
 }
 
-export const PlayInput: React.FC<PlayInputProps<EasyInputStore | HardInputStore>> = ({
+export const PlayInput: React.FC<PlayInputProps<CelledInputStore | DefaultInputStore>> = ({
   inputStore,
   readonly,
   value,
@@ -25,8 +25,8 @@ export const PlayInput: React.FC<PlayInputProps<EasyInputStore | HardInputStore>
 }) => {
   return (
     <>
-      {inputStore instanceof EasyInputStore && (
-        <EasyPlayInput
+      {inputStore instanceof CelledInputStore && (
+        <CelledPlayInput
           inputStore={inputStore}
           readonly={readonly}
           value={value}
@@ -34,8 +34,8 @@ export const PlayInput: React.FC<PlayInputProps<EasyInputStore | HardInputStore>
           styles={styles}
         />
       )}
-      {inputStore instanceof HardInputStore && (
-        <HardPlayInput
+      {inputStore instanceof DefaultInputStore && (
+        <DefaultPlayInput
           inputStore={inputStore}
           readonly={readonly}
           value={value}

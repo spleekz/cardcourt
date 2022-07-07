@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
-export class HardInputStore {
+export class DefaultInputStore {
   constructor() {
     this.focusInput()
 
