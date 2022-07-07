@@ -375,8 +375,15 @@ export class EasyInputStore {
   onBackspacePress(): void {
     if (this.selectedCells.length > 0) {
       this.deleteMultipleLetters(this.selectedCells)
-      this.unselectAllCells()
-      this.focusOnCurrentCell()
+      if (this.selectionDirection === 'right') {
+        if (this.firstSelectedCellPosition) {
+          this.setCurrentCellPositionAndFocusOnThisCell(this.firstSelectedCellPosition)
+        }
+      } else {
+        if (this.currentSelectedCellPosition) {
+          this.setCurrentCellPositionAndFocusOnThisCell(this.currentSelectedCellPosition)
+        }
+      }
     } else {
       if (this.currentLetter === '') {
         this.goToPrevCell()
@@ -388,8 +395,15 @@ export class EasyInputStore {
   onDeletePress(): void {
     if (this.selectedCells.length > 0) {
       this.deleteMultipleLetters(this.selectedCells)
-      this.unselectAllCells()
-      this.focusOnCurrentCell()
+      if (this.selectionDirection === 'right') {
+        if (this.currentSelectedCellPosition) {
+          this.setCurrentCellPositionAndFocusOnThisCell(this.currentSelectedCellPosition)
+        }
+      } else {
+        if (this.firstSelectedCellPosition) {
+          this.setCurrentCellPositionAndFocusOnThisCell(this.firstSelectedCellPosition)
+        }
+      }
     } else {
       if (this.currentLetter === '') {
         this.goToNextCell()
