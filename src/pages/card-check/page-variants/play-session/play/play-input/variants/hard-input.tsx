@@ -12,7 +12,7 @@ import { PlayInputProps } from '../../play-input'
 type Props = PlayInputProps<HardInputStore>
 
 export const HardPlayInput: React.FC<Props> = observer(
-  ({ inputStore, readonly, value, highlighting, highlightColor, enterHandler }) => {
+  ({ inputStore, readonly, value, enterHandler, styles }) => {
     const inputRef = useRef<HTMLInputElement>(null)
 
     useClickOutside({ ref: inputRef, fn: inputStore.unfocusInput })
@@ -34,24 +34,21 @@ export const HardPlayInput: React.FC<Props> = observer(
         ref={inputRef}
         readOnly={readonly}
         value={value}
-        highlighting={highlighting}
-        highlightColor={highlightColor}
         placeholder={`Напечатайте перевод`}
         onClick={inputStore.focusInput}
         onChange={onInputChange}
         onKeyPress={enterHandler}
+        style={styles}
       />
     )
   },
 )
 
-const StyledInput = styled.input<{ highlighting: boolean; highlightColor: string | null }>`
+const StyledInput = styled.input`
   width: 580px;
   border: 2px solid #373737;
   font-size: 40px;
   padding: 4px;
   border-radius: 6px;
   margin-right: 20px;
-  background-color: ${(props) => props.highlightColor && props.highlightColor};
-  transition: ${(props) => props.highlighting && '0.3s'};
 `

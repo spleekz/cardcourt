@@ -1,5 +1,6 @@
 import React from 'react'
 
+import * as CSS from 'csstype'
 import { observer } from 'mobx-react-lite'
 import { CaretDownFill } from 'react-bootstrap-icons'
 import styled from 'styled-components'
@@ -7,8 +8,6 @@ import styled from 'styled-components'
 type Props = {
   readonly?: boolean
   value: string
-  highlighting: boolean
-  highlightColor: string | null
   focused: boolean
   selected: boolean
   currentSelected: boolean
@@ -17,6 +16,7 @@ type Props = {
   onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
   onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  styles?: CSS.Properties
 }
 
 export const InputCell = observer<Props, HTMLInputElement | null>(
@@ -24,8 +24,6 @@ export const InputCell = observer<Props, HTMLInputElement | null>(
     {
       readonly,
       value,
-      highlighting,
-      highlightColor,
       focused,
       selected,
       currentSelected,
@@ -34,6 +32,7 @@ export const InputCell = observer<Props, HTMLInputElement | null>(
       onKeyPress,
       onKeyDown,
       onKeyUp,
+      styles,
     },
     ref,
   ) => {
@@ -53,14 +52,13 @@ export const InputCell = observer<Props, HTMLInputElement | null>(
           ref={ref}
           readOnly={readonly}
           value={value}
-          highlighting={highlighting}
-          highlightColor={highlightColor}
           selected={selected}
           onChange={onChange}
           onClick={onClick}
           onKeyPress={onKeyPress}
           onKeyDown={onKeyDown}
           onKeyUp={onKeyUp}
+          style={styles}
         />
       </Container>
     )
@@ -74,8 +72,6 @@ const Container = styled.div`
 `
 const Cell = styled.input<{
   selected: boolean
-  highlighting: boolean
-  highlightColor: string | null
 }>`
   width: 50px;
   height: 70px;
@@ -84,10 +80,8 @@ const Cell = styled.input<{
   text-align: center;
   border: 2px solid #373737;
   border-radius: 6px;
-  background-color: ${(props) =>
-    (props.highlightColor && props.highlightColor) || (props.selected && '#fffb85')};
+  background-color: ${(props) => props.selected && '#fffb85'};
   caret-color: transparent;
-  transition: ${(props) => props.highlighting && '0.3s'};
 `
 const Caret = styled.div`
   position: absolute;

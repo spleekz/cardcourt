@@ -19,15 +19,15 @@ export const CardCheckPlay: React.FC = observer(() => {
   const playSession = usePlaySession()
 
   //!Подсветка инпута
-  const [inputHighlighting, setInputHighlighting] = useState(false)
-  const [inputHighlightColor, setInputHighlightColor] = useState<string | null>(null)
+  const [isPlayInputHighlighting, setIsPlayInputHighlighting] = useState(false)
+  const [playInputHighlightColor, setPlayInputHighlightColor] = useState<string | null>(null)
 
   const highlightInput = (color: string): Promise<void> => {
     return new Promise((resolve) => {
-      setInputHighlighting(true)
-      setInputHighlightColor(color)
+      setIsPlayInputHighlighting(true)
+      setPlayInputHighlightColor(color)
       setTimeout(() => {
-        setInputHighlightColor(null)
+        setPlayInputHighlightColor(null)
         resolve()
       }, 275)
     })
@@ -46,7 +46,7 @@ export const CardCheckPlay: React.FC = observer(() => {
   )
   //Синхронизация isInputUnfocusedWarningShown с состоянием фокуса инпута
   useEffect(() => {
-    if (!inputHighlighting) {
+    if (!isPlayInputHighlighting) {
       setIsInputUnfocusedWarningShown(!playSession.userInput.isInputFocused)
     }
   }, [playSession.userInput.isInputFocused])
@@ -73,7 +73,7 @@ export const CardCheckPlay: React.FC = observer(() => {
 
       //Таймаут на время transition
       setTimeout(() => {
-        setInputHighlighting(false)
+        setIsPlayInputHighlighting(false)
         playSession.goToNextWord()
       }, 300)
     }
@@ -102,14 +102,16 @@ export const CardCheckPlay: React.FC = observer(() => {
             <InterfaceForPlay>
               <WordToBeTranslated>{playSession.shownWord}</WordToBeTranslated>
               <PlayInput
-                readonly={inputHighlighting}
-                highlighting={inputHighlighting}
-                highlightColor={inputHighlightColor}
+                readonly={isPlayInputHighlighting}
                 inputStore={playSession.userInput}
                 value={playSession.userInput.value}
                 enterHandler={handleEnter}
+                styles={{
+                  backgroundColor: playInputHighlightColor ? playInputHighlightColor : undefined,
+                  transition: isPlayInputHighlighting ? '0.3s' : undefined,
+                }}
               />
-              <SkipWordButton disabled={inputHighlighting} onClick={onSkipWordButtonClick}>
+              <SkipWordButton disabled={isPlayInputHighlighting} onClick={onSkipWordButtonClick}>
                 Я не помню 😢
               </SkipWordButton>
             </InterfaceForPlay>

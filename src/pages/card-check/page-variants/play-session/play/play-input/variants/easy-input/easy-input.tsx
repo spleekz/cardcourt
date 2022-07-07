@@ -18,7 +18,7 @@ type AddCellRefToArrayConfig = { ref: HTMLInputElement | null; position: CellPos
 type Props = PlayInputProps<EasyInputStore>
 
 export const EasyPlayInput: React.FC<Props> = observer(
-  ({ inputStore, value, highlighting, highlightColor, enterHandler, readonly }) => {
+  ({ inputStore, readonly, value, enterHandler, styles }) => {
     //!Преобразование value для отрисовки в клетках
     const valueWithoutSpaces = value.split(' ').join('')
     const valueWithoutSpacesAndSkips = Array.from(
@@ -155,8 +155,7 @@ export const EasyPlayInput: React.FC<Props> = observer(
                       addCellRefToArray({ ref: cellRef, position: cellPosition })
                     }}
                     key={cellIndex}
-                    highlighting={highlighting}
-                    highlightColor={highlightColor}
+                    styles={styles}
                     value={valueWithoutSpacesAndSkips[cellOrderNumber]}
                     focused={cell.focused}
                     selected={cell.selected}

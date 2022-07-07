@@ -1,5 +1,7 @@
 import React from 'react'
 
+import * as CSS from 'csstype'
+
 import { EasyInputStore } from 'stores/card-check-store/play-session/easy-input-store'
 import { HardInputStore } from 'stores/card-check-store/play-session/hard-input-store'
 
@@ -10,18 +12,16 @@ export type PlayInputProps<InputStoreType extends EasyInputStore | HardInputStor
   inputStore: InputStoreType
   value: string
   enterHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void
-  highlighting: boolean
-  highlightColor: string | null
   readonly?: boolean
+  styles?: CSS.Properties
 }
 
 export const PlayInput: React.FC<PlayInputProps<EasyInputStore | HardInputStore>> = ({
   inputStore,
   readonly,
   value,
-  highlighting,
-  highlightColor,
   enterHandler,
+  styles,
 }) => {
   return (
     <>
@@ -30,9 +30,8 @@ export const PlayInput: React.FC<PlayInputProps<EasyInputStore | HardInputStore>
           inputStore={inputStore}
           readonly={readonly}
           value={value}
-          highlighting={highlighting}
-          highlightColor={highlightColor}
           enterHandler={enterHandler}
+          styles={styles}
         />
       )}
       {inputStore instanceof HardInputStore && (
@@ -40,9 +39,8 @@ export const PlayInput: React.FC<PlayInputProps<EasyInputStore | HardInputStore>
           inputStore={inputStore}
           readonly={readonly}
           value={value}
-          highlighting={highlighting}
-          highlightColor={highlightColor}
           enterHandler={enterHandler}
+          styles={styles}
         />
       )}
     </>
