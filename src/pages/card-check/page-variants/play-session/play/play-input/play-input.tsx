@@ -1,6 +1,4 @@
-import React from 'react'
-
-import * as CSS from 'csstype'
+import React, { CSSProperties } from 'react'
 
 import { CelledInputStore } from 'stores/card-check-store/play-session/celled-input-store'
 import { DefaultInputStore } from 'stores/card-check-store/play-session/default-input-store'
@@ -13,7 +11,7 @@ export type PlayInputProps<InputStoreType extends CelledInputStore | DefaultInpu
   value: string
   enterHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void
   readonly?: boolean
-  styles?: CSS.Properties
+  styles?: CSSProperties
 }
 
 export const PlayInput: React.FC<PlayInputProps<CelledInputStore | DefaultInputStore>> = ({

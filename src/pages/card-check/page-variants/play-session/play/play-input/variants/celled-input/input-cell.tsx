@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 
-import * as CSS from 'csstype'
 import { observer } from 'mobx-react-lite'
 import { CaretDownFill } from 'react-bootstrap-icons'
 import styled from 'styled-components'
@@ -16,7 +15,7 @@ type Props = {
   onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
   onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void
-  styles?: CSS.Properties
+  styles?: CSSProperties
 }
 
 export const InputCell = observer<Props, HTMLInputElement | null>(
