@@ -2,7 +2,7 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-export const PlayInputWarning: React.FC<{ text: string }> = ({ text }) => {
+export const PlayWarning: React.FC<{ text: string }> = ({ text }) => {
   return (
     <Container>
       <Text>{text}</Text>
