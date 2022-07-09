@@ -2,6 +2,8 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 
 import styled from 'styled-components'
 
+import { isElementEmpty } from 'utils/react'
+
 type Props = {
   width: number
   height: number
@@ -15,6 +17,8 @@ export const CardTemplate: React.FC<Props> = ({ width, height, bodyColor, wordsC
   const childrenArray = React.Children.toArray(children)
   const [cardHeading, cardBody, cardFooter] = childrenArray
 
+  const footerProvided = !isElementEmpty(cardFooter)
+
   const [bodyHeight, setBodyHeight] = useState(0)
 
   //Используем рефы, чтобы взять высоту хединга и футера
@@ -22,23 +26,19 @@ export const CardTemplate: React.FC<Props> = ({ width, height, bodyColor, wordsC
   const footerRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
-    if (headingRef.current && footerRef.current) {
-      //Используем getBoundingClientRect, т.к. он вернет точную высоту, а не округленную
-      const headingHeight = headingRef.current.getBoundingClientRect().height
-      const footerHeight = footerRef.current.getBoundingClientRect().height
-      setBodyHeight(height - (headingHeight + footerHeight))
-    }
-  }, [headingRef, footerRef])
+    //Используем getBoundingClientRect, т.к. он вернет точную высоту, а не округленную
+    const headingHeight = headingRef.current?.getBoundingClientRect().height ?? 0
+    const footerHeight = footerRef.current?.getBoundingClientRect().height ?? 0
+    setBodyHeight(height - (headingHeight + footerHeight))
+  }, [headingRef.current, footerRef.current])
 
   return (
     <Container width={width} height={height} color={bodyColor}>
       <CardHeading ref={headingRef}>{cardHeading}</CardHeading>
-
       <CardBody height={bodyHeight} color={wordsColor}>
         {cardBody}
       </CardBody>
-
-      <CardFooter ref={footerRef}>{cardFooter}</CardFooter>
+      {footerProvided && <CardFooter ref={footerRef}>{cardFooter}</CardFooter>}
     </Container>
   )
 }
