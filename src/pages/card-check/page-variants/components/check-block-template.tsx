@@ -3,7 +3,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 import useResizeAware from 'react-resize-aware'
 import styled from 'styled-components'
 
-import { isEmptyElement } from 'utils/react'
+import { isElementEmpty } from 'utils/react'
 
 type Props = {
   width: number
@@ -20,7 +20,7 @@ export const CardCheckBlockTemplate: React.FC<Props> = ({
   const childrenArray = React.Children.toArray(children)
   const [heading, content, footer] = childrenArray
 
-  const footerProvided = !isEmptyElement(footer)
+  const footerProvided = !isElementEmpty(footer)
 
   const [containerSizeListener, containerSize] = useResizeAware()
   const [contentHeight, setContentHeight] = useState(0)
