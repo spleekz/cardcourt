@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { CSSProperties, useEffect, useRef } from 'react'
 
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -12,16 +12,21 @@ import { useClickOutside } from 'hooks/use-click-outside'
 import { usePressedKeys } from 'hooks/use-pressed-keys'
 import { useShortcut } from 'hooks/use-shortcut'
 
-import { PlayInputProps } from '../../play-input'
 import { InputCell } from './input-cell'
 
 type InputCellsRefs = Array<Array<HTMLInputElement | null>>
 type AddCellRefToArrayConfig = { ref: HTMLInputElement | null; position: CellPosition }
 
-type Props = PlayInputProps<CelledInputStore>
+type Props = {
+  inputStore: CelledInputStore
+  readonly?: boolean
+  value: string
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  styles?: CSSProperties
+}
 
 export const CelledPlayInput: React.FC<Props> = observer(
-  ({ inputStore, readonly, value, enterHandler, styles }) => {
+  ({ inputStore, readonly, value, onKeyPress, styles }) => {
     //!Преобразование value для отрисовки в клетках
     const valueWithoutSpaces = value.split(' ').join('')
     const valueWithoutSpacesAndSkips = Array.from(
@@ -131,6 +136,10 @@ export const CelledPlayInput: React.FC<Props> = observer(
       shiftArrowLeftKeyUp(e)
     }
 
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+      onKeyPress?.(e)
+    }
+
     const handleCellClick = (cellPosition: CellPosition): void => {
       if (!readonly) {
         inputStore.onCellClick(cellPosition)
@@ -166,7 +175,7 @@ export const CelledPlayInput: React.FC<Props> = observer(
                     readonly={readonly}
                     onChange={handleOnChange}
                     onClick={() => handleCellClick({ wordIndex, cellIndex })}
-                    onKeyPress={enterHandler}
+                    onKeyPress={handleKeyPress}
                     onKeyDown={handleKeysDown}
                     onKeyUp={handleKeysUp}
                   />

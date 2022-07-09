@@ -9,10 +9,13 @@ import { useCheckStore } from 'pages/card-check/original-content'
 
 import { Button } from 'components/buttons/button'
 
+import { containsEnglish, containsRussian } from 'utils/strings'
+
 import { CardCheckBlockTemplate } from '../../components/check-block-template'
 import { usePlaySession } from '../play-session'
 import { PlayInput } from './play-input/play-input'
 import { InputUnfocusedWarning } from './warnings/input-unfocused-warning'
+import { WrongLangWarning } from './warnings/wrong-lang-warning'
 
 export const CardCheckPlay: React.FC = observer(() => {
   const checkStore = useCheckStore()
@@ -56,6 +59,29 @@ export const CardCheckPlay: React.FC = observer(() => {
     enter: { y: 0 },
     leave: { y: 110 },
   })
+
+  //!Предупреждение, что пользователь печатает не на том языке
+  const [isWrongLangWarningShown, setIsWrongLangWarningShown] = useState(false)
+
+  const wrongLangWarningTransition = useTransition(isWrongLangWarningShown, {
+    from: { y: 110 },
+    enter: { y: 0 },
+    leave: { y: 110 },
+  })
+
+  useEffect(() => {
+    const inputValue = playSession.userInput.value
+
+    let isWrongLang = true
+
+    if (checkStore.settings.langForTyping === 'en') {
+      isWrongLang = containsRussian(inputValue)
+    } else {
+      isWrongLang = containsEnglish(inputValue)
+    }
+
+    setIsWrongLangWarningShown(isWrongLang)
+  }, [playSession.userInput.value])
 
   //!Обработчики
   const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
@@ -118,15 +144,26 @@ export const CardCheckPlay: React.FC = observer(() => {
           </PlayField>
         </ContentContainer>
       </>
-      {inputUnfocusedWarningTransition((style, item) => {
-        return (
-          item && (
-            <animated.div style={style}>
-              <InputUnfocusedWarning />
-            </animated.div>
+      <>
+        {inputUnfocusedWarningTransition((style, item) => {
+          return (
+            item && (
+              <animated.div style={style}>
+                <InputUnfocusedWarning />
+              </animated.div>
+            )
           )
-        )
-      })}
+        })}
+        {wrongLangWarningTransition((style, item) => {
+          return (
+            item && (
+              <animated.div style={style}>
+                <WrongLangWarning />
+              </animated.div>
+            )
+          )
+        })}
+      </>
     </CardCheckBlockTemplate>
   )
 })

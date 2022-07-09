@@ -8,9 +8,10 @@ import { DefaultPlayInput } from './variants/default-input'
 
 export type PlayInputProps<InputStoreType extends CelledInputStore | DefaultInputStore> = {
   inputStore: InputStoreType
+  readonly?: boolean
   value: string
   enterHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void
-  readonly?: boolean
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void
   styles?: CSSProperties
 }
 
@@ -28,7 +29,7 @@ export const PlayInput: React.FC<PlayInputProps<CelledInputStore | DefaultInputS
           inputStore={inputStore}
           readonly={readonly}
           value={value}
-          enterHandler={enterHandler}
+          onKeyPress={enterHandler}
           styles={styles}
         />
       )}
@@ -37,7 +38,7 @@ export const PlayInput: React.FC<PlayInputProps<CelledInputStore | DefaultInputS
           inputStore={inputStore}
           readonly={readonly}
           value={value}
-          enterHandler={enterHandler}
+          onKeyPress={enterHandler}
           styles={styles}
         />
       )}

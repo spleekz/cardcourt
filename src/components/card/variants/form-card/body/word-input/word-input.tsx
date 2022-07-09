@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 
-import isEnglish from 'is-english'
 import { useFormContext } from 'react-hook-form'
 import styled from 'styled-components'
 
 import { Lang } from 'stores/stores-utility-types'
+
+import { onlyEnglish, onlyRussian } from 'utils/strings'
 
 import { getCursorState, getInputBGC, getInputBoxShadow } from './utils'
 
@@ -23,8 +24,8 @@ export const FormWordInput: React.FC<IFormWordInput> = ({ inputValue, index, lan
 
   const validateInputLanguage = (value: string): boolean => {
     if (lang === 'en') {
-      return isEnglish(value)
-    } else return !isEnglish(value)
+      return onlyEnglish(value)
+    } else return onlyRussian(value)
   }
 
   const onInputBlur = (): void => {

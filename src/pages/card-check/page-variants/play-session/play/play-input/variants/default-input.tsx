@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { CSSProperties, useEffect, useRef } from 'react'
 
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -7,12 +7,16 @@ import { DefaultInputStore } from 'stores/card-check-store/play-session/default-
 
 import { useClickOutside } from 'hooks/use-click-outside'
 
-import { PlayInputProps } from '../play-input'
-
-type Props = PlayInputProps<DefaultInputStore>
+type Props = {
+  inputStore: DefaultInputStore
+  readonly?: boolean
+  value: string
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  styles?: CSSProperties
+}
 
 export const DefaultPlayInput: React.FC<Props> = observer(
-  ({ inputStore, readonly, value, enterHandler, styles }) => {
+  ({ inputStore, readonly, value, onKeyPress, styles }) => {
     const inputRef = useRef<HTMLInputElement>(null)
 
     useClickOutside({ ref: inputRef, fn: inputStore.unfocusInput })
@@ -37,7 +41,7 @@ export const DefaultPlayInput: React.FC<Props> = observer(
         placeholder={`Напечатайте перевод`}
         onClick={inputStore.focusInput}
         onChange={onInputChange}
-        onKeyPress={enterHandler}
+        onKeyPress={onKeyPress}
         style={styles}
       />
     )

@@ -33,3 +33,41 @@ export const removeSkips = (string: string): string => {
     .filter((letter) => letter !== '_')
     .join('')
 }
+
+export const isLetter = (symbol: string): boolean => {
+  return symbol.toLocaleLowerCase() !== symbol.toLocaleUpperCase()
+}
+export const isEnglishLetter = (letter: string): boolean => {
+  return /^[a-zA-Z]+$/.test(letter)
+}
+export const isRussianLetter = (letter: string): boolean => {
+  return /^[а-яА-ЯЁё]+$/.test(letter)
+}
+export const isNumber = (symbol: string): boolean => {
+  return /^[0-9]$/.test(symbol)
+}
+export const isSpecialSymbol = (symbol: string): boolean => {
+  return !isEnglishLetter(symbol) && !isRussianLetter(symbol) && !isNumber(symbol) && symbol !== ' '
+}
+
+export const getOnlyLettersFromString = (string: string): string => {
+  return Array.from(string).filter(isLetter).join('')
+}
+
+export const containsEnglish = (string: string): boolean => {
+  const onlyLettersArray = Array.from(getOnlyLettersFromString(string))
+  return onlyLettersArray.some(isEnglishLetter)
+}
+export const containsRussian = (string: string): boolean => {
+  const onlyLettersArray = Array.from(getOnlyLettersFromString(string))
+  return onlyLettersArray.some(isRussianLetter)
+}
+
+export const onlyEnglish = (string: string): boolean => {
+  const onlyLettersArray = Array.from(getOnlyLettersFromString(string))
+  return onlyLettersArray.every(isEnglishLetter)
+}
+export const onlyRussian = (string: string): boolean => {
+  const onlyLettersArray = Array.from(getOnlyLettersFromString(string))
+  return onlyLettersArray.every(isRussianLetter)
+}
