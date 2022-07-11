@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
-import { areSameObjects } from 'utils/objects'
+import { areSame } from 'utils/comparison'
 
 type CelledInputStoreConfig = {
   initialValue: string
@@ -121,7 +121,7 @@ export class CelledInputStore {
 
   isCellCurrentSelected(cellPosition: CellPosition): boolean {
     if (this.currentSelectedCellPosition) {
-      return areSameObjects(cellPosition, this.currentSelectedCellPosition)
+      return areSame(cellPosition, this.currentSelectedCellPosition)
     }
     return false
   }

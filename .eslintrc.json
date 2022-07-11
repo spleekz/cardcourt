@@ -26,6 +26,10 @@
     "@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }],
     "@typescript-eslint/no-explicit-any": "off",
     "no-console": ["warn", { "allow": ["warn", "error"] }],
-    "prefer-type-alias/prefer-type-alias": "warn"
+    "prefer-type-alias/prefer-type-alias": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": [
+      "warn",
+      { "allowArgumentsExplicitlyTypedAsAny": true }
+    ]
   }
 }

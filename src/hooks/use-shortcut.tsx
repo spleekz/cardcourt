@@ -1,6 +1,6 @@
 import { EmptyFunction } from 'basic-utility-types'
 
-import { areSameArrays } from 'utils/arrays'
+import { areSame } from 'utils/comparison'
 
 import { usePressedKeys } from './use-pressed-keys'
 
@@ -26,7 +26,7 @@ export const useShortcut = (
 
   const checkIfShortcut = (): void => {
     const pressedKeysArray = Array.from(pressedKeys)
-    if (areSameArrays(pressedKeysArray, shortcut)) {
+    if (areSame(pressedKeysArray, shortcut)) {
       fn()
     }
   }
@@ -39,10 +39,7 @@ export const useShortcut = (
     const pressedKeysArray = Array.from(pressedKeys)
     const shortcutWithoutLast = shortcut.slice(0, -1)
     //Если это последний символ комбинации - отключить её дефолтное поведение
-    if (
-      areSameArrays(pressedKeysArray, shortcutWithoutLast) &&
-      e.code === shortcut[shortcut.length - 1]
-    ) {
+    if (areSame(pressedKeysArray, shortcutWithoutLast) && e.code === shortcut[shortcut.length - 1]) {
       e.preventDefault()
     }
     addPressedKey(e.code)
