@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 import { animated, useTransition } from '@react-spring/web'
 import { observer } from 'mobx-react-lite'
-import { ArrowLeft } from 'react-bootstrap-icons'
 import styled from 'styled-components'
 
 import { useCheckStore } from 'pages/card-check/original-content'
@@ -12,6 +11,7 @@ import { Button } from 'components/buttons/button'
 import { containsEnglish, containsRussian } from 'utils/strings'
 
 import { CardCheckBlockTemplate } from '../../components/check-block-template'
+import { ButtonWithArrowLeft } from '../../components/shared-components'
 import { usePlaySession } from '../play-session'
 import { PlayInput } from './play-input/play-input'
 import { InputUnfocusedWarning } from './warnings/input-unfocused-warning'
@@ -115,9 +115,7 @@ export const CardCheckPlay: React.FC = observer(() => {
     <CardCheckBlockTemplate width={1100} height={550} absoluteFooterPosition={true}>
       <>
         <AbortSessionBlock>
-          <AbortSessionButton onClick={checkStore.endPlaySession} title={'Вернуться к настройкам'}>
-            <ArrowLeft size={35} />
-          </AbortSessionButton>
+          <ButtonWithArrowLeft onClick={checkStore.endPlaySession} title='Вернуться к настройкам' />
         </AbortSessionBlock>
 
         <Title>Происходит акт проверки</Title>
@@ -182,16 +180,6 @@ const AbortSessionBlock = styled.div`
   left: 25px;
   top: 0;
   bottom: 0;
-`
-const AbortSessionButton = styled.button`
-  border-radius: 6px;
-  padding: 6px;
-  background-color: transparent;
-  transition: 0.2s;
-
-  &:hover {
-    background-color: #dcdcdcc5;
-  }
 `
 const Title = styled.div``
 const PlayField = styled.div``

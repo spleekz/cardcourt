@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { observer } from 'mobx-react-lite'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { BlueButton } from 'components/buttons/blue-button'
@@ -10,7 +11,7 @@ import { Lang } from 'stores/stores-utility-types'
 
 import { CardCheckPagesProps } from '../../original-content'
 import { CardCheckBlockTemplate } from '../components/check-block-template'
-import { ColoredCardName } from '../components/shared-components'
+import { ButtonWithArrowLeft, ColoredCardName } from '../components/shared-components'
 
 export const CardCheckSettings: React.FC<CardCheckPagesProps> = observer(({ checkStore }) => {
   const { card, settings } = checkStore
@@ -18,7 +19,14 @@ export const CardCheckSettings: React.FC<CardCheckPagesProps> = observer(({ chec
   return (
     <CardCheckBlockTemplate width={1100} height={550}>
       <>
-        Настройте проверку для карточки <ColoredCardName cardName={card.name} cardUI={card.ui} />
+        <GoToCardBlock>
+          <Link to={`/card/${card._id}`}>
+            <ButtonWithArrowLeft title='Перейти на карточку' />
+          </Link>
+        </GoToCardBlock>
+        <Title>
+          Настройте проверку для карточки <ColoredCardName cardName={card.name} cardUI={card.ui} />
+        </Title>
       </>
       <>
         <CheckSettings>
@@ -68,6 +76,16 @@ export const CardCheckSettings: React.FC<CardCheckPagesProps> = observer(({ chec
 const CheckSettings = styled.div`
   flex: 1 0 auto;
 `
+const GoToCardBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 25px;
+  top: 0;
+  bottom: 0;
+`
+const Title = styled.div``
 const Setting = styled.div`
   display: flex;
   flex-direction: column;

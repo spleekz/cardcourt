@@ -65,7 +65,7 @@ const Container = styled.div<{ width: number; height: number }>`
 export const CardCheckBlockHeading = styled.div`
   position: relative;
   padding: 16px;
-  font-size: 35px;
+  font-size: 30px;
   font-weight: bold;
   text-align: center;
   border-bottom: 2px solid #686868;

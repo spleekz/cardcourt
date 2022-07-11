@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { ArrowLeft } from 'react-bootstrap-icons'
 import styled from 'styled-components'
 
 import { CardUI } from 'api/api'
@@ -13,4 +14,26 @@ export const ColoredCardName: React.FC<ColoredCardNameProps> = ({ cardName, card
 }
 const ColoredCardNameSpan = styled.span<{ color: string }>`
   color: ${(props) => props.color};
+`
+
+type ButtonWithArrowLeftProps = {
+  onClick?: () => void
+  title: string
+}
+export const ButtonWithArrowLeft: React.FC<ButtonWithArrowLeftProps> = ({ onClick, title }) => {
+  return (
+    <StyledButtonWithArrowLeft title={title} onClick={onClick}>
+      <ArrowLeft size={35} />
+    </StyledButtonWithArrowLeft>
+  )
+}
+
+const StyledButtonWithArrowLeft = styled.button`
+  border-radius: 6px;
+  padding: 6px;
+  background-color: transparent;
+  transition: 0.2s;
+  &:hover {
+    background-color: #dcdcdcc5;
+  }
 `
