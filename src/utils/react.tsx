@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { isArray } from './arrays'
+
 export const isElementEmpty = (
   element: React.ReactChild | React.ReactFragment | React.ReactPortal,
 ): boolean => {
@@ -9,10 +11,10 @@ export const isElementEmpty = (
     if (React.isValidElement(element)) {
       const children = element.props.children
       if (children) {
-        if (Array.isArray(children)) {
+        if (isArray(children)) {
           return children.every(isElementEmpty)
         } else {
-          return children === false || children === null || children === undefined
+          return isElementEmpty(children)
         }
       }
       return false
