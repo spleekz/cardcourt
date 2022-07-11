@@ -146,7 +146,13 @@ export const CardCheckPlay: React.FC = observer(() => {
         {inputUnfocusedWarningTransition((style, item) => {
           return (
             item && (
-              <animated.div style={style}>
+              <animated.div
+                style={{
+                  ...style,
+                  position: 'relative',
+                  zIndex: 1,
+                }}
+              >
                 <InputUnfocusedWarning />
               </animated.div>
             )
@@ -155,7 +161,13 @@ export const CardCheckPlay: React.FC = observer(() => {
         {wrongLangWarningTransition((style, item) => {
           return (
             item && (
-              <animated.div style={style}>
+              <animated.div
+                style={{
+                  ...style,
+                  position: 'relative',
+                  zIndex: 2,
+                }}
+              >
                 <WrongLangWarning />
               </animated.div>
             )
