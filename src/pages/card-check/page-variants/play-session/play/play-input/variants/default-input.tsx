@@ -11,12 +11,12 @@ type Props = {
   inputStore: DefaultInputStore
   readonly?: boolean
   value: string
-  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
   styles?: CSSProperties
 }
 
 export const DefaultPlayInput: React.FC<Props> = observer(
-  ({ inputStore, readonly, value, onKeyPress, styles }) => {
+  ({ inputStore, readonly, value, onKeyDown, styles }) => {
     const inputRef = useRef<HTMLInputElement>(null)
 
     useClickOutside({ ref: inputRef, fn: inputStore.unfocusInput })
@@ -41,7 +41,7 @@ export const DefaultPlayInput: React.FC<Props> = observer(
         placeholder={`Напечатайте перевод`}
         onClick={inputStore.focusInput}
         onChange={onInputChange}
-        onKeyPress={onKeyPress}
+        onKeyDown={onKeyDown}
         style={styles}
       />
     )

@@ -11,7 +11,6 @@ export type PlayInputProps<InputStoreType extends CelledInputStore | DefaultInpu
   readonly?: boolean
   value: string
   enterHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void
-  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void
   styles?: CSSProperties
 }
 
@@ -29,7 +28,7 @@ export const PlayInput: React.FC<PlayInputProps<CelledInputStore | DefaultInputS
           inputStore={inputStore}
           readonly={readonly}
           value={value}
-          onKeyPress={enterHandler}
+          onKeyDown={enterHandler}
           styles={styles}
         />
       )}
@@ -38,7 +37,7 @@ export const PlayInput: React.FC<PlayInputProps<CelledInputStore | DefaultInputS
           inputStore={inputStore}
           readonly={readonly}
           value={value}
-          onKeyPress={enterHandler}
+          onKeyDown={enterHandler}
           styles={styles}
         />
       )}

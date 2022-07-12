@@ -1,23 +1,53 @@
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type PressedKeysSet = Set<string>
 
-type UsePressedKeysReturn = [
-  PressedKeysSet,
-  //addPressedKey
-  (key: string) => void,
-  //deletePressedKey
-  (key: string) => void,
-]
+type usePressedKeysOptions = {
+  repeatable?: boolean
+}
 
-export const usePressedKeys = (): UsePressedKeysReturn => {
-  //Использую ref, чтобы не было ререндера после нажатия любой клавиши
-  const pressedKeys = useRef<PressedKeysSet>(new Set())
+export const usePressedKeys = (
+  ref: React.RefObject<HTMLElement | null>,
+  options?: usePressedKeysOptions,
+): PressedKeysSet => {
+  const { repeatable = false } = options ?? {}
 
-  //Очищать нажатые клавиши при alt+tab / win+d
+  const [pressedKeys, setPressedKeys] = useState<PressedKeysSet>(new Set())
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent): void => {
+      if (!repeatable && e.repeat) {
+        return
+      }
+
+      setPressedKeys((prev) => new Set(prev.add(e.code)))
+    }
+    const onKeyUp = (e: KeyboardEvent): void => {
+      setPressedKeys((prev) => {
+        const prevCopy = prev
+        prevCopy.delete(e.code)
+        return new Set(prevCopy)
+      })
+    }
+    const onBlur = (): void => {
+      setPressedKeys(new Set())
+    }
+
+    ref.current?.addEventListener('keydown', onKeyDown)
+    ref.current?.addEventListener('keyup', onKeyUp)
+    ref.current?.addEventListener('blur', onBlur, true)
+
+    return () => {
+      ref.current?.removeEventListener('keydown', onKeyDown)
+      ref.current?.removeEventListener('keyup', onKeyUp)
+      ref.current?.removeEventListener('blur', onBlur, true)
+    }
+  }, [])
+
+  //Очищать нажатые клавиши при alt+tab / win+d / смене вкладки
   useEffect(() => {
     const clearPressedKeys = (): void => {
-      pressedKeys.current = new Set()
+      setPressedKeys(new Set())
     }
 
     document.addEventListener('visibilitychange', clearPressedKeys)
@@ -25,13 +55,5 @@ export const usePressedKeys = (): UsePressedKeysReturn => {
     return () => document.removeEventListener('visibilitychange', clearPressedKeys)
   }, [])
 
-  const addPressedKey = (key: string): void => {
-    pressedKeys.current.add(key)
-  }
-
-  const deletePressedKey = (key: string): void => {
-    pressedKeys.current.delete(key)
-  }
-
-  return [pressedKeys.current, addPressedKey, deletePressedKey]
+  return pressedKeys
 }

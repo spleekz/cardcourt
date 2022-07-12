@@ -21,12 +21,14 @@ type Props = {
   inputStore: CelledInputStore
   readonly?: boolean
   value: string
-  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
   styles?: CSSProperties
 }
 
 export const CelledPlayInput: React.FC<Props> = observer(
-  ({ inputStore, readonly, value, onKeyPress, styles }) => {
+  ({ inputStore, readonly, value, styles, ...props }) => {
+    const customOnKeyDown = props.onKeyDown
+
     //!Преобразование value для отрисовки в клетках
     const valueWithoutSpaces = value.split(' ').join('')
     const valueWithoutSpacesAndSkips = Array.from(
@@ -73,25 +75,18 @@ export const CelledPlayInput: React.FC<Props> = observer(
     })
 
     //!Сочетания клавиш для выделения клеток
-    const [selectAllCellsKeyDown, selectAllCellsKeyUp] = useShortcut(
-      ['ControlLeft', 'KeyA'],
-      inputStore.selectAllCells,
-    )
+    useShortcut(inputRef, ['ControlLeft', 'KeyA'], inputStore.selectAllCells)
 
-    const [shiftArrowRightKeyDown, shiftArrowRightKeyUp] = useShortcut(
-      ['ShiftLeft', 'ArrowRight'],
-      inputStore.onShiftArrowRight,
-      { repeatable: true },
-    )
+    useShortcut(inputRef, ['ShiftLeft', 'ArrowRight'], inputStore.onShiftArrowRight, {
+      repeatable: true,
+    })
 
-    const [shiftArrowLeftKeyDown, shiftArrowLeftKeyUp] = useShortcut(
-      ['ShiftLeft', 'ArrowLeft'],
-      inputStore.onShiftArrowLeft,
-      { repeatable: true },
-    )
+    useShortcut(inputRef, ['ShiftLeft', 'ArrowLeft'], inputStore.onShiftArrowLeft, {
+      repeatable: true,
+    })
 
     //!Обработчики
-    const [inputPressedKeys, addInputPressedKey, deleteInputPressedKey] = usePressedKeys()
+    const inputPressedKeys = usePressedKeys(inputRef)
 
     const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>): void => {
       if (e.code === 'Backspace') {
@@ -116,30 +111,13 @@ export const CelledPlayInput: React.FC<Props> = observer(
         }
       }
     }
-
     const handleKeysDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-      addInputPressedKey(e.code)
+      customOnKeyDown?.(e)
 
       handleArrows(e)
       handleBackspace(e)
       handleDeleteKey(e)
-
-      selectAllCellsKeyDown(e)
-      shiftArrowRightKeyDown(e)
-      shiftArrowLeftKeyDown(e)
     }
-    const handleKeysUp = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-      deleteInputPressedKey(e.code)
-
-      selectAllCellsKeyUp(e)
-      shiftArrowRightKeyUp(e)
-      shiftArrowLeftKeyUp(e)
-    }
-
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-      onKeyPress?.(e)
-    }
-
     const handleCellClick = (cellPosition: CellPosition): void => {
       if (!readonly) {
         inputStore.onCellClick(cellPosition)
@@ -167,17 +145,15 @@ export const CelledPlayInput: React.FC<Props> = observer(
                       addCellRefToArray({ ref: cellRef, position: cellPosition })
                     }}
                     key={cellIndex}
-                    styles={styles}
+                    readonly={readonly}
                     value={valueWithoutSpacesAndSkips[cellOrderNumber]}
                     focused={cell.focused}
                     selected={cell.selected}
                     currentSelected={inputStore.isCellCurrentSelected(cellPosition)}
-                    readonly={readonly}
                     onChange={handleOnChange}
                     onClick={() => handleCellClick({ wordIndex, cellIndex })}
-                    onKeyPress={handleKeyPress}
                     onKeyDown={handleKeysDown}
-                    onKeyUp={handleKeysUp}
+                    styles={styles}
                   />
                 )
               })}

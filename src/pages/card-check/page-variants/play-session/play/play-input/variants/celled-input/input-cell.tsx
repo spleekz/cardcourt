@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, useEffect, useRef } from 'react'
 
 import { observer } from 'mobx-react-lite'
 import { CaretDownFill } from 'react-bootstrap-icons'
@@ -12,29 +12,37 @@ type Props = {
   currentSelected: boolean
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onClick: () => void
-  onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
-  onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void
   styles?: CSSProperties
 }
 
 export const InputCell = observer<Props, HTMLInputElement | null>(
   (
-    {
-      readonly,
-      value,
-      focused,
-      selected,
-      currentSelected,
-      onChange,
-      onClick,
-      onKeyPress,
-      onKeyDown,
-      onKeyUp,
-      styles,
-    },
-    ref,
+    { readonly, value, focused, selected, currentSelected, onChange, onClick, onKeyDown, styles },
+    forwardedRef,
   ) => {
+    const cellRef = useRef<HTMLInputElement | null>(null)
+
+    const setCellRef = (ref: HTMLInputElement | null): void => {
+      cellRef.current = ref
+      if (typeof forwardedRef === 'function') {
+        forwardedRef(ref)
+      }
+    }
+
+    useEffect(() => {
+      const preventSelection = (): void => {
+        if (cellRef.current) {
+          //Отмена нативного выделения
+          cellRef.current.selectionStart = cellRef.current.selectionEnd
+        }
+      }
+
+      cellRef.current?.addEventListener('select', preventSelection)
+
+      return () => cellRef.current?.removeEventListener('select', preventSelection)
+    }, [cellRef.current])
+
     return (
       <Container>
         {focused && (
@@ -48,15 +56,13 @@ export const InputCell = observer<Props, HTMLInputElement | null>(
           </Caret>
         )}
         <Cell
-          ref={ref}
+          ref={setCellRef}
           readOnly={readonly}
           value={value}
           selected={selected}
           onChange={onChange}
           onClick={onClick}
-          onKeyPress={onKeyPress}
           onKeyDown={onKeyDown}
-          onKeyUp={onKeyUp}
           style={styles}
         />
       </Container>
@@ -81,6 +87,9 @@ const Cell = styled.input<{
   border-radius: 6px;
   background-color: ${(props) => props.selected && '#fffb85'};
   caret-color: transparent;
+  ::selection {
+    background-color: transparent;
+  }
 `
 const Caret = styled.div`
   position: absolute;
