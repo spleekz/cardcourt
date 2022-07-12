@@ -24,7 +24,7 @@ export const Search: React.FC = observer(() => {
 
   return (
     <Container>
-      <Input value={search} onChange={(e) => setSearch(e.target.value)} onKeyPress={handleEnter} />
+      <Input value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={handleEnter} />
 
       <SearchButton onClick={setSearchToUrl}>
         <SearchIcon size={22} />
