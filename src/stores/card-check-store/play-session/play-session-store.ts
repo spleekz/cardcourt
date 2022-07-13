@@ -59,7 +59,7 @@ export class CardCheckPlaySessionStore {
   setSessionState(state: SessionState): void {
     this.sessionState = state
   }
-  stopPlay(): void {
+  stopPlayAndGoToResult(): void {
     this.setSessionState('result')
   }
 
@@ -101,18 +101,25 @@ export class CardCheckPlaySessionStore {
   }
 
   currentWordIndex = 0
+
   goToNextWord(): void {
-    if (this.currentWordIndex < this.words.length - 1) {
-      this.currentWordIndex++
-    } else {
-      this.stopPlay()
-    }
+    this.currentWordIndex++
     this.clearUserInputForNewValue()
   }
+
+  goNext(): void {
+    if (this.currentWordIndex < this.words.length - 1) {
+      this.goToNextWord()
+    } else {
+      this.stopPlayAndGoToResult()
+    }
+  }
+
   skipCurrentWord(): void {
     this.updateResultWords('skipped')
     this.goToNextWord()
   }
+
   checkUserTranslate(): boolean | undefined {
     const normalizedUserTranslate = this.normalizedUserInputValue
     const normalizedTranslateForShownWord = normalizeString(this.translateForShownWord)

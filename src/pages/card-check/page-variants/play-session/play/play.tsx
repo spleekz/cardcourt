@@ -108,7 +108,7 @@ export const CardCheckPlay: React.FC = observer(() => {
           await highlightInputIncorrect()
         }
 
-        playSession.goToNextWord()
+        playSession.goNext()
       }
     }
   }
