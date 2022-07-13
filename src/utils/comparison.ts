@@ -1,6 +1,5 @@
 import { AnyObject } from 'basic-utility-types'
 
-import { isArray } from './arrays'
 import { isObject } from './objects'
 
 const areSameArrays = (array1: Array<any>, array2: Array<any>): boolean => {
@@ -37,7 +36,7 @@ const areSameObjects = (object1: AnyObject, object2: AnyObject): boolean => {
 
 export const areSame = (value1: any, value2: any): boolean => {
   if (typeof value1 === typeof value2) {
-    if (isArray(value1) && isArray(value2)) {
+    if (Array.isArray(value1) && Array.isArray(value2)) {
       return areSameArrays(value1, value2)
     } else if (isObject(value1) && isObject(value2)) {
       return areSameObjects(value1, value2)
