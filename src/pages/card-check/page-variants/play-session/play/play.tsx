@@ -86,22 +86,24 @@ export const CardCheckPlay: React.FC = observer(() => {
   //!Обработчики
   const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
     if (e.code === 'Enter') {
-      playSession.unfocusUserInput()
-      setIsInputUnfocusedWarningShown(false)
+      if (playSession.normalizedUserInputValue) {
+        playSession.unfocusUserInput()
+        setIsInputUnfocusedWarningShown(false)
 
-      const isUserTranslateCorrect = playSession.checkUserTranslate()
+        const isUserTranslateCorrect = playSession.checkUserTranslate()
 
-      if (isUserTranslateCorrect) {
-        await highlightInputCorrect()
-      } else {
-        await highlightInputIncorrect()
+        if (isUserTranslateCorrect) {
+          await highlightInputCorrect()
+        } else {
+          await highlightInputIncorrect()
+        }
+
+        //Таймаут на время transition
+        setTimeout(() => {
+          setIsPlayInputHighlighting(false)
+          playSession.goToNextWord()
+        }, 300)
       }
-
-      //Таймаут на время transition
-      setTimeout(() => {
-        setIsPlayInputHighlighting(false)
-        playSession.goToNextWord()
-      }, 300)
     }
   }
 

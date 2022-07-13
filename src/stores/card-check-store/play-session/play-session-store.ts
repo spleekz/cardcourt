@@ -75,6 +75,20 @@ export class CardCheckPlaySessionStore {
     this.shuffleWords()
   }
 
+  get isUserInputCelled(): boolean {
+    return this.userInput instanceof CelledInputStore
+  }
+  get isUserInputDefault(): boolean {
+    return this.userInput instanceof DefaultInputStore
+  }
+
+  get normalizedUserInputValue(): string {
+    if (this.isUserInputCelled) {
+      return normalizeString(removeSkips(this.userInput.value))
+    }
+    return normalizeString(this.userInput.value)
+  }
+
   clearUserInputForNewValue(): void {
     if (this.userInput instanceof DefaultInputStore) {
       this.userInput.clearInput()
@@ -100,7 +114,7 @@ export class CardCheckPlaySessionStore {
     this.goToNextWord()
   }
   checkUserTranslate(): boolean | undefined {
-    const normalizedUserTranslate = normalizeString(removeSkips(this.userInput.value))
+    const normalizedUserTranslate = this.normalizedUserInputValue
     const normalizedTranslateForShownWord = normalizeString(this.translateForShownWord)
 
     if (normalizedUserTranslate === '') {
