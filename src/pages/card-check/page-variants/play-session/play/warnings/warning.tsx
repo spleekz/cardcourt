@@ -12,7 +12,7 @@ export const PlayWarning: React.FC<{ text: string }> = ({ text }) => {
 
 const Container = styled.div`
   padding: 7px 15px;
-  background-color: #d41c1cdf;
+  background-color: #d41c1c;
 `
 const Text = styled.div`
   font-size: 26px;
