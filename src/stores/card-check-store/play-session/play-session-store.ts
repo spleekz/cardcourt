@@ -117,7 +117,7 @@ export class CardCheckPlaySessionStore {
 
   skipCurrentWord(): void {
     this.updateResultWords('skipped')
-    this.goToNextWord()
+    this.goNext()
   }
 
   checkUserTranslate(): boolean | undefined {
