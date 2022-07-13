@@ -34,6 +34,9 @@ const StyledButtonWithArrowLeft = styled.button`
   background-color: transparent;
   transition: 0.2s;
   &:hover {
-    background-color: #dcdcdcc5;
+    background-color: #e3e3e3;
+  }
+  &:active {
+    background-color: #d4d4d4;
   }
 `
