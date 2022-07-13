@@ -1,11 +1,9 @@
-import React, { CSSProperties, useEffect, useRef } from 'react'
+import React, { CSSProperties, useCallback } from 'react'
 
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import { DefaultInputStore } from 'stores/card-check-store/play-session/default-input-store'
-
-import { useClickOutside } from 'hooks/use-click-outside'
 
 type Props = {
   inputStore: DefaultInputStore
@@ -17,29 +15,22 @@ type Props = {
 
 export const DefaultPlayInput: React.FC<Props> = observer(
   ({ inputStore, readonly, value, onKeyDown, styles }) => {
-    const inputRef = useRef<HTMLInputElement>(null)
-
-    useClickOutside({ ref: inputRef, fn: inputStore.unfocusInput })
-
-    useEffect(() => {
-      if (inputStore.isInputFocused) {
-        inputRef.current?.focus()
-      } else {
-        inputRef.current?.blur()
-      }
-    }, [inputStore.isInputFocused])
-
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
       inputStore.setValue(e.target.value)
     }
 
+    const setInputRefToStore = useCallback((ref: HTMLInputElement | null): void => {
+      inputStore.setInputElement(ref)
+    }, [])
+
     return (
       <StyledInput
-        ref={inputRef}
+        ref={setInputRefToStore}
         readOnly={readonly}
         value={value}
         placeholder={`Напечатайте перевод`}
-        onClick={inputStore.focusInput}
+        onFocus={inputStore.setInputFocused}
+        onBlur={inputStore.setInputUnfocused}
         onChange={onInputChange}
         onKeyDown={onKeyDown}
         style={styles}

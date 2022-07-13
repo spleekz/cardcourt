@@ -75,15 +75,8 @@ export class CardCheckPlaySessionStore {
     this.shuffleWords()
   }
 
-  get isUserInputCelled(): boolean {
-    return this.userInput instanceof CelledInputStore
-  }
-  get isUserInputDefault(): boolean {
-    return this.userInput instanceof DefaultInputStore
-  }
-
   get normalizedUserInputValue(): string {
-    if (this.isUserInputCelled) {
+    if (this.userInput instanceof CelledInputStore) {
       return normalizeString(removeSkips(this.userInput.value))
     }
     return normalizeString(this.userInput.value)
@@ -97,7 +90,11 @@ export class CardCheckPlaySessionStore {
     }
   }
   unfocusUserInput(): void {
-    this.userInput.unfocusInput()
+    if (this.userInput instanceof CelledInputStore) {
+      this.userInput.unfocusInput()
+    } else {
+      this.userInput.inputElement?.blur()
+    }
   }
 
   currentWordIndex = 0

@@ -2,9 +2,13 @@ import { makeAutoObservable } from 'mobx'
 
 export class DefaultInputStore {
   constructor() {
-    this.focusInput()
-
     makeAutoObservable(this, {}, { autoBind: true })
+  }
+
+  inputElement: HTMLInputElement | null
+  setInputElement(element: HTMLInputElement | null): void {
+    this.inputElement = element
+    this.inputElement?.focus()
   }
 
   value = ''
@@ -13,14 +17,14 @@ export class DefaultInputStore {
   }
   clearInput(): void {
     this.setValue('')
-    this.focusInput()
+    this.inputElement?.focus()
   }
 
   isInputFocused = false
-  focusInput(): void {
+  setInputFocused(): void {
     this.isInputFocused = true
   }
-  unfocusInput(): void {
+  setInputUnfocused(): void {
     this.isInputFocused = false
   }
 }
