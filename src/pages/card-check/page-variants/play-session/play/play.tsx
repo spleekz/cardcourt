@@ -25,14 +25,24 @@ export const CardCheckPlay: React.FC = observer(() => {
   const [isPlayInputHighlighting, setIsPlayInputHighlighting] = useState(false)
   const [playInputHighlightColor, setPlayInputHighlightColor] = useState<string | null>(null)
 
+  const playInputHighlightingTransitionDurationS = 0.3
+  const playInputHighlightingTransitionDurationMs = playInputHighlightingTransitionDurationS * 1000
+  const playInputHighlightingStayDurationMs = 40
+
   const highlightInput = (color: string): Promise<void> => {
     return new Promise((resolve) => {
       setIsPlayInputHighlighting(true)
       setPlayInputHighlightColor(color)
+
       setTimeout(() => {
         setPlayInputHighlightColor(null)
-        resolve()
-      }, 275)
+
+        //Таймаут на время окончания transition
+        setTimeout(() => {
+          setIsPlayInputHighlighting(false)
+          resolve()
+        }, playInputHighlightingTransitionDurationMs)
+      }, playInputHighlightingTransitionDurationMs + playInputHighlightingStayDurationMs)
     })
   }
 
@@ -98,11 +108,7 @@ export const CardCheckPlay: React.FC = observer(() => {
           await highlightInputIncorrect()
         }
 
-        //Таймаут на время transition
-        setTimeout(() => {
-          setIsPlayInputHighlighting(false)
-          playSession.goToNextWord()
-        }, 300)
+        playSession.goToNextWord()
       }
     }
   }
@@ -134,7 +140,9 @@ export const CardCheckPlay: React.FC = observer(() => {
                 enterHandler={handleEnter}
                 styles={{
                   backgroundColor: playInputHighlightColor ? playInputHighlightColor : undefined,
-                  transition: isPlayInputHighlighting ? '0.3s' : undefined,
+                  transition: isPlayInputHighlighting
+                    ? `${playInputHighlightingTransitionDurationS}s`
+                    : undefined,
                 }}
               />
               <SkipWordButton disabled={isPlayInputHighlighting} onClick={onSkipWordButtonClick}>
