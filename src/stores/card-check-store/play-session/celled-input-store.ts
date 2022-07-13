@@ -350,13 +350,14 @@ export class CelledInputStore {
       })
     })
   }
+
   //!Обработчики
   onCellClick(cellPosition: CellPosition): void {
     this.setCurrentCellPositionAndFocusOnThisCell(cellPosition)
   }
 
   onChange(letter: string): void {
-    if (letter !== ' ') {
+    if (letter !== ' ' && letter !== '_') {
       //Если есть выделенные клетки
       if (this.selectedCells.length > 0) {
         this.deleteMultipleLetters(this.selectedCells)
