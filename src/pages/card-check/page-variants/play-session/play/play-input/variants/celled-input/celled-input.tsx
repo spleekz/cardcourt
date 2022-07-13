@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useRef } from 'react'
+import React, { CSSProperties, useCallback, useEffect, useRef } from 'react'
 
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -44,13 +44,13 @@ export const CelledPlayInput: React.FC<Props> = observer(
     //!Массив рефов инпутов
     const inputCellsRefs = useRef<InputCellsRefs>([])
 
-    const addCellRefToArray = ({ ref, position }: AddCellRefToArrayConfig): void => {
+    const addCellRefToArray = useCallback(({ ref, position }: AddCellRefToArrayConfig): void => {
       const { wordIndex, cellIndex } = position
       if (position.wordIndex === 0 && position.cellIndex === 0) {
         inputCellsRefs.current = Array.from({ length: inputStore.words.length }, () => [])
       }
       inputCellsRefs.current[wordIndex][cellIndex] = ref
-    }
+    }, [])
 
     useEffect(() => {
       if (inputStore.isInputFocused) {
