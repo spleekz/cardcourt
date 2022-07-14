@@ -8,26 +8,39 @@ import { useCheckStore } from 'pages/card-check/original-content'
 
 import { BlueButton } from 'components/buttons/blue-button'
 
-import { usePlaySession } from '../play-session'
-import { getResultTitle } from './get-result-title'
-import { ResultIncorrectWords } from './sections/incorrect-words/incorrect-words'
 import { CardCheckBlockTemplate } from '../../components/check-block-template'
+import { ColoredCardName } from '../../components/shared-components'
+import { usePlaySession } from '../play-session'
+import { getResultEmoji } from './get-result-emoji'
+import { getResultStatus } from './get-result-status'
+import { getResultText } from './get-result-text'
+import { ResultIncorrectWords } from './sections/incorrect-words/incorrect-words'
 
 export const CardCheckResult: React.FC = observer(() => {
   const checkStore = useCheckStore()
   const { card } = checkStore
   const playSession = usePlaySession()
 
-  const resultTitleText = getResultTitle({
-    card,
-    wordsCount: playSession.words.length,
-    correctWordsCount: playSession.correctWords.length,
+  const resultStatus = getResultStatus({
+    correctWordsCount: playSession.correctWordsCount,
+    totalWordsCount: playSession.wordsCount,
   })
+
+  const resultText = getResultText({
+    resultStatus,
+    correctWordsCount: playSession.correctWordsCount,
+    totalWordsCount: playSession.wordsCount,
+  })
+
+  const resultEmoji = getResultEmoji(resultStatus)
 
   return (
     <CardCheckBlockTemplate width={1100} height={700}>
-      <>{resultTitleText}</>
       <>
+        <ColoredCardName cardName={card.name} cardUI={card.ui} /> — Результат {resultEmoji}
+      </>
+      <>
+        <>{resultText}</>
         <ContentContainer>
           <Sections>{playSession.incorrectWords.length > 0 && <ResultIncorrectWords />}</Sections>
         </ContentContainer>

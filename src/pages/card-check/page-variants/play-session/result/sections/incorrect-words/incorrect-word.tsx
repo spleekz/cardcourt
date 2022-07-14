@@ -35,6 +35,10 @@ export const ResultIncorrectWord: React.FC<Props> = observer(({ word }) => {
 
 const Container = styled.div`
   margin-bottom: 14px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `
 const Dash = styled.span`
   font-size: 32px;

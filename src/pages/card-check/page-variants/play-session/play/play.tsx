@@ -11,7 +11,7 @@ import { Button } from 'components/buttons/button'
 import { containsEnglish, containsRussian } from 'utils/strings'
 
 import { CardCheckBlockTemplate } from '../../components/check-block-template'
-import { ButtonWithArrowLeft } from '../../components/shared-components'
+import { ButtonWithArrowLeft, ColoredCardName } from '../../components/shared-components'
 import { usePlaySession } from '../play-session'
 import { PlayInput } from './play-input/play-input'
 import { InputUnfocusedWarning } from './warnings/input-unfocused-warning'
@@ -20,6 +20,7 @@ import { WrongLangWarning } from './warnings/wrong-lang-warning'
 export const CardCheckPlay: React.FC = observer(() => {
   const checkStore = useCheckStore()
   const playSession = usePlaySession()
+  const { card } = checkStore
 
   //!Подсветка инпута
   const [isPlayInputHighlighting, setIsPlayInputHighlighting] = useState(false)
@@ -126,7 +127,9 @@ export const CardCheckPlay: React.FC = observer(() => {
           <ButtonWithArrowLeft onClick={checkStore.endPlaySession} title='Вернуться к настройкам' />
         </AbortSessionBlock>
 
-        <Title>Происходит акт проверки</Title>
+        <Title>
+          <ColoredCardName cardName={card.name} cardUI={card.ui} /> — Акт проверки
+        </Title>
       </>
       <>
         <ContentContainer>

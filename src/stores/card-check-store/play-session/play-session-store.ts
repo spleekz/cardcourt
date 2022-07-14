@@ -64,6 +64,10 @@ export class CardCheckPlaySessionStore {
   }
 
   words: CardWords = []
+  get wordsCount(): number {
+    return this.words.length
+  }
+
   setWords(words: CardWords): void {
     this.words = words
   }
@@ -170,9 +174,16 @@ export class CardCheckPlaySessionStore {
   get correctWords(): ResultWords {
     return this.resultWords.filter((resultWord) => resultWord.status === 'correct')
   }
+  get correctWordsCount(): number {
+    return this.correctWords.length
+  }
+
   get incorrectWords(): ResultWords {
     return this.resultWords.filter(
       (resultWord) => resultWord.status === 'error' || resultWord.status === 'skipped',
     )
+  }
+  get incorrectWordsCount(): number {
+    return this.incorrectWords.length
   }
 }
