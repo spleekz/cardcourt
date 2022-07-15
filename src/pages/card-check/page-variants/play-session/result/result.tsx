@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
@@ -21,18 +21,22 @@ export const CardCheckResult: React.FC = observer(() => {
   const { card } = checkStore
   const playSession = usePlaySession()
 
-  const resultStatus = getResultStatus({
-    correctWordsCount: playSession.correctWordsCount,
-    totalWordsCount: playSession.wordsCount,
-  })
+  const [resultStatus] = useState(() =>
+    getResultStatus({
+      correctWordsCount: playSession.correctWordsCount,
+      totalWordsCount: playSession.wordsCount,
+    }),
+  )
 
-  const resultText = getResultText({
-    resultStatus,
-    correctWordsCount: playSession.correctWordsCount,
-    totalWordsCount: playSession.wordsCount,
-  })
+  const [resultText] = useState(() =>
+    getResultText({
+      resultStatus,
+      correctWordsCount: playSession.correctWordsCount,
+      totalWordsCount: playSession.wordsCount,
+    }),
+  )
 
-  const resultEmoji = getResultEmoji(resultStatus)
+  const [resultEmoji] = useState(() => getResultEmoji(resultStatus))
 
   return (
     <CardCheckBlockTemplate width={1100} height={700}>
