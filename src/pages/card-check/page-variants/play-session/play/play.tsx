@@ -156,7 +156,7 @@ export const CardCheckPlay: React.FC = observer(() => {
                 disabled={isPlayInputHighlighting}
                 onClick={onSkipWordButtonClick}
               >
-                Я не помню 😢
+                Я не помню
               </SkipWordButton>
             </InterfaceForPlay>
           </PlayField>
