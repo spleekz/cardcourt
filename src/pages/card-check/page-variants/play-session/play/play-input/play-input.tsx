@@ -11,6 +11,7 @@ export type PlayInputProps<InputStoreType extends CelledInputStore | DefaultInpu
   readonly?: boolean
   value: string
   enterHandler: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  defaultInputBlurIgnoreRefs: Array<React.MutableRefObject<HTMLElement | null>>
   styles?: CSSProperties
 }
 
@@ -19,6 +20,7 @@ export const PlayInput: React.FC<PlayInputProps<CelledInputStore | DefaultInputS
   readonly,
   value,
   enterHandler,
+  defaultInputBlurIgnoreRefs,
   styles,
 }) => {
   return (
@@ -38,6 +40,7 @@ export const PlayInput: React.FC<PlayInputProps<CelledInputStore | DefaultInputS
           readonly={readonly}
           value={value}
           onKeyDown={enterHandler}
+          blurIgnoreRefs={defaultInputBlurIgnoreRefs}
           styles={styles}
         />
       )}

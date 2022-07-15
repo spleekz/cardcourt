@@ -10,13 +10,20 @@ type Props = {
   readonly?: boolean
   value: string
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  blurIgnoreRefs?: Array<React.MutableRefObject<HTMLElement | null>>
   styles?: CSSProperties
 }
 
 export const DefaultPlayInput: React.FC<Props> = observer(
-  ({ inputStore, readonly, value, onKeyDown, styles }) => {
+  ({ inputStore, readonly, value, onKeyDown, blurIgnoreRefs, styles }) => {
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
       inputStore.setValue(e.target.value)
+    }
+
+    const onInputBlur = (e: React.FocusEvent<HTMLInputElement, Element>): void => {
+      if (blurIgnoreRefs?.every((ref) => e.relatedTarget !== ref.current)) {
+        inputStore.setInputUnfocused()
+      }
     }
 
     const setInputRefToStore = useCallback((ref: HTMLInputElement | null): void => {
@@ -30,7 +37,7 @@ export const DefaultPlayInput: React.FC<Props> = observer(
         value={value}
         placeholder={`Напечатайте перевод`}
         onFocus={inputStore.setInputFocused}
-        onBlur={inputStore.setInputUnfocused}
+        onBlur={onInputBlur}
         onChange={onInputChange}
         onKeyDown={onKeyDown}
         style={styles}

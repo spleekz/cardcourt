@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { animated, useTransition } from '@react-spring/web'
 import { observer } from 'mobx-react-lite'
@@ -120,6 +120,8 @@ export const CardCheckPlay: React.FC = observer(() => {
     playSession.skipCurrentWord()
   }
 
+  const skipWordButtonRef = useRef<HTMLButtonElement | null>(null)
+
   return (
     <CardCheckBlockTemplate width={1100} height={550} absoluteFooterPosition={true}>
       <>
@@ -141,6 +143,7 @@ export const CardCheckPlay: React.FC = observer(() => {
                 inputStore={playSession.userInput}
                 value={playSession.userInput.value}
                 enterHandler={handleEnter}
+                defaultInputBlurIgnoreRefs={[skipWordButtonRef]}
                 styles={{
                   backgroundColor: playInputHighlightColor ? playInputHighlightColor : undefined,
                   transition: isPlayInputHighlighting
@@ -148,7 +151,11 @@ export const CardCheckPlay: React.FC = observer(() => {
                     : undefined,
                 }}
               />
-              <SkipWordButton disabled={isPlayInputHighlighting} onClick={onSkipWordButtonClick}>
+              <SkipWordButton
+                ref={skipWordButtonRef}
+                disabled={isPlayInputHighlighting}
+                onClick={onSkipWordButtonClick}
+              >
                 Я не помню 😢
               </SkipWordButton>
             </InterfaceForPlay>
