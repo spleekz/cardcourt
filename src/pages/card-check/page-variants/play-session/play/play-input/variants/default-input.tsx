@@ -21,8 +21,14 @@ export const DefaultPlayInput: React.FC<Props> = observer(
     }
 
     const onInputBlur = (e: React.FocusEvent<HTMLInputElement, Element>): void => {
-      if (blurIgnoreRefs?.every((ref) => e.relatedTarget !== ref.current)) {
-        inputStore.setInputUnfocused()
+      if (blurIgnoreRefs) {
+        if (
+          blurIgnoreRefs
+            .filter((ref) => ref.current !== null)
+            .every((ref) => e.relatedTarget !== ref.current)
+        ) {
+          inputStore.setInputUnfocused()
+        }
       } else {
         inputStore.setInputUnfocused()
       }
