@@ -20,7 +20,7 @@ export class DefaultInputStore {
     this.inputElement?.focus()
   }
 
-  isInputFocused = false
+  isInputFocused = true
   setInputFocused(): void {
     this.isInputFocused = true
   }

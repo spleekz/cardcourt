@@ -102,10 +102,19 @@ export class CardCheckPlaySessionStore {
   }
 
   currentWordIndex = 0
+  increaseCurrentWordIndex(): void {
+    this.currentWordIndex++
+  }
+
+  currentWordNumber = 1
+  increaseCurrentWordNumber(): void {
+    this.currentWordNumber++
+  }
 
   goToNextWord(): void {
-    this.currentWordIndex++
+    this.increaseCurrentWordIndex()
     this.clearUserInputForNewValue()
+    this.increaseCurrentWordNumber()
   }
 
   goNext(): void {

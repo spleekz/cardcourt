@@ -135,31 +135,36 @@ export const CardCheckPlay: React.FC = observer(() => {
       </>
       <>
         <ContentContainer>
-          <PlayField>
-            <InterfaceForPlay>
-              <WordToBeTranslated>{playSession.shownWord}</WordToBeTranslated>
-              <PlayInput
-                readonly={isPlayInputHighlighting}
-                inputStore={playSession.userInput}
-                value={playSession.userInput.value}
-                enterHandler={handleEnter}
-                defaultInputBlurIgnoreRefs={[skipWordButtonRef]}
-                styles={{
-                  backgroundColor: playInputHighlightColor ? playInputHighlightColor : undefined,
-                  transition: isPlayInputHighlighting
-                    ? `${playInputHighlightingTransitionDurationS}s`
-                    : undefined,
-                }}
-              />
-              <SkipWordButton
-                ref={skipWordButtonRef}
-                disabled={isPlayInputHighlighting}
-                onClick={onSkipWordButtonClick}
-              >
-                Я не помню
-              </SkipWordButton>
-            </InterfaceForPlay>
-          </PlayField>
+          <WordCounter>
+            {playSession.currentWordNumber} / {playSession.wordsCount}
+          </WordCounter>
+          <ContentWrapper>
+            <PlayField>
+              <InterfaceForPlay>
+                <WordToBeTranslated>{playSession.shownWord}</WordToBeTranslated>
+                <PlayInput
+                  readonly={isPlayInputHighlighting}
+                  inputStore={playSession.userInput}
+                  value={playSession.userInput.value}
+                  enterHandler={handleEnter}
+                  defaultInputBlurIgnoreRefs={[skipWordButtonRef]}
+                  styles={{
+                    backgroundColor: playInputHighlightColor ? playInputHighlightColor : undefined,
+                    transition: isPlayInputHighlighting
+                      ? `${playInputHighlightingTransitionDurationS}s`
+                      : undefined,
+                  }}
+                />
+                <SkipWordButton
+                  ref={skipWordButtonRef}
+                  disabled={isPlayInputHighlighting}
+                  onClick={onSkipWordButtonClick}
+                >
+                  Я не помню
+                </SkipWordButton>
+              </InterfaceForPlay>
+            </PlayField>
+          </ContentWrapper>
         </ContentContainer>
       </>
       <>
@@ -199,7 +204,13 @@ export const CardCheckPlay: React.FC = observer(() => {
 })
 
 const ContentContainer = styled.div`
+  position: relative;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -214,6 +225,15 @@ const AbortSessionBlock = styled.div`
   bottom: 0;
 `
 const Title = styled.div``
+const WordCounter = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  font-size: 31px;
+  font-weight: bold;
+  text-align: center;
+`
 const PlayField = styled.div``
 const InterfaceForPlay = styled.div`
   position: relative;
@@ -225,17 +245,13 @@ const WordToBeTranslated = styled.div`
   position: absolute;
   width: 100%;
   top: -100px;
-  margin: 0 auto;
-  margin: auto;
   font-size: 48px;
-  margin-bottom: 30px;
   text-align: center;
 `
 const SkipWordButton = styled(Button)`
   position: absolute;
   bottom: -90px;
   font-size: 28px;
-  margin-top: 20px;
   color: #2e87ec;
   background-color: #fafbfc;
   border: none;
