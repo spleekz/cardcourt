@@ -23,6 +23,8 @@ export const DefaultPlayInput: React.FC<Props> = observer(
     const onInputBlur = (e: React.FocusEvent<HTMLInputElement, Element>): void => {
       if (blurIgnoreRefs?.every((ref) => e.relatedTarget !== ref.current)) {
         inputStore.setInputUnfocused()
+      } else {
+        inputStore.setInputUnfocused()
       }
     }
 
@@ -52,5 +54,4 @@ const StyledInput = styled.input`
   font-size: 40px;
   padding: 4px;
   border-radius: 6px;
-  margin-right: 20px;
 `
