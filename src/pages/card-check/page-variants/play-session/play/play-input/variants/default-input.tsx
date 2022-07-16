@@ -1,4 +1,4 @@
-import React, { CSSProperties, useCallback } from 'react'
+import React, { CSSProperties, useCallback, useEffect } from 'react'
 
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -33,6 +33,18 @@ export const DefaultPlayInput: React.FC<Props> = observer(
         inputStore.setInputUnfocused()
       }
     }
+
+    useEffect(() => {
+      const checkIsInputUnfocused = (): void => {
+        if (document.activeElement !== inputStore.inputElement) {
+          inputStore.setInputUnfocused()
+        }
+      }
+
+      window.addEventListener('click', checkIsInputUnfocused)
+
+      return () => window.removeEventListener('click', checkIsInputUnfocused)
+    }, [])
 
     const setInputRefToStore = useCallback((ref: HTMLInputElement | null): void => {
       inputStore.setInputElement(ref)
