@@ -55,17 +55,18 @@ export const CardCheckPlay: React.FC = observer(() => {
   }
 
   //!Предупреждение, что пользователь убрал фокус с инпута
-  const [isInputUnfocusedWarningShown, setIsInputUnfocusedWarningShown] = useState(
+  const [isPlayInputUnfocusedWarningShown, setIsPlayInputUnfocusedWarningShown] = useState(
     !playSession.userInput.isInputFocused,
   )
   //Синхронизация isInputUnfocusedWarningShown с состоянием фокуса инпута
   useEffect(() => {
-    if (!isPlayInputHighlighting) {
-      setIsInputUnfocusedWarningShown(!playSession.userInput.isInputFocused)
+    //Не показывать сообщение об анфокусе при подсвечивании инпута и потере window фокуса (alt + tab)
+    if (!isPlayInputHighlighting && document.hasFocus()) {
+      setIsPlayInputUnfocusedWarningShown(!playSession.userInput.isInputFocused)
     }
   }, [playSession.userInput.isInputFocused])
 
-  const inputUnfocusedWarningTransition = useTransition(isInputUnfocusedWarningShown, {
+  const playInputUnfocusedWarningTransition = useTransition(isPlayInputUnfocusedWarningShown, {
     from: { y: 110 },
     enter: { y: 0 },
     leave: { y: 110 },
@@ -99,7 +100,7 @@ export const CardCheckPlay: React.FC = observer(() => {
     if (e.code === 'Enter') {
       if (playSession.normalizedUserInputValue) {
         playSession.unfocusUserInput()
-        setIsInputUnfocusedWarningShown(false)
+        setIsPlayInputUnfocusedWarningShown(false)
 
         const isUserTranslateCorrect = playSession.checkUserTranslate()
 
@@ -116,7 +117,7 @@ export const CardCheckPlay: React.FC = observer(() => {
 
   const onSkipWordButtonClick = (): void => {
     //Анфокус при нажатии на кнопку пропуска слова не считается за то, что пользователь убрал фокус с инпута
-    setIsInputUnfocusedWarningShown(false)
+    setIsPlayInputUnfocusedWarningShown(false)
     playSession.skipCurrentWord()
   }
 
@@ -168,7 +169,7 @@ export const CardCheckPlay: React.FC = observer(() => {
         </ContentContainer>
       </>
       <>
-        {inputUnfocusedWarningTransition((style, item) => {
+        {playInputUnfocusedWarningTransition((style, item) => {
           return (
             item && (
               <animated.div
