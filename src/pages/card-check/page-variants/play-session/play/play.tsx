@@ -252,14 +252,8 @@ const SkipWordButton = styled(Button)`
   position: absolute;
   bottom: -90px;
   font-size: 28px;
-  color: #2e87ec;
-  background-color: #fafbfc;
+  color: #ffffff;
+  background-color: #2e87ec;
   border: none;
   border-radius: 0;
-  transition: 0.25s;
-
-  &:hover {
-    color: #ffffff;
-    background-color: #2e87ec;
-  }
 `
