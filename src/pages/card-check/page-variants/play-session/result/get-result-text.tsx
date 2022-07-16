@@ -13,7 +13,7 @@ type Config = {
 }
 
 type ResultStatusColors = {
-  [P in Exclude<ResultStatus, 'fail' | 'win'>]: string
+  [P in ResultStatus]: string
 }
 
 export const getResultText = ({
@@ -22,29 +22,42 @@ export const getResultText = ({
   correctWordsCount,
 }: Config): string | JSX.Element => {
   const resultStatusColors: ResultStatusColors = {
+    fail: '#ff0000',
     bad: '#ff3333',
     normal: '#ccc900',
     good: '#7fb33b',
     excellent: '#33b633',
+    win: '#1caf1c',
   }
 
-  const allCorrectWordsResultText = (
-    <ResultText color={resultStatusColors.excellent}>Вы правильно перевели все слова</ResultText>
-  )
-  const noCorrectWordsResultText = (
-    <ResultText color={resultStatusColors.bad}>Вы перевели все слова неправильно</ResultText>
-  )
+  const correctWordsCountColor = resultStatusColors[resultStatus]
+
+  const ColoredCorrectWordsCount: React.FC = () => {
+    return (
+      <CorrectWordsCount color={correctWordsCountColor}>
+        {correctWordsCount}/{totalWordsCount}
+      </CorrectWordsCount>
+    )
+  }
 
   let resultText: string | JSX.Element
+
+  const allCorrectWordsResultText = (
+    <ResultText>
+      <ColoredCorrectWordsCount /> — Все слова переведены верно
+    </ResultText>
+  )
+  const noCorrectWordsResultText = (
+    <ResultText>
+      <ColoredCorrectWordsCount /> — Вы перевели все слова неправильно
+    </ResultText>
+  )
 
   if (correctWordsCount === totalWordsCount) {
     resultText = allCorrectWordsResultText
   } else if (correctWordsCount === 0) {
     resultText = noCorrectWordsResultText
   } else {
-    const correctWordsCountColor =
-      resultStatusColors[resultStatus as Exclude<ResultStatus, 'fail' | 'win'>]
-
     const wordsCountForm = pluralize(
       {
         one: 'слова',
@@ -56,11 +69,7 @@ export const getResultText = ({
 
     resultText = (
       <ResultText>
-        Вы правильно перевели{' '}
-        <ColoredCorrectWordsCount color={correctWordsCountColor}>
-          {correctWordsCount}/{totalWordsCount}
-        </ColoredCorrectWordsCount>{' '}
-        {wordsCountForm}
+        Вы правильно перевели <ColoredCorrectWordsCount /> {wordsCountForm}
       </ResultText>
     )
   }
@@ -74,7 +83,7 @@ const ResultText = styled.div<{ color?: string }>`
   text-align: center;
   margin-bottom: 15px;
 `
-const ColoredCorrectWordsCount = styled.span<{ color: string }>`
+const CorrectWordsCount = styled.span<{ color: string }>`
   font-size: 29px;
   font-weight: bold;
   color: ${(props) => props.color};
