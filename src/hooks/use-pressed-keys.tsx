@@ -50,9 +50,9 @@ export const usePressedKeys = (
       setPressedKeys(new Set())
     }
 
-    document.addEventListener('visibilitychange', clearPressedKeys)
+    window.addEventListener('focus', clearPressedKeys)
 
-    return () => document.removeEventListener('visibilitychange', clearPressedKeys)
+    return () => window.removeEventListener('focus', clearPressedKeys)
   }, [])
 
   return pressedKeys
